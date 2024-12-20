@@ -18,6 +18,14 @@ npm run build
 npm run start
 ```
 
+### Dev Mode
+
+This will auto-reload both the backend and frontend when changes are made.
+
+```
+npm run dev
+```
+
 ### Test the frontend app
 
 1. run the server
