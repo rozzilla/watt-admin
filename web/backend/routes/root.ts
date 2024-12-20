@@ -1,6 +1,6 @@
 /// <reference path="../global.d.ts" />
 import { FastifyInstance, FastifyPluginOptions } from 'fastify'
-// TODO: create types for RuntimeApiClient
+// TODO: create types for RuntimeApiClient and re-enable strict mode
 import { RuntimeApiClient } from '@platformatic/control'
 
 declare module 'fastify' {
@@ -15,8 +15,29 @@ export default async function (fastify: FastifyInstance, opts: FastifyPluginOpti
     return { hello: fastify.example }
   })
 
-  fastify.get('/runtimes', async (request, reply) => {
-    const runtimes = await api.getRuntimes()
+  fastify.get('/runtimes', {
+    schema: {
+      querystring: {
+        type: 'object',
+        properties: {
+          includeAdmin: {
+            type: 'boolean',
+            default: false,
+          },
+        },
+      },
+    }
+  }, async (request, reply) => {
+    let runtimes = await api.getRuntimes()
+
+    // @ts-ignore
+    console.log(request.query.includeAdmin)
+
+    // @ts-ignore
+    if (!request.query.includeAdmin) {
+      runtimes = runtimes.filter((runtime) => runtime.packageName !== 'watt-admin')
+    }
+
     return runtimes
   })
 }
