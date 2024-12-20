@@ -1,0 +1,22 @@
+{
+  "$schema": "https://schemas.platformatic.dev/@platformatic/composer/2.26.1.json",
+  "composer": {
+    "services": [
+      {
+        "id": "frontend",
+        "proxy": {
+          "prefix": "/"
+        }
+      },
+      {
+        "id": "backend",
+        "openapi": {
+          "url": "/documentation/json",
+          "prefix": "/backend"
+        }
+      }
+    ],
+    "refreshTimeout": 1000
+  },
+  "watch": true
+}
