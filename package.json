@@ -7,9 +7,9 @@
     "start": "wattpm start"
   },
   "dependencies": {
-    "@platformatic/composer": "^2.26.1",
-    "@platformatic/runtime": "^2.26.1",
-    "wattpm": "^2.26.1"
+    "@platformatic/composer": "^2.27.0",
+    "@platformatic/runtime": "^2.27.0",
+    "wattpm": "^2.27.0"
   },
   "workspaces": [
     "web/*",

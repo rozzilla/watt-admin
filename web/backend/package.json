@@ -12,8 +12,8 @@
     "typescript": "^5.5.4"
   },
   "dependencies": {
-    "@platformatic/control": "^2.26.2",
-    "@platformatic/service": "^2.26.1"
+    "@platformatic/control": "^2.27.0",
+    "@platformatic/service": "^2.27.0"
   },
   "engines": {
     "node": "^18.8.0 || >=20.6.0"

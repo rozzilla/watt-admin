@@ -15,6 +15,7 @@ export default async function (fastify: FastifyInstance, opts: FastifyPluginOpti
     return { hello: fastify.example }
   })
 
+  // TODO: add types using typebox
   fastify.get('/runtimes', {
     schema: {
       querystring: {
@@ -39,5 +40,10 @@ export default async function (fastify: FastifyInstance, opts: FastifyPluginOpti
     }
 
     return runtimes
+  })
+
+  fastify.get('/runtimes/:pid/metrics', async (request, reply) => {
+    // @ts-ignore
+    return api.getRuntimeMetrics(request.params.pid, { format: 'json' })
   })
 }
