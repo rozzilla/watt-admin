@@ -3,16 +3,16 @@
   "composer": {
     "services": [
       {
-        "id": "frontend",
-        "proxy": {
-          "prefix": "/"
-        }
-      },
-      {
         "id": "backend",
         "openapi": {
           "url": "/documentation/json",
-          "prefix": "/backend"
+          "prefix": "/api"
+        }
+      },
+      {
+        "id": "frontend",
+        "proxy": {
+          "prefix": "/admin"
         }
       }
     ],

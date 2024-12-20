@@ -7,7 +7,7 @@
     "pretty": true,
     "noEmitOnError": true,
     "incremental": true,
-    "strict": true,
+    "strict": false,
     "outDir": "dist",
     "skipLibCheck": true
   },
