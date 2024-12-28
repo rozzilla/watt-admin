@@ -6,11 +6,9 @@ test('root', async (t) => {
   const server = await getServer(t)
   const res = await server.inject({
     method: 'GET',
-    url: '/example'
+    url: '/runtimes'
   })
 
   assert.strictEqual(res.statusCode, 200)
-  assert.deepStrictEqual(res.json(), {
-    hello: 'foobar'
-  })
+  assert.deepStrictEqual(res.json(), [])
 })
