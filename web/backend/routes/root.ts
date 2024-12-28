@@ -1,4 +1,3 @@
-/// <reference path="../global.d.ts" />
 import { FastifyInstance, FastifyPluginOptions } from 'fastify'
 import { JsonSchemaToTsProvider } from '@fastify/type-provider-json-schema-to-ts'
 import { RuntimeApiClient } from '@platformatic/control'
@@ -29,8 +28,7 @@ export default async function (fastify: FastifyInstance, opts: FastifyPluginOpti
     let runtimes = await api.getRuntimes()
 
     if (!request.query.includeAdmin) {
-      // FIXME: remove `any` once the proper type is passed from `@platformatic/control`
-      runtimes = runtimes.filter((runtime: any) => runtime.packageName !== 'watt-admin')
+      runtimes = runtimes.filter((runtime) => runtime.packageName !== 'watt-admin')
     }
 
     return runtimes
