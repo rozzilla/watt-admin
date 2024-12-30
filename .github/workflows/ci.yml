@@ -35,4 +35,4 @@ jobs:
       - name: Run build
         run: npm run build
       - name: Run backend tests
-        run: cd web/backend && npm run test
+        run: cd web/backend && npm run lint && npm run test
