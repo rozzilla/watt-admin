@@ -41,4 +41,36 @@ export default async function (fastify: FastifyInstance, opts: FastifyPluginOpti
   }, async (request, reply) => {
     return api.getRuntimeMetrics(request.params.pid, { format: 'json' })
   })
+
+  typedFastify.get('/runtimes/:pid/services', {
+    schema: {
+      params: { type: 'object', properties: { pid: { type: 'number' } }, required: ['pid'] }
+    }
+  }, async (request, reply) => {
+    return api.getRuntimeServices(request.params.pid)
+  })
+
+  typedFastify.post('/runtimes/:pid/reload', {
+    schema: {
+      params: { type: 'object', properties: { pid: { type: 'number' } }, required: ['pid'] }
+    }
+  }, async (request, reply) => {
+    return api.reloadRuntime(request.params.pid)
+  })
+
+  typedFastify.post('/runtimes/:pid/restart', {
+    schema: {
+      params: { type: 'object', properties: { pid: { type: 'number' } }, required: ['pid'] }
+    }
+  }, async (request, reply) => {
+    return api.restartRuntime(request.params.pid)
+  })
+
+  typedFastify.post('/runtimes/:pid/stop', {
+    schema: {
+      params: { type: 'object', properties: { pid: { type: 'number' } }, required: ['pid'] }
+    }
+  }, async (request, reply) => {
+    return api.stopRuntime(request.params.pid)
+  })
 }
