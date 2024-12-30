@@ -3,12 +3,10 @@ import { readFile } from 'node:fs/promises'
 import { buildServer } from '@platformatic/service'
 import { test } from 'node:test'
 
-
 type testfn = Parameters<typeof test>[0]
 type TestContext = Parameters<Exclude<testfn, undefined>>[0]
 
 export async function getServer (t: TestContext) {
-
   // We go up two folder because this files executes in the dist folder
   const config = JSON.parse(await readFile(join(__dirname, '..', '..', 'platformatic.json'), 'utf8'))
   // Add your config customizations here. For example you want to set
@@ -24,4 +22,3 @@ export async function getServer (t: TestContext) {
 
   return server
 }
-  
