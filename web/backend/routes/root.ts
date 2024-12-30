@@ -42,6 +42,17 @@ export default async function (fastify: FastifyInstance, opts: FastifyPluginOpti
     return api.getRuntimeMetrics(request.params.pid, { format: 'json' })
   })
 
+  typedFastify.get('/runtimes/:pid/metrics/:serviceId', {
+    schema: {
+      params: { type: 'object', properties: { pid: { type: 'number' }, serviceId: { type: 'string' } }, required: ['pid', 'serviceId'] }
+    }
+  }, async ({ params: { pid, serviceId } }, reply) => {
+    // TODO: add more strict types into `@platformatic/control` to avoid casting to `any`
+    const metrics: any = await api.getRuntimeMetrics(pid, { format: 'json' })
+    const serviceMetrics = metrics.filter(({ values }: { values: any }) => values.some(({ labels }: { labels: any }) => labels.serviceId === serviceId))
+    return serviceMetrics
+  })
+
   typedFastify.get('/runtimes/:pid/services', {
     schema: {
       params: { type: 'object', properties: { pid: { type: 'number' } }, required: ['pid'] }
