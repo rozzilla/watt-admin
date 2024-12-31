@@ -1,7 +1,6 @@
 import { FastifyInstance, FastifyPluginOptions } from 'fastify'
 import { JsonSchemaToTsProvider } from '@fastify/type-provider-json-schema-to-ts'
 import { RuntimeApiClient } from '@platformatic/control'
-import { mappedMetrics } from '../plugins/metrics'
 
 export default async function (fastify: FastifyInstance, opts: FastifyPluginOptions) {
   const typedFastify = fastify.withTypeProvider<JsonSchemaToTsProvider>()
@@ -34,7 +33,7 @@ export default async function (fastify: FastifyInstance, opts: FastifyPluginOpti
       params: { type: 'object', properties: { pid: { type: 'number' } }, required: ['pid'] }
     }
   }, async ({ params: { pid } }, reply) => {
-    return mappedMetrics[pid]
+    return typedFastify.mappedMetrics[pid] || []
   })
 
   typedFastify.get('/runtimes/:pid/metrics/:serviceId', {
@@ -43,7 +42,7 @@ export default async function (fastify: FastifyInstance, opts: FastifyPluginOpti
     }
   }, async ({ params: { pid, serviceId } }, reply) => {
     // TODO: add more strict types into `@platformatic/control` to avoid casting to `any`
-    return mappedMetrics[pid].filter((value: any) => value.serviceId === serviceId)
+    return typedFastify.mappedMetrics[pid]?.filter((value: any) => value.serviceId === serviceId)
   })
 
   typedFastify.get('/runtimes/:pid/services', {

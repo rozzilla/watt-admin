@@ -5,5 +5,7 @@ import { PlatformaticApp, PlatformaticServiceConfig } from '@platformatic/servic
 declare module 'fastify' {
   interface FastifyInstance {
     platformatic: PlatformaticApp<PlatformaticServiceConfig>
+    metricsInterval: NodeJS.Timeout
+    mappedMetrics: any // FIXME: use proper type once we add it to `@platformatic/control`
   }
 }
