@@ -38,5 +38,5 @@ npm run dev
 1. run the server
 2. open the browser and go to `http://localhost:3042/`
 3. click on "OpenAPI Documentation" link (`http://localhost:3042/documentation/json`)
-4. call the `/api/runtimes` endpoint
-5. call the `/api/runtimes/{id}/metrics` endpoint
+4. call the `/api/runtimes` endpoint (you should receive the PID)
+5. call the `/api/runtimes/{pid}/metrics` endpoint

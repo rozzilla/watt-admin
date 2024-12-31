@@ -3,13 +3,9 @@ import assert from 'node:assert'
 import { getServer } from '../helper'
 
 // TODO: add setup and test on a up & running wattpm instance
-test('root', async (t) => {
+test('metrics plugin', async (t) => {
   const server = await getServer(t)
-  const res = await server.inject({
-    method: 'GET',
-    url: '/runtimes'
-  })
 
-  assert.strictEqual(res.statusCode, 200)
-  assert.deepStrictEqual(res.json(), [])
+  assert.ok('_idleTimeout' in server.metricsInterval, 'interval for metrics are defined')
+  assert.deepEqual(server.mappedMetrics, {}, 'mapped metrics are defined')
 })

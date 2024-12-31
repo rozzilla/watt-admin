@@ -1,0 +1,36 @@
+import { RuntimeApiClient } from '@platformatic/control'
+import { FastifyInstance, FastifyPluginOptions } from 'fastify'
+
+export default async function (fastify: FastifyInstance, opts: FastifyPluginOptions) {
+  // FIXME: store the `mappedMetrics` into a DB, where the pid is the table name, and `pid`, `serviceId`, name (like `process_cpu_user_seconds_total`), etc. are rows values that can be easily retrieve through an SQL query. the current approach isn't scalable and it leads to a memory leak.
+  fastify.decorate('mappedMetrics', {})
+
+  const api = new RuntimeApiClient()
+  const runtimes = await api.getRuntimes()
+
+  const metricsInterval = setInterval(async () => {
+    for (const { pid } of runtimes) {
+      // TODO: add more strict types into `@platformatic/control` to avoid casting to `any`
+      const runtimeMetrics: any = await api.getRuntimeMetrics(pid, { format: 'json' })
+
+      for (const { name, type, aggregator, values } of runtimeMetrics) {
+        if (!fastify.mappedMetrics[pid]) {
+          fastify.mappedMetrics[pid] = []
+        }
+
+        const serviceId = values[0]?.labels?.serviceId
+        if (serviceId) {
+          fastify.mappedMetrics[pid].push({ name, time: new Date(), type, aggregator, values, serviceId, pid })
+        }
+      }
+    }
+  }, 1000)
+
+  fastify.decorate('metricsInterval', metricsInterval)
+
+  fastify.addHook('onClose', async () => {
+    // FIXME: this is an issue on wattpm, since graceful shutdown time of 10s isn't considered (https://github.com/platformatic/platformatic/issues/3751)
+    fastify.log.info('Closing the backend...')
+    clearInterval(fastify.metricsInterval)
+  })
+}
