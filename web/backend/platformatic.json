@@ -10,8 +10,7 @@
         "path": "./plugins",
         "encapsulate": false
       },
-      "./routes",
-      "./hooks"
+      "./routes"
     ],
     "typescript": "{PLT_BACKEND_TYPESCRIPT}"
   }
