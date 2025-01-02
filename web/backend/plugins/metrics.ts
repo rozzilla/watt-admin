@@ -6,9 +6,9 @@ export default async function (fastify: FastifyInstance, opts: FastifyPluginOpti
   fastify.decorate('mappedMetrics', {})
 
   const api = new RuntimeApiClient()
-  const runtimes = await api.getRuntimes()
 
   const metricsInterval = setInterval(async () => {
+    const runtimes = await api.getRuntimes()
     for (const { pid } of runtimes) {
       // TODO: add more strict types into `@platformatic/control` to avoid casting to `any`
       let runtimeMetrics: any
