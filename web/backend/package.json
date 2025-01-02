@@ -2,6 +2,7 @@
   "name": "backend",
   "scripts": {
     "start": "platformatic start",
+    "pretest": "cd fixtures/watt && npm i --no-audit",
     "test": "borp",
     "clean": "rm -fr ./dist",
     "build": "platformatic compile",

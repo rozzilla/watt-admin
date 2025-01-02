@@ -20,7 +20,6 @@ test('runtime is running', async (t) => {
     url: '/runtimes'
   })
   assert.strictEqual(res.statusCode, 200)
-
   const [runtime] = res.json()
   assert.strictEqual(typeof runtime.packageName, 'string')
   assert.strictEqual(typeof runtime.pid, 'number')

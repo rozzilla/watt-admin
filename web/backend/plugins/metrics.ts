@@ -11,16 +11,22 @@ export default async function (fastify: FastifyInstance, opts: FastifyPluginOpti
   const metricsInterval = setInterval(async () => {
     for (const { pid } of runtimes) {
       // TODO: add more strict types into `@platformatic/control` to avoid casting to `any`
-      const runtimeMetrics: any = await api.getRuntimeMetrics(pid, { format: 'json' })
+      let runtimeMetrics: any
+      try {
+        runtimeMetrics = await api.getRuntimeMetrics(pid, { format: 'json' })
+      } catch (error) {
+        fastify.log.warn(error, 'Unable to get runtime metrics. Retry will start soon...')
+      }
+      if (runtimeMetrics) {
+        for (const { name, type, aggregator, values } of runtimeMetrics) {
+          if (!fastify.mappedMetrics[pid]) {
+            fastify.mappedMetrics[pid] = []
+          }
 
-      for (const { name, type, aggregator, values } of runtimeMetrics) {
-        if (!fastify.mappedMetrics[pid]) {
-          fastify.mappedMetrics[pid] = []
-        }
-
-        const serviceId = values[0]?.labels?.serviceId
-        if (serviceId) {
-          fastify.mappedMetrics[pid].push({ name, time: new Date(), type, aggregator, values, serviceId, pid })
+          const serviceId = values[0]?.labels?.serviceId
+          if (serviceId) {
+            fastify.mappedMetrics[pid].push({ name, time: new Date(), type, aggregator, values, serviceId, pid })
+          }
         }
       }
     }
