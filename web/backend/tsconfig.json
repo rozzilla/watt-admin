@@ -18,6 +18,7 @@
     "synchronousWatchDirectory": true,
     "excludeDirectories": [
       "**/node_modules",
+      "fixtures",
       "dist"
     ]
   }
