@@ -1,0 +1,25 @@
+{
+  "$schema": "https://schemas.platformatic.dev/wattpm/2.30.1.json",
+  "server": {
+    "hostname": "127.0.0.1",
+    "port": 3052
+  },
+  "logger": {
+    "level": "info"
+  },
+  "entrypoint": "composer",
+  "web": [
+    {
+      "id": "composer",
+      "path": "./composer"
+    },
+    {
+      "id": "node1",
+      "path": "./node1"
+    },
+    {
+      "id": "node2",
+      "path": "./node2"
+    }
+  ]
+}

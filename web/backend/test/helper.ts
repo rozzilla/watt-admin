@@ -2,6 +2,7 @@ import { join } from 'node:path'
 import { readFile } from 'node:fs/promises'
 import { buildServer } from '@platformatic/service'
 import { test } from 'node:test'
+import { spawn } from 'node:child_process'
 
 type testfn = Parameters<typeof test>[0]
 type TestContext = Parameters<Exclude<testfn, undefined>>[0]
@@ -22,3 +23,25 @@ export async function getServer (t: TestContext) {
 
   return server
 }
+
+export async function startWatt (t: TestContext): Promise<string> {
+  const fixturesPath = join(__dirname, '..', '..', 'fixtures', 'watt', 'node_modules', '.bin', 'wattpm')
+
+  return new Promise((resolve, reject) => {
+    const process = spawn(fixturesPath, ['start'])
+
+    process.stdout.on('data', data => {
+      const result = data.toString().split('Platformatic is now listening at ')
+      if (result.length > 1) {
+        const wattUrl = result[1].slice(0, -3)
+        resolve(wattUrl)
+      }
+    })
+
+    process.on('error', error => reject(error))
+
+    t.after(() => process.kill('SIGKILL'))
+  })
+}
+
+export const wait = (ms: number) => new Promise((resolve) => setTimeout(resolve, ms))
