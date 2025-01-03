@@ -33,16 +33,19 @@ export async function startWatt (t: TestContext): Promise<string> {
     const onData = (data: Buffer) => {
       const input = data.toString()
       if (input.includes('Platformatic is now listening at ')) {
-        process.stdout.removeListener('data', onData)
-        process.removeListener('error', onError)
+        removeListeners()
         resolve(input)
       }
     }
 
     const onError = (error: Error) => {
+      removeListeners()
+      reject(error)
+    }
+
+    const removeListeners = () => {
       process.stdout.removeListener('data', onData)
       process.removeListener('error', onError)
-      reject(error)
     }
 
     process.stdout.on('data', onData)
