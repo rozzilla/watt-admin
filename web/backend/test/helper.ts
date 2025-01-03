@@ -25,18 +25,27 @@ export async function getServer (t: TestContext) {
 }
 
 export async function startWatt (t: TestContext): Promise<string> {
-  const fixturesPath = join(__dirname, '..', '..', 'fixtures', 'watt', 'node_modules', '.bin', 'wattpm')
+  const fixturesPath = join(__dirname, '..', '..', '..', '..', 'node_modules', '.bin', 'wattpm')
   const process = spawn(fixturesPath, ['start'])
   t.after(() => process.kill('SIGKILL'))
 
   return new Promise((resolve, reject) => {
-    process.stdout.on('data', data => {
+    const onData = (data: Buffer) => {
       const input = data.toString()
       if (input.includes('Platformatic is now listening at ')) {
+        process.stdout.removeListener('data', onData)
+        process.removeListener('error', onError)
         resolve(input)
       }
-    })
+    }
 
-    process.on('error', error => reject(error))
+    const onError = (error: Error) => {
+      process.stdout.removeListener('data', onData)
+      process.removeListener('error', onError)
+      reject(error)
+    }
+
+    process.stdout.on('data', onData)
+    process.on('error', onError)
   })
 }
