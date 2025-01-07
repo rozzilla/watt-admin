@@ -1,6 +1,7 @@
 import test from 'node:test'
 import assert from 'node:assert'
 import { getServer, startWatt } from '../helper'
+import { Metric } from '@platformatic/control'
 
 const wait = (ms: number) => new Promise((resolve) => setTimeout(resolve, ms))
 
@@ -18,8 +19,9 @@ test('metrics with runtime', async (t) => {
   await wait(1200)
   const metricsKeys = Object.keys(server.mappedMetrics)
   const [pid] = metricsKeys
+  const servicePID = parseInt(pid)
   assert.ok(metricsKeys.length > 0, 'mapped metrics are defined, and contain values')
-  assert.strictEqual(server.mappedMetrics[pid][0].pid, parseInt(pid))
+  assert.strictEqual(server.mappedMetrics[servicePID][0].pid, servicePID)
 
   const res = await server.inject({
     method: 'GET',
@@ -65,8 +67,7 @@ test('metrics with runtime', async (t) => {
     'http_cache_miss_count'
   ]
   expectedNames.forEach(expectedName => {
-    // TODO: remove cast to any
-    const exists = metrics.some((metric: any) => metric.name === expectedName)
+    const exists = metrics.some((metric: Metric) => metric.name === expectedName)
     assert.ok(exists, `Expected metric: ${expectedName}`)
   })
 })
