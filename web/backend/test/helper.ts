@@ -52,5 +52,3 @@ export async function startWatt (t: TestContext): Promise<string> {
     process.on('error', onError)
   })
 }
-
-export const wait = (ms: number) => new Promise((resolve) => setTimeout(resolve, ms))

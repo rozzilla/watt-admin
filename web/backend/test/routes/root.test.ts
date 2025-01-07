@@ -1,6 +1,8 @@
 import test from 'node:test'
 import assert from 'node:assert'
-import { getServer, startWatt, wait } from '../helper'
+import { getServer, startWatt } from '../helper'
+
+const wait = (ms: number) => new Promise((resolve) => setTimeout(resolve, ms))
 
 test('no runtime running', async (t) => {
   const server = await getServer(t)
