@@ -12,6 +12,13 @@ test('no runtime running', async (t) => {
   })
   assert.strictEqual(res.statusCode, 200)
   assert.deepStrictEqual(res.json(), [], 'with no runtime running')
+
+  const services = await server.inject({
+    method: 'GET',
+    url: '/runtimes/42/services'
+  })
+  assert.strictEqual(services.statusCode, 500)
+  assert.ok(services.json().message.includes('connect ENOENT'), 'unable to list services due to no runtime available')
 })
 
 test('runtime is running', async (t) => {
