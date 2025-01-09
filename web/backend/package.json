@@ -18,7 +18,7 @@
     "wattpm": "^2.30.2"
   },
   "dependencies": {
-    "@platformatic/control": "^2.30.2",
+    "@platformatic/control": "../../../platformatic/packages/control",
     "@platformatic/service": "^2.30.2"
   }
 }

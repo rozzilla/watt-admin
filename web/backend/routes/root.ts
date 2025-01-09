@@ -52,6 +52,15 @@ export default async function (fastify: FastifyInstance, opts: FastifyPluginOpti
     return api.getRuntimeServices(request.params.pid)
   })
 
+  // TODO: add tests and use new `@platformatic/control` version once this is released (https://github.com/platformatic/platformatic/pull/3778)
+  typedFastify.get('/runtimes/:pid/openapi/:serviceId', {
+    schema: {
+      params: { type: 'object', properties: { pid: { type: 'number' }, serviceId: { type: 'string' } }, required: ['pid', 'serviceId'] }
+    }
+  }, async ({ params: { pid, serviceId } }, reply) => {
+    return api.getRuntimeOpenapi(pid, serviceId)
+  })
+
   typedFastify.post('/runtimes/:pid/reload', {
     schema: {
       params: { type: 'object', properties: { pid: { type: 'number' } }, required: ['pid'] }
