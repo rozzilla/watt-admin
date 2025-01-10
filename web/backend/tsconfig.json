@@ -5,7 +5,8 @@
     "pretty": true,
     "noEmitOnError": true,
     "incremental": true,
-    "outDir": "dist"
+    "outDir": "dist",
+    "noUnusedParameters": true
   },
   "watchOptions": {
     "watchFile": "fixedPollingInterval",

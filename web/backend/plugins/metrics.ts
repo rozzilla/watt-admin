@@ -1,7 +1,7 @@
 import { RuntimeApiClient } from '@platformatic/control'
-import { FastifyInstance, FastifyPluginOptions } from 'fastify'
+import { FastifyInstance } from 'fastify'
 
-export default async function (fastify: FastifyInstance, opts: FastifyPluginOptions) {
+export default async function (fastify: FastifyInstance) {
   // FIXME: store the `mappedMetrics` into a DB, where the pid is the table name, and `pid`, `serviceId`, name (like `process_cpu_user_seconds_total`), etc. are rows values that can be easily retrieve through an SQL query. the current approach isn't scalable and it leads to a memory leak.
   fastify.decorate('mappedMetrics', {})
 

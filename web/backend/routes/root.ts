@@ -1,8 +1,8 @@
-import { FastifyInstance, FastifyPluginOptions } from 'fastify'
+import { FastifyInstance } from 'fastify'
 import { JsonSchemaToTsProvider } from '@fastify/type-provider-json-schema-to-ts'
 import { RuntimeApiClient } from '@platformatic/control'
 
-export default async function (fastify: FastifyInstance, opts: FastifyPluginOptions) {
+export default async function (fastify: FastifyInstance) {
   const typedFastify = fastify.withTypeProvider<JsonSchemaToTsProvider>()
   const api = new RuntimeApiClient()
 
@@ -18,7 +18,7 @@ export default async function (fastify: FastifyInstance, opts: FastifyPluginOpti
         },
       },
     }
-  }, async (request, reply) => {
+  }, async (request) => {
     let runtimes = await api.getRuntimes()
 
     if (!request.query.includeAdmin) {
@@ -32,7 +32,7 @@ export default async function (fastify: FastifyInstance, opts: FastifyPluginOpti
     schema: {
       params: { type: 'object', properties: { pid: { type: 'number' } }, required: ['pid'] }
     }
-  }, async ({ params: { pid } }, reply) => {
+  }, async ({ params: { pid } }) => {
     return typedFastify.mappedMetrics[pid] || []
   })
 
@@ -40,7 +40,7 @@ export default async function (fastify: FastifyInstance, opts: FastifyPluginOpti
     schema: {
       params: { type: 'object', properties: { pid: { type: 'number' }, serviceId: { type: 'string' } }, required: ['pid', 'serviceId'] }
     }
-  }, async ({ params: { pid, serviceId } }, reply) => {
+  }, async ({ params: { pid, serviceId } }) => {
     return typedFastify.mappedMetrics[pid]?.filter((value) => value.serviceId === serviceId)
   })
 
@@ -48,15 +48,23 @@ export default async function (fastify: FastifyInstance, opts: FastifyPluginOpti
     schema: {
       params: { type: 'object', properties: { pid: { type: 'number' } }, required: ['pid'] }
     }
-  }, async (request, reply) => {
+  }, async (request) => {
     return api.getRuntimeServices(request.params.pid)
+  })
+
+  typedFastify.get('/runtimes/:pid/openapi/:serviceId', {
+    schema: {
+      params: { type: 'object', properties: { pid: { type: 'number' }, serviceId: { type: 'string' } }, required: ['pid', 'serviceId'] }
+    }
+  }, async ({ params: { pid, serviceId } }) => {
+    return api.getRuntimeOpenapi(pid, serviceId)
   })
 
   typedFastify.post('/runtimes/:pid/reload', {
     schema: {
       params: { type: 'object', properties: { pid: { type: 'number' } }, required: ['pid'] }
     }
-  }, async (request, reply) => {
+  }, async (request) => {
     return api.reloadRuntime(request.params.pid)
   })
 
@@ -64,7 +72,7 @@ export default async function (fastify: FastifyInstance, opts: FastifyPluginOpti
     schema: {
       params: { type: 'object', properties: { pid: { type: 'number' } }, required: ['pid'] }
     }
-  }, async (request, reply) => {
+  }, async (request) => {
     return api.restartRuntime(request.params.pid)
   })
 
@@ -72,7 +80,7 @@ export default async function (fastify: FastifyInstance, opts: FastifyPluginOpti
     schema: {
       params: { type: 'object', properties: { pid: { type: 'number' } }, required: ['pid'] }
     }
-  }, async (request, reply) => {
+  }, async (request) => {
     return api.stopRuntime(request.params.pid)
   })
 }

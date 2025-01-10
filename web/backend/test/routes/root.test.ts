@@ -79,4 +79,60 @@ test('runtime is running', async (t) => {
   })
   assert.strictEqual(serviceMetricsEmpty.statusCode, 200, 'service metrics endpoint')
   assert.deepEqual(serviceMetricsEmpty.json(), [], 'service metrics are empty for an invalid service name')
+
+  const serviceOpenapi = await server.inject({
+    method: 'GET',
+    url: `/runtimes/${runtimePid}/openapi/backend`
+  })
+  assert.strictEqual(serviceOpenapi.statusCode, 200, 'service OpenAPI endpoint')
+  const json = serviceOpenapi.json()
+  assert.strictEqual(json.openapi, '3.0.3')
+  assert.deepEqual(json.info, {
+    title: 'Platformatic',
+    description: 'This is a service built on top of Platformatic',
+    version: '1.0.0'
+  })
+  assert.deepEqual(json.servers, [{ url: '/' }])
+  assert.deepEqual(json.paths['/runtimes'], {
+    get: {
+      parameters: [
+        {
+          schema: {
+            type: 'boolean',
+            default: false,
+          },
+          in: 'query',
+          name: 'includeAdmin',
+          required: false,
+        },
+      ],
+      responses: { 200: { description: 'Default Response' } },
+    },
+  })
+  assert.deepEqual(json.paths['/runtimes/{pid}/reload'], {
+    post: {
+      parameters: [
+        {
+          schema: {
+            type: 'number',
+          },
+          in: 'path',
+          name: 'pid',
+          required: true,
+        },
+      ],
+      responses: {
+        200: {
+          description: 'Default Response',
+        },
+      },
+    },
+  })
+
+  const serviceInvalidOpenapi = await server.inject({
+    method: 'GET',
+    url: `/runtimes/${runtimePid}/openapi/fantozzi`
+  })
+  assert.strictEqual(serviceInvalidOpenapi.statusCode, 500, 'service OpenAPI endpoint')
+  assert.strictEqual(serviceInvalidOpenapi.json().code, 'PLT_CTR_FAILED_TO_GET_RUNTIME_OPENAPI')
 })

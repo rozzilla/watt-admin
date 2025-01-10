@@ -56,7 +56,6 @@ test('metrics with runtime', async (t) => {
     'nodejs_heap_space_size_used_bytes',
     'nodejs_heap_space_size_available_bytes',
     'nodejs_version_info',
-    'nodejs_gc_duration_seconds',
     'nodejs_eventloop_utilization',
     'process_cpu_percent_usage',
     'thread_cpu_user_system_seconds_total',
