@@ -153,9 +153,27 @@ test('runtime start & stop', async (t) => {
   })
   assert.strictEqual(restart.statusCode, 200)
 
+  const { statusCode } = await server.inject({
+    method: 'POST',
+    url: `/runtimes/${pid}/stop`
+  })
+  assert.strictEqual(statusCode, 200, 'runtime has been properly stopped')
+
   const stop = await server.inject({
     method: 'POST',
     url: `/runtimes/${pid}/stop`
   })
-  assert.strictEqual(stop.statusCode, 200)
+  assert.strictEqual(stop.statusCode, 500)
+  assert.deepEqual(stop.json(), {
+    statusCode: 500,
+    code: 'EPIPE',
+    error: 'Internal Server Error',
+    message: 'write EPIPE'
+  }, 'trying to run commands to a closed UNIX socket')
+
+  const runtimes = await server.inject({
+    method: 'GET',
+    url: '/runtimes'
+  })
+  assert.deepEqual(runtimes.json(), [], 'no runtime running')
 })
