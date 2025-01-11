@@ -136,3 +136,38 @@ test('runtime is running', async (t) => {
   assert.strictEqual(serviceInvalidOpenapi.statusCode, 500, 'service OpenAPI endpoint')
   assert.strictEqual(serviceInvalidOpenapi.json().code, 'PLT_CTR_FAILED_TO_GET_RUNTIME_OPENAPI')
 })
+
+test('runtime start & stop', async (t) => {
+  await startWatt(t)
+  const server = await getServer(t)
+  const res = await server.inject({
+    method: 'GET',
+    url: '/runtimes'
+  })
+  const [{ pid }] = res.json()
+  assert.ok(pid > 0)
+
+  const restart = await server.inject({
+    method: 'POST',
+    url: `/runtimes/${pid}/restart`
+  })
+  assert.strictEqual(restart.statusCode, 200)
+
+  const { statusCode } = await server.inject({
+    method: 'POST',
+    url: `/runtimes/${pid}/stop`
+  })
+  assert.strictEqual(statusCode, 200, 'runtime has been properly stopped')
+
+  const stop = await server.inject({
+    method: 'POST',
+    url: `/runtimes/${pid}/stop`
+  })
+  assert.strictEqual(stop.statusCode, 500, 'trying to run stop command to a closed runtime')
+
+  const runtimes = await server.inject({
+    method: 'GET',
+    url: '/runtimes'
+  })
+  assert.deepEqual(runtimes.json(), [], 'no runtime running')
+})

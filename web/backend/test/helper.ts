@@ -14,7 +14,8 @@ export async function getServer (t: TestContext) {
   // all things that are set in the config file to read from an env variable
   config.server ||= {}
   config.server.logger ||= {}
-  config.server.logger.level = 'warn'
+  // If you need to debug a test, update the default log level
+  config.server.logger.level = 'fatal'
   config.watch = false
 
   // Add your config customizations here
