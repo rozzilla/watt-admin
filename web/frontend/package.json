@@ -7,7 +7,8 @@
     "dev": "vite",
     "build": "tsc -b && vite build",
     "lint": "eslint .",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "client": "../../node_modules/.bin/plt-client http://127.0.0.1:3042/documentation/json --frontend --language ts --name client --full"
   },
   "dependencies": {
     "react": "^18.3.1",
@@ -15,6 +16,7 @@
     "@platformatic/vite": "^2.34.0"
   },
   "devDependencies": {
+    "@platformatic/client-cli": "../../../platformatic/packages/client-cli",
     "@eslint/js": "^9.13.0",
     "@types/react": "^18.3.12",
     "@types/react-dom": "^18.3.1",
