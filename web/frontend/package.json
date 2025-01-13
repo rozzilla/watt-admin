@@ -8,15 +8,15 @@
     "build": "tsc -b && vite build",
     "lint": "eslint .",
     "preview": "vite preview",
-    "client": "../../node_modules/.bin/plt-client http://127.0.0.1:3042/documentation/json --frontend --language ts --name client --full"
+    "client": "platformatic client http://127.0.0.1:3042/documentation/json --frontend --language ts --name client --full"
   },
   "dependencies": {
     "react": "^18.3.1",
     "react-dom": "^18.3.1",
-    "@platformatic/vite": "^2.34.0"
+    "@platformatic/vite": "^2.35.1"
   },
   "devDependencies": {
-    "@platformatic/client-cli": "../../../platformatic/packages/client-cli",
+    "@platformatic/client-cli": "^2.35.1",
     "@eslint/js": "^9.13.0",
     "@types/react": "^18.3.12",
     "@types/react-dom": "^18.3.1",
