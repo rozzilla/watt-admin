@@ -2,7 +2,7 @@
   "name": "backend",
   "scripts": {
     "start": "platformatic start",
-    "test": "borp",
+    "test": "npm run lint && borp",
     "clean": "rm -fr ./dist",
     "build": "platformatic compile",
     "lint": "eslint"
