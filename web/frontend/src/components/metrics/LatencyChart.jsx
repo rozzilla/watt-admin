@@ -3,7 +3,7 @@ import commonStyles from '~/styles/CommonStyles.module.css'
 import typographyStyles from '~/styles/Typography.module.css'
 import styles from './LatencyChart.module.css'
 import * as d3 from 'd3'
-import { xMargin, yMarginWithoutXAxis } from './chart_constants.js'
+import { xMargin, yMargin, yMarginWithoutXAxis } from './chart_constants.js'
 import colorSetLatency from './latency.module.css'
 import { getTicks } from './utils.js'
 import { POSITION_ABSOLUTE, POSITION_FIXED } from '~/ui-constants'
@@ -11,10 +11,11 @@ import { POSITION_ABSOLUTE, POSITION_FIXED } from '~/ui-constants'
 const LatencyChart = ({
   data,
   unit,
+  timeline,
   labels = [],
   percentiles = {},
   keyForCheckMax = 'p99',
-  tooltipPosition = POSITION_ABSOLUTE
+  tooltipPosition = POSITION_ABSOLUTE,
 }) => {
   const yMin = 0
   const lowerMaxY = 10 // y max is dynamic, but we migth want to have a max lower bound. Set to 0 for completely dynamic y max
@@ -28,6 +29,7 @@ const LatencyChart = ({
     if (svgRef.current && tooltipRef.current && data.length > 0) {
       const h = svgRef.current.clientHeight
       const w = svgRef.current.clientWidth
+      const marginOnY = timeline ? yMargin : yMarginWithoutXAxis
 
       const svg = d3
         .select(svgRef.current)
@@ -36,7 +38,7 @@ const LatencyChart = ({
         .select(tooltipRef.current)
 
       svg.selectAll('*').remove() // clean up the svg
-      const y = d3.scaleLinear([h - yMarginWithoutXAxis, 0])
+      const y = d3.scaleLinear([h - marginOnY, 0])
       const x = d3.scaleTime([xMargin, w])
 
       // We need to slice it here otherwise we cannot pause / resume the chart scrolling
@@ -61,9 +63,10 @@ const LatencyChart = ({
 
       y.domain([yMin, yMax])
       const yAxisTickValues = [...getTicks(yMin, maxy, 3, false)]
-      // We always show 10 labels on the x axis
-      // const labelSecondsInterval = windowInMinutes * 60 / 10
-
+      
+      // FIXME: reduce the timeline values to 6
+      const labelSecondsInterval = 5 * 60 / 5
+      const xAxis = d3.axisBottom().scale(x).tickFormat(d3.timeFormat('%H:%M:%S')).ticks(d3.timeSecond.every(labelSecondsInterval))
       const yAxis = d3.axisLeft().scale(y).tickValues(yAxisTickValues)
       svg.append('g')
         .attr('transform', `translate(${xMargin}, ${xMargin})`)
@@ -85,6 +88,17 @@ const LatencyChart = ({
         .call(g => g.selectAll('.tick > line').remove())
         .attr('class', styles.axis)
 
+      if (timeline) {
+        const $xAxis = svg
+          .append('g')
+          .attr('transform', `translate(0, ${h - yMargin})`)
+        $xAxis
+          .call(xAxis)
+          .call(g => g.select('.domain').remove())
+          .call(g => g.selectAll('.tick > line').remove())
+          .attr('class', styles.axis)
+      }
+
       const chart = svg.selectAll('.chart')
         .data(latestData)
         .enter()
@@ -98,7 +112,7 @@ const LatencyChart = ({
           .attr('x', d => x(d.time) + barOffset)
           .attr('y', d => y(d[percentile] || 0))
           .attr('width', barWidth)
-          .attr('height', d => h - yMarginWithoutXAxis - y(d[percentile] || 0))
+          .attr('height', d => h - marginOnY - y(d[percentile] || 0))
       })
 
       // Tooltip

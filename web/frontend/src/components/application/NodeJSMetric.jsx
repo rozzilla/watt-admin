@@ -24,6 +24,7 @@ function NodeJSMetric ({
   backgroundColor = BLACK_RUSSIAN,
   chartTooltipPosition = POSITION_ABSOLUTE,
   showLegend = true,
+  timeline = false,
   slimCss = false,
 }) {
   const [showNoResult, setShowNoResult] = useState(false)
@@ -113,6 +114,7 @@ function NodeJSMetric ({
           colorSet={metricURL}
           lowerMaxY={lowerMaxY}
           tooltipPosition={chartTooltipPosition}
+          timeline={timeline}
         />
         )
       : (
@@ -185,6 +187,10 @@ NodeJSMetric.propTypes = {
    * showLegend
     */
   showLegend: PropTypes.bool,
+  /**
+   * timeline
+    */
+  timeline: PropTypes.bool,
   /**
    * slimCss
     */

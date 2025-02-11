@@ -7,7 +7,6 @@ import commonStyles from '~/styles/CommonStyles.module.css'
 import { BorderedBox, LoadingSpinnerV2, VerticalSeparator } from '@platformatic/ui-components'
 import { getApiMetricsPodPerService, getApiMetricsPod } from '~/api'
 import ServiceLineChart from './ServiceLineChart'
-import ServiceStackedBarsChart from './ServiceStackedBarsChart'
 import { useInterval } from '~/hooks/useInterval'
 import { useWindowDimensions } from '~/hooks/useWindowDimensions'
 import ErrorComponent from '~/components/errors/ErrorComponent'
@@ -357,20 +356,36 @@ const ServicesMetrics = React.forwardRef(({
                   backgroundColor={RICH_BLACK}
                   showLegend={false}
                   slimCss={true}
+                  timeline={true}
                 />
               </BorderedBox>
 
               {showAggregatedMetrics && (
                 <BorderedBox color={TRANSPARENT} backgroundColor={RICH_BLACK} classes={styles.boxMetricContainer}>
-                  <ServiceStackedBarsChart
-                    key={getKeyAggregated('latency')}
-                    data={dataAggregated.latency}
+                  <NodeJSMetric
+                    key={`latency_${latestRefreshDate.toISOString()}`}
                     title='Aggregated Service Latency'
-                    unit='ms'
-                    paused={paused}
-                    setPaused={setPaused}
-                    tooltipPosition={POSITION_FIXED}
-                    heightChart={heightChart}
+                    metricURL='latency'
+                    dataValues={allData.dataLatency}
+                    initialLoading={initialLoading}
+                    unit='(ms)'
+                    options={[{
+                      label: 'P90',
+                      internalKey: 'p90',
+                      unit: 'ms'
+                    }, {
+                      label: 'P95',
+                      internalKey: 'p95',
+                      unit: 'ms'
+                    }, {
+                      label: 'P99',
+                      internalKey: 'p99',
+                      unit: 'ms'
+                    }]}
+                    backgroundColor={RICH_BLACK}
+                    showLegend={false}
+                    slimCss={true}
+                    timeline={true}
                   />
                 </BorderedBox>
               )}
