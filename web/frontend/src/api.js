@@ -27,7 +27,7 @@ const generateMockData = () => {
     return Math.floor(Math.random() * (max - min + 1)) + min
   }
 
-  const timestamps = generateTimestamps(5)
+  const timestamps = generateTimestamps(14)
   const mockData = timestamps.map(date => ({
     date: date.toISOString(),
     rss: randomInRange(150 * 1024 * 1024, 200 * 1024 * 1024),

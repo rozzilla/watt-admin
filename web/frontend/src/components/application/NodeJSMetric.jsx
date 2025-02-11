@@ -22,11 +22,14 @@ function NodeJSMetric ({
   unit = '',
   options = [{ label: '', internalKey: '', unit: '' }],
   backgroundColor = BLACK_RUSSIAN,
-  chartTooltipPosition = POSITION_ABSOLUTE
+  chartTooltipPosition = POSITION_ABSOLUTE,
+  showLegend = true,
+  slimCss = false,
 }) {
-  const [showNoResult, setShowNoResult] = useState(true)
+  const [showNoResult, setShowNoResult] = useState(false)
   const [seriesValues, setSeriesValues] = useState([])
-  const [borderexBoxClassName, setBorderexBoxClassName] = useState(`${styles.borderexBoxContainer} ${styles.borderedBoxHeigthLoading}`)
+  const styleCss = slimCss ? `${styles.borderexBoxSlim}` : `${styles.borderexBoxContainer} ${styles.borderedBoxHeigthLoading}`
+  const [borderexBoxClassName, setBorderexBoxClassName] = useState(`${styleCss}`)
   const [lowerMaxY, setLowerMaxY] = useState(10)
   const colorStyles = metricURL === 'mem' ? colorSetMem : metricURL === 'cpu' ? colorSetCpu : colorSetLatency
 
@@ -53,7 +56,7 @@ function NodeJSMetric ({
         setSeriesValues([...newValues])
         setShowNoResult(false)
         setLowerMaxY(lowerMaxY)
-      } else {
+      }  else {
         setShowNoResult(true)
       }
     }
@@ -131,7 +134,7 @@ function NodeJSMetric ({
             <span className={`${typographyStyles.desktopBodySemibold} ${typographyStyles.textWhite}`}>{title}</span>
             <span className={`${typographyStyles.desktopBodySmall} ${typographyStyles.textWhite} ${typographyStyles.opacity70}`}>{unit}</span>
           </div>
-          {!showNoResult && generateLegend()}
+          {!showNoResult && showLegend && generateLegend()}
         </div>
         <div className={`${commonStyles.smallFlexRow} ${commonStyles.fullWidth} ${commonStyles.justifyBetween} ${commonStyles.itemsCenter} ${commonStyles.fullHeight}`}>
           {renderComponent()}
@@ -177,7 +180,15 @@ NodeJSMetric.propTypes = {
   /**
    * chartTooltipPositionPropTypes
   */
-  chartTooltipPosition: PropTypes.oneOf([POSITION_ABSOLUTE, POSITION_FIXED])
+  chartTooltipPosition: PropTypes.oneOf([POSITION_ABSOLUTE, POSITION_FIXED]),
+  /**
+   * showLegend
+    */
+  showLegend: PropTypes.bool,
+  /**
+   * slimCss
+    */
+  slimCss: PropTypes.bool,
 }
 
 export default NodeJSMetric

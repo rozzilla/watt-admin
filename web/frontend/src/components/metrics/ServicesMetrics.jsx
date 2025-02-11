@@ -16,6 +16,7 @@ import { REFRESH_INTERVAL_METRICS, POSITION_FIXED, MIN_HEIGHT_COMPACT_SIZE, DEFA
 import colorSetMem from './memory.module.css'
 import colorSetCpu from './cpu.module.css'
 import colorSetLatency from './latency.module.css'
+import NodeJSMetric from '../application/NodeJSMetric'
 
 const ServicesMetrics = React.forwardRef(({
   serviceId,
@@ -42,6 +43,47 @@ const ServicesMetrics = React.forwardRef(({
   }
   const [heightChart, setHeightChart] = useState(DEFAULT_HEIGHT_CHART)
   const { height: innerHeight } = useWindowDimensions()
+
+  const [allData, setAllData] = useState({
+    dataMem: [],
+    dataCpu: [],
+    dataLatency: []
+  })
+  const [latestRefreshDate, setLatestRefreshDate] = useState(new Date())
+
+  useInterval(async () => {
+    try {
+      const response = await getApiMetricsPod()
+      const data = await response.json()
+
+      const dataMem = data.map(item => ({
+        date: item.date,
+        rss: item.rss / (1024 * 1024 * 1024),
+        totalHeap: item.totalHeapSize / (1024 * 1024 * 1024),
+        usedHeap: item.usedHeapSize / (1024 * 1024 * 1024)
+      }))
+
+      const dataCpu = data.map(item => ({
+        date: item.date,
+        cpu: item.cpu * 100,
+        eventLoop: item.elu * 100
+      }))
+
+      const dataLatency = data.map(item => ({
+        date: item.date,
+        p90: item.latencies.p90,
+        p95: item.latencies.p95,
+        p99: item.latencies.p99
+      }))
+
+      setAllData({ dataMem, dataCpu, dataLatency })
+      setLatestRefreshDate(new Date())
+    } catch (error) {
+      console.error('Failed to fetch metrics:', error)
+    } finally {
+      setInitialLoading(false)
+    }
+  }, REFRESH_INTERVAL_METRICS)
 
   useEffect(() => {
     if (innerHeight > MIN_HEIGHT_COMPACT_SIZE) {
@@ -132,33 +174,6 @@ const ServicesMetrics = React.forwardRef(({
     )
   }
 
-  function getKeyService (serviceId, metric) {
-    let defaultKey = `${serviceId}-${metric}-`
-    const defaultDate = new Date().toISOString()
-
-    switch (metric) {
-      case 'memory':
-        if (dataService.memory.length > 0) {
-          defaultKey += dataService.memory[dataService.memory.length - 1].time ? new Date(dataService.memory[dataService.memory.length - 1].time).toISOString() : defaultDate
-        }
-        break
-      case 'cpu':
-        if (dataService.cpuEL.length > 0) {
-          defaultKey += dataService.cpuEL[dataService.cpuEL.length - 1].time ? new Date(dataService.cpuEL[dataService.cpuEL.length - 1].time).toISOString() : defaultDate
-        }
-        break
-      case 'latency':
-        if (dataService.latency.length > 0) {
-          defaultKey += dataService.latency[dataService.latency.length - 1].time ? new Date(dataService.latency[dataService.latency.length - 1].time).toISOString() : defaultDate
-        }
-        break
-      default:
-        defaultKey += defaultDate
-        break
-    }
-    return defaultKey
-  }
-
   function getKeyAggregated (metric) {
     let defaultKey = `aggregated-${metric}-`
     const defaultDate = new Date().toISOString()
@@ -219,22 +234,35 @@ const ServicesMetrics = React.forwardRef(({
     return (
       <div className={`${commonStyles.smallFlexBlock} ${commonStyles.fullWidth} ${styles.flexGrow}`}>
         <div className={`${commonStyles.smallFlexBlock} ${commonStyles.fullWidth}`}>
-          <div className={`${commonStyles.tinyFlexBlock} ${commonStyles.fullWidth}`}>
+          <div className={`${commonStyles.tinyFlexBlock} ${commonStyles.fullWidth}`}>           
             <div className={`${commonStyles.smallFlexRow} ${commonStyles.fullWidth}`}>
               <BorderedBox color={TRANSPARENT} backgroundColor={RICH_BLACK} classes={styles.boxMetricContainer}>
-                <ServiceLineChart
-                  data={dataService.memory}
-                  key={getKeyService(serviceId, 'memory')}
+                <NodeJSMetric
+                  key={`mem_${latestRefreshDate.toISOString()}`}
                   title={`${serviceId} Memory`}
-                  unit='MB'
-                  labels={['RSS', 'Total Heap', 'Heap Used', 'New Space', 'Old Space']}
-                  paused={paused}
-                  setPaused={setPaused}
-                  tooltipPosition={POSITION_FIXED}
-                  numberLabelsOnXAxis={showAggregatedMetrics ? 5 : 10}
-                  heightChart={heightChart}
+                  unit='(GB)'
+                  metricURL='mem'
+                  dataValues={allData.dataMem}
+                  initialLoading={initialLoading}
+                  options={[{
+                    label: 'RSS',
+                    internalKey: 'rss',
+                    unit: 'GB'
+                  }, {
+                    label: 'Total Heap',
+                    internalKey: 'totalHeap',
+                    unit: 'GB'
+                  }, {
+                    label: 'Heap Used',
+                    internalKey: 'usedHeap',
+                    unit: 'GB'
+                  }]}
+                  backgroundColor={RICH_BLACK}
+                  showLegend={false}
+                  slimCss={true}
                 />
               </BorderedBox>
+
               {showAggregatedMetrics && (
                 <BorderedBox color={TRANSPARENT} backgroundColor={RICH_BLACK} classes={styles.boxMetricContainer}>
                   <ServiceLineChart
@@ -247,7 +275,6 @@ const ServicesMetrics = React.forwardRef(({
                     setPaused={setPaused}
                     tooltipPosition={POSITION_FIXED}
                     heightChart={heightChart}
-
                   />
                 </BorderedBox>
               )}
@@ -259,20 +286,25 @@ const ServicesMetrics = React.forwardRef(({
             <div className={`${commonStyles.smallFlexRow} ${commonStyles.fullWidth}`}>
 
               <BorderedBox color={TRANSPARENT} backgroundColor={RICH_BLACK} classes={styles.boxMetricContainer}>
-                <ServiceLineChart
-                  key={getKeyService(serviceId, 'cpu')}
-                  data={dataService.cpuEL}
+                <NodeJSMetric
+                  key={`cpu_${latestRefreshDate.toISOString()}`}
                   title={`${serviceId} CPU & ELU`}
-                  unit='%'
-                  lowerMaxY={100}
-                  labels={['CPU', 'ELU']}
-                  colorSet='cpu'
-                  paused={paused}
-                  setPaused={setPaused}
-                  tooltipPosition={POSITION_FIXED}
-                  numberLabelsOnXAxis={showAggregatedMetrics ? 5 : 10}
-                  heightChart={heightChart}
-
+                  metricURL='cpu'
+                  dataValues={allData.dataCpu}
+                  initialLoading={initialLoading}
+                  unit='(%)'
+                  options={[{
+                    label: 'CPU',
+                    internalKey: 'cpu',
+                    unit: '%'
+                  }, {
+                    label: 'ELU',
+                    internalKey: 'eventLoop',
+                    unit: '%'
+                  }]}
+                  backgroundColor={RICH_BLACK}
+                  showLegend={false}
+                  slimCss={true}
                 />
               </BorderedBox>
 
@@ -290,7 +322,6 @@ const ServicesMetrics = React.forwardRef(({
                     setPaused={setPaused}
                     tooltipPosition={POSITION_FIXED}
                     heightChart={heightChart}
-
                   />
                 </BorderedBox>
               )}
@@ -303,22 +334,33 @@ const ServicesMetrics = React.forwardRef(({
             <div className={`${commonStyles.smallFlexRow} ${commonStyles.fullWidth}`}>
 
               <BorderedBox color={TRANSPARENT} backgroundColor={RICH_BLACK} classes={styles.boxMetricContainer}>
-                <ServiceStackedBarsChart
-                  key={getKeyService(serviceId, 'latency')}
-                  data={dataService.latency}
+                <NodeJSMetric
+                  key={`latency_${latestRefreshDate.toISOString()}`}
                   title={`${serviceId} Latency`}
-                  unit='ms'
-                  paused={paused}
-                  setPaused={setPaused}
-                  tooltipPosition={POSITION_FIXED}
-                  numberLabelsOnXAxis={showAggregatedMetrics ? 5 : 10}
-                  heightChart={heightChart}
-
+                  metricURL='latency'
+                  dataValues={allData.dataLatency}
+                  initialLoading={initialLoading}
+                  unit='(ms)'
+                  options={[{
+                    label: 'P90',
+                    internalKey: 'p90',
+                    unit: 'ms'
+                  }, {
+                    label: 'P95',
+                    internalKey: 'p95',
+                    unit: 'ms'
+                  }, {
+                    label: 'P99',
+                    internalKey: 'p99',
+                    unit: 'ms'
+                  }]}
+                  backgroundColor={RICH_BLACK}
+                  showLegend={false}
+                  slimCss={true}
                 />
               </BorderedBox>
 
               {showAggregatedMetrics && (
-
                 <BorderedBox color={TRANSPARENT} backgroundColor={RICH_BLACK} classes={styles.boxMetricContainer}>
                   <ServiceStackedBarsChart
                     key={getKeyAggregated('latency')}
