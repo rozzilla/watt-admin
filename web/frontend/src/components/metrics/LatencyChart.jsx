@@ -15,7 +15,7 @@ const LatencyChart = ({
   labels = [],
   percentiles = {},
   keyForCheckMax = 'p99',
-  tooltipPosition = POSITION_ABSOLUTE,
+  tooltipPosition = POSITION_ABSOLUTE
 }) => {
   const yMin = 0
   const lowerMaxY = 10 // y max is dynamic, but we migth want to have a max lower bound. Set to 0 for completely dynamic y max
@@ -63,7 +63,7 @@ const LatencyChart = ({
 
       y.domain([yMin, yMax])
       const yAxisTickValues = [...getTicks(yMin, maxy, 3, false)]
-      
+
       // FIXME: reduce the timeline values to 6
       const labelSecondsInterval = 5 * 60 / 5
       const xAxis = d3.axisBottom().scale(x).tickFormat(d3.timeFormat('%H:%M:%S')).ticks(d3.timeSecond.every(labelSecondsInterval))

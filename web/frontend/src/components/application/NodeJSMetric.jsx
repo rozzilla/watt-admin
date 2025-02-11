@@ -25,7 +25,7 @@ function NodeJSMetric ({
   chartTooltipPosition = POSITION_ABSOLUTE,
   showLegend = true,
   timeline = false,
-  slimCss = false,
+  slimCss = false
 }) {
   const [showNoResult, setShowNoResult] = useState(false)
   const [seriesValues, setSeriesValues] = useState([])
@@ -57,7 +57,7 @@ function NodeJSMetric ({
         setSeriesValues([...newValues])
         setShowNoResult(false)
         setLowerMaxY(lowerMaxY)
-      }  else {
+      } else {
         setShowNoResult(true)
       }
     }
@@ -194,7 +194,7 @@ NodeJSMetric.propTypes = {
   /**
    * slimCss
     */
-  slimCss: PropTypes.bool,
+  slimCss: PropTypes.bool
 }
 
 export default NodeJSMetric

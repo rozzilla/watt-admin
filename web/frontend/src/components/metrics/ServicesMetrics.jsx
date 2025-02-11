@@ -26,11 +26,6 @@ const ServicesMetrics = React.forwardRef(({
   const [showErrorComponent, setShowErrorComponent] = useState(false)
   const [error, setError] = useState(null)
   const [paused, setPaused] = useState(false) // This pauses the chart flowing (not the data collection)
-  const [dataService, setDataService] = useState({
-    memory: [],
-    cpuEL: [],
-    latency: []
-  })
   const [dataAggregated, setDataAggregated] = useState({
     memory: [],
     cpuEL: [],
@@ -112,13 +107,7 @@ const ServicesMetrics = React.forwardRef(({
       })
       latency.push({ time, P90, P95, P99 })
     }
-    if (service) {
-      setDataService({
-        memory,
-        cpuEL,
-        latency
-      })
-    } else {
+    if (!service) {
       setDataAggregated({
         memory,
         cpuEL,
@@ -233,7 +222,7 @@ const ServicesMetrics = React.forwardRef(({
     return (
       <div className={`${commonStyles.smallFlexBlock} ${commonStyles.fullWidth} ${styles.flexGrow}`}>
         <div className={`${commonStyles.smallFlexBlock} ${commonStyles.fullWidth}`}>
-          <div className={`${commonStyles.tinyFlexBlock} ${commonStyles.fullWidth}`}>           
+          <div className={`${commonStyles.tinyFlexBlock} ${commonStyles.fullWidth}`}>
             <div className={`${commonStyles.smallFlexRow} ${commonStyles.fullWidth}`}>
               <BorderedBox color={TRANSPARENT} backgroundColor={RICH_BLACK} classes={styles.boxMetricContainer}>
                 <NodeJSMetric
@@ -258,7 +247,7 @@ const ServicesMetrics = React.forwardRef(({
                   }]}
                   backgroundColor={RICH_BLACK}
                   showLegend={false}
-                  slimCss={true}
+                  slimCss
                 />
               </BorderedBox>
 
@@ -303,7 +292,7 @@ const ServicesMetrics = React.forwardRef(({
                   }]}
                   backgroundColor={RICH_BLACK}
                   showLegend={false}
-                  slimCss={true}
+                  slimCss
                 />
               </BorderedBox>
 
@@ -355,8 +344,8 @@ const ServicesMetrics = React.forwardRef(({
                   }]}
                   backgroundColor={RICH_BLACK}
                   showLegend={false}
-                  slimCss={true}
-                  timeline={true}
+                  slimCss
+                  timeline
                 />
               </BorderedBox>
 
@@ -384,8 +373,8 @@ const ServicesMetrics = React.forwardRef(({
                     }]}
                     backgroundColor={RICH_BLACK}
                     showLegend={false}
-                    slimCss={true}
-                    timeline={true}
+                    slimCss
+                    timeline
                   />
                 </BorderedBox>
               )}
