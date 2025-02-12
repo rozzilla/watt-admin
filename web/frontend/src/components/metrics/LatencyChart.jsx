@@ -38,7 +38,7 @@ const LatencyChart = ({
         .select(tooltipRef.current)
 
       svg.selectAll('*').remove() // clean up the svg
-      
+
       const offset = 5
       const effectiveWidth = w - (xMargin)
       const y = d3.scaleLinear([h - marginOnY, 0])
@@ -68,7 +68,7 @@ const LatencyChart = ({
       const yAxisTickValues = [...getTicks(yMin, maxy, 3, false)]
 
       const timeRange = lastTime - firstTime
-      const numberOfTicks = 6      
+      const numberOfTicks = 6
       const tickValues = []
       for (let i = 0; i < numberOfTicks; i++) {
         const tickTime = new Date(firstTime.getTime() + (timeRange * (i / (numberOfTicks - 1))))
@@ -76,7 +76,7 @@ const LatencyChart = ({
       }
 
       const yAxis = d3.axisLeft().scale(y).tickValues(yAxisTickValues)
-      
+
       const $yAxis = svg
         .append('g')
         .attr('transform', `translate(${xMargin + offset})`)
