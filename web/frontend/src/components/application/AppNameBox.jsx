@@ -6,7 +6,7 @@ import typographyStyles from '~/styles/Typography.module.css'
 import commonStyles from '~/styles/CommonStyles.module.css'
 import { BorderedBox, Button, PlatformaticIcon } from '@platformatic/ui-components'
 import { getFormattedDate } from '~/utilities/dates'
-import { STATUS_STOPPED } from '~/ui-constants'
+import { STATUS_STOPPED, STATUS_RUNNING } from '~/ui-constants'
 import Icons from '@platformatic/ui-components/src/components/icons'
 import ApplicationStatusPills from '~/components/ui/ApplicationStatusPills'
 import useAdminStore from '~/useAdminStore'
@@ -18,13 +18,13 @@ function AppNameBox ({
   applicationPublicUrl = ''
 }) {
   const globalState = useAdminStore()
-  const { appStatus } = globalState
+  const { appStatus, setAppStatus } = globalState
   const [changingRestartStatus, setChangingRestartStatus] = useState(false)
   const [applicationSelected, setApplicationSelected] = useState({})
 
   useEffect(() => {
     // FIXME@backend get dynamic data
-    useAdminStore.getState().setAppStatus('running')
+    setAppStatus(STATUS_RUNNING)
     setApplicationSelected(getApiApplication())
   }, [])
 
