@@ -247,6 +247,7 @@ const ServicesMetrics = React.forwardRef(({
                   }]}
                   backgroundColor={RICH_BLACK}
                   showLegend={false}
+                  timeline
                   slimCss
                 />
               </BorderedBox>
@@ -292,6 +293,7 @@ const ServicesMetrics = React.forwardRef(({
                   }]}
                   backgroundColor={RICH_BLACK}
                   showLegend={false}
+                  timeline
                   slimCss
                 />
               </BorderedBox>

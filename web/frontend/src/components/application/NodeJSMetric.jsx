@@ -125,6 +125,7 @@ function NodeJSMetric ({
           colorSet={metricURL}
           lowerMaxY={lowerMaxY}
           tooltipPosition={chartTooltipPosition}
+          timeline={timeline}
         />)
   }
 

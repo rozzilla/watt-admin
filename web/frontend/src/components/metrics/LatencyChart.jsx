@@ -75,12 +75,6 @@ const LatencyChart = ({
         tickValues.push(tickTime)
       }
 
-      const xAxis = d3.axisBottom()
-        .scale(x)
-        .tickValues(tickValues)
-        .tickFormat(d3.timeFormat('%H:%M:%S'))
-        .tickSizeOuter(0)
-
       const yAxis = d3.axisLeft().scale(y).tickValues(yAxisTickValues)
       
       const $yAxis = svg
@@ -100,6 +94,11 @@ const LatencyChart = ({
         .attr('class', styles.axis)
 
       if (timeline) {
+        const xAxis = d3.axisBottom()
+          .scale(x)
+          .tickValues(tickValues)
+          .tickFormat(d3.timeFormat('%H:%M:%S'))
+          .tickSizeOuter(0)
         const $xAxis = svg
           .append('g')
           .attr('transform', `translate(${offset}, ${h - yMargin})`)
