@@ -68,7 +68,7 @@ const NodeJSMetricChart = ({
       const yAxisTickValues = [...getTicks(yMin, maxy, 2, false)]
 
       const timeRange = lastTime - firstTime
-      const numberOfTicks = 6
+      const numberOfTicks = 7
       const tickValues = []
       for (let i = 0; i < numberOfTicks; i++) {
         const tickTime = new Date(firstTime.getTime() + (timeRange * (i / (numberOfTicks - 1))))
@@ -106,7 +106,7 @@ const NodeJSMetricChart = ({
           .tickSizeOuter(0)
         const $xAxis = svg
           .append('g')
-          .attr('transform', `translate(20, ${h - yMargin})`)
+          .attr('transform', `translate(5, ${h - yMargin})`)
         $xAxis
           .call(xAxis)
           .call(g => g.select('.domain').remove())
@@ -114,7 +114,7 @@ const NodeJSMetricChart = ({
           .attr('class', styles.axis)
           .selectAll('text')
           .attr('dy', '1em')
-          .style('text-anchor', 'middle')
+          .style('text-anchor', 'start')
       }
 
       svg
