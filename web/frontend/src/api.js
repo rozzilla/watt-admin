@@ -47,12 +47,6 @@ const generateMockData = () => {
 }
 
 // FIXME@backend get dynamic data
-export const getApiMetricsPodPerService = async () => {
-  const mockData = generateMockData()
-  return { status: 200, json: () => Promise.resolve(mockData) }
-}
-
-// FIXME@backend get dynamic data
 export const getApiMetricsPod = async () => {
   const mockData = generateMockData()
   return { status: 200, json: () => Promise.resolve(mockData) }

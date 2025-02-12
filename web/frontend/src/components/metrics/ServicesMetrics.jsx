@@ -4,11 +4,9 @@ import { TRANSPARENT, RICH_BLACK, OPACITY_30, WHITE } from '@platformatic/ui-com
 import styles from './ServicesMetrics.module.css'
 import typographyStyles from '~/styles/Typography.module.css'
 import commonStyles from '~/styles/CommonStyles.module.css'
-import { BorderedBox, LoadingSpinnerV2, VerticalSeparator } from '@platformatic/ui-components'
-import { getApiMetricsPodPerService, getApiMetricsPod } from '~/api'
+import { BorderedBox, VerticalSeparator } from '@platformatic/ui-components'
+import { getApiMetricsPod } from '~/api'
 import { useInterval } from '~/hooks/useInterval'
-import ErrorComponent from '~/components/errors/ErrorComponent'
-import NoDataFound from '~/components/ui/NoDataFound'
 import { REFRESH_INTERVAL_METRICS, POSITION_FIXED } from '~/ui-constants'
 import colorSetMem from './memory.module.css'
 import colorSetCpu from './cpu.module.css'
@@ -20,14 +18,6 @@ const ServicesMetrics = React.forwardRef(({
   showAggregatedMetrics
 }, ref) => {
   const [initialLoading, setInitialLoading] = useState(true)
-  const [showNoResult, setShowNoResult] = useState(false)
-  const [showErrorComponent, setShowErrorComponent] = useState(false)
-  const [error, setError] = useState(null)
-
-  const toMB = (bytes) => {
-    return Math.round(bytes / 1024 / 1024)
-  }
-
   const [allData, setAllData] = useState({
     dataMem: [],
     dataCpu: [],
@@ -37,6 +27,7 @@ const ServicesMetrics = React.forwardRef(({
 
   useInterval(async () => {
     try {
+      setInitialLoading(true)
       const response = await getApiMetricsPod()
       const data = await response.json()
 
@@ -72,54 +63,7 @@ const ServicesMetrics = React.forwardRef(({
     }
   }, REFRESH_INTERVAL_METRICS)
 
-  function handleMetrics (metrics) {
-    const parsedMetrics = metrics
-    const memory = []
-    const cpuEL = []
-    const latency = []
-    for (const parsedMetric of parsedMetrics) {
-      const { date, cpu, elu, rss, totalHeapSize, usedHeapSize, newSpaceSize, oldSpaceSize, latencies } = parsedMetric
-      const { p90: P90, p95: P95, p99: P99 } = latencies
-      const time = new Date(date)
-      const eluPercentage = elu * 100
-      memory.push({
-        time,
-        values: [rss, totalHeapSize, usedHeapSize, newSpaceSize, oldSpaceSize].map(toMB)
-      })
-      cpuEL.push({
-        time,
-        values: [cpu, eluPercentage]
-      })
-      latency.push({ time, P90, P95, P99 })
-    }
-
-    if (initialLoading && memory.length > 3) {
-      setInitialLoading(false)
-    }
-  }
-
-  useInterval(async () => {
-    try {
-      const [responseDataServices, responseDataAggregated] = await Promise.all([
-        getApiMetricsPodPerService(),
-        getApiMetricsPod()
-      ])
-      setShowNoResult(false)
-      if (responseDataServices.status === 200) {
-        const dataService = await responseDataServices.json()
-        const dataAggregated = await responseDataAggregated.json()
-        handleMetrics(dataService, true)
-        handleMetrics(dataAggregated)
-      } else {
-        console.error('error on status', responseDataServices.status)
-      }
-    } catch (e) {
-      console.error(e)
-      setError(e)
-      setShowErrorComponent(true)
-    }
-  }, REFRESH_INTERVAL_METRICS)
-
+  // FIXME: unify with NodeJSMetrics logic (since it's duplicated)
   function generateLegend (labels, colorStyles) {
     return (
       <div className={`${commonStyles.smallFlexRow} ${commonStyles.fullWidth} ${commonStyles.itemsCenter}`}>
@@ -140,83 +84,17 @@ const ServicesMetrics = React.forwardRef(({
     )
   }
 
-  function renderContent () {
-    if (initialLoading) {
-      return (
-        <LoadingSpinnerV2
-          loading
-          applySentences={{
-            containerClassName: `${commonStyles.mediumFlexBlock} ${commonStyles.itemsCenter}`,
-            sentences: [{
-              style: `${typographyStyles.desktopBodySmall} ${typographyStyles.textWhite}`,
-              text: 'Start collecting metrics'
-            }]
-          }}
-          containerClassName={styles.loadingSpinner}
-          spinnerProps={{ size: 40, thickness: 3 }}
-        />
-      )
-    }
-
-    if (showNoResult) { return <NoDataFound title='No Metrics yet' subTitle={<span>There’s no metrics collected by your apps.</span>} /> }
-
-    if (showErrorComponent) {
-      return (
-        <ErrorComponent
-          error={error}
-          message={error?.message || ''}
-          onClickDismiss={() => setShowErrorComponent(false)}
-        />
-      )
-    }
-
-    return (
-      <div className={`${commonStyles.smallFlexBlock} ${commonStyles.fullWidth} ${styles.flexGrow}`}>
-        <div className={`${commonStyles.smallFlexBlock} ${commonStyles.fullWidth}`}>
-          <div className={`${commonStyles.tinyFlexBlock} ${commonStyles.fullWidth}`}>
-            <div className={`${commonStyles.smallFlexRow} ${commonStyles.fullWidth}`}>
-              <BorderedBox color={TRANSPARENT} backgroundColor={RICH_BLACK} classes={styles.boxMetricContainer}>
-                <NodeJSMetric
-                  key={`mem_${latestRefreshDate.toISOString()}`}
-                  title={`${serviceId} Memory`}
-                  unit='(GB)'
-                  metricURL='mem'
-                  dataValues={allData.dataMem}
-                  initialLoading={initialLoading}
-                  chartTooltipPosition={POSITION_FIXED}
-                  options={[{
-                    label: 'RSS',
-                    internalKey: 'rss',
-                    unit: 'GB'
-                  }, {
-                    label: 'Total Heap',
-                    internalKey: 'totalHeap',
-                    unit: 'GB'
-                  }, {
-                    label: 'Heap Used',
-                    internalKey: 'usedHeap',
-                    unit: 'GB'
-                  }, {
-                    label: 'New Space',
-                    internalKey: 'newSpace',
-                    unit: 'GB'
-                  }, {
-                    label: 'Old Space',
-                    internalKey: 'oldSpace',
-                    unit: 'GB'
-                  }]}
-                  backgroundColor={RICH_BLACK}
-                  showLegend={false}
-                  timeline
-                  slimCss
-                />
-              </BorderedBox>
-
-              {showAggregatedMetrics && (
+  return (
+    <div className={styles.container} ref={ref}>
+      <div className={styles.content}>
+        <div className={`${commonStyles.smallFlexBlock} ${commonStyles.fullWidth} ${styles.flexGrow}`}>
+          <div className={`${commonStyles.smallFlexBlock} ${commonStyles.fullWidth}`}>
+            <div className={`${commonStyles.tinyFlexBlock} ${commonStyles.fullWidth}`}>
+              <div className={`${commonStyles.smallFlexRow} ${commonStyles.fullWidth}`}>
                 <BorderedBox color={TRANSPARENT} backgroundColor={RICH_BLACK} classes={styles.boxMetricContainer}>
                   <NodeJSMetric
                     key={`mem_${latestRefreshDate.toISOString()}`}
-                    title='Memory'
+                    title={`${serviceId} Memory`}
                     unit='(GB)'
                     metricURL='mem'
                     dataValues={allData.dataMem}
@@ -249,44 +127,56 @@ const ServicesMetrics = React.forwardRef(({
                     slimCss
                   />
                 </BorderedBox>
-              )}
+
+                {showAggregatedMetrics && (
+                  <BorderedBox color={TRANSPARENT} backgroundColor={RICH_BLACK} classes={styles.boxMetricContainer}>
+                    <NodeJSMetric
+                      key={`mem_${latestRefreshDate.toISOString()}`}
+                      title='Memory'
+                      unit='(GB)'
+                      metricURL='mem'
+                      dataValues={allData.dataMem}
+                      initialLoading={initialLoading}
+                      chartTooltipPosition={POSITION_FIXED}
+                      options={[{
+                        label: 'RSS',
+                        internalKey: 'rss',
+                        unit: 'GB'
+                      }, {
+                        label: 'Total Heap',
+                        internalKey: 'totalHeap',
+                        unit: 'GB'
+                      }, {
+                        label: 'Heap Used',
+                        internalKey: 'usedHeap',
+                        unit: 'GB'
+                      }, {
+                        label: 'New Space',
+                        internalKey: 'newSpace',
+                        unit: 'GB'
+                      }, {
+                        label: 'Old Space',
+                        internalKey: 'oldSpace',
+                        unit: 'GB'
+                      }]}
+                      backgroundColor={RICH_BLACK}
+                      showLegend={false}
+                      timeline
+                      slimCss
+                    />
+                  </BorderedBox>
+                )}
+              </div>
+
+              {generateLegend(['RSS', 'Total Heap', 'Heap Used', 'New Space', 'Old Space'], colorSetMem)}
             </div>
+            <div className={`${commonStyles.tinyFlexBlock} ${commonStyles.fullWidth}`}>
+              <div className={`${commonStyles.smallFlexRow} ${commonStyles.fullWidth}`}>
 
-            {generateLegend(['RSS', 'Total Heap', 'Heap Used', 'New Space', 'Old Space'], colorSetMem)}
-          </div>
-          <div className={`${commonStyles.tinyFlexBlock} ${commonStyles.fullWidth}`}>
-            <div className={`${commonStyles.smallFlexRow} ${commonStyles.fullWidth}`}>
-
-              <BorderedBox color={TRANSPARENT} backgroundColor={RICH_BLACK} classes={styles.boxMetricContainer}>
-                <NodeJSMetric
-                  key={`cpu_${latestRefreshDate.toISOString()}`}
-                  title={`${serviceId} CPU & ELU`}
-                  metricURL='cpu'
-                  dataValues={allData.dataCpu}
-                  initialLoading={initialLoading}
-                  chartTooltipPosition={POSITION_FIXED}
-                  unit='(%)'
-                  options={[{
-                    label: 'CPU',
-                    internalKey: 'cpu',
-                    unit: '%'
-                  }, {
-                    label: 'ELU',
-                    internalKey: 'eventLoop',
-                    unit: '%'
-                  }]}
-                  backgroundColor={RICH_BLACK}
-                  showLegend={false}
-                  timeline
-                  slimCss
-                />
-              </BorderedBox>
-
-              {showAggregatedMetrics && (
                 <BorderedBox color={TRANSPARENT} backgroundColor={RICH_BLACK} classes={styles.boxMetricContainer}>
                   <NodeJSMetric
                     key={`cpu_${latestRefreshDate.toISOString()}`}
-                    title='CPU & ELU'
+                    title={`${serviceId} CPU & ELU`}
                     metricURL='cpu'
                     dataValues={allData.dataCpu}
                     initialLoading={initialLoading}
@@ -307,49 +197,45 @@ const ServicesMetrics = React.forwardRef(({
                     slimCss
                   />
                 </BorderedBox>
-              )}
+
+                {showAggregatedMetrics && (
+                  <BorderedBox color={TRANSPARENT} backgroundColor={RICH_BLACK} classes={styles.boxMetricContainer}>
+                    <NodeJSMetric
+                      key={`cpu_${latestRefreshDate.toISOString()}`}
+                      title='CPU & ELU'
+                      metricURL='cpu'
+                      dataValues={allData.dataCpu}
+                      initialLoading={initialLoading}
+                      chartTooltipPosition={POSITION_FIXED}
+                      unit='(%)'
+                      options={[{
+                        label: 'CPU',
+                        internalKey: 'cpu',
+                        unit: '%'
+                      }, {
+                        label: 'ELU',
+                        internalKey: 'eventLoop',
+                        unit: '%'
+                      }]}
+                      backgroundColor={RICH_BLACK}
+                      showLegend={false}
+                      timeline
+                      slimCss
+                    />
+                  </BorderedBox>
+                )}
+              </div>
+
+              {generateLegend(['CPU', 'ELU'], colorSetCpu)}
             </div>
 
-            {generateLegend(['CPU', 'ELU'], colorSetCpu)}
-          </div>
+            <div className={`${commonStyles.tinyFlexBlock} ${commonStyles.fullWidth}`}>
+              <div className={`${commonStyles.smallFlexRow} ${commonStyles.fullWidth}`}>
 
-          <div className={`${commonStyles.tinyFlexBlock} ${commonStyles.fullWidth}`}>
-            <div className={`${commonStyles.smallFlexRow} ${commonStyles.fullWidth}`}>
-
-              <BorderedBox color={TRANSPARENT} backgroundColor={RICH_BLACK} classes={styles.boxMetricContainer}>
-                <NodeJSMetric
-                  key={`latency_${latestRefreshDate.toISOString()}`}
-                  title={`${serviceId} Latency`}
-                  metricURL='latency'
-                  dataValues={allData.dataLatency}
-                  initialLoading={initialLoading}
-                  chartTooltipPosition={POSITION_FIXED}
-                  unit='(ms)'
-                  options={[{
-                    label: 'P90',
-                    internalKey: 'p90',
-                    unit: 'ms'
-                  }, {
-                    label: 'P95',
-                    internalKey: 'p95',
-                    unit: 'ms'
-                  }, {
-                    label: 'P99',
-                    internalKey: 'p99',
-                    unit: 'ms'
-                  }]}
-                  backgroundColor={RICH_BLACK}
-                  showLegend={false}
-                  slimCss
-                  timeline
-                />
-              </BorderedBox>
-
-              {showAggregatedMetrics && (
                 <BorderedBox color={TRANSPARENT} backgroundColor={RICH_BLACK} classes={styles.boxMetricContainer}>
                   <NodeJSMetric
                     key={`latency_${latestRefreshDate.toISOString()}`}
-                    title='Aggregated Service Latency'
+                    title={`${serviceId} Latency`}
                     metricURL='latency'
                     dataValues={allData.dataLatency}
                     initialLoading={initialLoading}
@@ -374,21 +260,44 @@ const ServicesMetrics = React.forwardRef(({
                     timeline
                   />
                 </BorderedBox>
-              )}
+
+                {showAggregatedMetrics && (
+                  <BorderedBox color={TRANSPARENT} backgroundColor={RICH_BLACK} classes={styles.boxMetricContainer}>
+                    <NodeJSMetric
+                      key={`latency_${latestRefreshDate.toISOString()}`}
+                      title='Aggregated Service Latency'
+                      metricURL='latency'
+                      dataValues={allData.dataLatency}
+                      initialLoading={initialLoading}
+                      chartTooltipPosition={POSITION_FIXED}
+                      unit='(ms)'
+                      options={[{
+                        label: 'P90',
+                        internalKey: 'p90',
+                        unit: 'ms'
+                      }, {
+                        label: 'P95',
+                        internalKey: 'p95',
+                        unit: 'ms'
+                      }, {
+                        label: 'P99',
+                        internalKey: 'p99',
+                        unit: 'ms'
+                      }]}
+                      backgroundColor={RICH_BLACK}
+                      showLegend={false}
+                      slimCss
+                      timeline
+                    />
+                  </BorderedBox>
+                )}
+              </div>
+
+              {generateLegend(['P99', 'P95', 'P90'], colorSetLatency)}
             </div>
 
-            {generateLegend(['P99', 'P95', 'P90'], colorSetLatency)}
           </div>
-
         </div>
-      </div>
-    )
-  }
-
-  return (
-    <div className={styles.container} ref={ref}>
-      <div className={styles.content}>
-        {renderContent()}
       </div>
     </div>
   )
