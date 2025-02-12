@@ -105,7 +105,7 @@ const LatencyChart = ({
           .tickSizeOuter(0)
         const $xAxis = svg
           .append('g')
-          .attr('transform', `translate(0, ${h - yMargin})`)
+          .attr('transform', `translate(20, ${h - yMargin})`)
         $xAxis
           .call(xAxis)
           .call(g => g.select('.domain').remove())
@@ -113,7 +113,7 @@ const LatencyChart = ({
           .attr('class', styles.axis)
           .selectAll('text')
           .attr('dy', '1em')
-          .style('text-anchor', 'end')
+          .style('text-anchor', 'middle')
       }
 
       const chart = svg.selectAll('.chart')

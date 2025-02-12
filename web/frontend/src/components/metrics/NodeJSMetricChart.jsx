@@ -106,7 +106,7 @@ const NodeJSMetricChart = ({
           .tickSizeOuter(0)
         const $xAxis = svg
           .append('g')
-          .attr('transform', `translate(0, ${h - yMargin})`)
+          .attr('transform', `translate(20, ${h - yMargin})`)
         $xAxis
           .call(xAxis)
           .call(g => g.select('.domain').remove())
@@ -114,7 +114,7 @@ const NodeJSMetricChart = ({
           .attr('class', styles.axis)
           .selectAll('text')
           .attr('dy', '1em')
-          .style('text-anchor', 'end')
+          .style('text-anchor', 'middle')
       }
 
       svg

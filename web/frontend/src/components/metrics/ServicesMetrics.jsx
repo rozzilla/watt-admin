@@ -69,7 +69,7 @@ const ServicesMetrics = React.forwardRef(({
     }
   }, REFRESH_INTERVAL_METRICS)
 
-  function handleMetrics (metrics, service = false) {
+  function handleMetrics (metrics) {
     const parsedMetrics = metrics
     const memory = []
     const cpuEL = []
@@ -204,7 +204,7 @@ const ServicesMetrics = React.forwardRef(({
                 <BorderedBox color={TRANSPARENT} backgroundColor={RICH_BLACK} classes={styles.boxMetricContainer}>
                   <NodeJSMetric
                     key={`mem_${latestRefreshDate.toISOString()}`}
-                    title={`${serviceId} Memory`}
+                    title='Memory'
                     unit='(GB)'
                     metricURL='mem'
                     dataValues={allData.dataMem}
@@ -264,7 +264,7 @@ const ServicesMetrics = React.forwardRef(({
                 <BorderedBox color={TRANSPARENT} backgroundColor={RICH_BLACK} classes={styles.boxMetricContainer}>
                   <NodeJSMetric
                     key={`cpu_${latestRefreshDate.toISOString()}`}
-                    title={`${serviceId} CPU & ELU`}
+                    title='CPU & ELU'
                     metricURL='cpu'
                     dataValues={allData.dataCpu}
                     initialLoading={initialLoading}
