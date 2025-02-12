@@ -9,7 +9,7 @@ import { getApiMetricsPodPerService, getApiMetricsPod } from '~/api'
 import { useInterval } from '~/hooks/useInterval'
 import ErrorComponent from '~/components/errors/ErrorComponent'
 import NoDataFound from '~/components/ui/NoDataFound'
-import { REFRESH_INTERVAL_METRICS } from '~/ui-constants'
+import { REFRESH_INTERVAL_METRICS, POSITION_FIXED } from '~/ui-constants'
 import colorSetMem from './memory.module.css'
 import colorSetCpu from './cpu.module.css'
 import colorSetLatency from './latency.module.css'
@@ -40,11 +40,14 @@ const ServicesMetrics = React.forwardRef(({
       const response = await getApiMetricsPod()
       const data = await response.json()
 
+      // FIXME: unify with NodeJSMetrics logic (since it's duplicated)
       const dataMem = data.map(item => ({
         date: item.date,
         rss: item.rss / (1024 * 1024 * 1024),
         totalHeap: item.totalHeapSize / (1024 * 1024 * 1024),
-        usedHeap: item.usedHeapSize / (1024 * 1024 * 1024)
+        usedHeap: item.usedHeapSize / (1024 * 1024 * 1024),
+        newSpace: item.newSpaceSize / (1024 * 1024 * 1024),
+        oldSpace: item.oldSpaceSize / (1024 * 1024 * 1024)
       }))
 
       const dataCpu = data.map(item => ({
@@ -180,6 +183,7 @@ const ServicesMetrics = React.forwardRef(({
                   metricURL='mem'
                   dataValues={allData.dataMem}
                   initialLoading={initialLoading}
+                  chartTooltipPosition={POSITION_FIXED}
                   options={[{
                     label: 'RSS',
                     internalKey: 'rss',
@@ -191,6 +195,14 @@ const ServicesMetrics = React.forwardRef(({
                   }, {
                     label: 'Heap Used',
                     internalKey: 'usedHeap',
+                    unit: 'GB'
+                  }, {
+                    label: 'New Space',
+                    internalKey: 'newSpace',
+                    unit: 'GB'
+                  }, {
+                    label: 'Old Space',
+                    internalKey: 'oldSpace',
                     unit: 'GB'
                   }]}
                   backgroundColor={RICH_BLACK}
@@ -209,6 +221,7 @@ const ServicesMetrics = React.forwardRef(({
                     metricURL='mem'
                     dataValues={allData.dataMem}
                     initialLoading={initialLoading}
+                    chartTooltipPosition={POSITION_FIXED}
                     options={[{
                       label: 'RSS',
                       internalKey: 'rss',
@@ -220,6 +233,14 @@ const ServicesMetrics = React.forwardRef(({
                     }, {
                       label: 'Heap Used',
                       internalKey: 'usedHeap',
+                      unit: 'GB'
+                    }, {
+                      label: 'New Space',
+                      internalKey: 'newSpace',
+                      unit: 'GB'
+                    }, {
+                      label: 'Old Space',
+                      internalKey: 'oldSpace',
                       unit: 'GB'
                     }]}
                     backgroundColor={RICH_BLACK}
@@ -243,6 +264,7 @@ const ServicesMetrics = React.forwardRef(({
                   metricURL='cpu'
                   dataValues={allData.dataCpu}
                   initialLoading={initialLoading}
+                  chartTooltipPosition={POSITION_FIXED}
                   unit='(%)'
                   options={[{
                     label: 'CPU',
@@ -268,6 +290,7 @@ const ServicesMetrics = React.forwardRef(({
                     metricURL='cpu'
                     dataValues={allData.dataCpu}
                     initialLoading={initialLoading}
+                    chartTooltipPosition={POSITION_FIXED}
                     unit='(%)'
                     options={[{
                       label: 'CPU',
@@ -300,6 +323,7 @@ const ServicesMetrics = React.forwardRef(({
                   metricURL='latency'
                   dataValues={allData.dataLatency}
                   initialLoading={initialLoading}
+                  chartTooltipPosition={POSITION_FIXED}
                   unit='(ms)'
                   options={[{
                     label: 'P90',
@@ -329,6 +353,7 @@ const ServicesMetrics = React.forwardRef(({
                     metricURL='latency'
                     dataValues={allData.dataLatency}
                     initialLoading={initialLoading}
+                    chartTooltipPosition={POSITION_FIXED}
                     unit='(ms)'
                     options={[{
                       label: 'P90',

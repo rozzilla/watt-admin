@@ -32,7 +32,9 @@ function NodeJSMetrics ({
         date: item.date,
         rss: item.rss / (1024 * 1024 * 1024),
         totalHeap: item.totalHeapSize / (1024 * 1024 * 1024),
-        usedHeap: item.usedHeapSize / (1024 * 1024 * 1024)
+        usedHeap: item.usedHeapSize / (1024 * 1024 * 1024),
+        newSpace: item.newSpaceSize / (1024 * 1024 * 1024),
+        oldSpace: item.oldSpaceSize / (1024 * 1024 * 1024)
       }))
 
       const dataCpu = data.map(item => ({
