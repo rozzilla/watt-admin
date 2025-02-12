@@ -9,14 +9,3 @@ export function getTicks (min, max, count, excludeMax) {
   }
   return retValue
 }
-
-export function findNextNumberDivisibleBy (source, divisor) {
-  if (source < divisor) {
-    return divisor
-  }
-
-  if (source === divisor) {
-    return divisor
-  }
-  return source + (divisor - (source % divisor))
-}
