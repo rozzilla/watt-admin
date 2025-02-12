@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { useState } from 'react'
 import PropTypes from 'prop-types'
 import { TRANSPARENT, RICH_BLACK, OPACITY_30, WHITE } from '@platformatic/ui-components/src/components/constants'
 import styles from './ServicesMetrics.module.css'
@@ -6,12 +6,10 @@ import typographyStyles from '~/styles/Typography.module.css'
 import commonStyles from '~/styles/CommonStyles.module.css'
 import { BorderedBox, LoadingSpinnerV2, VerticalSeparator } from '@platformatic/ui-components'
 import { getApiMetricsPodPerService, getApiMetricsPod } from '~/api'
-import ServiceLineChart from './ServiceLineChart'
 import { useInterval } from '~/hooks/useInterval'
-import { useWindowDimensions } from '~/hooks/useWindowDimensions'
 import ErrorComponent from '~/components/errors/ErrorComponent'
 import NoDataFound from '~/components/ui/NoDataFound'
-import { REFRESH_INTERVAL_METRICS, POSITION_FIXED, MIN_HEIGHT_COMPACT_SIZE, DEFAULT_HEIGHT_CHART } from '~/ui-constants'
+import { REFRESH_INTERVAL_METRICS } from '~/ui-constants'
 import colorSetMem from './memory.module.css'
 import colorSetCpu from './cpu.module.css'
 import colorSetLatency from './latency.module.css'
@@ -25,18 +23,10 @@ const ServicesMetrics = React.forwardRef(({
   const [showNoResult, setShowNoResult] = useState(false)
   const [showErrorComponent, setShowErrorComponent] = useState(false)
   const [error, setError] = useState(null)
-  const [paused, setPaused] = useState(false) // This pauses the chart flowing (not the data collection)
-  const [dataAggregated, setDataAggregated] = useState({
-    memory: [],
-    cpuEL: [],
-    latency: []
-  })
 
   const toMB = (bytes) => {
     return Math.round(bytes / 1024 / 1024)
   }
-  const [heightChart, setHeightChart] = useState(DEFAULT_HEIGHT_CHART)
-  const { height: innerHeight } = useWindowDimensions()
 
   const [allData, setAllData] = useState({
     dataMem: [],
@@ -79,14 +69,6 @@ const ServicesMetrics = React.forwardRef(({
     }
   }, REFRESH_INTERVAL_METRICS)
 
-  useEffect(() => {
-    if (innerHeight > MIN_HEIGHT_COMPACT_SIZE) {
-      setHeightChart(DEFAULT_HEIGHT_CHART + ((innerHeight - MIN_HEIGHT_COMPACT_SIZE) / 3))
-    } else {
-      setHeightChart(DEFAULT_HEIGHT_CHART)
-    }
-  }, [innerHeight])
-
   function handleMetrics (metrics, service = false) {
     const parsedMetrics = metrics
     const memory = []
@@ -106,13 +88,6 @@ const ServicesMetrics = React.forwardRef(({
         values: [cpu, eluPercentage]
       })
       latency.push({ time, P90, P95, P99 })
-    }
-    if (!service) {
-      setDataAggregated({
-        memory,
-        cpuEL,
-        latency
-      })
     }
 
     if (initialLoading && memory.length > 3) {
@@ -160,33 +135,6 @@ const ServicesMetrics = React.forwardRef(({
       }
       </div>
     )
-  }
-
-  function getKeyAggregated (metric) {
-    let defaultKey = `aggregated-${metric}-`
-    const defaultDate = new Date().toISOString()
-
-    switch (metric) {
-      case 'memory':
-        if (dataAggregated.memory.length > 0) {
-          defaultKey += dataAggregated.memory[dataAggregated.memory.length - 1].time ? new Date(dataAggregated.memory[dataAggregated.memory.length - 1].time).toISOString() : defaultDate
-        }
-        break
-      case 'cpu':
-        if (dataAggregated.cpuEL.length > 0) {
-          defaultKey += dataAggregated.cpuEL[dataAggregated.cpuEL.length - 1].time ? new Date(dataAggregated.cpuEL[dataAggregated.cpuEL.length - 1].time).toISOString() : defaultDate
-        }
-        break
-      case 'latency':
-        if (dataAggregated.latency.length > 0) {
-          defaultKey += dataAggregated.latency[dataAggregated.latency.length - 1].time ? new Date(dataAggregated.latency[dataAggregated.latency.length - 1].time).toISOString() : defaultDate
-        }
-        break
-      default:
-        defaultKey += defaultDate
-        break
-    }
-    return defaultKey
   }
 
   function renderContent () {
@@ -254,16 +202,30 @@ const ServicesMetrics = React.forwardRef(({
 
               {showAggregatedMetrics && (
                 <BorderedBox color={TRANSPARENT} backgroundColor={RICH_BLACK} classes={styles.boxMetricContainer}>
-                  <ServiceLineChart
-                    data={dataAggregated.memory}
-                    key={getKeyAggregated('memory')}
-                    title='Aggregated Memory'
-                    unit='MB'
-                    labels={['RSS', 'Total Heap', 'Heap Used', 'New Space', 'Old Space']}
-                    paused={paused}
-                    setPaused={setPaused}
-                    tooltipPosition={POSITION_FIXED}
-                    heightChart={heightChart}
+                  <NodeJSMetric
+                    key={`mem_${latestRefreshDate.toISOString()}`}
+                    title={`${serviceId} Memory`}
+                    unit='(GB)'
+                    metricURL='mem'
+                    dataValues={allData.dataMem}
+                    initialLoading={initialLoading}
+                    options={[{
+                      label: 'RSS',
+                      internalKey: 'rss',
+                      unit: 'GB'
+                    }, {
+                      label: 'Total Heap',
+                      internalKey: 'totalHeap',
+                      unit: 'GB'
+                    }, {
+                      label: 'Heap Used',
+                      internalKey: 'usedHeap',
+                      unit: 'GB'
+                    }]}
+                    backgroundColor={RICH_BLACK}
+                    showLegend={false}
+                    timeline
+                    slimCss
                   />
                 </BorderedBox>
               )}
@@ -300,18 +262,26 @@ const ServicesMetrics = React.forwardRef(({
 
               {showAggregatedMetrics && (
                 <BorderedBox color={TRANSPARENT} backgroundColor={RICH_BLACK} classes={styles.boxMetricContainer}>
-                  <ServiceLineChart
-                    data={dataAggregated.cpuEL}
-                    key={getKeyAggregated('cpu')}
-                    title='Aggregated CPU & ELU'
-                    unit='%'
-                    lowerMaxY={100}
-                    labels={['CPU', 'ELU']}
-                    colorSet='cpu'
-                    paused={paused}
-                    setPaused={setPaused}
-                    tooltipPosition={POSITION_FIXED}
-                    heightChart={heightChart}
+                  <NodeJSMetric
+                    key={`cpu_${latestRefreshDate.toISOString()}`}
+                    title={`${serviceId} CPU & ELU`}
+                    metricURL='cpu'
+                    dataValues={allData.dataCpu}
+                    initialLoading={initialLoading}
+                    unit='(%)'
+                    options={[{
+                      label: 'CPU',
+                      internalKey: 'cpu',
+                      unit: '%'
+                    }, {
+                      label: 'ELU',
+                      internalKey: 'eventLoop',
+                      unit: '%'
+                    }]}
+                    backgroundColor={RICH_BLACK}
+                    showLegend={false}
+                    timeline
+                    slimCss
                   />
                 </BorderedBox>
               )}

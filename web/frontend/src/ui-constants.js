@@ -36,6 +36,3 @@ export const K8S_KEY_MEMORY = 'memory'
 
 export const POSITION_ABSOLUTE = 'absolute'
 export const POSITION_FIXED = 'fixed'
-
-export const MIN_HEIGHT_COMPACT_SIZE = 770
-export const DEFAULT_HEIGHT_CHART = 96

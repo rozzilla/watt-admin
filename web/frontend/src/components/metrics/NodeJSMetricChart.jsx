@@ -6,7 +6,7 @@ import * as d3 from 'd3'
 import colorSetMem from './memory.module.css'
 import colorSetCpu from './cpu.module.css'
 import colorSetLatency from './latency.module.css'
-import { xMargin, yMarginWithoutXAxis, radiusDotsTooltip } from './chart_constants.js'
+import { xMargin, yMargin, yMarginWithoutXAxis, radiusDotsTooltip } from './chart_constants.js'
 import { getTicks } from './utils.js'
 import { POSITION_ABSOLUTE, POSITION_FIXED } from '~/ui-constants'
 import { findY } from './chart_utils.js'
@@ -15,6 +15,7 @@ const NodeJSMetricChart = ({
   data,
   unit,
   labels,
+  timeline,
   colorSet = 'mem',
   lowerMaxY = 10,
   yMin = 0,
@@ -34,6 +35,7 @@ const NodeJSMetricChart = ({
     if (svgRef.current && tooltipRef.current && data.length > 0) {
       const h = svgRef.current.clientHeight
       const w = svgRef.current.clientWidth
+      const marginOnY = timeline ? yMargin : yMarginWithoutXAxis
 
       const svg = d3
         .select(svgRef.current)
@@ -42,15 +44,17 @@ const NodeJSMetricChart = ({
         .select(tooltipRef.current)
 
       svg.selectAll('*').remove() // clean up the svg
-      const y = d3.scaleLinear([h - yMarginWithoutXAxis, 0])
+
+      const effectiveWidth = w - (xMargin)
+      const y = d3.scaleLinear([h - marginOnY, 0])
       const x = d3.scaleTime([xMargin, w])
 
       // We need to slice it here otherwise we cannot pause / resume the chart scrolling
       const latestData = data
       const firstDatum = latestData[0]
       const lastDatum = latestData[latestData.length - 1]
-      const firstTime = firstDatum.time // This is the time of the first data point in the window
-      const lastTime = lastDatum.time // This is the time of the last data point in the window
+      const firstTime = firstDatum.time
+      const lastTime = lastDatum.time
       x.domain([firstTime, lastTime])
 
       // We need to get the max y for all values to correctly set the y domain`
@@ -61,7 +65,15 @@ const NodeJSMetricChart = ({
       const maxy = d3.max([d3.max(allCurrentValues), lowerMaxY])
       const yMax = maxy + (maxy * 0.1) // We add 10% to the max to have some space on top
       y.domain([yMin, yMax])
-      const yAxisTickValues = [...getTicks(yMin, maxy, 3, false)]
+      const yAxisTickValues = [...getTicks(yMin, maxy, 2, false)]
+
+      const timeRange = lastTime - firstTime
+      const numberOfTicks = 6
+      const tickValues = []
+      for (let i = 0; i < numberOfTicks; i++) {
+        const tickTime = new Date(firstTime.getTime() + (timeRange * (i / (numberOfTicks - 1))))
+        tickValues.push(tickTime)
+      }
 
       const yAxis = d3.axisLeft().scale(y).tickValues(yAxisTickValues)
 
@@ -76,14 +88,7 @@ const NodeJSMetricChart = ({
 
       svg.append('g')
         .attr('class', styles.grid)
-        .call(d3.axisLeft(y)
-          .tickValues(yAxisTickValues)
-          // (leorossi): not sure why, but seems that
-          // xMargin * 2 aligns those grid lines with
-          // the last value of x
-          .tickSize(-(w))
-          .tickFormat('')
-        )
+        .call(d3.axisLeft(y).tickValues(yAxisTickValues).tickSize(-effectiveWidth).tickFormat(''))
         .attr('transform', `translate(${xMargin})`)
         .call(g => g.select('.domain').remove())
 
@@ -92,6 +97,25 @@ const NodeJSMetricChart = ({
         .call(g => g.select('.domain').remove())
         .call(g => g.selectAll('.tick > line').remove())
         .attr('class', styles.axis)
+
+      if (timeline) {
+        const xAxis = d3.axisBottom()
+          .scale(x)
+          .tickValues(tickValues)
+          .tickFormat(d3.timeFormat('%H:%M:%S'))
+          .tickSizeOuter(0)
+        const $xAxis = svg
+          .append('g')
+          .attr('transform', `translate(0, ${h - yMargin})`)
+        $xAxis
+          .call(xAxis)
+          .call(g => g.select('.domain').remove())
+          .call(g => g.selectAll('.tick > line').remove())
+          .attr('class', styles.axis)
+          .selectAll('text')
+          .attr('dy', '1em')
+          .style('text-anchor', 'end')
+      }
 
       svg
         .selectAll('rect')
@@ -170,7 +194,6 @@ const NodeJSMetricChart = ({
 
         // Prepare the tooltip
         const timeString = d3.timeFormat('%H:%M:%S.%L %p')(data.time)
-
         const valuesData = data.values.map((v, i) => {
           return {
             label: labels[i],

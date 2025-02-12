@@ -8,6 +8,7 @@ import colorSetLatency from './latency.module.css'
 import { getTicks } from './utils.js'
 import { POSITION_ABSOLUTE, POSITION_FIXED } from '~/ui-constants'
 
+// FIXME: unify this with NodeJSMetricChart
 const LatencyChart = ({
   data,
   unit,
@@ -39,10 +40,9 @@ const LatencyChart = ({
 
       svg.selectAll('*').remove() // clean up the svg
 
-      const offset = 5
       const effectiveWidth = w - (xMargin)
       const y = d3.scaleLinear([h - marginOnY, 0])
-      const x = d3.scaleTime([xMargin + offset, w - xMargin + offset])
+      const x = d3.scaleTime([xMargin, w])
 
       // We need to slice it here otherwise we cannot pause / resume the chart scrolling
       const latestData = data
@@ -63,9 +63,8 @@ const LatencyChart = ({
       }
       const maxy = d3.max([d3.max(allCurrentValues), lowerMaxY])
       const yMax = maxy + (maxy * 0.1) // We add 10% to the max to have some space on top
-
       y.domain([yMin, yMax])
-      const yAxisTickValues = [...getTicks(yMin, maxy, 3, false)]
+      const yAxisTickValues = [...getTicks(yMin, maxy, 2, false)]
 
       const timeRange = lastTime - firstTime
       const numberOfTicks = 6
@@ -77,14 +76,19 @@ const LatencyChart = ({
 
       const yAxis = d3.axisLeft().scale(y).tickValues(yAxisTickValues)
 
+      svg.attr('width', w)
+        .attr('height', h)
+        .append('g')
+        .attr('transform', `translate(${xMargin}, ${xMargin})`)
+
       const $yAxis = svg
         .append('g')
-        .attr('transform', `translate(${xMargin + offset})`)
+        .attr('transform', `translate(${xMargin})`)
 
       svg.append('g')
         .attr('class', styles.grid)
         .call(d3.axisLeft(y).tickValues(yAxisTickValues).tickSize(-effectiveWidth).tickFormat(''))
-        .attr('transform', `translate(${xMargin + offset})`)
+        .attr('transform', `translate(${xMargin})`)
         .call(g => g.select('.domain').remove())
 
       $yAxis
@@ -101,7 +105,7 @@ const LatencyChart = ({
           .tickSizeOuter(0)
         const $xAxis = svg
           .append('g')
-          .attr('transform', `translate(${offset}, ${h - yMargin})`)
+          .attr('transform', `translate(0, ${h - yMargin})`)
         $xAxis
           .call(xAxis)
           .call(g => g.select('.domain').remove())
@@ -109,7 +113,7 @@ const LatencyChart = ({
           .attr('class', styles.axis)
           .selectAll('text')
           .attr('dy', '1em')
-          .style('text-anchor', 'middle')
+          .style('text-anchor', 'end')
       }
 
       const chart = svg.selectAll('.chart')
@@ -131,6 +135,8 @@ const LatencyChart = ({
       // Tooltip
       svg.on('mouseover pointermove', showTooltip)
         .on('pointerleave', hideTooltip)
+
+      showTooltip()
 
       function showTooltip (event) {
         let xPos, yPos
@@ -194,9 +200,8 @@ const LatencyChart = ({
           tx = event.clientX - (tooltipWidth / 2)
           ty = svgRef.current.getBoundingClientRect().bottom - svgRef.current.getBoundingClientRect().height - tooltipHeight - 75 + maxY
         }
-
         tooltip.style('left', tx + 'px').style('top', ty + 'px')
-        if (xPos < xMargin + offset) {
+        if (xPos < xMargin) {
           tooltip.style('opacity', 0)
         } else {
           tooltip.style('opacity', 0.9)
