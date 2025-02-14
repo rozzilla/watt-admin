@@ -2,31 +2,42 @@
   "name": "frontend",
   "private": true,
   "version": "0.0.0",
-  "type": "module",
   "scripts": {
+    "lint": "standard . | snazzy",
     "dev": "vite",
-    "build": "tsc -b && vite build",
-    "lint": "eslint .",
+    "build": "vite build",
     "preview": "vite preview",
-    "client": "platformatic client http://127.0.0.1:3042/documentation/json --frontend --language ts --name client --full"
+    "start": "platformatic start",
+    "test": "npm run lint && borp --ignore='./src/**/*test.js'"
+  },
+  "type": "module",
+  "devDependencies": {
+    "@platformatic/ui-components": "^0.10.2",
+    "@vitejs/plugin-react": "^4.3.3",
+    "autoprefixer": "^10.4.20",
+    "borp": "^0.17.0",
+    "d3": "~7.9.0",
+    "dayjs": "^1.11.13",
+    "prop-types": "^15.8.1",
+    "react": "^19.0.0",
+    "react-dom": "^19.0.0",
+    "react-router-dom": "^7.0.0",
+    "react-use-websocket": "^4.11.1",
+    "snazzy": "^9.0.0",
+    "standard": "^17.1.2",
+    "tailwindcss": "^3.4.15",
+    "use-error-boundary": "^2.0.6",
+    "vite": "^5.4.11",
+    "zustand": "^5.0.2"
   },
   "dependencies": {
-    "react": "^18.3.1",
-    "react-dom": "^18.3.1",
-    "@platformatic/vite": "^2.35.1"
+    "@platformatic/vite": "^2.35.1",
+    "source-map-support": "^0.5.21"
   },
-  "devDependencies": {
-    "@platformatic/client-cli": "^2.35.1",
-    "@eslint/js": "^9.13.0",
-    "@types/react": "^18.3.12",
-    "@types/react-dom": "^18.3.1",
-    "@vitejs/plugin-react": "^4.3.3",
-    "eslint": "^9.13.0",
-    "eslint-plugin-react-hooks": "^5.0.0",
-    "eslint-plugin-react-refresh": "^0.4.14",
-    "globals": "^15.11.0",
-    "typescript": "~5.6.2",
-    "typescript-eslint": "^8.11.0",
-    "vite": "^5.4.10"
+  "standard": {
+    "ignore": [
+      "dist",
+      "public/*.js"
+    ]
   }
 }

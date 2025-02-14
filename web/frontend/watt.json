@@ -1,4 +1,7 @@
 {
   "$schema": "https://schemas.platformatic.dev/@platformatic/vite/2.35.1.json",
-  "application": { "basePath": "/admin" }
+  "application": { "basePath": "/admin" },
+  "vite": {
+    "ssr": false
+  }
 }
