@@ -22,8 +22,12 @@ function AppNameBox ({
 
   useEffect(() => {
     const fetchData = async () => {
-      const outdated = await checkOutdatedWattpmVersion(apiApplication?.pltVersion)
-      setOutdatedVersion(outdated)
+      try {
+        const outdated = await checkOutdatedWattpmVersion(apiApplication?.pltVersion)
+        setOutdatedVersion(outdated)
+      } catch (e) {
+        console.error('Unable to get version', e)
+      }
     }
 
     if (apiApplication?.id > 0) {

@@ -1,7 +1,7 @@
 import { subtractSecondsFromDate } from './utilities/dates'
 import semver from 'semver'
 
-// FIXME: once the codebase will be migrated to TypeScript, we should leverage auto-generate clients through `@platformatic/client-cli`
+// FIXME: once the codebase will be migrated to TypeScript, we should leverage auto-generated clients through `@platformatic/client-cli`
 const host = 'http://127.0.0.1:3042/api'
 
 /* APPLICATIONS */
