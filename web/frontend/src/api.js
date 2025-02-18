@@ -10,7 +10,6 @@ export const getApiApplication = async () => {
   const data = await result.json()
 
   if (data?.length > 0) {
-    console.log('the data', data)
     const [{ platformaticVersion: pltVersion, packageName: name, pid: id, uptimeSeconds, url }] = data
     const lastStarted = subtractSecondsFromDate(new Date(), uptimeSeconds)
     return {
@@ -76,7 +75,8 @@ export const getApiMetricsPod = async () => {
 
 // FIXME@backend get dynamic data
 export const restartApiApplication = async (applicationId) => {
-  console.log('application', applicationId)
+  const result = await fetch(`${host}/runtimes/${applicationId}/restart`, { method: 'POST' })
+  console.log('restart api application status', result.status)
   return {}
 }
 
