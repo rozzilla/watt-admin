@@ -1,10 +1,11 @@
 import React, { useState, useEffect } from 'react'
 import PropTypes from 'prop-types'
-import { WHITE, TRANSPARENT, SMALL, BLACK_RUSSIAN, MEDIUM } from '@platformatic/ui-components/src/components/constants'
+import { WARNING_YELLOW, WHITE, TRANSPARENT, SMALL, BLACK_RUSSIAN, MEDIUM } from '@platformatic/ui-components/src/components/constants'
 import styles from './AppNameBox.module.css'
 import typographyStyles from '~/styles/Typography.module.css'
 import commonStyles from '~/styles/CommonStyles.module.css'
-import { BorderedBox, Button, PlatformaticIcon } from '@platformatic/ui-components'
+import tooltipStyles from '~/styles/TooltipStyles.module.css'
+import { BorderedBox, Button, PlatformaticIcon, Tooltip } from '@platformatic/ui-components'
 import { getFormattedDate } from '~/utilities/dates'
 import { STATUS_STOPPED, STATUS_RUNNING } from '~/ui-constants'
 import Icons from '@platformatic/ui-components/src/components/icons'
@@ -113,6 +114,16 @@ function AppNameBox ({
                         ? (
                           <>
                             <span className={`${typographyStyles.desktopBodySmall} ${outdatedVersion ? typographyStyles.textWarningYellow : typographyStyles.textWhite}`}>{apiApplication.pltVersion}</span>
+                            {outdatedVersion && (
+                              <Tooltip
+                                tooltipClassName={tooltipStyles.tooltipDarkStyle}
+                                content={(<span>There is a new Platformatic version.</span>)}
+                                offset={24}
+                                immediateActive={false}
+                              >
+                                <PlatformaticIcon iconName='AlertIcon' color={WARNING_YELLOW} size={SMALL} internalOverHandling />
+                              </Tooltip>
+                            )}
                           </>)
                         : (<span className={`${typographyStyles.desktopBodySmall} ${typographyStyles.textWhite} ${typographyStyles.opacity70}`}>-</span>)}
                     </div>
