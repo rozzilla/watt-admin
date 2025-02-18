@@ -4,7 +4,6 @@ const initialState = {
   breadCrumbs: [],
   currentPage: '',
   applicationSelected: null,
-  appStatus: '',
   currentWindowWidth: 0
 }
 
@@ -48,14 +47,6 @@ const useAdminStore = create((set, get) => ({
       return {
         ...state,
         applicationSelected
-      }
-    })
-  },
-  setAppStatus: (appStatus) => {
-    set((state) => {
-      return {
-        ...state,
-        appStatus
       }
     })
   }

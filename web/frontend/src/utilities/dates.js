@@ -8,12 +8,6 @@ export const getFormattedDate = (date) => {
   return dateObject.format('MMM DD, YYYY')
 }
 
-export const getFormattedTimeAndDate = (date) => {
-  const dateObject = getDateObjectIfValid(date)
-  if (dateObject === false) return '-'
-  return dateObject.format('YYYY-MM-DD [[]HH:mm:ss]')
-}
-
 export const getFormattedLogTimestamp = (date, includeMilliseconds = false) => {
   const dateObject = getDateObjectIfValid(date)
   if (dateObject === false) return '-'
@@ -32,4 +26,8 @@ function getDateObjectIfValid (date) {
     return false
   }
   return dateObject
+}
+
+export function subtractSecondsFromDate (date, seconds) {
+  return dayjs(date).subtract(seconds, 'second').toISOString()
 }

@@ -4,6 +4,7 @@
   "version": "0.0.0",
   "scripts": {
     "lint": "standard . | snazzy",
+    "fix": "standard --fix .",
     "dev": "vite",
     "build": "vite build",
     "preview": "vite preview",
@@ -32,7 +33,8 @@
   },
   "dependencies": {
     "@platformatic/vite": "^2.35.1",
-    "source-map-support": "^0.5.21"
+    "source-map-support": "^0.5.21",
+    "semver": "7.7.1"
   },
   "standard": {
     "ignore": [

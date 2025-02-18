@@ -1,15 +1,37 @@
+import { subtractSecondsFromDate } from './utilities/dates'
+import semver from 'semver'
+
+// FIXME: once the codebase will be migrated to TypeScript, we should leverage auto-generate clients through `@platformatic/client-cli`
+const host = 'http://127.0.0.1:3042/api'
+
 /* APPLICATIONS */
-export const getApiApplication = () => {
-  // FIXME@backend get dynamic data
-  return {
-    id: '',
-    name: 'Application-name-1',
-    lastStarted: '2024-04-22T09:52:57.858Z',
-    pltVersion: '1.2.3',
-    state: { services: [] },
-    latestDeployment: {},
-    deploymentsOnMainTaxonomy: 1
+export const getApiApplication = async () => {
+  const result = await fetch(`${host}/runtimes`)
+  const data = await result.json()
+
+  if (data?.length > 0) {
+    console.log('the data', data)
+    const [{ platformaticVersion: pltVersion, packageName: name, pid: id, uptimeSeconds, url }] = data
+    const lastStarted = subtractSecondsFromDate(new Date(), uptimeSeconds)
+    return {
+      id,
+      url,
+      name,
+      pltVersion,
+      lastStarted
+    }
   }
+
+  return {}
+}
+
+export const checkOutdatedWattpmVersion = async (currentVersion) => {
+  const result = await fetch('https://registry.npmjs.org/wattpm')
+  const data = await result.json()
+
+  const versions = Object.keys(data.versions)
+  const maxVersion = semver.maxSatisfying(versions, '>=2.0.0 <3.0.0')
+  return semver.lt(currentVersion, maxVersion)
 }
 
 // FIXME@backend get dynamic data

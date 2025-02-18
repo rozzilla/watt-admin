@@ -9,29 +9,33 @@ import { getFormattedDate } from '~/utilities/dates'
 import { STATUS_STOPPED, STATUS_RUNNING } from '~/ui-constants'
 import Icons from '@platformatic/ui-components/src/components/icons'
 import ApplicationStatusPills from '~/components/ui/ApplicationStatusPills'
-import useAdminStore from '~/useAdminStore'
-import { restartApiApplication, getApiApplication } from '../../api'
+import { restartApiApplication, checkOutdatedWattpmVersion } from '../../api'
 
 function AppNameBox ({
   onErrorOccurred = () => {},
   gridClassName = '',
-  applicationPublicUrl = ''
+  apiApplication
 }) {
-  const globalState = useAdminStore()
-  const { appStatus, setAppStatus } = globalState
+  const [appStatus, setAppStatus] = useState(STATUS_STOPPED)
   const [changingRestartStatus, setChangingRestartStatus] = useState(false)
-  const [applicationSelected, setApplicationSelected] = useState({})
+  const [outdatedVersion, setOutdatedVersion] = useState(false)
 
   useEffect(() => {
-    // FIXME@backend get dynamic data
-    setAppStatus(STATUS_RUNNING)
-    setApplicationSelected(getApiApplication())
-  }, [])
+    const fetchData = async () => {
+      const outdated = await checkOutdatedWattpmVersion(apiApplication?.pltVersion)
+      setOutdatedVersion(outdated)
+    }
+
+    if (apiApplication?.id > 0) {
+      setAppStatus(STATUS_RUNNING)
+      fetchData()
+    }
+  }, [apiApplication?.id])
 
   async function handleRestartApplication () {
     try {
       setChangingRestartStatus(true)
-      await restartApiApplication(applicationSelected.id)
+      await restartApiApplication(apiApplication.id)
     } catch (error) {
       console.error(`Error on handleRestartApplication ${error}`)
       onErrorOccurred(error)
@@ -40,7 +44,7 @@ function AppNameBox ({
     }
   }
 
-  return applicationSelected && (
+  return apiApplication && (
     <BorderedBox classes={`${styles.borderexBoxContainer} ${gridClassName}`} backgroundColor={BLACK_RUSSIAN} color={TRANSPARENT}>
       <div className={`${commonStyles.smallFlexBlock} ${commonStyles.fullWidth}`}>
         <div className={`${commonStyles.smallFlexResponsiveRow} ${commonStyles.fullWidth}`}>
@@ -51,7 +55,7 @@ function AppNameBox ({
                 size={MEDIUM}
               />
               <div className={styles.applicationName}>
-                <p className={`${typographyStyles.desktopBodyLargeSemibold} ${typographyStyles.textWhite} ${typographyStyles.ellipsis}`}>{applicationSelected.name}</p>
+                <p className={`${typographyStyles.desktopBodyLargeSemibold} ${typographyStyles.textWhite} ${typographyStyles.ellipsis}`}>{apiApplication.name}</p>
               </div>
             </div>
             {appStatus && <ApplicationStatusPills status={appStatus} />}
@@ -80,7 +84,7 @@ function AppNameBox ({
                   paddingClass={commonStyles.smallButtonPadding}
                   platformaticIcon={{ iconName: 'RestartIcon', color: WHITE }}
                   textClass={typographyStyles.desktopButtonSmall}
-                  disabled={!appStatus || appStatus === STATUS_STOPPED}
+                  disabled={appStatus === STATUS_STOPPED}
                 />
                 )}
 
@@ -90,21 +94,21 @@ function AppNameBox ({
           <div className={styles.rowContainer}>
             <div className={`${commonStyles.tinyFlexRow} ${commonStyles.itemsCenter}`}>
               <span className={`${typographyStyles.desktopBodySmall} ${typographyStyles.textWhite} ${typographyStyles.opacity70}`}>Last Started:</span>
-              <span className={`${typographyStyles.desktopBodySmall} ${typographyStyles.textWhite}`}>{getFormattedDate(applicationSelected.lastStarted)}</span>
+              <span className={`${typographyStyles.desktopBodySmall} ${typographyStyles.textWhite}`}>{getFormattedDate(apiApplication.lastStarted)}</span>
             </div>
           </div>
           <div className={styles.rowContainer}>
             <div className={`${commonStyles.smallFlexResponsiveRow}`}>
-              {!applicationSelected.pltVersion
+              {!apiApplication.pltVersion
                 ? (<span className={`${typographyStyles.desktopBodySmall} ${typographyStyles.textWhite} ${typographyStyles.opacity70}`}>Current Runtime Version: -</span>)
                 : (
                   <>
                     <div className={`${commonStyles.tinyFlexRow} ${commonStyles.itemsCenter}`}>
                       <span className={`${typographyStyles.desktopBodySmall} ${typographyStyles.textWhite} ${typographyStyles.opacity70}`}>Current Runtime Version: </span>
-                      {applicationSelected.pltVersion
+                      {apiApplication.pltVersion
                         ? (
                           <>
-                            <span className={`${typographyStyles.desktopBodySmall} ${typographyStyles.textWarningYellow}`}>{applicationSelected.pltVersion}</span>
+                            <span className={`${typographyStyles.desktopBodySmall} ${outdatedVersion ? typographyStyles.textWarningYellow : typographyStyles.textWhite}`}>{apiApplication.pltVersion}</span>
                           </>)
                         : (<span className={`${typographyStyles.desktopBodySmall} ${typographyStyles.textWhite} ${typographyStyles.opacity70}`}>-</span>)}
                     </div>
@@ -116,8 +120,8 @@ function AppNameBox ({
           <div className={styles.rowContainer}>
             <div className={`${commonStyles.tinyFlexRow} ${commonStyles.itemsCenter}`}>
               <span className={`${typographyStyles.desktopBodySmall} ${typographyStyles.textWhite} ${typographyStyles.opacity70}`}>URL:</span>
-              <span className={`${typographyStyles.desktopBodySmall} ${typographyStyles.textWhite}`}>{applicationPublicUrl} </span>
-              <PlatformaticIcon iconName='ExpandIcon' color={WHITE} size={SMALL} onClick={() => window.open(applicationPublicUrl, '_blank')} internalOverHandling disabled={applicationPublicUrl === ''} />
+              <span className={`${typographyStyles.desktopBodySmall} ${typographyStyles.textWhite}`}>{apiApplication.url} </span>
+              <PlatformaticIcon iconName='ExpandIcon' color={WHITE} size={SMALL} onClick={() => window.open(apiApplication.url, '_blank')} internalOverHandling disabled={apiApplication.url === ''} />
             </div>
           </div>
         </div>
@@ -134,11 +138,8 @@ AppNameBox.propTypes = {
   /**
    * gridClassName
     */
-  gridClassName: PropTypes.string,
-  /**
-   * applicationPublicUrl
-    */
-  applicationPublicUrl: PropTypes.string
+  gridClassName: PropTypes.string
+
 }
 
 export default AppNameBox
