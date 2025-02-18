@@ -73,7 +73,6 @@ export const getApiMetricsPod = async () => {
   return { status: 200, json: () => Promise.resolve(mockData) }
 }
 
-// FIXME@backend get dynamic data
 export const restartApiApplication = async (applicationId) => {
   const result = await fetch(`${host}/runtimes/${applicationId}/restart`, { method: 'POST' })
   console.log('restart api application status', result.status)
