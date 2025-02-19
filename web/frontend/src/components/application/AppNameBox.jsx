@@ -10,7 +10,7 @@ import { getFormattedDate } from '~/utilities/dates'
 import { STATUS_STOPPED, STATUS_RUNNING } from '~/ui-constants'
 import Icons from '@platformatic/ui-components/src/components/icons'
 import ApplicationStatusPills from '~/components/ui/ApplicationStatusPills'
-import { restartApiApplication, checkOutdatedWattpmVersion } from '../../api'
+import { restartApiApplication, isWattpmVersionOutdated } from '../../api'
 
 function AppNameBox ({
   onErrorOccurred = () => {},
@@ -24,7 +24,7 @@ function AppNameBox ({
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const outdated = await checkOutdatedWattpmVersion(apiApplication?.pltVersion)
+        const outdated = await isWattpmVersionOutdated(apiApplication?.pltVersion)
         setOutdatedVersion(outdated)
       } catch (e) {
         console.error('Unable to get version', e)
