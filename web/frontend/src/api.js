@@ -25,14 +25,16 @@ export const getApiApplication = async () => {
 }
 
 // This is to avoid calling npm registry every time we run the method below
-let versions = []
+let allNpmVersions = []
 export const checkOutdatedWattpmVersion = async (currentVersion) => {
-  if (versions.length === 0) {
+  if (allNpmVersions.length === 0) {
     const result = await fetch('https://registry.npmjs.org/wattpm')
     const data = await result.json()
-    versions = Object.keys(data.versions)
+    allNpmVersions = Object.keys(data.versions).filter(key => !('deprecated' in data.versions[key])
+    )
   }
-  const maxVersion = semver.maxSatisfying(versions, '>=2.0.0 <3.0.0')
+  const maxVersion = semver.maxSatisfying(allNpmVersions, '*')
+  console.log('last stable npm version', maxVersion)
   return semver.lt(currentVersion, maxVersion)
 }
 
