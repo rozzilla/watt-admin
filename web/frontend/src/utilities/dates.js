@@ -29,5 +29,5 @@ function getDateObjectIfValid (date) {
 }
 
 export function subtractSecondsFromDate (date, seconds) {
-  return dayjs(date).subtract(seconds, 'second').toISOString()
+  return dayjs.utc(date).subtract(seconds, 'second').toISOString()
 }
