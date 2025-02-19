@@ -1,16 +1,27 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import styles from './AppDetails.module.css'
 import AppNameBox from './AppNameBox'
 import ServicesBox from './ServicesBox'
 import ErrorComponent from '~/components/errors/ErrorComponent'
 import NodeJSMetrics from './NodeJSMetrics'
+import { getApiApplication } from '../../api'
 
 const AppDetails = React.forwardRef(({ _ }, ref) => {
   const [showErrorComponent, setShowErrorComponent] = useState(false)
   const [error, setError] = useState(false)
+  const [apiApplication, setApiApplication] = useState({})
 
-  // FIXME@backend get dynamic data
-  const [applicationPublicUrl] = useState('to-be-updated!')
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const response = await getApiApplication()
+        setApiApplication(response)
+      } catch (error) {
+        console.error('Error getting api application:', error)
+      }
+    }
+    fetchData()
+  }, [])
 
   if (showErrorComponent) {
     return <ErrorComponent error={error} message={error.message} onClickDismiss={() => setShowErrorComponent(false)} />
@@ -27,7 +38,7 @@ const AppDetails = React.forwardRef(({ _ }, ref) => {
                 setError(error)
                 setShowErrorComponent(true)
               }}
-              applicationPublicUrl={applicationPublicUrl}
+              apiApplication={apiApplication}
             />
             <NodeJSMetrics
               gridClassName={styles.nodeJsMetricsBox}

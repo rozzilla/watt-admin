@@ -1,15 +1,38 @@
+import { subtractSecondsFromDate } from './utilities/dates'
+
+// FIXME: once the codebase will be migrated to TypeScript, we should leverage auto-generated clients through `@platformatic/client-cli`
+const host = 'http://127.0.0.1:3042/api'
+
 /* APPLICATIONS */
-export const getApiApplication = () => {
-  // FIXME@backend get dynamic data
-  return {
-    id: '',
-    name: 'Application-name-1',
-    lastStarted: '2024-04-22T09:52:57.858Z',
-    pltVersion: '1.2.3',
-    state: { services: [] },
-    latestDeployment: {},
-    deploymentsOnMainTaxonomy: 1
+export const getApiApplication = async () => {
+  const result = await fetch(`${host}/runtimes`)
+  const data = await result.json()
+
+  if (data?.length > 0) {
+    const [{ platformaticVersion: pltVersion, packageName: name, pid: id, uptimeSeconds, url }] = data
+    const lastStarted = subtractSecondsFromDate(new Date(), uptimeSeconds)
+    return {
+      id,
+      url,
+      name,
+      pltVersion,
+      lastStarted
+    }
   }
+
+  return {}
+}
+
+// This is to avoid calling npm registry every time we run the method below
+let latest = ''
+export const isWattpmVersionOutdated = async (currentVersion) => {
+  if (!latest) {
+    const result = await fetch('https://registry.npmjs.org/wattpm')
+    const data = await result.json()
+    latest = data['dist-tags'].latest
+  }
+  console.log('last stable wattpm version', latest)
+  return latest !== currentVersion
 }
 
 // FIXME@backend get dynamic data
@@ -52,9 +75,9 @@ export const getApiMetricsPod = async () => {
   return { status: 200, json: () => Promise.resolve(mockData) }
 }
 
-// FIXME@backend get dynamic data
 export const restartApiApplication = async (applicationId) => {
-  console.log('application', applicationId)
+  const result = await fetch(`${host}/runtimes/${applicationId}/restart`, { method: 'POST' })
+  console.log('restart api application status', result.status)
   return {}
 }
 
