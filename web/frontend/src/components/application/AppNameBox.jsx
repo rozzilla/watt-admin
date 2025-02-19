@@ -117,7 +117,7 @@ function AppNameBox ({
                             {outdatedVersion && (
                               <Tooltip
                                 tooltipClassName={tooltipStyles.tooltipDarkStyle}
-                                content={(<span>There is a new Platformatic version.</span>)}
+                                content={(<span>There is a new wattpm version.</span>)}
                                 offset={24}
                                 immediateActive={false}
                               >

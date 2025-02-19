@@ -24,11 +24,14 @@ export const getApiApplication = async () => {
   return {}
 }
 
+// This is to avoid calling npm registry every time we run the method below
+let versions = []
 export const checkOutdatedWattpmVersion = async (currentVersion) => {
-  const result = await fetch('https://registry.npmjs.org/wattpm')
-  const data = await result.json()
-
-  const versions = Object.keys(data.versions)
+  if (versions.length === 0) {
+    const result = await fetch('https://registry.npmjs.org/wattpm')
+    const data = await result.json()
+    versions = Object.keys(data.versions)
+  }
   const maxVersion = semver.maxSatisfying(versions, '>=2.0.0 <3.0.0')
   return semver.lt(currentVersion, maxVersion)
 }
