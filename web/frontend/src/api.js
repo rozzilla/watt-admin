@@ -1,5 +1,4 @@
 import { subtractSecondsFromDate } from './utilities/dates'
-import semver from 'semver'
 
 // FIXME: once the codebase will be migrated to TypeScript, we should leverage auto-generated clients through `@platformatic/client-cli`
 const host = 'http://127.0.0.1:3042/api'
@@ -25,17 +24,15 @@ export const getApiApplication = async () => {
 }
 
 // This is to avoid calling npm registry every time we run the method below
-let allNpmVersions = []
+let latest = ''
 export const checkOutdatedWattpmVersion = async (currentVersion) => {
-  if (allNpmVersions.length === 0) {
+  if (!latest) {
     const result = await fetch('https://registry.npmjs.org/wattpm')
     const data = await result.json()
-    allNpmVersions = Object.keys(data.versions).filter(key => !('deprecated' in data.versions[key])
-    )
+    latest = data['dist-tags'].latest
   }
-  const maxVersion = semver.maxSatisfying(allNpmVersions, '*')
-  console.log('last stable npm version', maxVersion)
-  return semver.lt(currentVersion, maxVersion)
+  console.log('last stable wattpm version', latest)
+  return latest !== currentVersion
 }
 
 // FIXME@backend get dynamic data
