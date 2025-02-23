@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react'
+import { useInterval } from '~/hooks/useInterval'
 import { RICH_BLACK, WHITE, TRANSPARENT, MARGIN_0, OPACITY_15 } from '@platformatic/ui-components/src/components/constants'
 import styles from './AppLogs.module.css'
 import typographyStyles from '~/styles/Typography.module.css'
@@ -14,70 +15,20 @@ import {
   DIRECTION_STILL,
   DIRECTION_TAIL,
   STATUS_PAUSED_LOGS,
-  STATUS_RESUMED_LOGS
+  STATUS_RESUMED_LOGS,
+  REFRESH_INTERVAL_LOGS
 } from '~/ui-constants'
 import LogFilterSelector from './LogFilterSelector'
 import useOnScreen from '~/hooks/useOnScreen'
+import useAdminStore from '~/useAdminStore'
+import { getLogs } from '../../api'
 
 const AppLogs = React.forwardRef(({ filteredServices }, ref) => {
+  const { runtimePid } = useAdminStore()
   const [displayLog, setDisplayLog] = useState(PRETTY)
   const [filterLogsByLevel, setFilterLogsByLevel] = useState('')
   const [scrollDirection, setScrollDirection] = useState(DIRECTION_TAIL)
-
-  // FIXME@backend get dynamic data
-  const [applicationLogs] = useState([
-    JSON.stringify({
-      level: 30,
-      time: new Date().toISOString(),
-      pid: 1234,
-      name: 'composer',
-      msg: 'Server listening on port 3000',
-      hostname: 'pod-1234'
-    }),
-    JSON.stringify({
-      level: 40,
-      time: new Date().toISOString(),
-      pid: 1234,
-      name: 'fastify2',
-      msg: 'High CPU usage detected',
-      hostname: 'pod-1234',
-      reqId: 'abc123xyz789'
-    }),
-    JSON.stringify({
-      level: 50,
-      time: new Date().toISOString(),
-      pid: 1235,
-      name: 'fastify3',
-      msg: 'Database connection failed',
-      hostname: 'pod-1234',
-      reqId: 'def456uvw321'
-    }),
-    JSON.stringify({
-      level: 30,
-      time: new Date().toISOString(),
-      pid: 1236,
-      name: 'node3',
-      msg: 'Email notification sent successfully',
-      hostname: 'pod-1234',
-      req: {
-        method: 'POST',
-        url: '/api/notifications/email'
-      }
-    }),
-    JSON.stringify({
-      level: 20,
-      time: new Date().toISOString(),
-      pid: 1237,
-      name: 'type1',
-      msg: 'Processing payment transaction',
-      hostname: 'pod-1234',
-      reqId: 'ghi789rst654',
-      req: {
-        method: 'POST',
-        url: '/api/payments/process'
-      }
-    })
-  ])
+  const [applicationLogs, setApplicationLogs] = useState([])
   const [filteredLogs, setFilteredLogs] = useState([])
   const [filtersInitialized, setFiltersInitialized] = useState(false)
   const logContentRef = useRef()
@@ -158,6 +109,11 @@ const AppLogs = React.forwardRef(({ filteredServices }, ref) => {
     filterLogsByLevel,
     filteredServices
   ])
+
+  useInterval(async () => {
+    const logs = await getLogs(runtimePid)
+    setApplicationLogs(logs)
+  }, REFRESH_INTERVAL_LOGS)
 
   useEffect(() => {
     if (scrollDirection !== DIRECTION_TAIL && filteredLogsLengthAtPause > 0 && filteredLogsLengthAtPause < filteredLogs.length) {

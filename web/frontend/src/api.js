@@ -40,6 +40,12 @@ export const getServices = async (id) => {
   return data.services
 }
 
+export const getLogs = async (id) => {
+  const result = await fetch(`${host}/runtimes/${id}/logs`)
+  const logs = await result.text()
+  return logs.trim().split('\n')
+}
+
 // FIXME@backend get dynamic data
 const generateMockData = () => {
   const generateTimestamps = (count) => {
