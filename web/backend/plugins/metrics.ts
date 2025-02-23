@@ -2,9 +2,10 @@ import { RuntimeApiClient } from '@platformatic/control'
 import { FastifyInstance } from 'fastify'
 
 export default async function (fastify: FastifyInstance) {
-  // FIXME: store the `mappedMetrics` into a DB, where the pid is the table name, and `pid`, `serviceId`, name (like `process_cpu_user_seconds_total`), etc. are rows values that can be easily retrieve through an SQL query. the current approach isn't scalable and it leads to a memory leak.
   fastify.decorate('mappedMetrics', {})
 
+  // This is to avoid the mapped metrics array from growing indefinitely (and therefore a memory leak)
+  const MAX_STORED_METRICS = 1000
   const api = new RuntimeApiClient()
 
   const metricsInterval = setInterval(async () => {
@@ -20,6 +21,9 @@ export default async function (fastify: FastifyInstance) {
 
           const serviceId = values[0]?.labels?.serviceId
           if (serviceId) {
+            if (fastify.mappedMetrics[pid].length > MAX_STORED_METRICS) {
+              fastify.mappedMetrics[pid].pop()
+            }
             fastify.mappedMetrics[pid].push({ name, time: new Date(), type, aggregator, values, serviceId, pid })
           }
         }
@@ -32,7 +36,7 @@ export default async function (fastify: FastifyInstance) {
   fastify.decorate('metricsInterval', metricsInterval)
 
   fastify.addHook('onClose', async () => {
-    // FIXME: there is currently an issue on wattpm => `onClose` hook is not called (https://github.com/platformatic/platformatic/issues/3751)
+    // If the following log is not called, please run the project directly through the `wattpm` binary (ref. https://github.com/platformatic/platformatic/issues/3751)
     fastify.log.info('Closing the backend...')
     clearInterval(fastify.metricsInterval)
   })
