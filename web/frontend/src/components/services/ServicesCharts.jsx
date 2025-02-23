@@ -9,10 +9,11 @@ import ServicesSelectorForCharts from './ServicesSelectorForCharts'
 import { BorderedBox } from '@platformatic/ui-components'
 import ServicesMetrics from '~/components/metrics/ServicesMetrics'
 import { POD_SERVICES_PATH } from '~/ui-constants'
+import { getServices } from '../../api'
 
 const ServicesCharts = React.forwardRef(({ _ }, ref) => {
   const globalState = useAdminStore()
-  const { setCurrentPage } = globalState
+  const { setCurrentPage, runtimePid } = globalState
   const [showAggregatedMetrics, setShowAggregatedMetrics] = useState(true)
   const [services, setServices] = useState([])
   const [serviceSelected, setServiceSelected] = useState({})
@@ -22,21 +23,19 @@ const ServicesCharts = React.forwardRef(({ _ }, ref) => {
   }, [])
 
   useEffect(() => {
-    if ((services.length === 0)) {
-      const orderedServices = getOrderedServices()
-      setServices(orderedServices)
-      setServiceSelected(orderedServices.length > 0 ? orderedServices[0] : {})
+    const fetchData = async () => {
+      try {
+        if (runtimePid) {
+          const response = await getServices(runtimePid)
+          setServices(response)
+          setServiceSelected(response[0])
+        }
+      } catch (error) {
+        console.error('Error getting services:', error)
+      }
     }
-  }, [services])
-
-  function getOrderedServices () {
-    // FIXME@backend get dynamic data
-    return [
-      { id: 'service-1', name: 'Service 1', entrypoint: true },
-      { id: 'service-2', name: 'Service 2', entrypoint: false },
-      { id: 'service-3', name: 'Service 3', entrypoint: false }
-    ]
-  }
+    fetchData()
+  }, [runtimePid])
 
   return (
     <div className={styles.podServicesContainer} ref={ref}>

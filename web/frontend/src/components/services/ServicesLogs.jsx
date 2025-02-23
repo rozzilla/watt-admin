@@ -9,46 +9,14 @@ import useAdminStore from '~/useAdminStore'
 import ServicesSelectorForDetailLog from './ServicesSelectorForDetailLog'
 import { BorderedBox } from '@platformatic/ui-components'
 import { POD_LOGS_PATH } from '~/ui-constants'
+import { getServices } from '../../api'
 
 const ServicesLogs = React.forwardRef(({ _ }, ref) => {
   const globalState = useAdminStore()
-  const { setCurrentPage } = globalState
+  const { setCurrentPage, runtimePid } = globalState
   const [selectAllServices, setSelectAllServices] = useState(true)
-
-  // FIXME@backend get dynamic data
-  const [services, setServices] = useState([
-    {
-      id: 'api-gateway',
-      entrypoint: true,
-      selected: true
-    },
-    {
-      id: 'user-service',
-      entrypoint: false,
-      selected: true
-    },
-    {
-      id: 'auth-service',
-      entrypoint: false,
-      selected: true
-    },
-    {
-      id: 'notification-service',
-      entrypoint: false,
-      selected: true
-    },
-    {
-      id: 'payment-service',
-      entrypoint: false,
-      selected: true
-    },
-    {
-      id: 'analytics-service',
-      entrypoint: false,
-      selected: true
-    }
-  ])
   const [colorPod, setColorPod] = useState(WHITE)
+  const [services, setServices] = useState([])
 
   useEffect(() => {
     setCurrentPage(POD_LOGS_PATH)
@@ -57,6 +25,20 @@ const ServicesLogs = React.forwardRef(({ _ }, ref) => {
   useEffect(() => {
     setColorPod(WHITE)
   }, [])
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        if (runtimePid) {
+          const response = await getServices(runtimePid)
+          setServices(response.map(service => ( {...service, selected: true })))
+        }
+      } catch (error) {
+        console.error('Error getting services:', error)
+      }
+    }
+    fetchData()
+  }, [runtimePid])
 
   function handleChangeService (serviceUpdated) {
     const newServices = services.map(service => {

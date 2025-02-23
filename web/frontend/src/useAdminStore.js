@@ -3,6 +3,7 @@ import { create } from 'zustand'
 const initialState = {
   breadCrumbs: [],
   currentPage: '',
+  runtimePid: undefined,
   applicationSelected: null,
   currentWindowWidth: 0
 }
@@ -15,6 +16,14 @@ const useAdminStore = create((set, get) => ({
       if (services.length === 0) { return services }
       return services.filter(service => service.entrypoint).concat(services.filter(service => !service.entrypoint))
     }
+  },
+  setRuntimePid: (runtimePid) => {
+    set(state => {
+      return {
+        ...state,
+        runtimePid
+      }
+    })
   },
   setNavigation: (item, level = 0) => {
     set((state) => {

@@ -30,7 +30,7 @@ const AppLogs = React.forwardRef(({ filteredServices }, ref) => {
       level: 30,
       time: new Date().toISOString(),
       pid: 1234,
-      name: 'api-gateway',
+      name: 'composer',
       msg: 'Server listening on port 3000',
       hostname: 'pod-1234'
     }),
@@ -38,7 +38,7 @@ const AppLogs = React.forwardRef(({ filteredServices }, ref) => {
       level: 40,
       time: new Date().toISOString(),
       pid: 1234,
-      name: 'user-service',
+      name: 'fastify2',
       msg: 'High CPU usage detected',
       hostname: 'pod-1234',
       reqId: 'abc123xyz789'
@@ -47,7 +47,7 @@ const AppLogs = React.forwardRef(({ filteredServices }, ref) => {
       level: 50,
       time: new Date().toISOString(),
       pid: 1235,
-      name: 'auth-service',
+      name: 'fastify3',
       msg: 'Database connection failed',
       hostname: 'pod-1234',
       reqId: 'def456uvw321'
@@ -56,7 +56,7 @@ const AppLogs = React.forwardRef(({ filteredServices }, ref) => {
       level: 30,
       time: new Date().toISOString(),
       pid: 1236,
-      name: 'notification-service',
+      name: 'node3',
       msg: 'Email notification sent successfully',
       hostname: 'pod-1234',
       req: {
@@ -68,7 +68,7 @@ const AppLogs = React.forwardRef(({ filteredServices }, ref) => {
       level: 20,
       time: new Date().toISOString(),
       pid: 1237,
-      name: 'payment-service',
+      name: 'type1',
       msg: 'Processing payment transaction',
       hostname: 'pod-1234',
       reqId: 'ghi789rst654',
