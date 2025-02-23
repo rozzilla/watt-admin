@@ -7,14 +7,12 @@ const wait = (ms: number) => new Promise((resolve) => setTimeout(resolve, ms))
 test('no runtime running', async (t) => {
   const server = await getServer(t)
   const res = await server.inject({
-    method: 'GET',
     url: '/runtimes'
   })
   assert.strictEqual(res.statusCode, 200)
   assert.deepStrictEqual(res.json(), [], 'with no runtime running')
 
   const services = await server.inject({
-    method: 'GET',
     url: '/runtimes/42/services'
   })
   assert.strictEqual(services.statusCode, 500)
@@ -25,7 +23,6 @@ test('runtime is running', async (t) => {
   await startWatt(t)
   const server = await getServer(t)
   const res = await server.inject({
-    method: 'GET',
     url: '/runtimes'
   })
   assert.strictEqual(res.statusCode, 200, 'runtimes endpoint')
@@ -37,14 +34,12 @@ test('runtime is running', async (t) => {
   assert.strictEqual(runtime.packageVersion, null)
 
   const metricsEmpty = await server.inject({
-    method: 'GET',
     url: `/runtimes/${runtimePid}/metrics`
   })
   assert.strictEqual(metricsEmpty.statusCode, 200, 'metrics endpoint')
   assert.deepEqual(metricsEmpty.json(), [], 'metrics result is empty')
 
   const services = await server.inject({
-    method: 'GET',
     url: `/runtimes/${runtimePid}/services`
   })
   assert.strictEqual(services.statusCode, 200, 'services endpoint')
@@ -57,7 +52,6 @@ test('runtime is running', async (t) => {
   // Wait for the interval to be run
   await wait(1000)
   const metrics = await server.inject({
-    method: 'GET',
     url: `/runtimes/${runtimePid}/metrics`
   })
   assert.strictEqual(metrics.statusCode, 200, 'metrics endpoint')
@@ -67,21 +61,18 @@ test('runtime is running', async (t) => {
   assert.notDeepEqual(metricsJson, [], 'metrics are not empty after the interval')
 
   const serviceMetrics = await server.inject({
-    method: 'GET',
     url: `/runtimes/${runtimePid}/metrics/backend`
   })
   assert.strictEqual(serviceMetrics.statusCode, 200, 'service metrics endpoint')
   assert.notDeepEqual(serviceMetrics.json(), [], 'service metrics are not empty for a valid service name')
 
   const serviceMetricsEmpty = await server.inject({
-    method: 'GET',
     url: `/runtimes/${runtimePid}/metrics/fantozzi`
   })
   assert.strictEqual(serviceMetricsEmpty.statusCode, 200, 'service metrics endpoint')
   assert.deepEqual(serviceMetricsEmpty.json(), [], 'service metrics are empty for an invalid service name')
 
   const serviceOpenapi = await server.inject({
-    method: 'GET',
     url: `/runtimes/${runtimePid}/openapi/backend`
   })
   assert.strictEqual(serviceOpenapi.statusCode, 200, 'service OpenAPI endpoint')
@@ -130,18 +121,27 @@ test('runtime is running', async (t) => {
   })
 
   const serviceInvalidOpenapi = await server.inject({
-    method: 'GET',
     url: `/runtimes/${runtimePid}/openapi/fantozzi`
   })
   assert.strictEqual(serviceInvalidOpenapi.statusCode, 500, 'service OpenAPI endpoint')
   assert.strictEqual(serviceInvalidOpenapi.json().code, 'PLT_CTR_FAILED_TO_GET_RUNTIME_OPENAPI')
+
+  const logs = await server.inject({
+    url: `/runtimes/${runtimePid}/logs`
+  })
+  assert.strictEqual(logs.statusCode, 200)
+
+  const [starting, listening, started, platformatic] = logs.body.trim().split('\n')
+  assert.ok(starting.includes('Starting the service'))
+  assert.ok(listening.includes('Server listening at http://127.0.0.1'))
+  assert.ok(started.includes('Started the service'))
+  assert.ok(platformatic.includes('Platformatic is now listening at http://127.0.0.1'))
 })
 
 test('runtime start & stop', async (t) => {
   await startWatt(t)
   const server = await getServer(t)
   const res = await server.inject({
-    method: 'GET',
     url: '/runtimes'
   })
   const [{ pid }] = res.json()
@@ -166,7 +166,6 @@ test('runtime start & stop', async (t) => {
   assert.strictEqual(stop.statusCode, 500, 'trying to run stop command to a closed runtime')
 
   const runtimes = await server.inject({
-    method: 'GET',
     url: '/runtimes'
   })
   assert.deepEqual(runtimes.json(), [], 'no runtime running')
