@@ -12,7 +12,7 @@ const AppDetails = React.forwardRef(({ _ }, ref) => {
   const [error, setError] = useState(false)
   const [apiApplication, setApiApplication] = useState({})
   const { setRuntimePid } = useAdminStore()
-  
+
   useEffect(() => {
     const fetchData = async () => {
       try {

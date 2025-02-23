@@ -31,7 +31,7 @@ const ServicesLogs = React.forwardRef(({ _ }, ref) => {
       try {
         if (runtimePid) {
           const response = await getServices(runtimePid)
-          setServices(response.map(service => ( {...service, selected: true })))
+          setServices(response.map(service => ({ ...service, selected: true })))
         }
       } catch (error) {
         console.error('Error getting services:', error)
