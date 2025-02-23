@@ -24,7 +24,6 @@ test('metrics with runtime', async (t) => {
   assert.strictEqual(server.mappedMetrics[servicePID][0].pid, servicePID)
 
   const res = await server.inject({
-    method: 'GET',
     url: `/runtimes/${pid}/metrics`
   })
   assert.strictEqual(res.statusCode, 200)
@@ -69,4 +68,15 @@ test('metrics with runtime', async (t) => {
     const exists = metrics.some((metric: Metric) => metric.name === expectedName)
     assert.ok(exists, `Expected metric: ${expectedName}`)
   })
+
+  const logs = await server.inject({
+    url: `/runtimes/${pid}/logs`
+  })
+  assert.strictEqual(logs.statusCode, 200)
+
+  const [starting, listening, started, platformatic] = logs.body.trim().split('\n')
+  assert.ok(starting.includes('Starting the service'))
+  assert.ok(listening.includes('Server listening at http://127.0.0.1'))
+  assert.ok(started.includes('Started the service'))
+  assert.ok(platformatic.includes('Platformatic is now listening at http://127.0.0.1'))
 })

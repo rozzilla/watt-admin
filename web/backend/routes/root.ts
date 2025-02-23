@@ -52,6 +52,12 @@ export default async function (fastify: FastifyInstance) {
     return api.getRuntimeServices(request.params.pid)
   })
 
+  typedFastify.get('/runtimes/:pid/logs', {
+    schema: {
+      params: { type: 'object', properties: { pid: { type: 'number' } }, required: ['pid'] }
+    }
+  }, async (request) => api.getRuntimeAllLogsStream(request.params.pid))
+
   typedFastify.get('/runtimes/:pid/openapi/:serviceId', {
     schema: {
       params: { type: 'object', properties: { pid: { type: 'number' }, serviceId: { type: 'string' } }, required: ['pid', 'serviceId'] }
