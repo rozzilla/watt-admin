@@ -49,7 +49,7 @@ function ServicesSelectorForDetailLog ({ services, handleChangeService = () => {
           size={SMALL}
         />}
       <div className={`${commonStyles.tinyFlexBlock} ${commonStyles.fullWidth}`}>
-        {services.map(service => <Service key={`${service.id}-$${service.selected}`} {...service} isSelected={service.selected} onChangeService={() => handleChangeService(service)} />)}
+        {services.map(service => <Service key={service.id} {...service} isSelected={service.selected} onChangeService={() => handleChangeService(service)} />)}
       </div>
     </div>
   )

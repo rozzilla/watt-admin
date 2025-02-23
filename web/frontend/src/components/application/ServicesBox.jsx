@@ -83,7 +83,7 @@ function ServicesBox () {
           </div>
         </div>
         <div className={`${commonStyles.tinyFlexBlock} ${commonStyles.fullWidth}`}>
-          {services.map(service => <Service key={`${service.id}-$${service.selected}`} {...service} />)}
+          {services.map(service => <Service key={service.id} {...service} />)}
         </div>
       </div>
     </BorderedBox>
