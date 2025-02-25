@@ -24,7 +24,6 @@ test('metrics with runtime', async (t) => {
   assert.strictEqual(server.mappedMetrics[servicePID][0].pid, servicePID)
 
   const res = await server.inject({
-    method: 'GET',
     url: `/runtimes/${pid}/metrics`
   })
   assert.strictEqual(res.statusCode, 200)

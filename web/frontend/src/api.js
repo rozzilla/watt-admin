@@ -3,7 +3,6 @@ import { subtractSecondsFromDate } from './utilities/dates'
 // FIXME: once the codebase will be migrated to TypeScript, we should leverage auto-generated clients through `@platformatic/client-cli`
 const host = '/api'
 
-/* APPLICATIONS */
 export const getApiApplication = async () => {
   const result = await fetch(`${host}/runtimes`)
   const data = await result.json()
@@ -33,6 +32,18 @@ export const isWattpmVersionOutdated = async (currentVersion) => {
   }
   console.log('last stable wattpm version', latest)
   return latest !== currentVersion
+}
+
+export const getServices = async (id) => {
+  const result = await fetch(`${host}/runtimes/${id}/services`)
+  const data = await result.json()
+  return data.services
+}
+
+export const getLogs = async (id) => {
+  const result = await fetch(`${host}/runtimes/${id}/logs`)
+  const logs = await result.text()
+  return logs.trim().split('\n')
 }
 
 // FIXME@backend get dynamic data

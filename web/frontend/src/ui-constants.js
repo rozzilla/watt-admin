@@ -23,8 +23,8 @@ export const DIRECTION_TAIL = 'tail'
 export const STATUS_PAUSED_LOGS = 'PAUSED'
 export const STATUS_RESUMED_LOGS = 'RESUMED'
 
-export const REFRESH_INTERVAL = 30000
 export const REFRESH_INTERVAL_METRICS = 2000
+export const REFRESH_INTERVAL_LOGS = 2000
 
 export const POSITION_ABSOLUTE = 'absolute'
 export const POSITION_FIXED = 'fixed'

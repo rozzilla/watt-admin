@@ -1,11 +1,12 @@
-import React from 'react'
-import PropTypes from 'prop-types'
+import React, { useState, useEffect } from 'react'
 import { OPACITY_100, OPACITY_15, RICH_BLACK, WHITE, TRANSPARENT, MEDIUM, SMALL, BLACK_RUSSIAN } from '@platformatic/ui-components/src/components/constants'
 import styles from './ServicesBox.module.css'
 import typographyStyles from '~/styles/Typography.module.css'
 import commonStyles from '~/styles/CommonStyles.module.css'
 import { BorderedBox } from '@platformatic/ui-components'
 import Icons from '@platformatic/ui-components/src/components/icons'
+import useAdminStore from '~/useAdminStore'
+import { getServices } from '../../api'
 
 function Service ({ id, entrypoint, type }) {
   return (
@@ -48,11 +49,26 @@ function Service ({ id, entrypoint, type }) {
   )
 }
 
-function ServicesBox ({
-  gridClassName = ''
-}) {
+function ServicesBox () {
+  const [services, setServices] = useState([])
+  const { runtimePid } = useAdminStore()
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        if (runtimePid) {
+          const response = await getServices(runtimePid)
+          setServices(response)
+        }
+      } catch (error) {
+        console.error('Error getting services:', error)
+      }
+    }
+    fetchData()
+  }, [runtimePid])
+
   return (
-    <BorderedBox classes={`${styles.borderexBoxContainer} ${gridClassName}`} backgroundColor={BLACK_RUSSIAN} color={TRANSPARENT}>
+    <BorderedBox classes={`${styles.borderexBoxContainer}`} backgroundColor={BLACK_RUSSIAN} color={TRANSPARENT}>
       <div className={`${commonStyles.smallFlexBlock} ${commonStyles.fullWidth}`}>
         <div className={`${commonStyles.smallFlexRow} ${commonStyles.fullWidth} ${commonStyles.justifyBetween}`}>
           <div className={`${commonStyles.tinyFlexRow} ${commonStyles.fullWidth}`}>
@@ -66,26 +82,11 @@ function ServicesBox ({
           </div>
         </div>
         <div className={`${commonStyles.tinyFlexBlock} ${commonStyles.fullWidth}`}>
-          {/* // FIXME@backend get dynamic data */}
-          {[
-            { id: 'Service-1', entrypoint: true, type: 'next' },
-            { id: 'Service-2', entrypoint: false, type: 'Composer' },
-            { id: 'Service-3', entrypoint: false, type: 'next' }
-          ].map(service => <Service
-            key={`${service.id}-$${service.selected}`}
-            {...service}
-                           />)}
+          {services.map(service => <Service key={service.id} {...service} />)}
         </div>
       </div>
     </BorderedBox>
   )
-}
-
-ServicesBox.propTypes = {
-  /**
-   * gridClassName
-    */
-  gridClassName: PropTypes.string
 }
 
 export default ServicesBox
