@@ -5,7 +5,8 @@
     "test": "npm run lint && borp",
     "clean": "rm -fr ./dist",
     "build": "platformatic compile",
-    "lint": "eslint"
+    "lint": "eslint",
+    "fix": "eslint --fix"
   },
   "devDependencies": {
     "@fastify/type-provider-json-schema-to-ts": "^5.0.0",

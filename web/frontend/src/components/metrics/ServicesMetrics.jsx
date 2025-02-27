@@ -5,8 +5,9 @@ import styles from './ServicesMetrics.module.css'
 import typographyStyles from '~/styles/Typography.module.css'
 import commonStyles from '~/styles/CommonStyles.module.css'
 import { BorderedBox, VerticalSeparator } from '@platformatic/ui-components'
-import { getApiMetricsPod } from '~/api'
+import { getApiMetricsPodService, getApiMetricsPod } from '~/api'
 import { useInterval } from '~/hooks/useInterval'
+import useAdminStore from '~/useAdminStore'
 import { REFRESH_INTERVAL_METRICS, POSITION_FIXED } from '~/ui-constants'
 import colorSetMem from './memory.module.css'
 import colorSetCpu from './cpu.module.css'
@@ -18,43 +19,24 @@ const ServicesMetrics = React.forwardRef(({
   showAggregatedMetrics
 }, ref) => {
   const [initialLoading, setInitialLoading] = useState(true)
+  const [serviceData, setServiceData] = useState({
+    dataMem: [],
+    dataCpu: [],
+    dataLatency: []
+  })
   const [allData, setAllData] = useState({
     dataMem: [],
     dataCpu: [],
     dataLatency: []
   })
   const [latestRefreshDate, setLatestRefreshDate] = useState(new Date())
+  const { runtimePid } = useAdminStore()
 
   useInterval(async () => {
     try {
       setInitialLoading(true)
-      const response = await getApiMetricsPod()
-      const data = await response.json()
-
-      // FIXME: unify with NodeJSMetrics logic (since it's duplicated)
-      const dataMem = data.map(item => ({
-        date: item.date,
-        rss: item.rss / (1024 * 1024 * 1024),
-        totalHeap: item.totalHeapSize / (1024 * 1024 * 1024),
-        usedHeap: item.usedHeapSize / (1024 * 1024 * 1024),
-        newSpace: item.newSpaceSize / (1024 * 1024 * 1024),
-        oldSpace: item.oldSpaceSize / (1024 * 1024 * 1024)
-      }))
-
-      const dataCpu = data.map(item => ({
-        date: item.date,
-        cpu: item.cpu * 100,
-        eventLoop: item.elu * 100
-      }))
-
-      const dataLatency = data.map(item => ({
-        date: item.date,
-        p90: item.latencies.p90,
-        p95: item.latencies.p95,
-        p99: item.latencies.p99
-      }))
-
-      setAllData({ dataMem, dataCpu, dataLatency })
+      setAllData(await getApiMetricsPod(runtimePid))
+      setServiceData(await getApiMetricsPodService(runtimePid, serviceId))
       setLatestRefreshDate(new Date())
     } catch (error) {
       console.error('Failed to fetch metrics:', error)
@@ -97,7 +79,7 @@ const ServicesMetrics = React.forwardRef(({
                     title={`${serviceId} Memory`}
                     unit='(GB)'
                     metricURL='mem'
-                    dataValues={allData.dataMem}
+                    dataValues={serviceData.dataMem}
                     initialLoading={initialLoading}
                     chartTooltipPosition={POSITION_FIXED}
                     options={[{
@@ -178,7 +160,7 @@ const ServicesMetrics = React.forwardRef(({
                     key={`cpu_${latestRefreshDate.toISOString()}`}
                     title={`${serviceId} CPU & ELU`}
                     metricURL='cpu'
-                    dataValues={allData.dataCpu}
+                    dataValues={serviceData.dataCpu}
                     initialLoading={initialLoading}
                     chartTooltipPosition={POSITION_FIXED}
                     unit='(%)'
@@ -237,7 +219,7 @@ const ServicesMetrics = React.forwardRef(({
                     key={`latency_${latestRefreshDate.toISOString()}`}
                     title={`${serviceId} Latency`}
                     metricURL='latency'
-                    dataValues={allData.dataLatency}
+                    dataValues={serviceData.dataLatency}
                     initialLoading={initialLoading}
                     chartTooltipPosition={POSITION_FIXED}
                     unit='(ms)'

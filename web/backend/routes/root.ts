@@ -33,7 +33,7 @@ export default async function (fastify: FastifyInstance) {
       params: { type: 'object', properties: { pid: { type: 'number' } }, required: ['pid'] }
     }
   }, async ({ params: { pid } }) => {
-    return typedFastify.mappedMetrics[pid] || []
+    return typedFastify.mappedMetrics[pid]?.aggregated || {}
   })
 
   typedFastify.get('/runtimes/:pid/metrics/:serviceId', {
@@ -41,7 +41,7 @@ export default async function (fastify: FastifyInstance) {
       params: { type: 'object', properties: { pid: { type: 'number' }, serviceId: { type: 'string' } }, required: ['pid', 'serviceId'] }
     }
   }, async ({ params: { pid, serviceId } }) => {
-    return typedFastify.mappedMetrics[pid]?.filter((value) => value.serviceId === serviceId)
+    return fastify.mappedMetrics[pid]?.services[serviceId] || {}
   })
 
   typedFastify.get('/runtimes/:pid/services', {
