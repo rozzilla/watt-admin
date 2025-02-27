@@ -7,6 +7,7 @@ import commonStyles from '~/styles/CommonStyles.module.css'
 import { BorderedBox, VerticalSeparator } from '@platformatic/ui-components'
 import { getApiMetricsPod } from '~/api'
 import { useInterval } from '~/hooks/useInterval'
+import useAdminStore from '~/useAdminStore'
 import { REFRESH_INTERVAL_METRICS, POSITION_FIXED } from '~/ui-constants'
 import colorSetMem from './memory.module.css'
 import colorSetCpu from './cpu.module.css'
@@ -24,37 +25,13 @@ const ServicesMetrics = React.forwardRef(({
     dataLatency: []
   })
   const [latestRefreshDate, setLatestRefreshDate] = useState(new Date())
+  const { runtimePid } = useAdminStore()
 
   useInterval(async () => {
     try {
       setInitialLoading(true)
-      const response = await getApiMetricsPod()
-      const data = await response.json()
-
-      // FIXME: unify with NodeJSMetrics logic (since it's duplicated)
-      const dataMem = data.map(item => ({
-        date: item.date,
-        rss: item.rss / (1024 * 1024 * 1024),
-        totalHeap: item.totalHeapSize / (1024 * 1024 * 1024),
-        usedHeap: item.usedHeapSize / (1024 * 1024 * 1024),
-        newSpace: item.newSpaceSize / (1024 * 1024 * 1024),
-        oldSpace: item.oldSpaceSize / (1024 * 1024 * 1024)
-      }))
-
-      const dataCpu = data.map(item => ({
-        date: item.date,
-        cpu: item.cpu * 100,
-        eventLoop: item.elu * 100
-      }))
-
-      const dataLatency = data.map(item => ({
-        date: item.date,
-        p90: item.latencies.p90,
-        p95: item.latencies.p95,
-        p99: item.latencies.p99
-      }))
-
-      setAllData({ dataMem, dataCpu, dataLatency })
+      const data = await getApiMetricsPod(runtimePid)
+      setAllData(data)
       setLatestRefreshDate(new Date())
     } catch (error) {
       console.error('Failed to fetch metrics:', error)
