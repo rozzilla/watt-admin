@@ -31,7 +31,7 @@ export interface MetricsResponse {
   dataLatency: LatencyDataPoint[];
 }
 
-const bytesToMB = (bytes: number) => Number((bytes / (1024 * 1024)).toFixed(2))
+const bytesToGB = (bytes: number) => Number((bytes / (1024 * 1024 * 1024)).toFixed(2))
 
 export default async function (fastify: FastifyInstance) {
   fastify.decorate('mappedMetrics', {})
@@ -50,7 +50,7 @@ export default async function (fastify: FastifyInstance) {
 
         const { services } = await api.getRuntimeServices(pid)
         // This is to avoid the mapped metrics array from growing indefinitely (and therefore a memory leak)
-        const MAX_STORED_METRICS = services.length * 20
+        const MAX_STORED_METRICS = services.length * 15
         for (const { id: serviceId } of services) {
           const memData: MemoryDataPoint = {
             date,
@@ -81,23 +81,23 @@ export default async function (fastify: FastifyInstance) {
 
               if (serviceId === labels.serviceId) {
                 if (metric.name === 'process_resident_memory_bytes') {
-                  memData.rss = bytesToMB(value)
+                  memData.rss = bytesToGB(value)
                 }
 
                 if (metric.name === 'nodejs_heap_size_total_bytes') {
-                  memData.totalHeap = bytesToMB(value)
+                  memData.totalHeap = bytesToGB(value)
                 }
 
                 if (metric.name === 'nodejs_heap_size_used_bytes') {
-                  memData.usedHeap = bytesToMB(value)
+                  memData.usedHeap = bytesToGB(value)
                 }
 
                 if (metric.name === 'nodejs_heap_space_size_used_bytes') {
                   metric.values.forEach(val => {
                     if (val.labels?.space === 'new') {
-                      memData.newSpace = bytesToMB(val.value)
+                      memData.newSpace = bytesToGB(val.value)
                     } else if (val.labels?.space === 'old') {
-                      memData.oldSpace = bytesToMB(val.value)
+                      memData.oldSpace = bytesToGB(val.value)
                     }
                   })
                 }
@@ -111,11 +111,11 @@ export default async function (fastify: FastifyInstance) {
                 }
 
                 if (metric.name === 'nodejs_eventloop_lag_p90_seconds') {
-                  latencyData.p90 = value
+                  latencyData.p90 = value * 1000
                 }
 
                 if (metric.name === 'nodejs_eventloop_lag_p99_seconds') {
-                  latencyData.p99 = value
+                  latencyData.p99 = value * 1000
                 }
 
                 if (latencyData.p90 && latencyData.p99) {
