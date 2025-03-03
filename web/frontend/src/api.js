@@ -42,25 +42,25 @@ export const getLogs = async (id) => {
 
 export const getApiMetricsPod = async (id) => {
   try {
-    const response = await fetch(`${host}/runtimes/${id}/metrics`);
+    const response = await fetch(`${host}/runtimes/${id}/metrics`)
 
-    const data = await response.json();
+    const data = await response.json()
     return data
   } catch (error) {
-    console.error('Error fetching metrics:', error);
-    throw error;
+    console.error('Error fetching metrics:', error)
+    throw error
   }
 }
 
 export const getApiMetricsPodService = async (podId, serviceId) => {
   try {
-    const response = await fetch(`${host}/runtimes/${podId}/metrics/${serviceId}`);
+    const response = await fetch(`${host}/runtimes/${podId}/metrics/${serviceId}`)
 
-    const data = await response.json();
+    const data = await response.json()
     return data
   } catch (error) {
-    console.error('Error fetching metrics for service:', error);
-    throw error;
+    console.error('Error fetching metrics for service:', error)
+    throw error
   }
 }
 
