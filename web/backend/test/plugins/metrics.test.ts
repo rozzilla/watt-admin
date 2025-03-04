@@ -1,7 +1,7 @@
 import test from 'node:test'
 import assert from 'node:assert'
 import { getServer, startWatt } from '../helper'
-import { Metric } from '@platformatic/control'
+import { MetricsResponse } from '../../plugins/metrics'
 
 const wait = (ms: number) => new Promise((resolve) => setTimeout(resolve, ms))
 
@@ -21,51 +21,36 @@ test('metrics with runtime', async (t) => {
   const [pid] = metricsKeys
   const servicePID = parseInt(pid)
   assert.ok(metricsKeys.length > 0, 'mapped metrics are defined, and contain values')
-  assert.strictEqual(server.mappedMetrics[servicePID][0].pid, servicePID)
+  assert.ok(Array.isArray(server.mappedMetrics[servicePID].aggregated.dataCpu))
 
   const res = await server.inject({
     url: `/runtimes/${pid}/metrics`
   })
   assert.strictEqual(res.statusCode, 200)
 
-  const metrics = res.json()
-  const expectedNames = [
-    'process_cpu_user_seconds_total',
-    'process_cpu_system_seconds_total',
-    'process_cpu_seconds_total',
-    'process_start_time_seconds',
-    'process_resident_memory_bytes',
-    'nodejs_eventloop_lag_seconds',
-    'nodejs_eventloop_lag_min_seconds',
-    'nodejs_eventloop_lag_max_seconds',
-    'nodejs_eventloop_lag_mean_seconds',
-    'nodejs_eventloop_lag_stddev_seconds',
-    'nodejs_eventloop_lag_p50_seconds',
-    'nodejs_eventloop_lag_p90_seconds',
-    'nodejs_eventloop_lag_p99_seconds',
-    'nodejs_active_resources',
-    'nodejs_active_resources_total',
-    'nodejs_active_handles',
-    'nodejs_active_handles_total',
-    'nodejs_active_requests_total',
-    'nodejs_heap_size_total_bytes',
-    'nodejs_heap_size_used_bytes',
-    'nodejs_external_memory_bytes',
-    'nodejs_heap_space_size_total_bytes',
-    'nodejs_heap_space_size_used_bytes',
-    'nodejs_heap_space_size_available_bytes',
-    'nodejs_version_info',
-    'nodejs_eventloop_utilization',
-    'process_cpu_percent_usage',
-    'thread_cpu_user_system_seconds_total',
-    'thread_cpu_system_seconds_total',
-    'thread_cpu_percent_usage',
-    'thread_cpu_seconds_total',
-    'http_cache_hit_count',
-    'http_cache_miss_count'
-  ]
-  expectedNames.forEach(expectedName => {
-    const exists = metrics.some((metric: Metric) => metric.name === expectedName)
-    assert.ok(exists, `Expected metric: ${expectedName}`)
+  const metrics = res.json<MetricsResponse>()
+  assert.ok(metrics.dataCpu[0].cpu > 0)
+  assert.ok(metrics.dataCpu[0].eventLoop > 0)
+  assert.ok(new Date(metrics.dataCpu[0].date) <= new Date())
+
+  assert.ok(metrics.dataLatency[0].p90 > 0)
+  assert.ok(metrics.dataLatency[0].p95 > 0)
+  assert.ok(metrics.dataLatency[0].p99 > 0)
+  assert.ok(new Date(metrics.dataLatency[0].date) <= new Date())
+
+  assert.ok(metrics.dataMem[0].rss >= 0)
+  assert.ok(metrics.dataMem[0].totalHeap >= 0)
+  assert.ok(metrics.dataMem[0].usedHeap >= 0)
+  assert.ok(metrics.dataMem[0].newSpace >= 0)
+  assert.ok(metrics.dataMem[0].oldSpace >= 0)
+  assert.ok(new Date(metrics.dataMem[0].date) <= new Date())
+
+  const backendMetrics = await server.inject({
+    url: `/runtimes/${pid}/metrics/backend`
   })
+  assert.strictEqual(backendMetrics.statusCode, 200)
+  const response = backendMetrics.json()
+  assert.ok('dataCpu' in response)
+  assert.ok('dataLatency' in response)
+  assert.ok('dataMem' in response)
 })

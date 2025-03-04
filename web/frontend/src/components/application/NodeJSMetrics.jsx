@@ -10,6 +10,7 @@ import Icons from '@platformatic/ui-components/src/components/icons'
 import NodeJSMetric from './NodeJSMetric'
 import { REFRESH_INTERVAL_METRICS } from '~/ui-constants'
 import { getApiMetricsPod } from '~/api'
+import useAdminStore from '~/useAdminStore'
 
 function NodeJSMetrics ({
   gridClassName = ''
@@ -21,36 +22,13 @@ function NodeJSMetrics ({
     dataLatency: []
   })
   const [latestRefreshDate, setLatestRefreshDate] = useState(new Date())
+  const { runtimePid } = useAdminStore()
 
   useInterval(async () => {
     try {
       setInitialLoading(true)
-      const response = await getApiMetricsPod()
-      const data = await response.json()
-
-      const dataMem = data.map(item => ({
-        date: item.date,
-        rss: item.rss / (1024 * 1024 * 1024),
-        totalHeap: item.totalHeapSize / (1024 * 1024 * 1024),
-        usedHeap: item.usedHeapSize / (1024 * 1024 * 1024),
-        newSpace: item.newSpaceSize / (1024 * 1024 * 1024),
-        oldSpace: item.oldSpaceSize / (1024 * 1024 * 1024)
-      }))
-
-      const dataCpu = data.map(item => ({
-        date: item.date,
-        cpu: item.cpu * 100,
-        eventLoop: item.elu * 100
-      }))
-
-      const dataLatency = data.map(item => ({
-        date: item.date,
-        p90: item.latencies.p90,
-        p95: item.latencies.p95,
-        p99: item.latencies.p99
-      }))
-
-      setAllData({ dataMem, dataCpu, dataLatency })
+      const data = await getApiMetricsPod(runtimePid)
+      setAllData(data)
       setLatestRefreshDate(new Date())
     } catch (error) {
       console.error('Failed to fetch metrics:', error)

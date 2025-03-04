@@ -10,13 +10,7 @@ export const getApiApplication = async () => {
   if (data?.length > 0) {
     const [{ platformaticVersion: pltVersion, packageName: name, pid: id, uptimeSeconds, url }] = data
     const lastStarted = subtractSecondsFromDate(new Date(), uptimeSeconds)
-    return {
-      id,
-      url,
-      name,
-      pltVersion,
-      lastStarted
-    }
+    return { id, url, name, pltVersion, lastStarted }
   }
 
   return {}
@@ -46,61 +40,32 @@ export const getLogs = async (id) => {
   return logs.trim().split('\n')
 }
 
-// FIXME@backend get dynamic data
-const generateMockData = () => {
-  const generateTimestamps = (count) => {
-    const timestamps = []
-    const now = new Date()
-    for (let i = 0; i < count; i++) {
-      timestamps.unshift(new Date(now - i * 60000))
-    }
-    return timestamps
-  }
+export const getApiMetricsPod = async (id) => {
+  try {
+    const response = await fetch(`${host}/runtimes/${id}/metrics`)
 
-  const randomInRange = (min, max) => {
-    return Math.floor(Math.random() * (max - min + 1)) + min
+    const data = await response.json()
+    return data
+  } catch (error) {
+    console.error('Error fetching metrics:', error)
+    throw error
   }
-
-  const timestamps = generateTimestamps(14)
-  const mockData = timestamps.map(date => ({
-    date: date.toISOString(),
-    rss: randomInRange(150 * 1024 * 1024, 200 * 1024 * 1024),
-    totalHeapSize: randomInRange(100 * 1024 * 1024, 150 * 1024 * 1024),
-    usedHeapSize: randomInRange(50 * 1024 * 1024, 100 * 1024 * 1024),
-    newSpaceSize: randomInRange(20 * 1024 * 1024, 40 * 1024 * 1024),
-    oldSpaceSize: randomInRange(30 * 1024 * 1024, 60 * 1024 * 1024),
-    cpu: randomInRange(10, 40) / 100,
-    elu: randomInRange(20, 60) / 100,
-    latencies: {
-      p90: randomInRange(50, 100),
-      p95: randomInRange(100, 150),
-      p99: randomInRange(150, 200)
-    }
-  }))
-  return mockData
 }
 
-// FIXME@backend get dynamic data
-export const getApiMetricsPod = async () => {
-  const mockData = generateMockData()
-  return { status: 200, json: () => Promise.resolve(mockData) }
+export const getApiMetricsPodService = async (podId, serviceId) => {
+  try {
+    const response = await fetch(`${host}/runtimes/${podId}/metrics/${serviceId}`)
+
+    const data = await response.json()
+    return data
+  } catch (error) {
+    console.error('Error fetching metrics for service:', error)
+    throw error
+  }
 }
 
 export const restartApiApplication = async (applicationId) => {
   const result = await fetch(`${host}/runtimes/${applicationId}/restart`, { method: 'POST' })
   console.log('restart api application status', result.status)
   return {}
-}
-
-/* PODS */
-export const getApiPod = async (applicationId, taxonomyId, podId) => {
-  const [dataMem, dataCpu] = await Promise.all([
-    getApiMetricsPod(taxonomyId, applicationId, podId, 'mem'),
-    getApiMetricsPod(taxonomyId, applicationId, podId, 'cpu')
-  ])
-
-  const dataValuesMem = await dataMem.json()
-  const dataValuesCpu = await dataCpu.json()
-
-  return { ...dataValuesMem, ...dataValuesCpu }
 }
