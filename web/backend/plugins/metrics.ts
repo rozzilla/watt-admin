@@ -112,7 +112,7 @@ export default async function (fastify: FastifyInstance) {
               if (serviceId === labels.serviceId) {
                 if (metric.name === 'process_resident_memory_bytes') {
                   serviceMemData.rss = bytesToGB(value)
-                  aggregatedMemData.rss += serviceMemData.rss
+                  aggregatedMemData.rss = serviceMemData.rss
                 }
 
                 if (metric.name === 'nodejs_heap_size_total_bytes') {
