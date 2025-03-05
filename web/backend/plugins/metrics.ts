@@ -1,5 +1,6 @@
 import { RuntimeApiClient } from '@platformatic/control'
 import { FastifyInstance } from 'fastify'
+import os from 'os'
 
 interface CommonMetricData {
   date: Date;
@@ -39,6 +40,7 @@ export default async function (fastify: FastifyInstance) {
     try {
       const api = new RuntimeApiClient()
       const runtimes = await api.getRuntimes()
+      const numCpus = os.cpus().length
       for (const { pid } of runtimes) {
         const date = new Date()
         const aggregatedMemData: MemoryDataPoint = {
@@ -136,13 +138,13 @@ export default async function (fastify: FastifyInstance) {
                 }
 
                 if (metric.name === 'process_cpu_percent_usage') {
-                  serviceCpuData.cpu = value
-                  aggregatedCpuData.cpu += value
+                  serviceCpuData.cpu = value / numCpus
+                  aggregatedCpuData.cpu += serviceCpuData.cpu
                 }
 
                 if (metric.name === 'nodejs_eventloop_utilization') {
-                  serviceCpuData.eventLoop = value
-                  aggregatedCpuData.eventLoop += value
+                  serviceCpuData.eventLoop = value * 100
+                  aggregatedCpuData.eventLoop += serviceCpuData.eventLoop
                 }
 
                 if (metric.name === 'http_request_all_summary_seconds') {
