@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import PropTypes from 'prop-types'
 import { TRANSPARENT, RICH_BLACK, OPACITY_30, WHITE } from '@platformatic/ui-components/src/components/constants'
 import styles from './ServicesMetrics.module.css'
@@ -32,7 +32,7 @@ const ServicesMetrics = React.forwardRef(({
   const [latestRefreshDate, setLatestRefreshDate] = useState(new Date())
   const { runtimePid } = useAdminStore()
 
-  useInterval(async () => {
+  const getData = async () => {
     try {
       setAllData(await getApiMetricsPod(runtimePid))
       setServiceData(await getApiMetricsPodService(runtimePid, serviceId))
@@ -42,7 +42,15 @@ const ServicesMetrics = React.forwardRef(({
     } finally {
       setInitialLoading(false)
     }
+  }
+
+  useInterval(() => {
+    getData()
   }, REFRESH_INTERVAL_METRICS)
+
+  useEffect(() => {
+    getData()
+  }, [serviceId])
 
   // FIXME: unify with NodeJSMetrics logic (since it's duplicated)
   function generateLegend (labels, colorStyles) {
