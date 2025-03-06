@@ -151,9 +151,7 @@ export default async function (fastify: FastifyInstance) {
                   for (const metricValue of metric.values) {
                     const data = metricValue.value * 1000
                     if (data > 0) {
-                      // FIXME: update type returned by `@platformatic/control` and return also QuantileLabel inside `labels`
-                      type QuantileLabel = { quantile?: number }
-                      if ((metricValue.labels as QuantileLabel)?.quantile === 0.9) {
+                      if (metricValue.labels?.quantile === 0.9) {
                         countP90++
                         sumP90 += data
                         serviceLatencyData.p90 = sumP90 / countP90
@@ -162,7 +160,7 @@ export default async function (fastify: FastifyInstance) {
                         aggregatedSumP90 += data
                         aggregatedLatencyData.p90 = aggregatedSumP90 / aggregatedCountP90
                       }
-                      if ((metricValue.labels as QuantileLabel)?.quantile === 0.95) {
+                      if (metricValue.labels?.quantile === 0.95) {
                         countP95++
                         sumP95 += data
                         serviceLatencyData.p95 = sumP95 / countP95
@@ -171,7 +169,7 @@ export default async function (fastify: FastifyInstance) {
                         aggregatedSumP95 += data
                         aggregatedLatencyData.p95 = aggregatedSumP95 / aggregatedCountP95
                       }
-                      if ((metricValue.labels as QuantileLabel)?.quantile === 0.99) {
+                      if (metricValue.labels?.quantile === 0.99) {
                         countP99++
                         sumP99 += data
                         serviceLatencyData.p99 = sumP99 / countP99

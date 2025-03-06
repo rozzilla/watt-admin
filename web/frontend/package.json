@@ -13,7 +13,7 @@
   },
   "type": "module",
   "devDependencies": {
-    "@platformatic/ui-components": "^0.10.2",
+    "@platformatic/ui-components": "^0.13.1",
     "@vitejs/plugin-react": "^4.3.3",
     "autoprefixer": "^10.4.20",
     "borp": "^0.17.0",
@@ -32,7 +32,7 @@
     "zustand": "^5.0.2"
   },
   "dependencies": {
-    "@platformatic/vite": "^2.35.1",
+    "@platformatic/vite": "^2.52.0",
     "source-map-support": "^0.5.21"
   },
   "standard": {
