@@ -14,6 +14,25 @@ import colorSetMem from '~/components/metrics/memory.module.css'
 import colorSetCpu from '~/components/metrics/cpu.module.css'
 import colorSetLatency from '~/components/metrics/latency.module.css'
 
+export const generateLegend = (options, colorStyles) => {
+  return (
+    <div className={`${commonStyles.tinyFlexRow}`}>
+      {
+      options.map((option, i) => {
+        return (
+          <React.Fragment key={`label-${i}`}>
+            <div className={`${commonStyles.tinyFlexRow} ${commonStyles.itemsCenter}`}>
+              <div className={`${styles.label} ${typographyStyles.desktopBodySmallest} ${typographyStyles.opacity70} ${typographyStyles.textWhite}`}> {option} </div>
+              <div className={`${styles.legendLine} ${colorStyles[`color-${i}`]}`} />
+            </div>
+            {options.length - 1 && i < (options.length - 1) ? <VerticalSeparator color={WHITE} backgroundColorOpacity={OPACITY_30} classes={styles.verticalSeparator} /> : ''}
+          </React.Fragment>
+        )
+      })
+    }
+    </div>
+  )
+}
 function NodeJSMetric ({
   title = '',
   metricURL = '',
@@ -33,6 +52,7 @@ function NodeJSMetric ({
   const [borderexBoxClassName, setBorderexBoxClassName] = useState(`${styleCss}`)
   const [lowerMaxY, setLowerMaxY] = useState(10)
   const colorStyles = metricURL === 'mem' ? colorSetMem : metricURL === 'cpu' ? colorSetCpu : colorSetLatency
+  const labels = options.map(option => option.label)
 
   useEffect(() => {
     setBorderexBoxClassName(`${styles.borderexBoxContainer}`)
@@ -46,11 +66,9 @@ function NodeJSMetric ({
         }))
       } else {
         dataValues.forEach(dataValue => {
-          newValues.push({
-            time: new Date(dataValue.date),
-            values: [...options.map(option => dataValue[option.internalKey])]
-          })
-          lowerMaxY = Math.max(lowerMaxY, ...options.map(option => dataValue[option.internalKey]))
+          const values = options.map(option => dataValue[option.internalKey])
+          newValues.push({ time: new Date(dataValue.date), values: [...values] })
+          lowerMaxY = Math.max(lowerMaxY, ...values)
         })
       }
       setSeriesValues([...newValues])
@@ -60,26 +78,6 @@ function NodeJSMetric ({
       setShowNoResult(true)
     }
   }, [])
-
-  const generateLegend = () => {
-    return (
-      <div className={`${commonStyles.tinyFlexRow}`}>
-        {
-        options.map((option, i) => {
-          return (
-            <React.Fragment key={`label-${i}`}>
-              <div className={`${commonStyles.tinyFlexRow} ${commonStyles.itemsCenter}`}>
-                <div className={`${styles.label} ${typographyStyles.desktopBodySmallest} ${typographyStyles.opacity70} ${typographyStyles.textWhite}`}> {option.label} </div>
-                <div className={`${styles.legendLine} ${colorStyles[`color-${i}`]}`} />
-              </div>
-              {options.length - 1 && i < (options.length - 1) ? <VerticalSeparator color={WHITE} backgroundColorOpacity={OPACITY_30} classes={styles.verticalSeparator} /> : ''}
-            </React.Fragment>
-          )
-        })
-      }
-      </div>
-    )
-  }
 
   function renderComponent () {
     if (initialLoading) {
@@ -119,7 +117,7 @@ function NodeJSMetric ({
         <NodeJSMetricChart
           data={seriesValues}
           unit={unit}
-          labels={options.map(option => option.label)}
+          labels={labels}
           colorSet={metricURL}
           lowerMaxY={lowerMaxY}
           tooltipPosition={chartTooltipPosition}
@@ -135,7 +133,7 @@ function NodeJSMetric ({
             <span className={`${typographyStyles.desktopBodySemibold} ${typographyStyles.textWhite}`}>{title}</span>
             <span className={`${typographyStyles.desktopBodySmall} ${typographyStyles.textWhite} ${typographyStyles.opacity70}`}>{unit}</span>
           </div>
-          {!showNoResult && showLegend && generateLegend()}
+          {!showNoResult && showLegend && generateLegend(labels, colorStyles)}
         </div>
         <div className={`${commonStyles.smallFlexRow} ${commonStyles.fullWidth} ${commonStyles.justifyBetween} ${commonStyles.itemsCenter} ${commonStyles.fullHeight}`}>
           {renderComponent()}

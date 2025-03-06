@@ -8,7 +8,7 @@ import commonStyles from '~/styles/CommonStyles.module.css'
 import { BorderedBox } from '@platformatic/ui-components'
 import Icons from '@platformatic/ui-components/src/components/icons'
 import NodeJSMetric from './NodeJSMetric'
-import { REFRESH_INTERVAL_METRICS } from '~/ui-constants'
+import { REFRESH_INTERVAL_METRICS, MEMORY_UNIT_METRICS, LATENCY_UNIT_METRICS, CPU_UNIT_METRICS } from '~/ui-constants'
 import { getApiMetricsPod } from '~/api'
 import useAdminStore from '~/useAdminStore'
 
@@ -57,22 +57,22 @@ function NodeJSMetrics ({
           <NodeJSMetric
             key={`mem_${latestRefreshDate.toISOString()}`}
             title='Memory'
-            unit='(GB)'
+            unit={`(${MEMORY_UNIT_METRICS})`}
             metricURL='mem'
             dataValues={allData.dataMem}
             initialLoading={initialLoading}
             options={[{
               label: 'RSS',
               internalKey: 'rss',
-              unit: 'GB'
+              unit: MEMORY_UNIT_METRICS
             }, {
               label: 'Total Heap',
               internalKey: 'totalHeap',
-              unit: 'GB'
+              unit: MEMORY_UNIT_METRICS
             }, {
               label: 'Heap Used',
               internalKey: 'usedHeap',
-              unit: 'GB'
+              unit: MEMORY_UNIT_METRICS
             }]}
             backgroundColor={RICH_BLACK}
           />
@@ -82,15 +82,15 @@ function NodeJSMetrics ({
             metricURL='cpu'
             dataValues={allData.dataCpu}
             initialLoading={initialLoading}
-            unit='(%)'
+            unit={`(${CPU_UNIT_METRICS})`}
             options={[{
               label: 'CPU',
               internalKey: 'cpu',
-              unit: '%'
+              unit: CPU_UNIT_METRICS
             }, {
               label: 'ELU',
               internalKey: 'eventLoop',
-              unit: '%'
+              unit: CPU_UNIT_METRICS
             }]}
             backgroundColor={RICH_BLACK}
           />
@@ -100,19 +100,19 @@ function NodeJSMetrics ({
             metricURL='latency'
             dataValues={allData.dataLatency}
             initialLoading={initialLoading}
-            unit='(ms)'
+            unit={`(${LATENCY_UNIT_METRICS})`}
             options={[{
               label: 'P90',
               internalKey: 'p90',
-              unit: 'ms'
+              unit: LATENCY_UNIT_METRICS
             }, {
               label: 'P95',
               internalKey: 'p95',
-              unit: 'ms'
+              unit: LATENCY_UNIT_METRICS
             }, {
               label: 'P99',
               internalKey: 'p99',
-              unit: 'ms'
+              unit: LATENCY_UNIT_METRICS
             }]}
             backgroundColor={RICH_BLACK}
           />
