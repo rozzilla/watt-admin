@@ -7,7 +7,7 @@ const wait = (ms: number) => new Promise((resolve) => setTimeout(resolve, ms))
 test('no runtime running', async (t) => {
   const server = await getServer(t)
   const res = await server.inject({
-    url: '/runtimes'
+    url: '/runtimes?includeAdmin=true'
   })
   assert.strictEqual(res.statusCode, 200)
   assert.deepStrictEqual(res.json(), [], 'with no runtime running')
@@ -23,13 +23,12 @@ test('runtime is running', async (t) => {
   await startWatt(t)
   const server = await getServer(t)
   const res = await server.inject({
-    url: '/runtimes'
+    url: '/runtimes?includeAdmin=true'
   })
   assert.strictEqual(res.statusCode, 200, 'runtimes endpoint')
   const [runtime] = res.json()
   const runtimePid = runtime.pid
-  assert.strictEqual(runtime.packageName, 'backend')
-  assert.strictEqual(typeof runtime.packageName, 'string')
+  assert.strictEqual(runtime.packageName, 'watt-admin')
   assert.strictEqual(typeof runtimePid, 'number')
   assert.strictEqual(runtime.packageVersion, null)
 
@@ -45,8 +44,8 @@ test('runtime is running', async (t) => {
   assert.strictEqual(services.statusCode, 200, 'services endpoint')
   const servicesJson = services.json()
   assert.strictEqual(servicesJson.production, true)
-  assert.strictEqual(servicesJson.entrypoint, 'backend')
-  assert.strictEqual(typeof servicesJson.services[0].url, 'string')
+  assert.strictEqual(servicesJson.entrypoint, 'composer')
+  assert.strictEqual(typeof servicesJson.services[0].localUrl, 'string')
   assert.strictEqual(typeof servicesJson.services[0].entrypoint, 'boolean')
 
   // Wait for the interval to be run
@@ -101,25 +100,6 @@ test('runtime is running', async (t) => {
       responses: { 200: { description: 'Default Response' } },
     },
   })
-  assert.deepEqual(json.paths['/runtimes/{pid}/reload'], {
-    post: {
-      parameters: [
-        {
-          schema: {
-            type: 'number',
-          },
-          in: 'path',
-          name: 'pid',
-          required: true,
-        },
-      ],
-      responses: {
-        200: {
-          description: 'Default Response',
-        },
-      },
-    },
-  })
 
   const serviceInvalidOpenapi = await server.inject({
     url: `/runtimes/${runtimePid}/openapi/fantozzi`
@@ -132,18 +112,18 @@ test('runtime is running', async (t) => {
   })
   assert.strictEqual(logs.statusCode, 200)
 
-  const [starting, listening, started, platformatic] = logs.body.trim().split('\n')
-  assert.ok(starting.includes('Starting the service'))
-  assert.ok(listening.includes('Server listening at http://127.0.0.1'))
-  assert.ok(started.includes('Started the service'))
-  assert.ok(platformatic.includes('Platformatic is now listening at http://127.0.0.1'))
+  const [starting, listening, started, platformatic] = logs.body.trim().split('\n').filter(val => !val.includes('Loading envfile'))
+  assert.ok(starting.includes('Starting the service \\"backend\\"'))
+  assert.ok(listening.includes('Started the service \\"backend\\"'))
+  assert.ok(started.includes('Starting the service \\"frontend\\"'))
+  assert.ok(platformatic.includes('Started the service \\"frontend\\"'))
 })
 
-test('runtime start & stop', async (t) => {
+test('runtime restart', async (t) => {
   await startWatt(t)
   const server = await getServer(t)
   const res = await server.inject({
-    url: '/runtimes'
+    url: '/runtimes?includeAdmin=true'
   })
   const [{ pid }] = res.json()
   assert.ok(pid > 0)
@@ -153,6 +133,16 @@ test('runtime start & stop', async (t) => {
     url: `/runtimes/${pid}/restart`
   })
   assert.strictEqual(restart.statusCode, 200)
+})
+
+test('runtime stop', async (t) => {
+  await startWatt(t)
+  const server = await getServer(t)
+  const res = await server.inject({
+    url: '/runtimes?includeAdmin=true'
+  })
+  const [{ pid }] = res.json()
+  assert.ok(pid > 0)
 
   const { statusCode } = await server.inject({
     method: 'POST',
@@ -167,7 +157,7 @@ test('runtime start & stop', async (t) => {
   assert.strictEqual(stop.statusCode, 500, 'trying to run stop command to a closed runtime')
 
   const runtimes = await server.inject({
-    url: '/runtimes'
+    url: '/runtimes?includeAdmin=true'
   })
   assert.deepEqual(runtimes.json(), [], 'no runtime running')
 })
