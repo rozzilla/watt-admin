@@ -74,7 +74,7 @@ export default async function (fastify: FastifyInstance) {
     try {
       await api.restartRuntime(request.params.pid)
     } catch (err) {
-      // TODO: restart is currently not working. Apparently, the call to `this.start()` on `@platformatic/runtime/lib/runtime.js` fails. Once it will be fixed, we can remove the catch and the warning log (and leave the function throw as it was before)
+      // TODO: restart is currently not working. Apparently, the call to `this.start()` on `@platformatic/runtime/lib/runtime.js` fails. Once it will be fixed, we can remove the catch and the warning log (and leave the function throw as it was before). Monitor this issue to check if it's fixed or not (https://github.com/platformatic/platformatic/issues/3928)
       fastify.log.warn({ err }, 'Issue restarting the runtime')
     }
   })
