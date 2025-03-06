@@ -1,7 +1,7 @@
 import React, { useRef, useState, useEffect } from 'react'
 import commonStyles from '~/styles/CommonStyles.module.css'
 import typographyStyles from '~/styles/Typography.module.css'
-import styles from './LatencyChart.module.css'
+import styles from './NodeJSMetricChart.module.css'
 import * as d3 from 'd3'
 import { xMargin, yMargin, yMarginWithoutXAxis } from './chart_constants.js'
 import colorSetLatency from './latency.module.css'

@@ -1,18 +1,17 @@
 import React, { useState, useEffect } from 'react'
 import PropTypes from 'prop-types'
-import { TRANSPARENT, RICH_BLACK, OPACITY_30, WHITE } from '@platformatic/ui-components/src/components/constants'
+import { TRANSPARENT, RICH_BLACK } from '@platformatic/ui-components/src/components/constants'
 import styles from './ServicesMetrics.module.css'
-import typographyStyles from '~/styles/Typography.module.css'
 import commonStyles from '~/styles/CommonStyles.module.css'
-import { BorderedBox, VerticalSeparator } from '@platformatic/ui-components'
+import { BorderedBox } from '@platformatic/ui-components'
 import { getApiMetricsPodService, getApiMetricsPod } from '~/api'
 import { useInterval } from '~/hooks/useInterval'
 import useAdminStore from '~/useAdminStore'
-import { REFRESH_INTERVAL_METRICS, POSITION_FIXED } from '~/ui-constants'
+import { REFRESH_INTERVAL_METRICS, POSITION_FIXED, MEMORY_UNIT_METRICS, LATENCY_UNIT_METRICS, CPU_UNIT_METRICS } from '~/ui-constants'
 import colorSetMem from './memory.module.css'
 import colorSetCpu from './cpu.module.css'
 import colorSetLatency from './latency.module.css'
-import NodeJSMetric from '../application/NodeJSMetric'
+import NodeJSMetric, { generateLegend } from '../application/NodeJSMetric'
 
 const ServicesMetrics = React.forwardRef(({
   serviceId,
@@ -52,27 +51,6 @@ const ServicesMetrics = React.forwardRef(({
     getData()
   }, [serviceId])
 
-  // FIXME: unify with NodeJSMetrics logic (since it's duplicated)
-  function generateLegend (labels, colorStyles) {
-    return (
-      <div className={`${commonStyles.smallFlexRow} ${commonStyles.fullWidth} ${commonStyles.itemsCenter}`}>
-        {
-        labels.map((label, i) => {
-          return (
-            <React.Fragment key={`label-${i}`}>
-              <div className={commonStyles.tinyFlexRow}>
-                <div className={`${styles.label} ${typographyStyles.desktopBodySmallest} ${typographyStyles.opacity70} ${typographyStyles.textWhite}`}>{label} </div>
-                <div className={`${styles.legendLine} ${colorStyles[`color-${i}`]}`} />
-              </div>
-              {i !== labels.length - 1 ? <VerticalSeparator color={WHITE} backgroundColorOpacity={OPACITY_30} classes={styles.verticalSeparator} /> : ''}
-            </React.Fragment>
-          )
-        })
-      }
-      </div>
-    )
-  }
-
   return (
     <div className={styles.container} ref={ref}>
       <div className={styles.content}>
@@ -84,7 +62,7 @@ const ServicesMetrics = React.forwardRef(({
                   <NodeJSMetric
                     key={`mem_${latestRefreshDate.toISOString()}`}
                     title={`${serviceId} Memory`}
-                    unit='(GB)'
+                    unit={`(${MEMORY_UNIT_METRICS})`}
                     metricURL='mem'
                     dataValues={serviceData.dataMem}
                     initialLoading={initialLoading}
@@ -92,23 +70,23 @@ const ServicesMetrics = React.forwardRef(({
                     options={[{
                       label: 'RSS',
                       internalKey: 'rss',
-                      unit: 'GB'
+                      unit: MEMORY_UNIT_METRICS
                     }, {
                       label: 'Total Heap',
                       internalKey: 'totalHeap',
-                      unit: 'GB'
+                      unit: MEMORY_UNIT_METRICS
                     }, {
                       label: 'Heap Used',
                       internalKey: 'usedHeap',
-                      unit: 'GB'
+                      unit: MEMORY_UNIT_METRICS
                     }, {
                       label: 'New Space',
                       internalKey: 'newSpace',
-                      unit: 'GB'
+                      unit: MEMORY_UNIT_METRICS
                     }, {
                       label: 'Old Space',
                       internalKey: 'oldSpace',
-                      unit: 'GB'
+                      unit: MEMORY_UNIT_METRICS
                     }]}
                     backgroundColor={RICH_BLACK}
                     showLegend={false}
@@ -122,7 +100,7 @@ const ServicesMetrics = React.forwardRef(({
                     <NodeJSMetric
                       key={`mem_${latestRefreshDate.toISOString()}`}
                       title='Memory'
-                      unit='(GB)'
+                      unit={`(${MEMORY_UNIT_METRICS})`}
                       metricURL='mem'
                       dataValues={allData.dataMem}
                       initialLoading={initialLoading}
@@ -130,23 +108,23 @@ const ServicesMetrics = React.forwardRef(({
                       options={[{
                         label: 'RSS',
                         internalKey: 'rss',
-                        unit: 'GB'
+                        unit: MEMORY_UNIT_METRICS
                       }, {
                         label: 'Total Heap',
                         internalKey: 'totalHeap',
-                        unit: 'GB'
+                        unit: MEMORY_UNIT_METRICS
                       }, {
                         label: 'Heap Used',
                         internalKey: 'usedHeap',
-                        unit: 'GB'
+                        unit: MEMORY_UNIT_METRICS
                       }, {
                         label: 'New Space',
                         internalKey: 'newSpace',
-                        unit: 'GB'
+                        unit: MEMORY_UNIT_METRICS
                       }, {
                         label: 'Old Space',
                         internalKey: 'oldSpace',
-                        unit: 'GB'
+                        unit: MEMORY_UNIT_METRICS
                       }]}
                       backgroundColor={RICH_BLACK}
                       showLegend={false}
@@ -170,15 +148,15 @@ const ServicesMetrics = React.forwardRef(({
                     dataValues={serviceData.dataCpu}
                     initialLoading={initialLoading}
                     chartTooltipPosition={POSITION_FIXED}
-                    unit='(%)'
+                    unit={`(${CPU_UNIT_METRICS})`}
                     options={[{
                       label: 'CPU',
                       internalKey: 'cpu',
-                      unit: '%'
+                      unit: CPU_UNIT_METRICS
                     }, {
                       label: 'ELU',
                       internalKey: 'eventLoop',
-                      unit: '%'
+                      unit: CPU_UNIT_METRICS
                     }]}
                     backgroundColor={RICH_BLACK}
                     showLegend={false}
@@ -196,15 +174,15 @@ const ServicesMetrics = React.forwardRef(({
                       dataValues={allData.dataCpu}
                       initialLoading={initialLoading}
                       chartTooltipPosition={POSITION_FIXED}
-                      unit='(%)'
+                      unit={`(${CPU_UNIT_METRICS})`}
                       options={[{
                         label: 'CPU',
                         internalKey: 'cpu',
-                        unit: '%'
+                        unit: CPU_UNIT_METRICS
                       }, {
                         label: 'ELU',
                         internalKey: 'eventLoop',
-                        unit: '%'
+                        unit: CPU_UNIT_METRICS
                       }]}
                       backgroundColor={RICH_BLACK}
                       showLegend={false}
@@ -229,19 +207,19 @@ const ServicesMetrics = React.forwardRef(({
                     dataValues={serviceData.dataLatency}
                     initialLoading={initialLoading}
                     chartTooltipPosition={POSITION_FIXED}
-                    unit='(ms)'
+                    unit={`(${LATENCY_UNIT_METRICS})`}
                     options={[{
                       label: 'P90',
                       internalKey: 'p90',
-                      unit: 'ms'
+                      unit: LATENCY_UNIT_METRICS
                     }, {
                       label: 'P95',
                       internalKey: 'p95',
-                      unit: 'ms'
+                      unit: LATENCY_UNIT_METRICS
                     }, {
                       label: 'P99',
                       internalKey: 'p99',
-                      unit: 'ms'
+                      unit: LATENCY_UNIT_METRICS
                     }]}
                     backgroundColor={RICH_BLACK}
                     showLegend={false}
@@ -259,19 +237,19 @@ const ServicesMetrics = React.forwardRef(({
                       dataValues={allData.dataLatency}
                       initialLoading={initialLoading}
                       chartTooltipPosition={POSITION_FIXED}
-                      unit='(ms)'
+                      unit={`(${LATENCY_UNIT_METRICS})`}
                       options={[{
                         label: 'P90',
                         internalKey: 'p90',
-                        unit: 'ms'
+                        unit: LATENCY_UNIT_METRICS
                       }, {
                         label: 'P95',
                         internalKey: 'p95',
-                        unit: 'ms'
+                        unit: LATENCY_UNIT_METRICS
                       }, {
                         label: 'P99',
                         internalKey: 'p99',
-                        unit: 'ms'
+                        unit: LATENCY_UNIT_METRICS
                       }]}
                       backgroundColor={RICH_BLACK}
                       showLegend={false}
