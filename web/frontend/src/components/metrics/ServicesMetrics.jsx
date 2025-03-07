@@ -43,13 +43,8 @@ const ServicesMetrics = React.forwardRef(({
     }
   }
 
-  useInterval(() => {
-    getData()
-  }, REFRESH_INTERVAL_METRICS)
-
-  useEffect(() => {
-    getData()
-  }, [serviceId])
+  useInterval(() => { getData() }, REFRESH_INTERVAL_METRICS)
+  useEffect(() => { getData() }, [runtimePid, serviceId])
 
   return (
     <div className={styles.container} ref={ref}>

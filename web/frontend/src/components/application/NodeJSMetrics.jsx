@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import { useInterval } from '~/hooks/useInterval'
 import PropTypes from 'prop-types'
 import { WHITE, MEDIUM, BLACK_RUSSIAN, TRANSPARENT, RICH_BLACK } from '@platformatic/ui-components/src/components/constants'
@@ -24,7 +24,7 @@ function NodeJSMetrics ({
   const [latestRefreshDate, setLatestRefreshDate] = useState(new Date())
   const { runtimePid } = useAdminStore()
 
-  useInterval(async () => {
+  const getData = async () => {
     try {
       const data = await getApiMetricsPod(runtimePid)
       setAllData(data)
@@ -34,7 +34,10 @@ function NodeJSMetrics ({
     } finally {
       setInitialLoading(false)
     }
-  }, [REFRESH_INTERVAL_METRICS])
+  }
+
+  useInterval(() => { getData() }, [REFRESH_INTERVAL_METRICS])
+  useEffect(() => { getData() }, [runtimePid])
 
   return (
     <BorderedBox classes={`${styles.borderexBoxContainer} ${gridClassName}`} backgroundColor={BLACK_RUSSIAN} color={TRANSPARENT}>

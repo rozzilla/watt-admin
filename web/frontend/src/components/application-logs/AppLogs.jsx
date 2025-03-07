@@ -34,7 +34,6 @@ const AppLogs = React.forwardRef(({ filteredServices }, ref) => {
   const logContentRef = useRef()
   const [lastScrollTop, setLastScrollTop] = useState(0)
   const [displayGoToBottom, setDisplayGoToBottom] = useState(false)
-  const [showPreviousLogs] = useState(false)
   const [statusPausedLogs, setStatusPausedLogs] = useState('')
   const [filteredLogsLengthAtPause, setFilteredLogsLengthAtPause] = useState(0)
   const bottomRef = useRef()
@@ -110,10 +109,13 @@ const AppLogs = React.forwardRef(({ filteredServices }, ref) => {
     filteredServices
   ])
 
-  useInterval(async () => {
+  const getData = async () => {
     const logs = await getLogs(runtimePid)
     setApplicationLogs(logs)
-  }, REFRESH_INTERVAL_LOGS)
+  }
+
+  useInterval(() => { getData() }, REFRESH_INTERVAL_LOGS)
+  useEffect(() => { getData() }, [runtimePid])
 
   useEffect(() => {
     if (scrollDirection !== DIRECTION_TAIL && filteredLogsLengthAtPause > 0 && filteredLogsLengthAtPause < filteredLogs.length) {
@@ -126,13 +128,6 @@ const AppLogs = React.forwardRef(({ filteredServices }, ref) => {
     setDisplayGoToBottom(false)
     setFilteredLogsLengthAtPause(0)
   }
-
-  async function loadPreviousLogs () {
-  }
-
-  /* function onlyUnique (value, index, array) {
-    return array.indexOf(value) === index
-  } */
 
   function saveLogs () {
     let fileData = ''
@@ -168,7 +163,6 @@ const AppLogs = React.forwardRef(({ filteredServices }, ref) => {
   }
 
   function handleScroll (event) {
-    // setStatusPausedLogs(STATUS_PAUSED_LOGS)
     const st = event.currentTarget.scrollTop // Credits: "https://github.com/qeremy/so/blob/master/so.dom.js#L426"
     if (st > lastScrollTop) {
       // downscroll code
@@ -219,12 +213,6 @@ const AppLogs = React.forwardRef(({ filteredServices }, ref) => {
             </div>
             <HorizontalSeparator marginBottom={MARGIN_0} color={WHITE} opacity={OPACITY_15} />
             <div className={`${styles.logsContainer} ${styles.lateralPadding}`} ref={logContentRef} onScroll={handleScroll}>
-              {showPreviousLogs && (
-                <div className={styles.previousLogContainer}>
-                  <p className={`${typographyStyles.desktopBodySmall} ${typographyStyles.textWhite} ${typographyStyles.textCenter} ${commonStyles.fullWidth} `}><span className={`${commonStyles.cursorPointer} ${typographyStyles.textTertiaryBlue}`} onClick={() => loadPreviousLogs()}>Click Here</span> to load previous logs</p>
-                </div>
-              )}
-
               {filteredLogs?.length > 0 && (
                 <>
                   <hr className={styles.logDividerTop} />
