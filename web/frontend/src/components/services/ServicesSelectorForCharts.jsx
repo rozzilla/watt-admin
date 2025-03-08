@@ -60,7 +60,7 @@ function ServicesSelectorForCharts ({
           {...service}
           isSelected={serviceSelected.id === service.id}
           onClickService={() => handleClickService(service)}
-        />)}
+                                 />)}
       </div>
     </div>
   )
