@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from 'react'
+import React, { useState, useEffect } from 'react'
 import { HashRouter, Routes, Route } from 'react-router-dom'
 import './App.css'
 import NotFound from '~/pages/NotFound'
@@ -28,9 +28,6 @@ export default function App () {
   const { setCurrentWindowWidth } = globalState
   const [innerLoading, setInnerLoading] = useState(false)
   const [showErrorComponent, setShowErrorComponent] = useState(false)
-  const applicationsRef = useRef(null)
-  const podServicesRef = useRef(null)
-  const podLogsRef = useRef(null)
 
   const {
     ErrorBoundary,
@@ -111,10 +108,7 @@ export default function App () {
             element={
               <PrivateRouteContainer>
                 <ApplicationContainer>
-                  <AppDetails
-                    ref={applicationsRef}
-                    key={HOME_PATH}
-                  />
+                  <AppDetails />
                 </ApplicationContainer>
               </PrivateRouteContainer>
             }
@@ -124,10 +118,7 @@ export default function App () {
             element={
               <PrivateRouteContainer>
                 <ApplicationContainer>
-                  <ServicesCharts
-                    ref={podServicesRef}
-                    key={POD_SERVICES_PATH}
-                  />
+                  <ServicesCharts />
                 </ApplicationContainer>
               </PrivateRouteContainer>
             }
@@ -137,10 +128,7 @@ export default function App () {
             element={
               <PrivateRouteContainer>
                 <ApplicationContainer>
-                  <ServicesLogs
-                    ref={podLogsRef}
-                    key={POD_LOGS_PATH}
-                  />
+                  <ServicesLogs />
                 </ApplicationContainer>
               </PrivateRouteContainer>
             }

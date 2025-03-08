@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from 'react'
-import PropTypes from 'prop-types'
 import { WARNING_YELLOW, WHITE, TRANSPARENT, SMALL, BLACK_RUSSIAN, MEDIUM } from '@platformatic/ui-components/src/components/constants'
 import styles from './AppNameBox.module.css'
 import typographyStyles from '~/styles/Typography.module.css'
@@ -14,7 +13,6 @@ import { restartApiApplication, isWattpmVersionOutdated } from '../../api'
 
 function AppNameBox ({
   onErrorOccurred = () => {},
-  gridClassName = '',
   apiApplication
 }) {
   const [appStatus, setAppStatus] = useState(STATUS_STOPPED)
@@ -50,7 +48,7 @@ function AppNameBox ({
   }
 
   return apiApplication && (
-    <BorderedBox classes={`${styles.borderexBoxContainer} ${gridClassName}`} backgroundColor={BLACK_RUSSIAN} color={TRANSPARENT}>
+    <BorderedBox classes={`${styles.borderexBoxContainer}`} backgroundColor={BLACK_RUSSIAN} color={TRANSPARENT}>
       <div className={`${commonStyles.smallFlexBlock} ${commonStyles.fullWidth}`}>
         <div className={`${commonStyles.smallFlexResponsiveRow} ${commonStyles.fullWidth}`}>
           <div className={`${commonStyles.tinyFlexResponsiveRow} ${commonStyles.fullWidth}`}>
@@ -143,18 +141,6 @@ function AppNameBox ({
       </div>
     </BorderedBox>
   )
-}
-
-AppNameBox.propTypes = {
-  /**
-   * onErrorOccurred
-    */
-  onErrorOccurred: PropTypes.func,
-  /**
-   * gridClassName
-    */
-  gridClassName: PropTypes.string
-
 }
 
 export default AppNameBox

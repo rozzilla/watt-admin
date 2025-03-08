@@ -11,7 +11,7 @@ import { BorderedBox } from '@platformatic/ui-components'
 import { POD_LOGS_PATH } from '~/ui-constants'
 import { getServices } from '../../api'
 
-const ServicesLogs = React.forwardRef(({ _ }, ref) => {
+const ServicesLogs = () => {
   const globalState = useAdminStore()
   const { setCurrentPage, runtimePid } = globalState
   const [selectAllServices, setSelectAllServices] = useState(true)
@@ -65,7 +65,7 @@ const ServicesLogs = React.forwardRef(({ _ }, ref) => {
   }
 
   return (
-    <div className={styles.detailPodContainer} ref={ref}>
+    <div className={styles.detailPodContainer}>
       <div className={styles.detailPodContent}>
         <div className={`${commonStyles.miniFlexBlock} ${commonStyles.fullWidth}`}>
           <div className={`${commonStyles.tinyFlexRow} ${commonStyles.fullWidth}`}>
@@ -93,6 +93,6 @@ const ServicesLogs = React.forwardRef(({ _ }, ref) => {
       </div>
     </div>
   )
-})
+}
 
 export default ServicesLogs

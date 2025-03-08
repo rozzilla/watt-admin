@@ -1,5 +1,4 @@
 import { useEffect } from 'react'
-import PropTypes from 'prop-types'
 import {
   HOME_PATH,
   POD_SERVICES_PATH,
@@ -59,13 +58,6 @@ function ApplicationContainer ({ children }) {
       {children}
     </div>
   )
-}
-
-ApplicationContainer.propTypes = {
-  /**
-   * children
-   */
-  children: PropTypes.node
 }
 
 export default ApplicationContainer

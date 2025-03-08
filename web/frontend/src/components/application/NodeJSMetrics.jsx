@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from 'react'
 import { useInterval } from '~/hooks/useInterval'
-import PropTypes from 'prop-types'
 import { WHITE, MEDIUM, BLACK_RUSSIAN, TRANSPARENT, RICH_BLACK } from '@platformatic/ui-components/src/components/constants'
 import styles from './NodeJSMetrics.module.css'
 import typographyStyles from '~/styles/Typography.module.css'
@@ -12,35 +11,33 @@ import { REFRESH_INTERVAL_METRICS, MEMORY_UNIT_METRICS, LATENCY_UNIT_METRICS, CP
 import { getApiMetricsPod } from '~/api'
 import useAdminStore from '~/useAdminStore'
 
-function NodeJSMetrics ({
-  gridClassName = ''
-}) {
+function NodeJSMetrics () {
   const [initialLoading, setInitialLoading] = useState(true)
   const [allData, setAllData] = useState({
     dataMem: [],
     dataCpu: [],
     dataLatency: []
   })
-  const [latestRefreshDate, setLatestRefreshDate] = useState(new Date())
   const { runtimePid } = useAdminStore()
 
   const getData = async () => {
     try {
-      const data = await getApiMetricsPod(runtimePid)
-      setAllData(data)
-      setLatestRefreshDate(new Date())
+      if (runtimePid) {
+        const data = await getApiMetricsPod(runtimePid)
+        setAllData(data)
+      }
     } catch (error) {
-      console.error('Failed to fetch metrics:', error)
+      console.error('Failed to fetch runtime metrics:', error)
     } finally {
       setInitialLoading(false)
     }
   }
 
-  useInterval(() => { getData() }, [REFRESH_INTERVAL_METRICS])
+  useInterval(() => { getData() }, REFRESH_INTERVAL_METRICS)
   useEffect(() => { getData() }, [runtimePid])
 
   return (
-    <BorderedBox classes={`${styles.borderexBoxContainer} ${gridClassName}`} backgroundColor={BLACK_RUSSIAN} color={TRANSPARENT}>
+    <BorderedBox classes={`${styles.borderexBoxContainer}`} backgroundColor={BLACK_RUSSIAN} color={TRANSPARENT}>
       <div className={`${commonStyles.smallFlexBlock} ${commonStyles.fullWidth}`}>
         <div className={`${commonStyles.smallFlexRow} ${commonStyles.fullWidth} ${commonStyles.justifyBetween}`}>
           <div className={`${commonStyles.tinyFlexRow} ${commonStyles.fullWidth} ${commonStyles.justifyBetween}`}>
@@ -58,7 +55,6 @@ function NodeJSMetrics ({
 
         <div className={styles.metricsContainer}>
           <NodeJSMetric
-            key={`mem_${latestRefreshDate.toISOString()}`}
             title='Memory'
             unit={`(${MEMORY_UNIT_METRICS})`}
             metricURL='mem'
@@ -80,7 +76,6 @@ function NodeJSMetrics ({
             backgroundColor={RICH_BLACK}
           />
           <NodeJSMetric
-            key={`cpu_${latestRefreshDate.toISOString()}`}
             title='CPU & ELU Average'
             metricURL='cpu'
             dataValues={allData.dataCpu}
@@ -98,7 +93,6 @@ function NodeJSMetrics ({
             backgroundColor={RICH_BLACK}
           />
           <NodeJSMetric
-            key={`latency_${latestRefreshDate.toISOString()}`}
             title='Entrypoint Latency'
             metricURL='latency'
             dataValues={allData.dataLatency}
@@ -123,13 +117,6 @@ function NodeJSMetrics ({
       </div>
     </BorderedBox>
   )
-}
-
-NodeJSMetrics.propTypes = {
-  /**
-   * gridClassName
-    */
-  gridClassName: PropTypes.string
 }
 
 export default NodeJSMetrics

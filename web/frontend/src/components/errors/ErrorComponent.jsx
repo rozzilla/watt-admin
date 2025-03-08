@@ -1,5 +1,4 @@
 import React, { useState } from 'react'
-import PropTypes from 'prop-types'
 import typographyStyles from '~/styles/Typography.module.css'
 import commonStyles from '~/styles/CommonStyles.module.css'
 import styles from './ErrorComponent.module.css'
@@ -102,25 +101,6 @@ function ErrorComponent ({
       )}
     </div>
   )
-}
-
-ErrorComponent.propTypes = {
-  /**
-   * error
-   */
-  error: PropTypes.object,
-  /**
-   * message
-   */
-  message: PropTypes.string,
-  /**
-   * containerClassName
-   */
-  containerClassName: PropTypes.string,
-  /**
-   * onClickDismiss
-   */
-  onClickDismiss: PropTypes.func
 }
 
 export default ErrorComponent

@@ -43,7 +43,6 @@ export const getLogs = async (id) => {
 export const getApiMetricsPod = async (id) => {
   try {
     const response = await fetch(`${host}/runtimes/${id}/metrics`)
-
     const data = await response.json()
     return data
   } catch (error) {
@@ -55,7 +54,6 @@ export const getApiMetricsPod = async (id) => {
 export const getApiMetricsPodService = async (podId, serviceId) => {
   try {
     const response = await fetch(`${host}/runtimes/${podId}/metrics/${serviceId}`)
-
     const data = await response.json()
     return data
   } catch (error) {

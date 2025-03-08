@@ -7,19 +7,6 @@
 .boxMetricContainer {
   @apply w-full p-4;
 }
-.noMetrics {
-  @apply w-full grow;
-}
 .flexGrow {
   @apply grow;
-}
-.loadingSpinner {
-  @apply absolute left-1/2 top-1/2;
-  transform: translate(-50%, -50%);
-}
-.legendLine {
-  @apply border-t-2 border-solid rounded-full w-3 h-0;
-}
-.verticalSeparator {
-  @apply h-[1rem];
 }
