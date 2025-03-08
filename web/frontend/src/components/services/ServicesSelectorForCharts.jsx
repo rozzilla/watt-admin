@@ -1,5 +1,4 @@
 import React, { useState } from 'react'
-import PropTypes from 'prop-types'
 import typographyStyles from '~/styles/Typography.module.css'
 import commonStyles from '~/styles/CommonStyles.module.css'
 import styles from './ServicesSelector.module.css'
@@ -61,34 +60,10 @@ function ServicesSelectorForCharts ({
           {...service}
           isSelected={serviceSelected.id === service.id}
           onClickService={() => handleClickService(service)}
-                                 />)}
+        />)}
       </div>
     </div>
   )
-}
-
-ServicesSelectorForCharts.propTypes = {
-  /**
-   * services
-    */
-  services: PropTypes.array,
-  /**
-   * serviceSelected
-    */
-  serviceSelected: PropTypes.object,
-  /**
-   * handleClickService
-    */
-  handleClickService: PropTypes.func,
-  /**
-   * showAggregatedMetrics
-   */
-  showAggregatedMetrics: PropTypes.bool,
-  /**
-     * handleChangeAllServices
-      */
-  handleChangeAllServices: PropTypes.func
-
 }
 
 export default ServicesSelectorForCharts

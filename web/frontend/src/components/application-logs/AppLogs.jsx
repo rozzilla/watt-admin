@@ -23,7 +23,7 @@ import useOnScreen from '~/hooks/useOnScreen'
 import useAdminStore from '~/useAdminStore'
 import { getLogs } from '../../api'
 
-const AppLogs = React.forwardRef(({ filteredServices }, ref) => {
+const AppLogs = ({ filteredServices }) => {
   const { runtimePid } = useAdminStore()
   const [displayLog, setDisplayLog] = useState(PRETTY)
   const [filterLogsByLevel, setFilterLogsByLevel] = useState('')
@@ -110,8 +110,14 @@ const AppLogs = React.forwardRef(({ filteredServices }, ref) => {
   ])
 
   const getData = async () => {
-    const logs = await getLogs(runtimePid)
-    setApplicationLogs(logs)
+    try {
+      if (runtimePid) {
+        const logs = await getLogs(runtimePid)
+        setApplicationLogs(logs)
+      }
+    } catch (error) {
+      console.error('Failed to fetch logs:', error)
+    }
   }
 
   useInterval(() => { getData() }, REFRESH_INTERVAL_LOGS)
@@ -181,7 +187,7 @@ const AppLogs = React.forwardRef(({ filteredServices }, ref) => {
   }
 
   return (
-    <div className={styles.container} ref={ref}>
+    <div className={styles.container}>
       <div className={styles.content}>
         <div className={`${commonStyles.largeFlexBlock} ${commonStyles.fullWidth} ${styles.flexGrow}`}>
           <BorderedBox classes={styles.borderexBoxPodContainer} backgroundColor={RICH_BLACK} color={TRANSPARENT}>
@@ -248,6 +254,6 @@ const AppLogs = React.forwardRef(({ filteredServices }, ref) => {
       </div>
     </div>
   )
-})
+}
 
 export default AppLogs

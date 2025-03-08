@@ -231,7 +231,7 @@ const NodeJSMetricChart = ({
         let tx = xPos + tooltipWidth < w ? xPos : w - tooltipWidth
         let ty = maxY - (tooltipHeight + 30)
         if (tooltipPosition === POSITION_FIXED) {
-          tx = event.clientX - (tooltipWidth / 2)
+          tx = event.clientX - (tooltipWidth / 2) - 40
           ty = svgRef.current.getBoundingClientRect().bottom - svgRef.current.getBoundingClientRect().height - tooltipHeight - 75 + maxY
         }
         tooltip.style('left', tx + 'px').style('top', ty + 'px')

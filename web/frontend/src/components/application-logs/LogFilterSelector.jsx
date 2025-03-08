@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from 'react'
-import PropTypes from 'prop-types'
 import styles from './LogFilterSelector.module.css'
 import typographyStyles from '~/styles/Typography.module.css'
 
@@ -86,17 +85,6 @@ function LogFilterSelector ({
       </div>
     </div>
   )
-}
-
-LogFilterSelector.propTypes = {
-  /**
-   * defaultLevelSelected
-    */
-  defaultLevelSelected: PropTypes.number,
-  /**
-   * onChangeLevelSelected
-    */
-  onChangeLevelSelected: PropTypes.func
 }
 
 export default LogFilterSelector

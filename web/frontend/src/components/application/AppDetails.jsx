@@ -7,7 +7,7 @@ import NodeJSMetrics from './NodeJSMetrics'
 import useAdminStore from '~/useAdminStore'
 import { getApiApplication } from '../../api'
 
-const AppDetails = React.forwardRef(({ _ }, ref) => {
+const AppDetails = () => {
   const [showErrorComponent, setShowErrorComponent] = useState(false)
   const [error, setError] = useState(false)
   const [apiApplication, setApiApplication] = useState({})
@@ -31,21 +31,18 @@ const AppDetails = React.forwardRef(({ _ }, ref) => {
   }
 
   return (
-    <div className={styles.container} ref={ref}>
+    <div className={styles.container}>
       <div className={styles.containerElement}>
         <div className={styles.content}>
           <div className={styles.leftSection}>
             <AppNameBox
-              gridClassName={styles.appNameBox}
               onErrorOccurred={(error) => {
                 setError(error)
                 setShowErrorComponent(true)
               }}
               apiApplication={apiApplication}
             />
-            <NodeJSMetrics
-              gridClassName={styles.nodeJsMetricsBox}
-            />
+            <NodeJSMetrics />
           </div>
           <div className={styles.rightSection}>
             <ServicesBox />
@@ -54,6 +51,6 @@ const AppDetails = React.forwardRef(({ _ }, ref) => {
       </div>
     </div>
   )
-})
+}
 
 export default AppDetails

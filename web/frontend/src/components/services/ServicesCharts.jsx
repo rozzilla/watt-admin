@@ -11,7 +11,7 @@ import ServicesMetrics from '~/components/metrics/ServicesMetrics'
 import { POD_SERVICES_PATH } from '~/ui-constants'
 import { getServices } from '../../api'
 
-const ServicesCharts = React.forwardRef(({ _ }, ref) => {
+const ServicesCharts = () => {
   const globalState = useAdminStore()
   const { setCurrentPage, runtimePid } = globalState
   const [showAggregatedMetrics, setShowAggregatedMetrics] = useState(true)
@@ -38,7 +38,7 @@ const ServicesCharts = React.forwardRef(({ _ }, ref) => {
   }, [runtimePid])
 
   return (
-    <div className={styles.podServicesContainer} ref={ref}>
+    <div className={styles.podServicesContainer}>
       <div className={styles.podServicesContent}>
         <div className={`${commonStyles.miniFlexBlock} ${commonStyles.fullWidth}`}>
           <div className={`${commonStyles.tinyFlexRow} ${commonStyles.fullWidth}`}>
@@ -69,6 +69,6 @@ const ServicesCharts = React.forwardRef(({ _ }, ref) => {
       </div>
     </div>
   )
-})
+}
 
 export default ServicesCharts
