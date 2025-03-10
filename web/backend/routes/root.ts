@@ -1,6 +1,15 @@
 import { FastifyInstance } from 'fastify'
 import { JsonSchemaToTsProvider } from '@fastify/type-provider-json-schema-to-ts'
 import { RuntimeApiClient } from '@platformatic/control'
+import split2 from 'split2'
+
+export type Log = {
+  level: number,
+  time: number,
+  pid: number,
+  hostname: string,
+  msg: string
+}
 
 export default async function (fastify: FastifyInstance) {
   const typedFastify = fastify.withTypeProvider<JsonSchemaToTsProvider>()
@@ -61,30 +70,25 @@ export default async function (fastify: FastifyInstance) {
 
     // Similar to what have been done on `metrics.ts`, this is the current fix to avoid a potential infinite array of data (and therefore a memory leak).
     const MAX_LOGS = 1000
-    const result = []
-    let currentLine = ''
-    for await (const chunk of readable) {
-      const text = chunk.toString()
-      for (const char of text) {
-        if (char !== '\n') {
-          currentLine += char
-        } else {
-          let value
+    const result: Log[] = []
+    await new Promise((resolve, reject) => {
+      readable
+        .pipe(split2())
+        .on('data', line => {
           try {
-            value = JSON.parse(currentLine)
-          } catch (err) {
-            fastify.log.warn({ err, currentLine, text }, 'Unable to parse log line to JSON from text')
-          }
-          if (value) {
+            const parsedObject = JSON.parse(line)
+            result.push(parsedObject)
+
             if (result.length > MAX_LOGS) {
               result.shift()
             }
-            result.push(value)
+          } catch (err) {
+            fastify.log.warn({ line }, 'Invalid JSON line found:')
           }
-          currentLine = ''
-        }
-      }
-    }
+        })
+        .on('error', reject)
+        .on('end', resolve)
+    })
     return result
   })
 
