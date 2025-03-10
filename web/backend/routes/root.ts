@@ -2,6 +2,7 @@ import { FastifyInstance } from 'fastify'
 import { JsonSchemaToTsProvider } from '@fastify/type-provider-json-schema-to-ts'
 import { RuntimeApiClient } from '@platformatic/control'
 import split2 from 'split2'
+import { pipeline } from 'node:stream/promises'
 
 export type Log = {
   level: number,
@@ -68,13 +69,14 @@ export default async function (fastify: FastifyInstance) {
   }, async (request) => {
     const readable = await api.getRuntimeAllLogsStream(request.params.pid)
 
-    // Similar to what have been done on `metrics.ts`, this is the current fix to avoid a potential infinite array of data (and therefore a memory leak).
     const MAX_LOGS = 1000
     const result: Log[] = []
-    await new Promise((resolve, reject) => {
-      readable
-        .pipe(split2())
-        .on('data', line => {
+
+    await pipeline(
+      readable,
+      split2(),
+      async function * (source) {
+        for await (const line of source) {
           try {
             const parsedObject = JSON.parse(line)
             result.push(parsedObject)
@@ -85,10 +87,10 @@ export default async function (fastify: FastifyInstance) {
           } catch (err) {
             fastify.log.warn({ line }, 'Invalid JSON line found:')
           }
-        })
-        .on('error', reject)
-        .on('end', resolve)
-    })
+        }
+      }
+    )
+
     return result
   })
 
