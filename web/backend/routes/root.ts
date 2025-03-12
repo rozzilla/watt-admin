@@ -1,6 +1,6 @@
 import { FastifyInstance } from 'fastify'
 import { JsonSchemaToTsProvider } from '@fastify/type-provider-json-schema-to-ts'
-import { RuntimeApiClient } from '@platformatic/control'
+import { RuntimeApiClient, Runtime } from '@platformatic/control'
 import { getLogsFromReadable } from '../utils/log'
 
 export default async function (fastify: FastifyInstance) {
@@ -20,13 +20,23 @@ export default async function (fastify: FastifyInstance) {
       },
     }
   }, async (request) => {
-    let runtimes = await api.getRuntimes()
+    const runtimes = await api.getRuntimes()
+
+    type SelectableRuntime = Runtime & { selected?: boolean }
+
+    let selectableRuntimes: SelectableRuntime[] = runtimes
 
     if (!request.query.includeAdmin) {
-      runtimes = runtimes.filter((runtime) => runtime.packageName !== 'watt-admin')
+      selectableRuntimes = selectableRuntimes.filter((runtime) => runtime.packageName !== 'watt-admin')
     }
 
-    return runtimes
+    for (const runtime of selectableRuntimes) {
+      if (process.env.SELECTED_RUNTIME === runtime.pid.toString()) {
+        runtime.selected = true
+      }
+    }
+
+    return selectableRuntimes
   })
 
   typedFastify.get('/runtimes/:pid/metrics', {
