@@ -1,7 +1,7 @@
 import test from 'node:test'
 import assert from 'node:assert'
 import { getServer, startWatt, wait } from '../helper'
-import { MetricsResponse } from '../../plugins/metrics'
+import { MetricsResponse } from '../../utils/calc'
 
 test('metrics without runtime', async (t) => {
   const server = await getServer(t)
@@ -43,6 +43,9 @@ test('metrics with runtime', async (t) => {
   assert.ok(metrics.dataMem[0].oldSpace >= 0)
   assert.ok(new Date(metrics.dataMem[0].date) <= new Date())
 
+  assert.ok(metrics.dataReq[0].count > 0)
+  assert.ok(new Date(metrics.dataReq[0].date) <= new Date())
+
   const backendMetrics = await server.inject({
     url: `/runtimes/${pid}/metrics/backend`
   })
@@ -51,6 +54,7 @@ test('metrics with runtime', async (t) => {
   assert.ok('dataCpu' in response)
   assert.ok('dataLatency' in response)
   assert.ok('dataMem' in response)
+  assert.ok('dataReq' in response)
 
   assert.equal(metrics.dataMem[0].rss, response.dataMem[0].rss)
 })
