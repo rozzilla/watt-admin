@@ -1,6 +1,6 @@
 import React from 'react'
-import typographyStyles from '~/styles/Typography.module.css'
-import commonStyles from '~/styles/CommonStyles.module.css'
+import typographyStyles from '../../styles/Typography.module.css'
+import commonStyles from '../../styles/CommonStyles.module.css'
 import styles from './NoDataAvailable.module.css'
 import { Icons } from '@platformatic/ui-components'
 import { MEDIUM, WHITE } from '@platformatic/ui-components/src/components/constants'

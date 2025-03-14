@@ -1,14 +1,14 @@
 import React, { useEffect, useRef, useState } from 'react'
 import styles from './NodeJSMetricChart.module.css'
-import commonStyles from '~/styles/CommonStyles.module.css'
-import typographyStyles from '~/styles/Typography.module.css'
+import commonStyles from '../../styles/CommonStyles.module.css'
+import typographyStyles from '../../styles/Typography.module.css'
 import * as d3 from 'd3'
 import colorSetMem from './memory.module.css'
 import colorSetCpu from './cpu.module.css'
 import colorSetLatency from './latency.module.css'
 import { xMargin, yMargin, yMarginWithoutXAxis, radiusDotsTooltip } from './chart_constants.js'
 import { getTicks } from './utils.js'
-import { POSITION_ABSOLUTE, POSITION_FIXED } from '~/ui-constants'
+import { POSITION_ABSOLUTE, POSITION_FIXED } from '../../ui-constants'
 import { findY } from './chart_utils.js'
 
 const NodeJSMetricChart = ({

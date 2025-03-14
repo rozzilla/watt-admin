@@ -1,10 +1,10 @@
 import React, { useEffect, useState } from 'react'
-import typographyStyles from '~/styles/Typography.module.css'
+import typographyStyles from '../../styles/Typography.module.css'
 import styles from './Log.module.css'
 import { CopyAndPaste, PlatformaticIcon } from '@platformatic/ui-components'
 import { WHITE, SMALL, POSITION_END } from '@platformatic/ui-components/src/components/constants'
-import { getFormattedLogTimestamp } from '~/utilities/dates'
-import tooltipStyles from '~/styles/TooltipStyles.module.css'
+import { getFormattedLogTimestamp } from '../../utilities/dates'
+import tooltipStyles from '../../styles/TooltipStyles.module.css'
 
 function Log ({ log, onClickArrow }) {
   const [displayJson, setDisplayJson] = useState(false)

@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import styles from './LogFilterSelector.module.css'
-import typographyStyles from '~/styles/Typography.module.css'
+import typographyStyles from '../../styles/Typography.module.css'
 
 function LogButton ({
   level = 10,

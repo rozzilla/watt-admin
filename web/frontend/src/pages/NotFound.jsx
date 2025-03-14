@@ -1,8 +1,8 @@
 import React from 'react'
 import styles from './Errors.module.css'
 import { Layout } from '@platformatic/ui-components'
-import commonStyles from '~/styles/CommonStyles.module.css'
-import Logo from '~/components/ui/Logo'
+import commonStyles from '../styles/CommonStyles.module.css'
+import Logo from '../components/ui/Logo'
 
 function NotFound () {
   return (

@@ -1,12 +1,12 @@
 import React, { useState, useEffect, useRef } from 'react'
-import { useInterval } from '~/hooks/useInterval'
+import { useInterval } from '../../hooks/useInterval'
 import { RICH_BLACK, WHITE, TRANSPARENT, MARGIN_0, OPACITY_15 } from '@platformatic/ui-components/src/components/constants'
 import styles from './AppLogs.module.css'
-import typographyStyles from '~/styles/Typography.module.css'
-import commonStyles from '~/styles/CommonStyles.module.css'
-import loadingSpinnerStyles from '~/styles/LoadingSpinnerStyles.module.css'
+import typographyStyles from '../../styles/Typography.module.css'
+import commonStyles from '../../styles/CommonStyles.module.css'
+import loadingSpinnerStyles from '../../styles/LoadingSpinnerStyles.module.css'
 import { BorderedBox, Button, HorizontalSeparator, LoadingSpinnerV2 } from '@platformatic/ui-components'
-import ErrorComponent from '~/components/errors/ErrorComponent'
+import ErrorComponent from '../errors/ErrorComponent'
 import Log from './Log'
 import {
   PRETTY,
@@ -18,10 +18,10 @@ import {
   STATUS_PAUSED_LOGS,
   STATUS_RESUMED_LOGS,
   REFRESH_INTERVAL_LOGS
-} from '~/ui-constants'
+} from '../../ui-constants'
 import LogFilterSelector from './LogFilterSelector'
-import useOnScreen from '~/hooks/useOnScreen'
-import useAdminStore from '~/useAdminStore'
+import useOnScreen from '../../hooks/useOnScreen'
+import useAdminStore from '../../useAdminStore'
 import { getLogs } from '../../api'
 
 const AppLogs = ({ filteredServices }) => {

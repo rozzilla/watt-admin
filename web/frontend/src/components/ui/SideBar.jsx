@@ -1,8 +1,8 @@
 import React from 'react'
-import typographyStyles from '~/styles/Typography.module.css'
-import commonStyles from '~/styles/CommonStyles.module.css'
+import typographyStyles from '../../styles/Typography.module.css'
+import commonStyles from '../../styles/CommonStyles.module.css'
 import styles from './SideBar.module.css'
-import ButtonSidebar from '~/components/ui/ButtonSidebar'
+import ButtonSidebar from '../../components/ui/ButtonSidebar'
 import { DIRECTION_RIGHT, MEDIUM, POSITION_CENTER, TRANSPARENT, WHITE } from '@platformatic/ui-components/src/components/constants'
 import { TooltipAbsolute } from '@platformatic/ui-components'
 
