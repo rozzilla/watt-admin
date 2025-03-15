@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from 'react'
+import React, { useState, useEffect, useRef, ReactNode } from 'react'
 import { useInterval } from '../../hooks/useInterval'
 import { RICH_BLACK, WHITE, TRANSPARENT, MARGIN_0, OPACITY_15 } from '@platformatic/ui-components/src/components/constants'
 import styles from './AppLogs.module.css'
@@ -23,21 +23,33 @@ import LogFilterSelector from './LogFilterSelector'
 import useAdminStore from '../../useAdminStore'
 import { getLogs } from '../../api'
 
-const AppLogs = ({ filteredServices }) => {
+interface AppLogsProps {
+  filteredServices: string[];
+}
+
+interface LogEntry {
+  level: number;
+  time: string | number | Date;
+  name: string;
+  msg: string;
+  [key: string]: any;
+}
+
+const AppLogs: React.FC<AppLogsProps> = ({ filteredServices }) => {
   const { runtimePid } = useAdminStore()
   const [displayLog, setDisplayLog] = useState(PRETTY)
   const [loading, setLoading] = useState(true)
-  const [filterLogsByLevel, setFilterLogsByLevel] = useState('')
+  const [filterLogsByLevel, setFilterLogsByLevel] = useState<number | ''>('')
   const [scrollDirection, setScrollDirection] = useState(DIRECTION_TAIL)
-  const [applicationLogs, setApplicationLogs] = useState([])
-  const [filteredLogs, setFilteredLogs] = useState([])
+  const [applicationLogs, setApplicationLogs] = useState<LogEntry[]>([])
+  const [filteredLogs, setFilteredLogs] = useState<LogEntry[]>([])
   const [filtersInitialized, setFiltersInitialized] = useState(false)
-  const logContentRef = useRef()
+  const logContentRef = useRef<HTMLDivElement>(null)
   const [lastScrollTop, setLastScrollTop] = useState(0)
   const [displayGoToBottom, setDisplayGoToBottom] = useState(false)
   const [statusPausedLogs, setStatusPausedLogs] = useState('')
   const [filteredLogsLengthAtPause, setFilteredLogsLengthAtPause] = useState(0)
-  const [error, setError] = useState('')
+  const [error, setError] = useState<string | Error>('')
 
   useEffect(() => {
     if (logContentRef.current && scrollDirection === DIRECTION_TAIL && filteredLogs.length > 0) {
@@ -101,7 +113,7 @@ const AppLogs = ({ filteredServices }) => {
     filteredServices
   ])
 
-  const getData = async () => {
+  const getData = async (): Promise<void> => {
     try {
       if (runtimePid) {
         const logs = await getLogs(runtimePid)
@@ -109,7 +121,7 @@ const AppLogs = ({ filteredServices }) => {
         setError('')
       }
     } catch (error) {
-      setError(error)
+      setError(error as Error)
     } finally {
       setLoading(false)
     }
@@ -124,13 +136,13 @@ const AppLogs = ({ filteredServices }) => {
     }
   }, [scrollDirection, filteredLogs.length, filteredLogsLengthAtPause])
 
-  function resumeScrolling () {
+  function resumeScrolling(): void {
     setScrollDirection(DIRECTION_TAIL)
     setDisplayGoToBottom(false)
     setFilteredLogsLengthAtPause(0)
   }
 
-  function saveLogs () {
+  function saveLogs(): void {
     let fileData = ''
     applicationLogs.forEach(log => {
       fileData += `${log}
@@ -146,24 +158,24 @@ const AppLogs = ({ filteredServices }) => {
     link.click()
   }
 
-  function handlingClickArrow () {
+  function handlingClickArrow(): void {
     setScrollDirection(DIRECTION_STILL)
     setFilteredLogsLengthAtPause(filteredLogs.length)
   }
 
-  function renderLogs () {
+  function renderLogs(): React.ReactNode {
     if (displayLog === PRETTY) {
-      return filteredLogs.map((log, index) => <Log key={`${index}-${filterLogsByLevel}`} log={log} display={displayLog} onClickArrow={() => handlingClickArrow()} />)
+      return filteredLogs.map((log, index) => <Log key={`${index}-${filterLogsByLevel}`} log={log} onClickArrow={() => handlingClickArrow()} />)
     }
 
     return (
       <span className={`${typographyStyles.desktopOtherCliTerminalSmall} ${typographyStyles.textWhite}`}>
-        {filteredLogs}
+        {filteredLogs as ReactNode}
       </span>
     )
   }
 
-  function handleScroll (event) {
+  function handleScroll(event: React.UIEvent<HTMLDivElement>): void {
     const st = event.currentTarget.scrollTop // Credits: "https://github.com/qeremy/so/blob/master/so.dom.js#L426"
     if (st > lastScrollTop) {
       // downscroll code

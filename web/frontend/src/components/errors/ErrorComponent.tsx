@@ -7,16 +7,22 @@ import { ANTI_FLASH_WHITE, DULLS_BACKGROUND_COLOR, ERROR_RED, LARGE, SMALL, RICH
 import { BorderedBox, Button, HorizontalSeparator, Tooltip } from '@platformatic/ui-components'
 import tooltipStyles from '../../styles/TooltipStyles.module.css'
 
-function ErrorComponent ({
+interface ErrorComponentProps {
+  error?: Error | string | any;
+  onClickDismiss?: () => void;
+  containerClassName?: string;
+}
+
+function ErrorComponent({
   error = () => {},
   onClickDismiss = () => {},
   containerClassName = ''
-}) {
+}: ErrorComponentProps): React.ReactElement {
   const [showLogs, setShowLogs] = useState(false)
   const [logsCopied, setLogsCopied] = useState(false)
   const [errorStack] = useState(error?.stack?.split('\n') || [])
 
-  function copyLogs () {
+  function copyLogs(): void {
     setLogsCopied(true)
     navigator.clipboard.writeText(error.stack)
     setTimeout(() => {
@@ -24,7 +30,7 @@ function ErrorComponent ({
     }, 1000)
   }
 
-  function getButtonCopyIcon () {
+  function getButtonCopyIcon(): { iconName: string; size: string; color: string } {
     if (logsCopied) {
       return { iconName: 'CircleCheckMarkIcon', size: SMALL, color: WHITE }
     }
@@ -93,7 +99,7 @@ function ErrorComponent ({
           </div>
           <HorizontalSeparator marginTop={MARGIN_0} marginBottom={MARGIN_0} color={WHITE} opacity={OPACITY_30} />
           <div className={`${styles.logContainer} ${typographyStyles.desktopOtherCliTerminalSmall} ${typographyStyles.textWhite}`}>
-            {errorStack.map((s, index) => <p key={index}>{s}</p>)}
+            {errorStack.map((s: string, index: number) => <p key={index}>{s}</p>)}
           </div>
         </BorderedBox>
       )}
