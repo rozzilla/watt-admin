@@ -1,5 +1,5 @@
 import { describe, test, expect } from 'vitest'
-import { getFormattedDate, getFormattedLogTimestamp, subtractSecondsFromDate } from '../../src/utilities/dates.js'
+import { getFormattedDate, getFormattedLogTimestamp, subtractSecondsFromDate } from '../../src/utilities/dates'
 
 const invalidDates = [
   '-',

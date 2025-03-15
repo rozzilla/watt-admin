@@ -5,7 +5,7 @@ import styles from './NodeJSMetricChart.module.css'
 import * as d3 from 'd3'
 import { xMargin, yMargin, yMarginWithoutXAxis } from './chart_constants'
 import colorSetLatency from './latency.module.css'
-import { getTicks } from './utils.js'
+import { getTicks } from './utils'
 import { POSITION_ABSOLUTE, POSITION_FIXED } from '../../ui-constants'
 
 // FIXME: unify this with NodeJSMetricChart
