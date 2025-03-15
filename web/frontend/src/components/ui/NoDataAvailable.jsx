@@ -5,28 +5,21 @@ import styles from './NoDataAvailable.module.css'
 import { Icons } from '@platformatic/ui-components'
 import { MEDIUM, WHITE } from '@platformatic/ui-components/src/components/constants'
 
-function NoDataAvailable ({
-  title = 'No Data Available',
-  iconName = '',
-  containerClassName = styles.noDataContainer,
-  titleClassName = `${typographyStyles.desktopBodySmall} ${typographyStyles.textWhite} ${typographyStyles.opacity70}`,
-  iconColor = WHITE,
-  iconSize = MEDIUM
-}) {
+function NoDataAvailable ({ iconName = '' }) {
   function getIcon () {
     if (iconName) {
       return React.createElement(Icons[`${iconName}`], {
-        color: iconColor,
-        size: iconSize
+        color: WHITE,
+        size: MEDIUM
       })
     }
     return <></>
   }
 
   return (
-    <div className={containerClassName}>
+    <div className={styles.noDataContainer}>
       {getIcon()}
-      <p className={`${commonStyles.fullWidth} ${typographyStyles.textCenter} ${titleClassName}`}>{title}</p>
+      <p className={`${commonStyles.fullWidth} ${typographyStyles.textCenter} ${typographyStyles.desktopBodySmall} ${typographyStyles.textWhite} ${typographyStyles.opacity70}`}>No Data Available</p>
     </div>
   )
 }
