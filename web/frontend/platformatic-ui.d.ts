@@ -25,8 +25,14 @@ declare module '@platformatic/ui-components' {
     position?: string;
   }
 
+  export interface IconsType {
+    CircleStopIcon: ComponentType<IconProps>;
+    RunningIcon: ComponentType<IconProps>;
+  }
+
   export const PlatformaticIcon: ComponentType<PlatformaticIconProps>;
   export const CopyAndPaste: ComponentType<CopyAndPasteProps>;
+  export const Icons: IconsType;
 }
 
 declare module '@platformatic/ui-components/src/components/icons' {
@@ -69,4 +75,5 @@ declare module '@platformatic/ui-components/src/components/constants' {
   export const DULLS_BACKGROUND_COLOR: string;
   export const ERROR_RED: string;
   export const LARGE: string;
+  export const MAIN_GREEN: string
 }
