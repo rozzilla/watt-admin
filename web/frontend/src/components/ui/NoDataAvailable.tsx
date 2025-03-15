@@ -5,10 +5,14 @@ import styles from './NoDataAvailable.module.css'
 import { Icons } from '@platformatic/ui-components'
 import { MEDIUM, WHITE } from '@platformatic/ui-components/src/components/constants'
 
-function NoDataAvailable ({ iconName = '' }) {
-  function getIcon () {
+interface NoDataAvailableProps {
+  iconName?: string;
+}
+
+function NoDataAvailable({ iconName = '' }: NoDataAvailableProps): React.ReactElement {
+  function getIcon(): React.ReactNode {
     if (iconName) {
-      return React.createElement(Icons[`${iconName}`], {
+      return React.createElement(Icons[iconName as keyof typeof Icons], {
         color: WHITE,
         size: MEDIUM
       })
