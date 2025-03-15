@@ -7,10 +7,8 @@ import { ANTI_FLASH_WHITE, DULLS_BACKGROUND_COLOR, ERROR_RED, LARGE, SMALL, RICH
 import { BorderedBox, Button, HorizontalSeparator, Tooltip } from '@platformatic/ui-components'
 import tooltipStyles from '../../styles/TooltipStyles.module.css'
 
-// eslint-disable-next-line no-unused-vars
 function ErrorComponent ({
   error = () => {},
-  message = '',
   onClickDismiss = () => {},
   containerClassName = ''
 }) {

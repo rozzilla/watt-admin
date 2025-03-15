@@ -83,7 +83,6 @@ export default function App () {
     return (
       <ErrorComponent
         error={error}
-        message={error?.message || ''}
         onClickDismiss={() => handleDismiss()}
       />
     )

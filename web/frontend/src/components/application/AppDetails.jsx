@@ -29,7 +29,7 @@ const AppDetails = () => {
   }, [])
 
   if (error) {
-    return <ErrorComponent error={error} message={error?.message} onClickDismiss={() => setError('')} />
+    return <ErrorComponent error={error} onClickDismiss={() => setError('')} />
   }
 
   return (
