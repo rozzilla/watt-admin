@@ -4,7 +4,6 @@ import './App.css'
 import RouteContainer from './layout/RouteContainer'
 import {
   HOME_PATH,
-  NOT_FOUND_PATH,
   POD_SERVICES_PATH,
   POD_LOGS_PATH
 } from './ui-constants'
