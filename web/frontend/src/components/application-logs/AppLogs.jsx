@@ -20,7 +20,6 @@ import {
   REFRESH_INTERVAL_LOGS
 } from '../../ui-constants'
 import LogFilterSelector from './LogFilterSelector'
-import useOnScreen from '../../hooks/useOnScreen'
 import useAdminStore from '../../useAdminStore'
 import { getLogs } from '../../api'
 
@@ -38,8 +37,6 @@ const AppLogs = ({ filteredServices }) => {
   const [displayGoToBottom, setDisplayGoToBottom] = useState(false)
   const [statusPausedLogs, setStatusPausedLogs] = useState('')
   const [filteredLogsLengthAtPause, setFilteredLogsLengthAtPause] = useState(0)
-  const bottomRef = useRef()
-  const isBottomOnScreen = useOnScreen(bottomRef)
   const [error, setError] = useState('')
 
   useEffect(() => {
@@ -76,12 +73,6 @@ const AppLogs = ({ filteredServices }) => {
       }
     }
   }, [statusPausedLogs])
-
-  useEffect(() => {
-    if (isBottomOnScreen && scrollDirection === DIRECTION_DOWN) {
-      resumeScrolling()
-    }
-  }, [isBottomOnScreen, scrollDirection])
 
   useEffect(() => {
     if (applicationLogs.length > 0) {
@@ -243,7 +234,7 @@ const AppLogs = ({ filteredServices }) => {
                   {renderLogs()}
                 </>
               )}
-              <div ref={bottomRef} className={styles.logDividerBottom} />
+              <div className={styles.logDividerBottom} />
             </div>
             <HorizontalSeparator marginTop={MARGIN_0} color={WHITE} opacity={OPACITY_15} />
             <div className={`${commonStyles.tinyFlexRow} ${commonStyles.itemsCenter} ${commonStyles.justifyBetween} ${styles.lateralPadding} ${styles.bottom}`}>
