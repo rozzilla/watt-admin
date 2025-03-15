@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import { HashRouter, Routes, Route } from 'react-router-dom'
 import './App.css'
-import NotFound from './pages/NotFound'
 import RouteContainer from './layout/RouteContainer'
 import {
   HOME_PATH,
@@ -92,10 +91,6 @@ export default function App () {
     <ErrorBoundary>
       <HashRouter>
         <Routes>
-          <Route
-            path={NOT_FOUND_PATH}
-            element={<NotFound />}
-          />
           <Route
             path={HOME_PATH}
             element={
