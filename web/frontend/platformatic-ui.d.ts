@@ -12,8 +12,9 @@ declare module '@platformatic/ui-components' {
     iconName: string;
     color?: string;
     size?: string;
-    onClick?: () => void;
+    onClick?: (() => void) | null;
     disabled?: boolean;
+    inactive?: boolean;
   }
 
   export interface CopyAndPasteProps {
@@ -75,5 +76,9 @@ declare module '@platformatic/ui-components/src/components/constants' {
   export const DULLS_BACKGROUND_COLOR: string;
   export const ERROR_RED: string;
   export const LARGE: string;
-  export const MAIN_GREEN: string
+  export const MEDIUM: string;
+  export const MAIN_GREEN: string;
+  export const BOX_SHADOW: string;
+  export const UNDERLINE: string;
+  export const MAIN_DARK_BLUE: string;
 }
