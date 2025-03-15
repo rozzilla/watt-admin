@@ -20,10 +20,10 @@ describe('findY', () => {
   })
 
   it('should handle x coordinates outside path bounds', () => {
-    const resultStart = findY(mockPath as any, 100, -10, 100)
+    const resultStart = findY(mockPath, 100, -10, 100)
     expect(resultStart).toBeDefined()
 
-    const resultEnd = findY(mockPath as any, 100, 110, 100)
+    const resultEnd = findY(mockPath, 100, 110, 100)
     expect(resultEnd).toBeDefined()
   })
 
@@ -32,7 +32,7 @@ describe('findY', () => {
     const xValues = [25, 25.1, 25.2, 25.3, 25.4, 25.5]
     
     xValues.forEach(x => {
-      const y = findY(mockPath as any, 100, x, 100)
+      const y = findY(mockPath, 100, x, 100)
       if (previousY !== null) {
         const difference = Math.abs(y - previousY)
         expect(difference).toBeLessThanOrEqual(1)
@@ -42,7 +42,7 @@ describe('findY', () => {
   })
 
   it('should handle zero width', () => {
-    expect(() => findY(mockPath as any, 100, 50, 0)).not.toThrow()
+    expect(() => findY(mockPath, 100, 50, 0)).not.toThrow()
   })
 
   it('should handle zero path length', () => {
@@ -51,11 +51,11 @@ describe('findY', () => {
       getPointAtLength: vi.fn().mockReturnValue({ x: 0, y: 0 })
     }
 
-    expect(() => findY(zeroLengthPath as any, 0, 50, 100)).not.toThrow()
+    expect(() => findY(zeroLengthPath, 0, 50, 100)).not.toThrow()
   })
 
   it('should make expected number of iterations', () => {
-    findY(mockPath as any, 100, 50, 100)
+    findY(mockPath, 100, 50, 100)
     
     const accuracy = 1
     const width = 100
