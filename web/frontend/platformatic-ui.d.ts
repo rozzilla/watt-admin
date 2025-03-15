@@ -7,6 +7,7 @@ declare module '@platformatic/ui-components' {
   export const HorizontalSeparator: ComponentType<HorizontalSeparatorProps>;
   export const LoadingSpinnerV2: ComponentType<LoadingSpinnerV2Props>;
   export const Tooltip: ComponentType<TooltipProps>;
+  export const TooltipAbsolute: ComponentType<TooltipProps>;
 
   export interface PlatformaticIconProps {
     iconName: string;
@@ -81,4 +82,6 @@ declare module '@platformatic/ui-components/src/components/constants' {
   export const BOX_SHADOW: string;
   export const UNDERLINE: string;
   export const MAIN_DARK_BLUE: string;
+  export const DIRECTION_RIGHT: string;
+  export const POSITION_CENTER: string;
 }
