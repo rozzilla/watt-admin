@@ -32,7 +32,7 @@ interface LogEntry {
   time: string | number | Date;
   name: string;
   msg: string;
-  [key: string]: any;
+  [key: string]: unknown;
 }
 
 const AppLogs: React.FC<AppLogsProps> = ({ filteredServices }) => {

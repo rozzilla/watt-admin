@@ -17,11 +17,11 @@ interface LogProps {
     req?: {
       method?: string;
       url?: string;
-      [key: string]: any;
+      [key: string]: unknown;
     };
     hostname?: string;
     responseTime?: number;
-    [key: string]: any;
+    [key: string]: unknown;
   };
   onClickArrow: () => void;
 }

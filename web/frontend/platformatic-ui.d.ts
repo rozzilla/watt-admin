@@ -44,7 +44,7 @@ declare module '@platformatic/ui-components/src/components/icons' {
   interface IconProps {
     size?: string;
     color?: string;
-    [key: string]: any;
+    [key: string]: unknown;
   }
 
   const AlertIcon: ComponentType<IconProps>;
