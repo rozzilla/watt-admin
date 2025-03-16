@@ -11,12 +11,18 @@ import { BorderedBox } from '@platformatic/ui-components'
 import { POD_LOGS_PATH } from '../../ui-constants'
 import { getServices } from '../../api'
 
-const ServicesLogs = () => {
+interface ServiceData {
+  id: string;
+  entrypoint?: boolean;
+  selected: boolean;
+}
+
+const ServicesLogs: React.FC = () => {
   const globalState = useAdminStore()
   const { setCurrentPage, runtimePid } = globalState
   const [selectAllServices, setSelectAllServices] = useState(true)
   const [colorPod, setColorPod] = useState(WHITE)
-  const [services, setServices] = useState([])
+  const [services, setServices] = useState<ServiceData[]>([])
 
   useEffect(() => {
     setCurrentPage(POD_LOGS_PATH)
@@ -27,11 +33,11 @@ const ServicesLogs = () => {
   }, [])
 
   useEffect(() => {
-    const fetchData = async () => {
+    const fetchData = async (): Promise<void> => {
       try {
         if (runtimePid) {
           const response = await getServices(runtimePid)
-          setServices(response.map(service => ({ ...service, selected: true })))
+          setServices(response.map((service: ServiceData) => ({ ...service, selected: true })))
         }
       } catch (error) {
         console.error('Error getting services:', error)
@@ -40,7 +46,7 @@ const ServicesLogs = () => {
     fetchData()
   }, [runtimePid])
 
-  function handleChangeService (serviceUpdated) {
+  function handleChangeService(serviceUpdated: ServiceData): void {
     const newServices = services.map(service => {
       if (serviceUpdated.id === service.id) {
         return { ...service, selected: !service.selected }
@@ -59,7 +65,7 @@ const ServicesLogs = () => {
     setServices(newServices)
   }
 
-  function handleChangeAllService () {
+  function handleChangeAllService(): void {
     setSelectAllServices(!selectAllServices)
     setServices(services.map(service => ({ ...service, selected: !selectAllServices })))
   }

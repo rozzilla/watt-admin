@@ -71,6 +71,7 @@ declare module '@platformatic/ui-components/src/components/constants' {
   export const SMALL: string;
   export const POSITION_END: string;
   export const RICH_BLACK: string;
+  export const BLACK_RUSSIAN: string;
   export const TRANSPARENT: string;
   export const MARGIN_0: string;
   export const OPACITY_15: string;
