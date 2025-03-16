@@ -82,9 +82,9 @@ function Log({ log, onClickArrow }: LogProps): React.ReactElement {
 
   function displayRest(): React.ReactElement[] {
     if (!rest) return []
-    let variable: any
+    let variable: unknown
     const content: React.ReactElement[] = []
-    let tmp: Record<string, any> = {}
+    let tmp: Record<string, unknown> = {}
 
     Object.keys(rest).forEach(k => {
       variable = rest[k]

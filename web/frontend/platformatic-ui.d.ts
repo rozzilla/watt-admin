@@ -20,7 +20,7 @@ declare module '@platformatic/ui-components' {
   }
 
   export interface CopyAndPasteProps {
-    value: any;
+    value: unknown;
     tooltipLabel?: string;
     color?: string;
     size?: string;
