@@ -17,7 +17,6 @@ interface LogProps {
     req?: {
       method?: string;
       url?: string;
-      [key: string]: unknown;
     };
     hostname?: string;
     responseTime?: number;
