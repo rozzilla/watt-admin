@@ -8,23 +8,23 @@ import { BorderedBox, Button, HorizontalSeparator, Tooltip } from '@platformatic
 import tooltipStyles from '../../styles/TooltipStyles.module.css'
 
 interface ErrorComponentProps {
-  error?: Error | string | any;
+  error?: Error | string;
   onClickDismiss?: () => void;
   containerClassName?: string;
 }
 
 function ErrorComponent({
-  error = () => {},
+  error,
   onClickDismiss = () => {},
   containerClassName = ''
 }: ErrorComponentProps): React.ReactElement {
   const [showLogs, setShowLogs] = useState(false)
   const [logsCopied, setLogsCopied] = useState(false)
-  const [errorStack] = useState(error?.stack?.split('\n') || [])
+  const [errorStack] = useState((error as Error)?.stack?.split('\n') || [])
 
   function copyLogs(): void {
     setLogsCopied(true)
-    navigator.clipboard.writeText(error.stack)
+    navigator.clipboard.writeText((error as Error).stack || '')
     setTimeout(() => {
       setLogsCopied(false)
     }, 1000)
