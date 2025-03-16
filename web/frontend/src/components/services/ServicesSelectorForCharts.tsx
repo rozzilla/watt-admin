@@ -47,7 +47,6 @@ interface ServiceData {
   id: string;
   entrypoint?: boolean;
   selected?: boolean;
-  [key: string]: any;
 }
 
 interface ServicesSelectorForChartsProps {

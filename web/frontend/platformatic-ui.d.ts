@@ -2,6 +2,7 @@
 declare module '@platformatic/ui-components' {
   import { ReactElement, ComponentType } from 'react';
 
+  export const Checkbox: ComponentType<CheckboxProps>;
   export const BorderedBox: ComponentType<BorderedBoxProps>;
   export const Button: ComponentType<ButtonProps>;
   export const HorizontalSeparator: ComponentType<HorizontalSeparatorProps>;
@@ -44,6 +45,7 @@ declare module '@platformatic/ui-components/src/components/icons' {
   interface IconProps {
     size?: string;
     color?: string;
+    addImportantToColor?: boolean;
   }
 
   const AlertIcon: ComponentType<IconProps>;

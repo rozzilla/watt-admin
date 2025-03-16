@@ -7,7 +7,14 @@ import { OPACITY_100, OPACITY_15, OPACITY_30, RICH_BLACK, SMALL, TRANSPARENT, WH
 import { BorderedBox, Checkbox } from '@platformatic/ui-components'
 import Icons from '@platformatic/ui-components/src/components/icons'
 
-function Service ({ id, entrypoint, isSelected, onChangeService = () => {} }) {
+interface ServiceProps {
+  id: string;
+  entrypoint?: boolean;
+  isSelected: boolean;
+  onChangeService?: () => void;
+}
+
+function Service({ id, entrypoint, isSelected, onChangeService = () => {} }: ServiceProps): React.ReactElement {
   const [selected] = useState(isSelected)
 
   return (
@@ -35,7 +42,26 @@ function Service ({ id, entrypoint, isSelected, onChangeService = () => {} }) {
   )
 }
 
-function ServicesSelectorForDetailLog ({ services, handleChangeService = () => {}, selectAllServices = true, handleChangeAllServices = () => {} }) {
+interface ServiceData {
+  id: string;
+  entrypoint?: boolean;
+  selected: boolean;
+  [key: string]: any;
+}
+
+interface ServicesSelectorForDetailLogProps {
+  services: ServiceData[];
+  handleChangeService?: (service: ServiceData) => void;
+  selectAllServices?: boolean;
+  handleChangeAllServices?: () => void;
+}
+
+function ServicesSelectorForDetailLog({ 
+  services, 
+  handleChangeService = () => {}, 
+  selectAllServices = true, 
+  handleChangeAllServices = () => {} 
+}: ServicesSelectorForDetailLogProps): React.ReactElement {
   return (
     <div className={`${commonStyles.smallFlexBlock} ${commonStyles.fullWidth} ${styles.servicesContainer}`}>
       {services.length > 1 &&
