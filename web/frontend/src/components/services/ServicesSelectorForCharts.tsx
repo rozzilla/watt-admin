@@ -7,7 +7,14 @@ import { OPACITY_100, OPACITY_15, OPACITY_30, RICH_BLACK, SMALL, TRANSPARENT, WH
 import { BorderedBox } from '@platformatic/ui-components'
 import Icons from '@platformatic/ui-components/src/components/icons'
 
-function Service ({ id, entrypoint, isSelected, onClickService = () => {} }) {
+interface ServiceProps {
+  id: string;
+  entrypoint?: boolean;
+  isSelected: boolean;
+  onClickService?: () => void;
+}
+
+function Service({ id, entrypoint, isSelected, onClickService = () => {} }: ServiceProps): React.ReactElement {
   const [selected] = useState(isSelected)
 
   return (
@@ -36,13 +43,28 @@ function Service ({ id, entrypoint, isSelected, onClickService = () => {} }) {
   )
 }
 
-function ServicesSelectorForCharts ({
+interface ServiceData {
+  id: string;
+  entrypoint?: boolean;
+  selected?: boolean;
+  [key: string]: any;
+}
+
+interface ServicesSelectorForChartsProps {
+  services: ServiceData[];
+  handleClickService?: (service: ServiceData) => void;
+  showAggregatedMetrics?: boolean;
+  handleChangeShowAggregateMetrics?: () => void;
+  serviceSelected: ServiceData;
+}
+
+function ServicesSelectorForCharts({
   services,
   handleClickService = () => {},
   showAggregatedMetrics = true,
   handleChangeShowAggregateMetrics = () => {},
-  serviceSelected = {}
-}) {
+  serviceSelected
+}: ServicesSelectorForChartsProps): React.ReactElement {
   return (
     <div className={`${commonStyles.smallFlexBlock} ${commonStyles.fullWidth} ${styles.servicesContainer}`}>
       {services.length > 1 &&
@@ -60,7 +82,7 @@ function ServicesSelectorForCharts ({
           {...service}
           isSelected={serviceSelected.id === service.id}
           onClickService={() => handleClickService(service)}
-                                 />)}
+        />)}
       </div>
     </div>
   )

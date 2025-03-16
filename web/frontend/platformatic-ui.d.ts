@@ -73,6 +73,7 @@ declare module '@platformatic/ui-components/src/components/constants' {
   export const MARGIN_0: string;
   export const OPACITY_15: string;
   export const OPACITY_30: string;
+  export const OPACITY_100: string;
   export const ANTI_FLASH_WHITE: string;
   export const DULLS_BACKGROUND_COLOR: string;
   export const ERROR_RED: string;
@@ -85,4 +86,68 @@ declare module '@platformatic/ui-components/src/components/constants' {
   export const DIRECTION_RIGHT: string;
   export const POSITION_CENTER: string;
   export const TINY: string;
+}
+
+declare module '@platformatic/ui-components/src/components/forms' {
+  import { ComponentType } from 'react';
+  
+  interface ToggleSwitchProps {
+    label?: string;
+    labelClassName?: string;
+    name: string;
+    onChange: () => void;
+    checked: boolean;
+    size?: string;
+  }
+  
+  interface InputProps {
+    label?: string;
+    placeholder?: string;
+    value: string;
+    onChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
+    name: string;
+    type?: string;
+    error?: string;
+    className?: string;
+    disabled?: boolean;
+  }
+  
+  interface SelectProps {
+    label?: string;
+    options: Array<{ label: string; value: string }>;
+    value: string;
+    onChange: (value: string) => void;
+    name: string;
+    placeholder?: string;
+    error?: string;
+    className?: string;
+    disabled?: boolean;
+  }
+  
+  interface CheckboxProps {
+    label: string;
+    checked: boolean;
+    onChange: () => void;
+    name: string;
+    disabled?: boolean;
+  }
+  
+  interface RadioButtonProps {
+    label: string;
+    value: string;
+    checked: boolean;
+    onChange: () => void;
+    name: string;
+    disabled?: boolean;
+  }
+  
+  const Forms: {
+    ToggleSwitch: ComponentType<ToggleSwitchProps>;
+    Input: ComponentType<InputProps>;
+    Select: ComponentType<SelectProps>;
+    Checkbox: ComponentType<CheckboxProps>;
+    RadioButton: ComponentType<RadioButtonProps>;
+  };
+  
+  export default Forms;
 }
