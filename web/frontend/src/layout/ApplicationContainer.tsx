@@ -1,4 +1,4 @@
-import { useEffect } from 'react'
+import React, { ReactNode, useEffect } from 'react'
 import {
   HOME_PATH,
   POD_SERVICES_PATH,
@@ -9,7 +9,11 @@ import SideBar from '../components/ui/SideBar'
 import useAdminStore from '../useAdminStore'
 import { useNavigate } from 'react-router-dom'
 
-function ApplicationContainer ({ children }) {
+interface ApplicationContainerProps {
+  children?: ReactNode;
+}
+
+function ApplicationContainer({ children }: ApplicationContainerProps): React.ReactElement {
   const globalState = useAdminStore()
   const {
     setNavigation,
@@ -22,7 +26,7 @@ function ApplicationContainer ({ children }) {
     handleNavigation('Overview', HOME_PATH)
   }, [])
 
-  function handleNavigation (label, page) {
+  function handleNavigation(label: string, page: string): void {
     navigate(page)
     setCurrentPage(page)
     setNavigation({ label, key: page, page })
