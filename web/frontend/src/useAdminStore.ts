@@ -1,12 +1,19 @@
 import { create } from 'zustand';
 
+interface NavigationType {
+  label: string;
+  key: string;
+  page: string;
+  handleClick?: () => void;
+}
+
 interface AdminState {
-  breadCrumbs: string[];
+  breadCrumbs: NavigationType[];
   currentPage: string;
   runtimePid: number | undefined;
   currentWindowWidth: number;
   setRuntimePid: (runtimePid: number) => void;
-  setNavigation: (item: string, level?: number) => void;
+  setNavigation: (navigation: NavigationType) => void;
   setCurrentPage: (page: string) => void;
   setCurrentWindowWidth: (width: number) => void;
 }
@@ -29,9 +36,9 @@ const useAdminStore = create<AdminState>((set) => ({
       };
     });
   },
-  setNavigation: (item: string, level: number = 0): void => {
+  setNavigation: (item) => {
     set((state) => {
-      const currentBreadcrumbs = state.breadCrumbs.slice(0, level);
+      const currentBreadcrumbs = state.breadCrumbs.slice(0, 0);
       currentBreadcrumbs.push(item);
       return {
         ...state,

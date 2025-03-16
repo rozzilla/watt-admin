@@ -25,15 +25,15 @@ describe('useAdminStore', () => {
   })
 
   it('should set navigation with default level', () => {
-    useAdminStore.getState().setNavigation('Home')
-    expect(useAdminStore.getState().breadCrumbs).toEqual(['Home'])
+    useAdminStore.getState().setNavigation({ key: 'home', label: 'Home', page: '/home' })
+    expect(useAdminStore.getState().breadCrumbs).toEqual([{ key: 'home', label: 'Home', page: '/home' }])
   })
 
   it('should set navigation with specified level', () => {
-    useAdminStore.getState().setNavigation('Home')
-    useAdminStore.getState().setNavigation('Services')
-    useAdminStore.getState().setNavigation('Details', 1)
-    expect(useAdminStore.getState().breadCrumbs).toEqual(['Services', 'Details'])
+    useAdminStore.getState().setNavigation({ key: 'home', label: 'Home', page: '/home' })
+    useAdminStore.getState().setNavigation({ key: 'services', label: 'Services', page: '/services' })
+    useAdminStore.getState().setNavigation({ key: 'details', label: 'Details', page: '/details' })
+    expect(useAdminStore.getState().breadCrumbs).toEqual([{ key: 'details', label: 'Details', page: '/details' }])
   })
 
   it('should set current page', () => {

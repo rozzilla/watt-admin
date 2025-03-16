@@ -1,10 +1,11 @@
+import React from 'react'
 import useAdminStore from '../useAdminStore'
 import styles from './Navigation.module.css'
 import { PlatformaticIcon } from '@platformatic/ui-components'
 import { TINY, WHITE } from '@platformatic/ui-components/src/components/constants'
 import typographyStyles from '../styles/Typography.module.css'
 
-export default function Navigation () {
+export default function Navigation(): React.ReactElement {
   const globalState = useAdminStore()
   const { breadCrumbs } = globalState
 
@@ -12,9 +13,9 @@ export default function Navigation () {
     <div className={styles.container}>
       <div className={styles.breadCrumbs}>
         {breadCrumbs.map((item, index) => {
-          let content
+          let content: React.ReactNode
           if (index < breadCrumbs.length - 1) {
-            content = <span onClick={() => item.handleClick()} key={item.page} className={`${typographyStyles.desktopBodySmallest} ${typographyStyles.textWhite} ${typographyStyles.opacity70} ${styles.link}`}><span>{item.label}</span></span>
+            content = <span onClick={() => item.handleClick?.()} key={item.page} className={`${typographyStyles.desktopBodySmallest} ${typographyStyles.textWhite} ${typographyStyles.opacity70} ${styles.link}`}><span>{item.label}</span></span>
           } else {
             content = <span key={item.page} className={`${typographyStyles.desktopBodySmallest} ${typographyStyles.textWhite}`}>{item.label}</span>
           }

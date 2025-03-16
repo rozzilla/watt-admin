@@ -16,6 +16,7 @@ declare module '@platformatic/ui-components' {
     onClick?: (() => void) | null;
     disabled?: boolean;
     inactive?: boolean;
+    className?: string;
   }
 
   export interface CopyAndPasteProps {
@@ -84,4 +85,5 @@ declare module '@platformatic/ui-components/src/components/constants' {
   export const MAIN_DARK_BLUE: string;
   export const DIRECTION_RIGHT: string;
   export const POSITION_CENTER: string;
+  export const TINY: string;
 }
