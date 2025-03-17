@@ -7,8 +7,15 @@ import { BorderedBox } from '@platformatic/ui-components'
 import Icons from '@platformatic/ui-components/src/components/icons'
 import useAdminStore from '../../useAdminStore'
 import { getServices } from '../../api'
+import { ServiceData } from 'src/types'
 
-function Service ({ id, entrypoint, type }) {
+interface ServiceProps {
+  id: string;
+  entrypoint?: boolean;
+  type?: string;
+}
+
+function Service({ id, entrypoint, type }: ServiceProps): React.ReactElement {
   return (
     <div className={`${commonStyles.tinyFlexRow} ${commonStyles.fullWidth} ${commonStyles.flexGrow}`}>
       <BorderedBox
@@ -49,12 +56,12 @@ function Service ({ id, entrypoint, type }) {
   )
 }
 
-function ServicesBox () {
-  const [services, setServices] = useState([])
+function ServicesBox(): React.ReactElement {
+  const [services, setServices] = useState<ServiceData[]>([])
   const { runtimePid } = useAdminStore()
 
   useEffect(() => {
-    const fetchData = async () => {
+    const fetchData = async (): Promise<void> => {
       try {
         if (runtimePid) {
           const response = await getServices(runtimePid)

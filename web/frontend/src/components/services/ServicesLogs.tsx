@@ -10,12 +10,7 @@ import ServicesSelectorForDetailLog from './ServicesSelectorForDetailLog'
 import { BorderedBox } from '@platformatic/ui-components'
 import { POD_LOGS_PATH } from '../../ui-constants'
 import { getServices } from '../../api'
-
-interface ServiceData {
-  id: string;
-  entrypoint?: boolean;
-  selected: boolean;
-}
+import { ServiceData } from 'src/types'
 
 const ServicesLogs: React.FC = () => {
   const globalState = useAdminStore()

@@ -6,6 +6,7 @@ import Forms from '@platformatic/ui-components/src/components/forms'
 import { OPACITY_100, OPACITY_15, OPACITY_30, RICH_BLACK, SMALL, TRANSPARENT, WHITE } from '@platformatic/ui-components/src/components/constants'
 import { BorderedBox } from '@platformatic/ui-components'
 import Icons from '@platformatic/ui-components/src/components/icons'
+import { ServiceData } from 'src/types'
 
 interface ServiceProps {
   id: string;
@@ -41,12 +42,6 @@ function Service({ id, entrypoint, isSelected, onClickService = () => {} }: Serv
       </div>
     </BorderedBox>
   )
-}
-
-interface ServiceData {
-  id: string;
-  entrypoint?: boolean;
-  selected?: boolean;
 }
 
 interface ServicesSelectorForChartsProps {

@@ -46,6 +46,7 @@ declare module '@platformatic/ui-components/src/components/icons' {
     size?: string;
     color?: string;
     addImportantToColor?: boolean;
+    className?: string;
   }
 
   const AlertIcon: ComponentType<IconProps>;
