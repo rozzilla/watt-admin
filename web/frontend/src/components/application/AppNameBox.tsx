@@ -11,16 +11,29 @@ import Icons from '@platformatic/ui-components/src/components/icons'
 import ApplicationStatusPills from '../ui/ApplicationStatusPills'
 import { restartApiApplication, isWattpmVersionOutdated } from '../../api'
 
-function AppNameBox ({
+interface ApiApplication {
+  id: number;
+  name: string;
+  pltVersion?: string;
+  lastStarted: string | Date;
+  url: string;
+}
+
+interface AppNameBoxProps {
+  onErrorOccurred?: (error: Error) => void;
+  apiApplication?: ApiApplication;
+}
+
+function AppNameBox({
   onErrorOccurred = () => {},
   apiApplication
-}) {
+}: AppNameBoxProps): React.ReactElement | null {
   const [appStatus, setAppStatus] = useState(STATUS_STOPPED)
   const [changingRestartStatus, setChangingRestartStatus] = useState(false)
   const [outdatedVersion, setOutdatedVersion] = useState(false)
 
   useEffect(() => {
-    const fetchData = async () => {
+    const fetchData = async (): Promise<void> => {
       try {
         const outdated = await isWattpmVersionOutdated(apiApplication?.pltVersion)
         setOutdatedVersion(outdated)
@@ -29,25 +42,29 @@ function AppNameBox ({
       }
     }
 
-    if (apiApplication?.id > 0) {
+    if (apiApplication?.id) {
       setAppStatus(STATUS_RUNNING)
       fetchData()
     }
   }, [apiApplication?.id])
 
-  async function handleRestartApplication () {
+  async function handleRestartApplication(): Promise<void> {
     try {
       setChangingRestartStatus(true)
-      await restartApiApplication(apiApplication.id)
+      if (apiApplication?.id) {
+        await restartApiApplication(apiApplication.id)
+      }
     } catch (error) {
       console.error(`Error on handleRestartApplication ${error}`)
-      onErrorOccurred(error)
+      onErrorOccurred(error as Error)
     } finally {
       setChangingRestartStatus(false)
     }
   }
 
-  return apiApplication && (
+  if (!apiApplication) return null
+
+  return (
     <BorderedBox classes={`${styles.borderexBoxContainer}`} backgroundColor={BLACK_RUSSIAN} color={TRANSPARENT}>
       <div className={`${commonStyles.smallFlexBlock} ${commonStyles.fullWidth}`}>
         <div className={`${commonStyles.smallFlexResponsiveRow} ${commonStyles.fullWidth}`}>
@@ -90,7 +107,6 @@ function AppNameBox ({
                   disabled={appStatus === STATUS_STOPPED}
                 />
                 )}
-
           </div>
         </div>
         <div className={`${commonStyles.tinyFlexBlock} ${commonStyles.fullWidth} ${styles.appInnerBox}`}>

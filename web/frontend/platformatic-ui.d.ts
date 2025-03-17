@@ -18,6 +18,7 @@ declare module '@platformatic/ui-components' {
     disabled?: boolean;
     inactive?: boolean;
     className?: string;
+    internalOverHandling?: boolean;
   }
 
   export interface CopyAndPasteProps {
@@ -78,6 +79,7 @@ declare module '@platformatic/ui-components/src/components/constants' {
   export const OPACITY_15: string;
   export const OPACITY_30: string;
   export const OPACITY_100: string;
+  export const WARNING_YELLOW: string;
   export const ANTI_FLASH_WHITE: string;
   export const DULLS_BACKGROUND_COLOR: string;
   export const ERROR_RED: string;

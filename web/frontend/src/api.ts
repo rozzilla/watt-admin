@@ -19,7 +19,7 @@ export const getApiApplication = async () => {
 
 // This is to avoid calling npm registry every time we run the method below
 let latest = ''
-export const isWattpmVersionOutdated = async (currentVersion: string) => {
+export const isWattpmVersionOutdated = async (currentVersion?: string) => {
   if (!latest) {
     const result = await fetch('https://registry.npmjs.org/@platformatic/control')
     const data = await result.json()
