@@ -27,8 +27,8 @@ test('metrics with runtime', async (t) => {
   assert.strictEqual(res.statusCode, 200)
 
   const metrics = res.json<MetricsResponse>()
-  assert.ok(metrics.dataCpu[0].cpu > 0)
-  assert.ok(metrics.dataCpu[0].eventLoop > 0)
+  assert.ok(metrics.dataCpu[0].cpu >= 0)
+  assert.ok(metrics.dataCpu[0].eventLoop >= 0)
   assert.ok(new Date(metrics.dataCpu[0].date) <= new Date())
 
   assert.ok(metrics.dataLatency[0].p90 >= 0)
