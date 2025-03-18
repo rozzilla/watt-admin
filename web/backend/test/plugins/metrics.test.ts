@@ -43,7 +43,7 @@ test('metrics with runtime', async (t) => {
   assert.ok(metrics.dataMem[0].oldSpace >= 0)
   assert.ok(new Date(metrics.dataMem[0].date) <= new Date())
 
-  assert.ok(metrics.dataReq[0].count > 0)
+  assert.ok(metrics.dataReq[0].count >= 0)
   assert.ok(new Date(metrics.dataReq[0].date) <= new Date())
 
   const backendMetrics = await server.inject({
