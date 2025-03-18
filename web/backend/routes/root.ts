@@ -3,6 +3,8 @@ import { JsonSchemaToTsProvider } from '@fastify/type-provider-json-schema-to-ts
 import { RuntimeApiClient, Runtime } from '@platformatic/control'
 import { getLogsFromReadable } from '../utils/log'
 
+type SelectableRuntime = Runtime & { selected?: boolean }
+
 export default async function (fastify: FastifyInstance) {
   const typedFastify = fastify.withTypeProvider<JsonSchemaToTsProvider>()
   const api = new RuntimeApiClient()
@@ -21,21 +23,14 @@ export default async function (fastify: FastifyInstance) {
     }
   }, async (request) => {
     const runtimes = await api.getRuntimes()
-
-    type SelectableRuntime = Runtime & { selected?: boolean }
-
-    let selectableRuntimes: SelectableRuntime[] = runtimes
-
-    if (!request.query.includeAdmin) {
-      selectableRuntimes = selectableRuntimes.filter((runtime) => runtime.packageName !== 'watt-admin')
-    }
-
-    for (const runtime of selectableRuntimes) {
-      if (process.env.SELECTED_RUNTIME === runtime.pid.toString()) {
-        runtime.selected = true
+    const selectableRuntimes: SelectableRuntime[] = []
+    for (const runtime of runtimes) {
+      if (!request.query.includeAdmin && runtime.packageName === 'watt-admin') {
+        continue
       }
+      const selected = process.env.SELECTED_RUNTIME === runtime.pid.toString()
+      selectableRuntimes.push({ ...runtime, selected })
     }
-
     return selectableRuntimes
   })
 
