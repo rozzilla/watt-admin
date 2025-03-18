@@ -199,11 +199,10 @@ export const calculateMetrics = async ({ mappedMetrics, log }: FastifyInstance):
               }
 
               if (metric.name === 'http_request_duration_seconds') {
-                // FIXME: update MetricValue type with metricName (string) and exemplar (unknown) when this is released https://github.com/platformatic/platformatic/pull/3947
-                const count = metric.values.find((val: any) => val.metricName === 'http_request_duration_seconds_count'
+                const count = metric.values.find(({ metricName }) => metricName === 'http_request_duration_seconds_count'
                 )?.value
                 if (!count) {
-                  log.warn(metric.values, 'Unable to get HTTP count')
+                  log.debug(metric.values, 'Empty HTTP request count')
                 } else {
                   serviceReqData.count = count
                   aggregatedReqData.count += count

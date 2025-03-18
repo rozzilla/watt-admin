@@ -31,7 +31,7 @@
     "zustand": "^5.0.2"
   },
   "dependencies": {
-    "@platformatic/vite": "^2.52.0",
+    "@platformatic/vite": "^2.53.1",
     "source-map-support": "^0.5.21"
   },
   "standard": {
