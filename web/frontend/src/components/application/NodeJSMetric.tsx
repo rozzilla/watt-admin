@@ -12,7 +12,34 @@ import colorSetMem from '../metrics/memory.module.css'
 import colorSetCpu from '../metrics/cpu.module.css'
 import colorSetLatency from '../metrics/latency.module.css'
 
-export const generateLegend = (options, colorStyles) => {
+interface MetricOption {
+  label: string;
+  internalKey: string;
+  unit: string;
+}
+
+interface TimeValue { time: Date; values?: number[] }
+
+export interface DataValue {
+  date: string | Date;
+  [key: string]: string | Date | number;
+}
+
+interface NodeJSMetricProps {
+  title?: string;
+  metricURL?: 'mem' | 'cpu' | 'latency';
+  initialLoading?: boolean;
+  dataValues?: DataValue[];
+  unit?: string;
+  options?: MetricOption[];
+  backgroundColor?: string;
+  chartTooltipPosition?: string;
+  showLegend?: boolean;
+  timeline?: boolean;
+  slimCss?: boolean;
+}
+
+export const generateLegend = (options: string[], colorStyles: Record<string, string>): React.ReactElement => {
   return (
     <div className={`${commonStyles.tinyFlexRow}`}>
       {
@@ -31,9 +58,10 @@ export const generateLegend = (options, colorStyles) => {
     </div>
   )
 }
-function NodeJSMetric ({
+
+function NodeJSMetric({
   title = '',
-  metricURL = '',
+  metricURL,
   initialLoading = false,
   dataValues = [],
   unit = '',
@@ -43,9 +71,9 @@ function NodeJSMetric ({
   showLegend = true,
   timeline = false,
   slimCss = false
-}) {
+}: NodeJSMetricProps): React.ReactElement {
   const [showNoResult, setShowNoResult] = useState(false)
-  const [seriesValues, setSeriesValues] = useState([])
+  const [seriesValues, setSeriesValues] = useState<Array<TimeValue>>([])
   const styleCss = slimCss ? `${styles.borderexBoxSlim}` : `${styles.borderexBoxContainer} ${styles.borderedBoxHeigthLoading}`
   const [borderexBoxClassName, setBorderexBoxClassName] = useState(`${styleCss}`)
   const [lowerMaxY, setLowerMaxY] = useState(10)
@@ -54,7 +82,7 @@ function NodeJSMetric ({
 
   useEffect(() => {
     setBorderexBoxClassName(`${styles.borderexBoxContainer}`)
-    let newValues = []
+    let newValues: Array<TimeValue> = []
     let lowerMaxY = 0
     if (dataValues.length > 0) {
       if (metricURL === 'latency') {
@@ -64,7 +92,7 @@ function NodeJSMetric ({
         }))
       } else {
         dataValues.forEach(dataValue => {
-          const values = options.map(option => dataValue[option.internalKey])
+          const values = options.map(option => Number(dataValue[option.internalKey]) || 0)
           newValues.push({ time: new Date(dataValue.date), values: [...values] })
           lowerMaxY = Math.max(lowerMaxY, ...values)
         })
@@ -77,7 +105,7 @@ function NodeJSMetric ({
     }
   }, [dataValues])
 
-  function renderComponent () {
+  function renderComponent(): React.ReactNode {
     if (initialLoading) {
       return (
         <LoadingSpinnerV2

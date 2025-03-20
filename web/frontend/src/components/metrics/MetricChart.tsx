@@ -11,7 +11,41 @@ import { getTicks } from './utils'
 import { POSITION_ABSOLUTE, POSITION_FIXED } from '../../ui-constants'
 import { findY } from './chart_utils'
 
-const MetricChart = ({
+interface DataPoint {
+  time: Date;
+  values?: number[];
+  [key: string]: any;
+}
+
+interface LabelObject {
+  name: string;
+  value: string;
+}
+
+interface D3Event extends MouseEvent {
+  clientX: number;
+}
+
+type Label = string | LabelObject;
+
+interface MetricChartProps {
+  data: DataPoint[];
+  unit: string;
+  timeline?: boolean;
+  labels?: Label[];
+  colorSet?: 'mem' | 'cpu' | 'latency';
+  percentiles?: Record<string, string> | null;
+  lowerMaxY?: number;
+  yMin?: number;
+  tooltipPosition?: string;
+}
+
+type D3Selection<T extends d3.BaseType, D = unknown> = d3.Selection<T, D, null, undefined>;
+type D3SVGSelection = D3Selection<SVGSVGElement>;
+type D3SVGPathElement = SVGPathElement & { getTotalLength(): number };
+type D3SVGCircleSelection = D3Selection<SVGCircleElement>;
+
+const MetricChart: React.FC<MetricChartProps> = ({
   data,
   unit,
   timeline,
@@ -21,14 +55,14 @@ const MetricChart = ({
   lowerMaxY = 10,
   yMin = 0,
   tooltipPosition = POSITION_ABSOLUTE
-}) => {
-  const svgRef = useRef()
-  const tooltipRef = useRef()
+}: MetricChartProps) => {
+  const svgRef = useRef<SVGSVGElement>(null)
+  const tooltipRef = useRef<HTMLDivElement>(null)
   const keyForCheckMax = 'p99'
   const isBarChart = percentiles !== null
 
   const colorStyles = colorSet === 'mem' ? colorSetMem : colorSet === 'cpu' ? colorSetCpu : colorSetLatency
-  const numberOfLines = isBarChart ? labels.length : labels.length
+  const numberOfLines = labels.length
 
   // We assume the data is an array of objects with a time and a value
   // The setter is missing on purpose. We don't want to trigger a rerender when the mouse position changes
@@ -40,14 +74,14 @@ const MetricChart = ({
       const w = svgRef.current.clientWidth
       const marginOnY = timeline ? yMargin : yMarginWithoutXAxis
 
-      const svg = d3.select(svgRef.current)
-      const tooltip = d3.select(tooltipRef.current)
+      const svg: D3SVGSelection = d3.select(svgRef.current)
+      const tooltip: D3Selection<HTMLDivElement> = d3.select(tooltipRef.current)
 
       svg.selectAll('*').remove() // clean up the svg
 
       const effectiveWidth = w - (xMargin)
-      const y = d3.scaleLinear([h - marginOnY, 0])
-      const x = d3.scaleTime([xMargin, w])
+      const y = d3.scaleLinear<number>().domain([yMin, 0]).range([h - marginOnY, 0])
+      const x = d3.scaleTime<number>().domain([new Date(), new Date()]).range([xMargin, w])
 
       // We need to slice it here otherwise we cannot pause / resume the chart scrolling
       const latestData = [...data]
@@ -62,34 +96,39 @@ const MetricChart = ({
       }
 
       // We need to get the max y for all values to correctly set the y domain
-      let allCurrentValues = []
+      let allCurrentValues: number[] = []
       if (isBarChart) {
         allCurrentValues = [100]
         for (let i = 0; i < latestData.length; i++) {
-          if (latestData[i][keyForCheckMax] !== null) {
+          if (latestData[i][keyForCheckMax] !== null && latestData[i][keyForCheckMax] !== undefined) {
             allCurrentValues.push(latestData[i][keyForCheckMax])
           }
         }
       } else {
         for (let i = 0; i < latestData.length; i++) {
-          allCurrentValues.push(...latestData[i].values)
+          if (latestData[i].values) {
+            const filteredValues = latestData[i].values?.filter(v => v !== undefined && v !== null)
+            if (filteredValues) {
+              allCurrentValues.push(...filteredValues)
+            }
+          }
         }
       }
 
-      const maxy = d3.max([d3.max(allCurrentValues), lowerMaxY])
-      const yMax = maxy + (maxy * 0.1) // We add 10% to the max to have some space on top
+      const maxValue = Math.max(...allCurrentValues, lowerMaxY)
+      const yMax = maxValue + (maxValue * 0.1) // We add 10% to the max to have some space on top
       y.domain([yMin, yMax])
-      const yAxisTickValues = [...getTicks(yMin, maxy, 2, false)]
+      const yAxisTickValues = getTicks(yMin, maxValue, 2, false)
 
-      const timeRange = lastTime - firstTime
+      const timeRange = lastTime.getTime() - firstTime.getTime()
       const numberOfTicks = 7
-      const tickValues = []
+      const tickValues: Date[] = []
       for (let i = 0; i < numberOfTicks; i++) {
         const tickTime = new Date(firstTime.getTime() + (timeRange * (i / (numberOfTicks - 1))))
         tickValues.push(tickTime)
       }
 
-      const yAxis = d3.axisLeft().scale(y).tickValues(yAxisTickValues)
+      const yAxis = d3.axisLeft<number>(y).tickValues(yAxisTickValues)
 
       svg.attr('width', w)
         .attr('height', h)
@@ -102,7 +141,7 @@ const MetricChart = ({
 
       svg.append('g')
         .attr('class', styles.grid)
-        .call(d3.axisLeft(y).tickValues(yAxisTickValues).tickSize(-effectiveWidth).tickFormat(''))
+        .call(d3.axisLeft<number>(y).tickValues(yAxisTickValues).tickSize(-effectiveWidth).tickFormat(() => ''))
         .attr('transform', `translate(${xMargin})`)
         .call(g => g.select('.domain').remove())
 
@@ -113,14 +152,15 @@ const MetricChart = ({
         .attr('class', styles.axis)
 
       if (timeline) {
-        const xAxis = d3.axisBottom()
-          .scale(x)
+        const xAxis = d3.axisBottom<Date>(x)
           .tickValues(tickValues)
           .tickFormat(d3.timeFormat('%H:%M:%S'))
           .tickSizeOuter(0)
+          
         const $xAxis = svg
           .append('g')
           .attr('transform', `translate(5, ${h - yMargin})`)
+          
         $xAxis
           .call(xAxis)
           .call(g => g.select('.domain').remove())
@@ -131,42 +171,48 @@ const MetricChart = ({
           .style('text-anchor', 'start')
       }
 
-      const paths = []
-      const tooltipDots = []
+      const paths: D3SVGPathElement[] = []
+      const tooltipDots: D3SVGCircleSelection[] = []
 
       if (isBarChart) {
-        const chart = svg.selectAll('.chart')
+        const chart = svg.selectAll<SVGElement, DataPoint>('.chart')
           .data(latestData)
           .enter()
 
         const barWidth = 2
         const barOffset = -(barWidth * 2)
 
-        Object.keys(percentiles).forEach(percentile => {
-          chart.append('rect')
-            .attr('fill', percentiles[percentile])
-            .attr('x', d => x(d.time) + barOffset)
-            .attr('y', d => y(d[percentile] || 0))
-            .attr('width', barWidth)
-            .attr('height', d => h - marginOnY - y(d[percentile] || 0))
-            .transition()
-            .duration(1000)
-        })
+        if (percentiles) {
+          Object.keys(percentiles).forEach(percentile => {
+            chart.append('rect')
+              .attr('fill', percentiles[percentile])
+              .attr('x', d => x(d.time) + barOffset)
+              .attr('y', d => y(d[percentile] || 0))
+              .attr('width', barWidth)
+              .attr('height', d => h - marginOnY - y(d[percentile] || 0))
+              .transition()
+              .duration(1000)
+          })
+        }
       } else {
         for (let i = 0; i < numberOfLines; i++) {
-          paths.push(svg
+          const pathNode = svg
             .append('path')
             .attr('class', `${styles.line} ${colorStyles[`color-${i}`]}`)
             .datum(latestData)
-            .attr('d', d3.line()
+            .attr('d', d3.line<DataPoint>()
               .x(p => x(p.time))
-              .y((p) => y(p.values[i]))
+              .y((p) => y(p.values && i < p.values.length ? p.values[i] || 0 : 0))
               .curve(d3.curveBasis)
             )
             .transition()
             .duration(1000)
-            .node()
-          )
+            .node();
+            
+          // Only add the path if it exists
+          if (pathNode) {
+            paths.push(pathNode as D3SVGPathElement)
+          }
 
           tooltipDots.push(svg
             .append('circle')
@@ -190,8 +236,8 @@ const MetricChart = ({
         showCircles()
       }
 
-      function showCircles (event) {
-        let xPos, yPos
+      function showCircles(event?: MouseEvent) {
+        let xPos: number, yPos: number
         if (event) {
           [xPos, yPos] = d3.pointer(event)
           mousePosition.x = xPos
@@ -205,13 +251,14 @@ const MetricChart = ({
         }
 
         const time = (x.invert(xPos)).getTime()
-        const closestIndex = d3.bisect(latestData.map(d => d.time), time)
-        const data = latestData[closestIndex - 1] || latestData[0]
-        if (!data) {
+        const closestIndex = d3.bisect(latestData.map(d => d.time.getTime()), time)
+        const dataPoint = latestData[closestIndex - 1] || latestData[0]
+        if (!dataPoint) {
           return
         }
         for (let i = 0; i < numberOfLines; i++) {
           const path = paths[i]
+          if (!path) continue
 
           // if the pointer is out of the "data area"
           // (on the left or on the right)
@@ -228,11 +275,11 @@ const MetricChart = ({
         }
 
         // Prepare the tooltip
-        const timeString = d3.timeFormat('%H:%M:%S.%L %p')(data.time)
-        const valuesData = data.values.map((v, i) => {
+        const timeString = d3.timeFormat('%H:%M:%S.%L %p')(dataPoint.time)
+        const valuesData = (dataPoint.values || []).map((v, i) => {
           return {
-            label: labels[i],
-            value: Math.round(v * 100) / 100,
+            label: typeof labels[i] === 'string' ? labels[i] : (labels[i] as LabelObject).name,
+            value: Math.round((v || 0) * 100) / 100,
             colorSeparator: colorStyles[`background-color-${i}`]
           }
         })
@@ -260,19 +307,26 @@ const MetricChart = ({
           </div>
         </div>`)
 
-        const maxY = y(d3.max(data.values))
-        displayTooltip(xPos, maxY, valuesData.length, event)
+        let maxY = 0
+        if (dataPoint.values && dataPoint.values.length > 0) {
+          const filteredValues = dataPoint.values.filter(v => v !== undefined && v !== null)
+          maxY = filteredValues.length > 0 ? 
+            y(Math.max(...filteredValues)) : 
+            0
+        }
+        
+        displayTooltip(xPos, maxY, valuesData.length, event as D3Event)
       }
 
-      function hideCircles () {
+      function hideCircles() {
         tooltipDots.forEach(t => t.style('opacity', 0))
         mousePosition.x = 0
         mousePosition.y = 0
         tooltip.style('opacity', 0)
       }
 
-      function showBarTooltip (event) {
-        let xPos, yPos
+      function showBarTooltip(event?: MouseEvent) {
+        let xPos: number, yPos: number
         if (event) {
           [xPos, yPos] = d3.pointer(event)
           mousePosition.x = xPos
@@ -286,17 +340,19 @@ const MetricChart = ({
         }
 
         const time = (x.invert(xPos)).getTime()
-        const data = latestData.find(d => d.time.getTime() >= time)
-        if (!data) {
+        const dataPoint = latestData.find(d => d.time.getTime() >= time)
+        if (!dataPoint) {
           return
         }
 
         // Prepare the tooltip
-        const timeString = d3.timeFormat('%H:%M:%S.%L %p')(data.time)
-        const valuesData = labels.map((label, i) => {
+        const timeString = d3.timeFormat('%H:%M:%S.%L %p')(dataPoint.time)
+        
+        const typedLabels = labels as LabelObject[];
+        const valuesData = typedLabels.map((label, i) => {
           return {
             name: label.name,
-            value: Math.round((data[label.value] || 0) * 100) / 100,
+            value: Math.round((dataPoint[label.value] || 0) * 100) / 100,
             colorSeparator: colorSetLatency[`background-color-${i}`]
           }
         })
@@ -324,23 +380,23 @@ const MetricChart = ({
           </div>
         </div>`)
 
-        const maxY = y(data[keyForCheckMax])
-        displayTooltip(xPos, maxY, valuesData.length, event)
+        const maxY = y(dataPoint[keyForCheckMax] || 0)
+        displayTooltip(xPos, maxY, valuesData.length, event as D3Event)
       }
 
-      function hideBarTooltip () {
+      function hideBarTooltip() {
         mousePosition.x = 0
         mousePosition.y = 0
         tooltip.style('opacity', 0)
       }
 
-      function displayTooltip (xPos, maxY, itemsCount, event) {
+      function displayTooltip(xPos: number, maxY: number, itemsCount: number, event?: D3Event) {
         const tooltipWidth = 160
         const tooltipHeight = itemsCount * 15
         let tx = xPos + tooltipWidth < w ? xPos : w - tooltipWidth
         let ty = maxY - (tooltipHeight + 30)
 
-        if (tooltipPosition === POSITION_FIXED && event) {
+        if (tooltipPosition === POSITION_FIXED && event && svgRef.current) {
           tx = event.clientX - (tooltipWidth / 2) - 50
           ty = svgRef.current.getBoundingClientRect().bottom - svgRef.current.getBoundingClientRect().height - tooltipHeight - 75 + maxY
         }
@@ -354,7 +410,7 @@ const MetricChart = ({
         }
       }
     }
-  }, [svgRef, tooltipRef, data, isBarChart])
+  }, [svgRef, tooltipRef, data, isBarChart, colorSet, labels, lowerMaxY, numberOfLines, percentiles, timeline, tooltipPosition, unit, yMin])
 
   return (
     <div className={`${commonStyles.tinyFlexBlock} ${commonStyles.fullWidth}`}>

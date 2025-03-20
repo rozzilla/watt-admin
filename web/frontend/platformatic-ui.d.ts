@@ -2,12 +2,22 @@
 declare module '@platformatic/ui-components' {
   import { ReactElement, ComponentType } from 'react';
 
+  export interface VerticalSeparatorProps {
+    color?: string;
+    backgroundColorOpacity?: string;
+    classes?: string;
+    height?: string;
+    width?: string;
+    marginLeft?: string;
+    marginRight?: string;
+  }
   export const Checkbox: ComponentType<CheckboxProps>;
   export const BorderedBox: ComponentType<BorderedBoxProps>;
   export const Button: ComponentType<ButtonProps>;
   export const HorizontalSeparator: ComponentType<HorizontalSeparatorProps>;
   export const LoadingSpinnerV2: ComponentType<LoadingSpinnerV2Props>;
   export const Tooltip: ComponentType<TooltipProps>;
+  export const VerticalSeparator: ComponentType<VerticalSeparatorProps>;
   export const TooltipAbsolute: ComponentType<TooltipProps>;
 
   export interface PlatformaticIconProps {

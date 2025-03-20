@@ -6,21 +6,27 @@ import typographyStyles from '../../styles/Typography.module.css'
 import commonStyles from '../../styles/CommonStyles.module.css'
 import { BorderedBox } from '@platformatic/ui-components'
 import Icons from '@platformatic/ui-components/src/components/icons'
-import NodeJSMetric from './NodeJSMetric'
+import NodeJSMetric, { DataValue } from './NodeJSMetric'
 import { REFRESH_INTERVAL_METRICS, MEMORY_UNIT_METRICS, LATENCY_UNIT_METRICS, CPU_UNIT_METRICS } from '../../ui-constants'
 import { getApiMetricsPod } from '../../api'
 import useAdminStore from '../../useAdminStore'
 
-function NodeJSMetrics () {
+interface MetricsData {
+  dataMem: Array<DataValue>;
+  dataCpu: Array<DataValue>;
+  dataLatency: Array<DataValue>;
+}
+
+function NodeJSMetrics(): React.ReactElement {
   const [initialLoading, setInitialLoading] = useState(true)
-  const [allData, setAllData] = useState({
+  const [allData, setAllData] = useState<MetricsData>({
     dataMem: [],
     dataCpu: [],
     dataLatency: []
   })
   const { runtimePid } = useAdminStore()
 
-  const getData = async () => {
+  const getData = async (): Promise<void> => {
     try {
       if (runtimePid) {
         const data = await getApiMetricsPod(runtimePid)

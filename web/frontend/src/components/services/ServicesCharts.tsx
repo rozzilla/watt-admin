@@ -10,20 +10,21 @@ import { BorderedBox } from '@platformatic/ui-components'
 import ServicesMetrics from '../../components/metrics/ServicesMetrics'
 import { POD_SERVICES_PATH } from '../../ui-constants'
 import { getServices } from '../../api'
+import { ServiceData } from 'src/types'
 
-const ServicesCharts = () => {
+const ServicesCharts: React.FC = () => {
   const globalState = useAdminStore()
   const { setCurrentPage, runtimePid } = globalState
   const [showAggregatedMetrics, setShowAggregatedMetrics] = useState(true)
-  const [services, setServices] = useState([])
-  const [serviceSelected, setServiceSelected] = useState({})
+  const [services, setServices] = useState<ServiceData[]>([])
+  const [serviceSelected, setServiceSelected] = useState<ServiceData>({} as ServiceData)
 
   useEffect(() => {
     setCurrentPage(POD_SERVICES_PATH)
   }, [])
 
   useEffect(() => {
-    const fetchData = async () => {
+    const fetchData = async (): Promise<void> => {
       try {
         if (runtimePid) {
           const response = await getServices(runtimePid)
