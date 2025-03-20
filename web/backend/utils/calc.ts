@@ -173,7 +173,7 @@ export const calculateMetrics = async ({ mappedMetrics, log }: FastifyInstance):
                       sumP90 += data
                       serviceLatencyData.p90 = sumP90 / countP90
                       aggregatedLatencyData.p90 += serviceLatencyData.p90
-                      aggregatedCountP90++
+                      aggregatedCountP90 += countP90
                       aggregatedSumP90 += data
                       aggregatedLatencyData.p90 = aggregatedSumP90 / aggregatedCountP90
                     }
@@ -182,7 +182,7 @@ export const calculateMetrics = async ({ mappedMetrics, log }: FastifyInstance):
                       sumP95 += data
                       serviceLatencyData.p95 = sumP95 / countP95
                       aggregatedLatencyData.p95 += serviceLatencyData.p95
-                      aggregatedCountP95++
+                      aggregatedCountP95 += countP95
                       aggregatedSumP95 += data
                       aggregatedLatencyData.p95 = aggregatedSumP95 / aggregatedCountP95
                     }
@@ -190,7 +190,7 @@ export const calculateMetrics = async ({ mappedMetrics, log }: FastifyInstance):
                       countP99++
                       sumP99 += data
                       serviceLatencyData.p99 = sumP99 / countP99
-                      aggregatedCountP99++
+                      aggregatedCountP99 += countP99
                       aggregatedSumP99 += data
                       aggregatedLatencyData.p99 = aggregatedSumP99 / aggregatedCountP99
                     }

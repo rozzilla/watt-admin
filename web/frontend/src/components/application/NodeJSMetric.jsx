@@ -6,8 +6,7 @@ import commonStyles from '../../styles/CommonStyles.module.css'
 import { BorderedBox, LoadingSpinnerV2, VerticalSeparator } from '@platformatic/ui-components'
 import loadingSpinnerStyles from '../../styles/LoadingSpinnerStyles.module.css'
 import NoDataAvailable from '../ui/NoDataAvailable'
-import NodeJSMetricChart from '../metrics/NodeJSMetricChart'
-import LatencyChart from '../metrics/LatencyChart'
+import MetricChart from '../metrics/MetricChart'
 import { POSITION_ABSOLUTE } from '../../ui-constants'
 import colorSetMem from '../metrics/memory.module.css'
 import colorSetCpu from '../metrics/cpu.module.css'
@@ -97,7 +96,7 @@ function NodeJSMetric ({
 
     return metricURL === 'latency'
       ? (
-        <LatencyChart
+        <MetricChart
           data={seriesValues}
           unit={unit}
           labels={options.map(option => ({ name: option.label, value: option.internalKey }))}
@@ -113,7 +112,7 @@ function NodeJSMetric ({
         />
         )
       : (
-        <NodeJSMetricChart
+        <MetricChart
           data={seriesValues}
           unit={unit}
           labels={labels}
