@@ -1,28 +1,28 @@
 import React, { useState, useEffect } from 'react'
 import styles from './AppDetails.module.css'
-import AppNameBox from './AppNameBox'
+import AppNameBox, { ApiApplication } from './AppNameBox'
 import ServicesBox from './ServicesBox'
 import ErrorComponent from '../errors/ErrorComponent'
 import NodeJSMetrics from './NodeJSMetrics'
 import useAdminStore from '../../useAdminStore'
 import { getApiApplication } from '../../api'
 
-const AppDetails = () => {
-  const [error, setError] = useState('')
-  const [apiApplication, setApiApplication] = useState({})
+const AppDetails: React.FC = () => {
+  const [error, setError] = useState<string | Error>('')
+  const [apiApplication, setApiApplication] = useState<ApiApplication>({} as ApiApplication)
   const { setRuntimePid } = useAdminStore()
 
   useEffect(() => {
-    const fetchData = async () => {
+    const fetchData = async (): Promise<void> => {
       try {
         const response = await getApiApplication()
         if (response.id) {
-          setApiApplication(response)
+          setApiApplication(response as ApiApplication)
           setRuntimePid(response.id)
           setError('')
         }
       } catch (error) {
-        setError(error)
+        setError(error as Error)
       }
     }
     fetchData()

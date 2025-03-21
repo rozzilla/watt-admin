@@ -11,7 +11,7 @@ import Icons from '@platformatic/ui-components/src/components/icons'
 import ApplicationStatusPills from '../ui/ApplicationStatusPills'
 import { restartApiApplication, isWattpmVersionOutdated } from '../../api'
 
-interface ApiApplication {
+export interface ApiApplication {
   id: number;
   name: string;
   pltVersion?: string;

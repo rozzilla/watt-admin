@@ -19,7 +19,13 @@ import AppDetails from './components/application/AppDetails'
 import ServicesLogs from './components/services/ServicesLogs'
 import ServicesCharts from './components/services/ServicesCharts'
 
-export default function App () {
+interface ErrorBoundaryResult {
+  ErrorBoundary: React.ComponentType<{ children: React.ReactNode }>;
+  error: Error | null;
+  didCatch: boolean;
+}
+
+export default function App(): React.ReactElement {
   const globalState = useAdminStore()
   const { setCurrentWindowWidth } = globalState
   const [innerLoading, setInnerLoading] = useState(false)
@@ -28,15 +34,15 @@ export default function App () {
   const {
     ErrorBoundary,
     error
-  } = useErrorBoundary({
-    onDidCatch: (error) => {
+  }: ErrorBoundaryResult = useErrorBoundary({
+    onDidCatch: (error: Error) => {
       setShowErrorComponent(true)
       console.error(error)
     }
   })
 
   useEffect(() => {
-    async function getUserLocal () {
+    async function getUserLocal(): Promise<void> {
       setInnerLoading(false)
     }
     getUserLocal()
@@ -45,7 +51,7 @@ export default function App () {
   useEffect(() => {
     setCurrentWindowWidth(window.innerWidth)
 
-    const handleResize = () => {
+    const handleResize = (): void => {
       setCurrentWindowWidth(window.innerWidth)
     }
 
@@ -56,7 +62,7 @@ export default function App () {
     }
   }, [])
 
-  function handleDismiss () {
+  function handleDismiss(): void {
     setShowErrorComponent(false)
   }
 
@@ -77,7 +83,7 @@ export default function App () {
     )
   }
 
-  if (showErrorComponent) {
+  if (showErrorComponent && error) {
     return (
       <ErrorComponent
         error={error}

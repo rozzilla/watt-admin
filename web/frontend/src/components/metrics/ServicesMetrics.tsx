@@ -10,28 +10,39 @@ import { REFRESH_INTERVAL_METRICS, POSITION_FIXED, MEMORY_UNIT_METRICS, LATENCY_
 import colorSetMem from './memory.module.css'
 import colorSetCpu from './cpu.module.css'
 import colorSetLatency from './latency.module.css'
-import NodeJSMetric, { generateLegend } from '../application/NodeJSMetric'
+import NodeJSMetric, { DataValue, generateLegend } from '../application/NodeJSMetric'
 
-function ServicesMetrics ({
+interface MetricsData {
+  dataMem: Array<DataValue>;
+  dataCpu: Array<DataValue>;
+  dataLatency: Array<DataValue>;
+}
+
+interface ServicesMetricsProps {
+  serviceId: string;
+  showAggregatedMetrics: boolean;
+}
+
+function ServicesMetrics({
   serviceId,
   showAggregatedMetrics
-}) {
+}: ServicesMetricsProps): React.ReactElement {
   const [initialLoading, setInitialLoading] = useState(true)
-  const [serviceData, setServiceData] = useState({
+  const [serviceData, setServiceData] = useState<MetricsData>({
     dataMem: [],
     dataCpu: [],
     dataLatency: []
   })
-  const [allData, setAllData] = useState({
+  const [allData, setAllData] = useState<MetricsData>({
     dataMem: [],
     dataCpu: [],
     dataLatency: []
   })
   const { runtimePid } = useAdminStore()
 
-  const getData = async () => {
+  const getData = async (): Promise<void> => {
     try {
-      if (serviceId) {
+      if (serviceId && runtimePid) {
         const [runtimeData, serviceData] = await Promise.all([getApiMetricsPod(runtimePid), getApiMetricsPodService(runtimePid, serviceId)])
         setAllData(runtimeData)
         setServiceData(serviceData)
