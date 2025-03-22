@@ -5,6 +5,7 @@ import typographyStyles from '../../styles/Typography.module.css'
 import * as d3 from 'd3'
 import colorSetMem from './memory.module.css'
 import colorSetCpu from './cpu.module.css'
+import colorSetReq from './req.module.css'
 import colorSetLatency from './latency.module.css'
 import { xMargin, yMargin, yMarginWithoutXAxis, radiusDotsTooltip } from './chart_constants'
 import { getTicks } from './utils'
@@ -49,6 +50,27 @@ type D3SVGCircleSelection = D3Selection<SVGCircleElement>
 
 const getNum = (point: Point) => typeof point === 'number' ? point : 0
 
+export const getMetricColor = (metricType: MetricType) => {
+  let colorStyles: Record<string, string>
+  switch (metricType) {
+    case 'mem':
+      colorStyles = colorSetMem
+      break
+    case 'cpu':
+      colorStyles = colorSetCpu
+      break
+    case 'req':
+      colorStyles = colorSetReq
+      break
+    case 'latency':
+      colorStyles = colorSetLatency
+      break
+    default:
+      throw new Error(`Unhandled metric type: ${metricType}`)
+  }
+  return colorStyles
+}
+
 const MetricChart: React.FC<MetricChartProps> = ({
   data,
   unit,
@@ -64,7 +86,7 @@ const MetricChart: React.FC<MetricChartProps> = ({
   const tooltipRef = useRef<HTMLDivElement>(null)
   const keyForCheckMax = 'p99'
 
-  const colorStyles = colorSet === 'mem' ? colorSetMem : colorSet === 'cpu' ? colorSetCpu : colorSetLatency
+  const colorStyles = getMetricColor(colorSet)
   const numberOfLines = labels.length
 
   // We assume the data is an array of objects with a time and a value
@@ -132,7 +154,18 @@ const MetricChart: React.FC<MetricChartProps> = ({
         tickValues.push(tickTime)
       }
 
-      const yAxis = d3.axisLeft<number>(y).tickValues(yAxisTickValues)
+      let yAxis = d3.axisLeft<number>(y).tickValues(yAxisTickValues)
+      if (colorSet === 'req') {
+        yAxis = yAxis.tickFormat(d => {
+          if (d >= 1000000) {
+            return (d / 1000000).toFixed(0) + 'M'
+          } else if (d >= 1000) {
+            return (d / 1000).toFixed(0) + 'K'
+          } else {
+            return d.toString()
+          }
+        })
+      }
 
       svg.attr('width', w)
         .attr('height', h)
@@ -200,6 +233,13 @@ const MetricChart: React.FC<MetricChartProps> = ({
         }
       } else {
         for (let i = 0; i < numberOfLines; i++) {
+          const dataToUse = latestData.filter(p =>
+            p.values && i < p.values.length && p.values[i] > 0
+          )
+          if (dataToUse.length === 0) {
+            continue
+          }
+
           const pathNode = svg
             .append('path')
             .attr('class', `${styles.line} ${colorStyles[`color-${i}`]}`)

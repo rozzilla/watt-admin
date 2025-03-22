@@ -23,6 +23,7 @@ export const REFRESH_INTERVAL_LOGS = 2000
 export const MEMORY_UNIT_METRICS = 'MB'
 export const LATENCY_UNIT_METRICS = 'ms'
 export const CPU_UNIT_METRICS = '%'
+export const REQ_UNIT_METRICS = '#'
 
 export const POSITION_ABSOLUTE = 'absolute'
 export const POSITION_FIXED = 'fixed'
