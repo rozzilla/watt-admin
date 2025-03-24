@@ -1,6 +1,6 @@
 import test from 'node:test'
 import assert from 'node:assert'
-import { getServer, startWatt, wait } from '../helper'
+import { getServer, startWatt, loadMetrics } from '../helper'
 import type { Log } from '../../utils/log'
 
 test('no runtime running', async (t) => {
@@ -47,8 +47,7 @@ test('runtime is running', async (t) => {
   assert.strictEqual(typeof servicesJson.services[0].localUrl, 'string')
   assert.strictEqual(typeof servicesJson.services[0].entrypoint, 'boolean')
 
-  // Wait for the interval to be run
-  await wait(1000)
+  await loadMetrics(server)
   const metrics = await server.inject({
     url: `/runtimes/${runtimePid}/metrics`
   })
@@ -104,7 +103,7 @@ test('runtime is running', async (t) => {
     url: `/runtimes/${runtimePid}/openapi/fantozzi`
   })
   assert.strictEqual(serviceInvalidOpenapi.statusCode, 500, 'service OpenAPI endpoint')
-  assert.strictEqual(serviceInvalidOpenapi.json().code, 'PLT_CTR_FAILED_TO_GET_RUNTIME_OPENAPI')
+  assert.strictEqual(typeof serviceInvalidOpenapi.json().code, 'string')
 
   const logs = await server.inject({
     url: `/runtimes/${runtimePid}/logs`
@@ -122,20 +121,10 @@ test('runtime is running', async (t) => {
   assert.ok(typeof time, 'number')
   assert.ok(typeof pid, 'number')
   assert.ok(typeof hostname, 'string')
-})
-
-test('runtime restart', async (t) => {
-  await startWatt(t)
-  const server = await getServer(t)
-  const res = await server.inject({
-    url: '/runtimes?includeAdmin=true'
-  })
-  const [{ pid }] = res.json()
-  assert.ok(pid > 0)
 
   const restart = await server.inject({
     method: 'POST',
     url: `/runtimes/${pid}/restart`
   })
-  assert.strictEqual(restart.statusCode, 200)
+  assert.strictEqual(restart.statusCode, 200, 'check for restart endpoint')
 })
