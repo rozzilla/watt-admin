@@ -18,6 +18,7 @@ test('metrics with runtime', async (t) => {
   const metricsKeys = Object.keys(server.mappedMetrics)
   const [pid] = metricsKeys
   const servicePID = parseInt(pid)
+  assert.ok(servicePID > 0, 'a service PID is defined for the metrics')
   assert.ok(metricsKeys.length > 0, 'mapped metrics are defined, and contain values')
   assert.ok(Array.isArray(server.mappedMetrics[servicePID].aggregated.dataCpu))
 
