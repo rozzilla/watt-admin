@@ -33,6 +33,6 @@
     "zustand": "^5.0.2"
   },
   "dependencies": {
-    "@platformatic/vite": "^2.53.1"
+    "@platformatic/vite": "^2.55.0"
   }
 }
