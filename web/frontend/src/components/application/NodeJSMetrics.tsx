@@ -119,8 +119,8 @@ function NodeJSMetrics (): React.ReactElement {
             initialLoading={initialLoading}
             unit={`(${REQ_UNIT_METRICS})`}
             options={[{
-              label: 'Count',
-              internalKey: 'count',
+              label: 'RPS',
+              internalKey: 'rps',
               unit: REQ_UNIT_METRICS
             }]}
           />
