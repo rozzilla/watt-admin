@@ -42,7 +42,7 @@ class RuntimeApiClient {
         ]
       },
       {
-        name: 'process_cpu_percent_usage',
+        name: 'thread_cpu_percent_usage',
         values: [{ value: 50, labels: { serviceId: 'service-1' } }]
       },
       {
@@ -61,14 +61,11 @@ class RuntimeApiClient {
   }
 }
 
-const os = { cpus: () => Array(4).fill({}) }
-
 const getMockFastify = () => ({ mappedMetrics: {} }) as FastifyInstance
 
 test('calculateMetrics collects and aggregates metrics correctly', async () => {
   const { calculateMetrics } = proxyquire(calcPath, {
     '@platformatic/control': { RuntimeApiClient },
-    os
   })
 
   const fastify = getMockFastify()
@@ -87,7 +84,7 @@ test('calculateMetrics collects and aggregates metrics correctly', async () => {
   assert.strictEqual(service1Mem.oldSpace, 1.00) // 1MB
 
   const service1Cpu = fastify.mappedMetrics[1234].services['service-1'].dataCpu[0]
-  assert.strictEqual(service1Cpu.cpu, 12.5) // 50/4 CPUs
+  assert.strictEqual(service1Cpu.cpu, 50) // 50%
   assert.strictEqual(service1Cpu.eventLoop, 50) // 0.5 * 100
 
   const service1Latency = fastify.mappedMetrics[1234].services['service-1'].dataLatency[0]
@@ -124,8 +121,7 @@ test('calculateMetrics handles empty metrics correctly', async () => {
   const { calculateMetrics: calculateEmptyMetrics } = proxyquire(calcPath, {
     '@platformatic/control': {
       RuntimeApiClient: EmptyMetricsMockClient
-    },
-    os
+    }
   })
 
   const fastify = getMockFastify()
@@ -151,8 +147,7 @@ test('calculateMetrics handles missing services', async () => {
   const { calculateMetrics: calculateNoServices } = proxyquire(calcPath, {
     '@platformatic/control': {
       RuntimeApiClient: NoServicesMockClient
-    },
-    os
+    }
   })
 
   const fastify = getMockFastify()
@@ -168,8 +163,7 @@ test('calculateMetrics handles missing services', async () => {
 
 test('calculateMetrics respects MAX_STORED_METRICS limit', async () => {
   const { calculateMetrics: calculateLimitedMetrics } = proxyquire(calcPath, {
-    '@platformatic/control': { RuntimeApiClient },
-    os
+    '@platformatic/control': { RuntimeApiClient }
   })
 
   const fastify = getMockFastify()

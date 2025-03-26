@@ -1,6 +1,5 @@
 import { RuntimeApiClient } from '@platformatic/control'
 import { FastifyInstance } from 'fastify'
-import os from 'os'
 
 interface CommonMetricData {
   date: Date;
@@ -48,7 +47,6 @@ export const calculateMetrics = async ({ mappedMetrics, log }: FastifyInstance):
   try {
     const api = new RuntimeApiClient()
     const runtimes = await api.getRuntimes()
-    const numCpus = os.cpus().length
     for (const { pid } of runtimes) {
       const date = new Date()
       const aggregatedMemData: MemoryDataPoint = {
@@ -144,8 +142,8 @@ export const calculateMetrics = async ({ mappedMetrics, log }: FastifyInstance):
                 })
               }
 
-              if (metric.name === 'process_cpu_percent_usage') {
-                serviceCpuData.cpu = value / numCpus
+              if (metric.name === 'thread_cpu_percent_usage') {
+                serviceCpuData.cpu = value
                 aggregatedCpuData.cpu += serviceCpuData.cpu
               }
 
