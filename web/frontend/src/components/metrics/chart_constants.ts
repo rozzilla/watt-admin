@@ -1,4 +1,2 @@
-export const xMargin = 35
+export const xMargin = 40
 export const yMargin = 25
-export const yMarginWithoutXAxis = 5
-export const radiusDotsTooltip = 5
