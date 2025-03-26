@@ -7,7 +7,7 @@ import colorSetMem from './memory.module.css'
 import colorSetCpu from './cpu.module.css'
 import colorSetReq from './req.module.css'
 import colorSetLatency from './latency.module.css'
-import { xMargin, yMargin, yMarginWithoutXAxis, radiusDotsTooltip } from './chart_constants'
+import { xMargin, yMargin } from './chart_constants'
 import { getTicks } from './utils'
 import { POSITION_ABSOLUTE, POSITION_FIXED } from '../../ui-constants'
 import { findY } from './chart_utils'
@@ -97,6 +97,8 @@ const MetricChart: React.FC<MetricChartProps> = ({
     if (svgRef.current && tooltipRef.current && data.length > 0) {
       const h = svgRef.current.clientHeight
       const w = svgRef.current.clientWidth
+      const yMarginWithoutXAxis = 5
+      const radiusDotsTooltip = 5
       const marginOnY = timeline ? yMargin : yMarginWithoutXAxis
 
       const svg: D3SVGSelection = d3.select(svgRef.current)
