@@ -74,12 +74,6 @@ export const calculateMetrics = async ({ mappedMetrics, log }: FastifyInstance):
         date,
         count: 0
       }
-      let aggregatedCountP90 = 0
-      let aggregatedCountP95 = 0
-      let aggregatedCountP99 = 0
-      let aggregatedSumP90 = 0
-      let aggregatedSumP95 = 0
-      let aggregatedSumP99 = 0
       let aggregatedRss = 0
 
       const runtimeMetrics = await api.getRuntimeMetrics(pid, { format: 'json' })
@@ -87,8 +81,10 @@ export const calculateMetrics = async ({ mappedMetrics, log }: FastifyInstance):
         mappedMetrics[pid] = { services: {}, aggregated: { dataCpu: [], dataLatency: [], dataMem: [], dataReq: [] } }
       }
 
-      const { services } = await api.getRuntimeServices(pid)
+      const { services, entrypoint } = await api.getRuntimeServices(pid)
       for (const { id: serviceId } of services) {
+        const isEntrypointService = entrypoint === serviceId
+
         if (!mappedMetrics[pid].services[serviceId]) {
           mappedMetrics[pid].services[serviceId] = { dataCpu: [], dataLatency: [], dataMem: [], dataReq: [] }
         }
@@ -116,12 +112,6 @@ export const calculateMetrics = async ({ mappedMetrics, log }: FastifyInstance):
           date,
           count: 0
         }
-        let countP90 = 0
-        let countP95 = 0
-        let countP99 = 0
-        let sumP90 = 0
-        let sumP95 = 0
-        let sumP99 = 0
 
         for (const metric of runtimeMetrics) {
           if (metric.values.length > 0) {
@@ -169,30 +159,22 @@ export const calculateMetrics = async ({ mappedMetrics, log }: FastifyInstance):
                   const data = metricValue.value * 1000
                   if (data > 0) {
                     if (metricValue.labels?.quantile === 0.9) {
-                      countP90++
-                      sumP90 += data
-                      serviceLatencyData.p90 = sumP90 / countP90
-                      aggregatedLatencyData.p90 += serviceLatencyData.p90
-                      aggregatedCountP90 += countP90
-                      aggregatedSumP90 += data
-                      aggregatedLatencyData.p90 = aggregatedSumP90 / aggregatedCountP90
+                      serviceLatencyData.p90 = data
+                      if (isEntrypointService) {
+                        aggregatedLatencyData.p90 = data
+                      }
                     }
                     if (metricValue.labels?.quantile === 0.95) {
-                      countP95++
-                      sumP95 += data
-                      serviceLatencyData.p95 = sumP95 / countP95
-                      aggregatedLatencyData.p95 += serviceLatencyData.p95
-                      aggregatedCountP95 += countP95
-                      aggregatedSumP95 += data
-                      aggregatedLatencyData.p95 = aggregatedSumP95 / aggregatedCountP95
+                      serviceLatencyData.p95 = data
+                      if (isEntrypointService) {
+                        aggregatedLatencyData.p95 = data
+                      }
                     }
                     if (metricValue.labels?.quantile === 0.99) {
-                      countP99++
-                      sumP99 += data
-                      serviceLatencyData.p99 = sumP99 / countP99
-                      aggregatedCountP99 += countP99
-                      aggregatedSumP99 += data
-                      aggregatedLatencyData.p99 = aggregatedSumP99 / aggregatedCountP99
+                      serviceLatencyData.p99 = data
+                      if (isEntrypointService) {
+                        aggregatedLatencyData.p99 = data
+                      }
                     }
                   }
                 }
