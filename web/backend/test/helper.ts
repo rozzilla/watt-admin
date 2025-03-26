@@ -3,11 +3,34 @@ import { readFile } from 'node:fs/promises'
 import { buildServer } from '@platformatic/service'
 import { test } from 'node:test'
 import { spawn } from 'node:child_process'
+import { FastifyInstance } from 'fastify'
 
 type testfn = Parameters<typeof test>[0]
 type TestContext = Parameters<Exclude<testfn, undefined>>[0]
 
-export const wait = (ms: number) => new Promise((resolve) => setTimeout(resolve, ms))
+export async function loadMetrics (server: FastifyInstance): Promise<void> {
+  return new Promise((resolve, reject) => {
+    let count = 0
+    let timeoutId: NodeJS.Timeout
+
+    const check = () => {
+      if (Object.keys(server.mappedMetrics).length > 0) {
+        clearTimeout(timeoutId)
+        resolve()
+      } else {
+        timeoutId = setTimeout(check, 1000)
+      }
+
+      if (count > 4) {
+        clearTimeout(timeoutId)
+        reject(new Error(`Unable to load metrics after ${count} retries`))
+      }
+      count++
+    }
+
+    check()
+  })
+}
 
 export async function getServer (t: TestContext) {
   // We go up two folder because this files executes in the dist folder

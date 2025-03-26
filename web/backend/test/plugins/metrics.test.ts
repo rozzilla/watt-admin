@@ -1,6 +1,6 @@
 import test from 'node:test'
 import assert from 'node:assert'
-import { getServer, startWatt, wait } from '../helper'
+import { getServer, startWatt, loadMetrics } from '../helper'
 import { MetricsResponse } from '../../utils/calc'
 
 test('metrics without runtime', async (t) => {
@@ -13,12 +13,9 @@ test('metrics without runtime', async (t) => {
 test('metrics with runtime', async (t) => {
   await startWatt(t)
   const server = await getServer(t)
-
-  await wait(1500)
-  const metricsKeys = Object.keys(server.mappedMetrics)
-  const [pid] = metricsKeys
+  await loadMetrics(server)
+  const [pid] = Object.keys(server.mappedMetrics)
   const servicePID = parseInt(pid)
-  assert.ok(metricsKeys.length > 0, 'mapped metrics are defined, and contain values')
   assert.ok(Array.isArray(server.mappedMetrics[servicePID].aggregated.dataCpu))
 
   const res = await server.inject({
