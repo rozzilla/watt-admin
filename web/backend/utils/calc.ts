@@ -26,6 +26,7 @@ interface LatencyDataPoint extends CommonMetricData {
 
 interface RequestDataPoint extends CommonMetricData {
   count: number;
+  rps: number
 }
 
 export interface MetricsResponse {
@@ -70,7 +71,8 @@ export const calculateMetrics = async ({ mappedMetrics, log }: FastifyInstance):
       }
       const aggregatedReqData: RequestDataPoint = {
         date,
-        count: 0
+        count: 0,
+        rps: 0,
       }
       let aggregatedRss = 0
 
@@ -108,7 +110,8 @@ export const calculateMetrics = async ({ mappedMetrics, log }: FastifyInstance):
         }
         const serviceReqData: RequestDataPoint = {
           date,
-          count: 0
+          count: 0,
+          rps: 0
         }
 
         for (const metric of runtimeMetrics) {
@@ -184,8 +187,12 @@ export const calculateMetrics = async ({ mappedMetrics, log }: FastifyInstance):
                 if (!count) {
                   log.debug(metric.values, 'Empty HTTP request count')
                 } else {
+                  const req = mappedMetrics[pid].services[serviceId].dataReq
+                  const rps = count - (req[req.length - 1]?.count || 0)
+                  serviceReqData.rps = rps
                   serviceReqData.count = count
                   aggregatedReqData.count += count
+                  aggregatedReqData.rps += rps
                 }
               }
             }

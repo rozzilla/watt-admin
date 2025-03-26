@@ -268,8 +268,8 @@ function ServicesMetrics ({
               chartTooltipPosition={POSITION_FIXED}
               unit={`(${REQ_UNIT_METRICS})`}
               options={[{
-                label: 'Count',
-                internalKey: 'count',
+                label: 'RPS',
+                internalKey: 'rps',
                 unit: REQ_UNIT_METRICS
               }]}
               showLegend={false}
@@ -288,8 +288,8 @@ function ServicesMetrics ({
                 chartTooltipPosition={POSITION_FIXED}
                 unit={`(${REQ_UNIT_METRICS})`}
                 options={[{
-                  label: 'Count',
-                  internalKey: 'count',
+                  label: 'RPS',
+                  internalKey: 'rps',
                   unit: REQ_UNIT_METRICS
                 }]}
                 showLegend={false}
