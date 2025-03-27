@@ -182,8 +182,43 @@ export const calculateMetrics = async ({ mappedMetrics, log }: FastifyInstance):
               }
 
               if (metric.name === 'http_request_duration_seconds') {
-                const count = metric.values.find(({ metricName }) => metricName === 'http_request_duration_seconds_count'
-                )?.value
+                const count = metric.values.reduce((acc, { metricName, value, labels }) => {
+                  // FIXME: update the type on `@platformatic/control`
+                  const lastRouteChar = (labels as { route?: string }).route?.slice(-1)
+                  if (metricName === 'http_request_duration_seconds_count' && lastRouteChar !== '/') {
+                    /*
+                      TODO: The check above is to avoid duplicated data returned from `@platformatic/control`. For instance, we may received values like:
+
+                        ...
+                        {
+                          "value": 56,
+                          "metricName": "http_request_duration_seconds_count",
+                          "labels": {
+                            "method": "GET",
+                            "route": "/typescript/",
+                            "status_code": 200,
+                            "telemetry_id": "unknown",
+                            "serviceId": "composer"
+                          }
+                        }, {
+                          "value": 56,
+                          "metricName": "http_request_duration_seconds_count",
+                          "labels": {
+                            "method": "GET",
+                            "route": "/typescript",
+                            "status_code": 200,
+                            "telemetry_id": "unknown",
+                            "serviceId": "composer"
+                          }
+                        }
+                        ...
+
+                        Evaluate if this approach is correct (on `@platformatic/control`) and update this code accordingly in case of an update from the lib itself.
+                     */
+                    acc += value
+                  }
+                  return acc
+                }, 0)
                 if (!count) {
                   log.debug(metric.values, 'Empty HTTP request count')
                 } else {
@@ -191,8 +226,11 @@ export const calculateMetrics = async ({ mappedMetrics, log }: FastifyInstance):
                   const rps = count - (req[req.length - 1]?.count || 0)
                   serviceReqData.rps = rps
                   serviceReqData.count = count
-                  aggregatedReqData.count += count
-                  aggregatedReqData.rps += rps
+
+                  if (isEntrypointService) {
+                    aggregatedReqData.count = count
+                    aggregatedReqData.rps = rps
+                  }
                 }
               }
             }
