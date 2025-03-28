@@ -1,0 +1,13 @@
+node_modules
+.github
+*.ts
+*.tsx
+tsconfig.json
+tsconfig.node.json
+web/*/src/*
+test/*
+web/backend/dist/test
+tsconfig.tsbuildinfo
+eslint.config.js
+.env
+.env.sample
