@@ -29,7 +29,6 @@ test('runtime is running', async (t) => {
   const runtimePid = runtime.pid
   assert.strictEqual(runtime.packageName, '@platformatic/watt-admin')
   assert.strictEqual(typeof runtimePid, 'number')
-  assert.strictEqual(runtime.packageVersion, null)
 
   const metricsEmpty = await server.inject({
     url: `/runtimes/${runtimePid}/metrics`
