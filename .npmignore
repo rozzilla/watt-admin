@@ -2,7 +2,6 @@ node_modules
 .github
 *.ts
 *.tsx
-tsconfig.json
 tsconfig.node.json
 web/*/src/*
 test/*
