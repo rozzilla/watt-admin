@@ -142,6 +142,9 @@ async function main () {
 // Execute the main function if this script is run directly
 if (require.main === module) {
   main().then((selectedRuntime) => {
+    if (!selectedRuntime) {
+      return
+    }
     console.log('Starting Watt admin...')
     console.log('--------')
     return start(selectedRuntime.pid)
