@@ -28,8 +28,12 @@ export default async function (fastify: FastifyInstance) {
       if (!request.query.includeAdmin && runtime.packageName === 'watt-admin') {
         continue
       }
-      const selected = process.env.SELECTED_RUNTIME === runtime.pid.toString()
-      selectableRuntimes.push({ ...runtime, selected })
+      if (process.env.SELECTED_RUNTIME) {
+        const selected = process.env.SELECTED_RUNTIME === runtime.pid.toString()
+        selectableRuntimes.push({ ...runtime, selected })
+      } else {
+        selectableRuntimes.push({ ...runtime, selected: true })
+      }
     }
     return selectableRuntimes
   })
