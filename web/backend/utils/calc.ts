@@ -183,8 +183,7 @@ export const calculateMetrics = async ({ mappedMetrics, log }: FastifyInstance):
 
               if (metric.name === 'http_request_duration_seconds') {
                 const count = metric.values.reduce((acc, { metricName, value, labels }) => {
-                  // FIXME: update the type on `@platformatic/control`
-                  const lastRouteChar = (labels as { route?: string }).route?.slice(-1)
+                  const lastRouteChar = labels.route?.slice(-1)
                   if (metricName === 'http_request_duration_seconds_count' && lastRouteChar !== '/') {
                     /*
                       TODO: The check above is to avoid duplicated data returned from `@platformatic/control`. For instance, we may received values like:
