@@ -25,5 +25,5 @@
     "baseUrl": "."
   },
   "include": ["src", "*.d.ts"],
-  "references": [{ "path": "./tsconfig.node.json" }]
+  "references": [{ "path": "../frontend/tsconfig.node.json" }]
 }
