@@ -86,7 +86,7 @@ export const calculateMetrics = async ({ mappedMetrics, log }: FastifyInstance):
 
             if (isEntrypointService) {
               if (metric.name === 'process_resident_memory_bytes') {
-                aggregatedRss += calcBytesToMB(value)
+                aggregatedRss = calcBytesToMB(value)
               }
             }
 

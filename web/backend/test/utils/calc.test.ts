@@ -55,7 +55,7 @@ test('calculateMetrics collects and aggregates metrics correctly', async () => {
   assert.ok(mockedMetrics.services['composer'])
 
   const service1Mem = metricService1.dataMem[0]
-  assert.strictEqual(service1Mem.rss, 4806.79)
+  assert.strictEqual(service1Mem.rss, 520.66)
   assert.strictEqual(service1Mem.totalHeap, 68.09)
   assert.strictEqual(service1Mem.usedHeap, 35.26)
   assert.strictEqual(service1Mem.newSpace, 5.42)
@@ -84,7 +84,7 @@ test('calculateMetrics collects and aggregates metrics correctly', async () => {
   assert.strictEqual(service2Req.rps, 5)
 
   const aggregatedMem = mockedMetrics.aggregated.dataMem[0]
-  assert.strictEqual(aggregatedMem.rss, 4806.79)
+  assert.strictEqual(aggregatedMem.rss, 520.66)
   assert.strictEqual(aggregatedMem.totalHeap, 898.05)
   assert.strictEqual(aggregatedMem.usedHeap, 569.9100000000001)
   assert.strictEqual(aggregatedMem.newSpace, 34.42)
