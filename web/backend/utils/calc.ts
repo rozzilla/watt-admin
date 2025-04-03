@@ -84,40 +84,42 @@ export const calculateMetrics = async ({ mappedMetrics, log }: FastifyInstance):
           if (metric.values.length > 0) {
             const [{ value, labels }] = metric.values
 
-            if (metric.name === 'process_resident_memory_bytes') {
-              aggregatedRss = calcBytesToMB(value)
+            if (isEntrypointService) {
+              if (metric.name === 'process_resident_memory_bytes') {
+                aggregatedRss += calcBytesToMB(value)
+              }
             }
 
             if (serviceId === labels.serviceId) {
               if (metric.name === 'nodejs_heap_size_total_bytes') {
-                serviceMemData.totalHeap = calcBytesToMB(value)
+                serviceMemData.totalHeap += calcBytesToMB(value)
                 aggregatedMemData.totalHeap += serviceMemData.totalHeap
               }
 
               if (metric.name === 'nodejs_heap_size_used_bytes') {
-                serviceMemData.usedHeap = calcBytesToMB(value)
+                serviceMemData.usedHeap += calcBytesToMB(value)
                 aggregatedMemData.usedHeap += serviceMemData.usedHeap
               }
 
               if (metric.name === 'nodejs_heap_space_size_used_bytes') {
                 metric.values.forEach(val => {
                   if (val.labels?.space === 'new') {
-                    serviceMemData.newSpace = calcBytesToMB(val.value)
+                    serviceMemData.newSpace += calcBytesToMB(val.value)
                     aggregatedMemData.newSpace += serviceMemData.newSpace
                   } else if (val.labels?.space === 'old') {
-                    serviceMemData.oldSpace = calcBytesToMB(val.value)
+                    serviceMemData.oldSpace += calcBytesToMB(val.value)
                     aggregatedMemData.oldSpace += serviceMemData.oldSpace
                   }
                 })
               }
 
               if (metric.name === 'thread_cpu_percent_usage') {
-                serviceCpuData.cpu = value
+                serviceCpuData.cpu += value
                 aggregatedCpuData.cpu += serviceCpuData.cpu
               }
 
               if (metric.name === 'nodejs_eventloop_utilization') {
-                serviceCpuData.eventLoop = value * 100
+                serviceCpuData.eventLoop += value * 100
                 aggregatedCpuData.eventLoop += serviceCpuData.eventLoop
               }
 
@@ -126,21 +128,21 @@ export const calculateMetrics = async ({ mappedMetrics, log }: FastifyInstance):
                   const data = metricValue.value * 1000
                   if (data > 0) {
                     if (metricValue.labels?.quantile === 0.9) {
-                      serviceLatencyData.p90 = data
+                      serviceLatencyData.p90 += data
                       if (isEntrypointService) {
-                        aggregatedLatencyData.p90 = data
+                        aggregatedLatencyData.p90 += data
                       }
                     }
                     if (metricValue.labels?.quantile === 0.95) {
-                      serviceLatencyData.p95 = data
+                      serviceLatencyData.p95 += data
                       if (isEntrypointService) {
-                        aggregatedLatencyData.p95 = data
+                        aggregatedLatencyData.p95 += data
                       }
                     }
                     if (metricValue.labels?.quantile === 0.99) {
-                      serviceLatencyData.p99 = data
+                      serviceLatencyData.p99 += data
                       if (isEntrypointService) {
-                        aggregatedLatencyData.p99 = data
+                        aggregatedLatencyData.p99 += data
                       }
                     }
                   }
@@ -192,12 +194,12 @@ export const calculateMetrics = async ({ mappedMetrics, log }: FastifyInstance):
                 } else {
                   const req = mappedMetrics[pid].services[serviceId].dataReq
                   const rps = count - (req[req.length - 1]?.count || 0)
-                  serviceReqData.rps = rps
-                  serviceReqData.count = count
+                  serviceReqData.rps += rps
+                  serviceReqData.count += count
 
                   if (isEntrypointService) {
-                    aggregatedReqData.count = count
-                    aggregatedReqData.rps = rps
+                    aggregatedReqData.count += count
+                    aggregatedReqData.rps += rps
                   }
                 }
               }
