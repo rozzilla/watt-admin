@@ -193,7 +193,7 @@ export const calculateMetrics = async ({ mappedMetrics, log }: FastifyInstance):
                   log.debug(metric.values, 'Empty HTTP request count')
                 } else {
                   const req = mappedMetrics[pid].services[serviceId].dataReq
-                  const rps = count - (req[req.length - 1]?.count || 0)
+                  const rps = Math.abs(count - (req[req.length - 1]?.count || 0))
                   serviceReqData.rps += rps
                   serviceReqData.count += count
 
