@@ -1,6 +1,6 @@
 import { Metric } from '@platformatic/control'
 
-export const metricFixtures = [
+export const metricFixtures: Metric[] = [
   {
     help: 'Total user CPU time spent in seconds.',
     name: 'process_cpu_user_seconds_total',
@@ -13677,4 +13677,4 @@ export const metricFixtures = [
     ],
     aggregator: 'sum'
   }
-] as Metric[] // FIXME: remove the cast once this is merged (https://github.com/platformatic/platformatic/pull/3979)
+]
