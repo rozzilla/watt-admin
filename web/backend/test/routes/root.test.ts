@@ -1,4 +1,5 @@
 import test from 'node:test'
+import fs from 'fs/promises'
 import assert from 'node:assert'
 import { getServer, startWatt, loadMetrics } from '../helper'
 import type { Log } from '../../utils/log'
@@ -97,6 +98,9 @@ test('runtime is running', async (t) => {
       responses: { 200: { description: 'Default Response' } },
     },
   })
+
+  // Keep the Open API definition of the backend service up-to-date
+  await fs.writeFile('openapi.json', JSON.stringify(json))
 
   const serviceInvalidOpenapi = await server.inject({
     url: `/runtimes/${runtimePid}/openapi/fantozzi`
