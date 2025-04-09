@@ -6,7 +6,7 @@
     "dev": "wattpm dev",
     "build": "wattpm build",
     "start": "wattpm start",
-    "client": "./node_modules/.bin/plt-client ./web/backend/openapi.json --name backend --folder web/frontend/client --language ts --frontend --full --skip-config-update --props-optional",
+    "client": "./node_modules/.bin/plt-client ./web/backend/openapi.json --name backend --folder web/frontend/src/client --language ts --frontend --full --skip-config-update --props-optional",
     "test": "npm run test:cli && npm run test:backend && npm run test:frontend",
     "test:cli": "node --test test/cli.test.js test/start.test.js test/cli-integration.test.js",
     "test:backend": "cd web/backend && borp --concurrency 1",
