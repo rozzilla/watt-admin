@@ -20,7 +20,7 @@ async function clientOpenapi () {
     }
   })
   await server.ready()
-  await fs.writeFile('openapi.json', JSON.stringify(server.swagger()))
+  await fs.writeFile('openapi.json', JSON.stringify(server.swagger(), null, 2))
   await server.close()
 }
 
