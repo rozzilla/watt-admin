@@ -81,22 +81,17 @@ test('runtime is running', async (t) => {
     version: '1.0.0'
   })
   assert.deepEqual(json.servers, [{ url: '/' }])
-  assert.deepEqual(json.paths['/runtimes'], {
-    get: {
-      parameters: [
-        {
-          schema: {
-            type: 'boolean',
-            default: false,
-          },
-          in: 'query',
-          name: 'includeAdmin',
-          required: false,
-        },
-      ],
-      responses: { 200: { description: 'Default Response' } },
+  assert.deepEqual(json.paths['/runtimes']['get']['parameters'], [
+    {
+      schema: {
+        type: 'boolean',
+        default: false,
+      },
+      in: 'query',
+      name: 'includeAdmin',
+      required: false,
     },
-  })
+  ])
 
   const serviceInvalidOpenapi = await server.inject({
     url: `/runtimes/${runtimePid}/openapi/fantozzi`

@@ -10,7 +10,10 @@ export type GetRuntimesRequest = {
   }
 }
 
-export type GetRuntimesResponseOK = unknown
+/**
+ * Default Response
+ */
+export type GetRuntimesResponseOK = Array<{ 'pid': number; 'cwd': string; 'argv': Array<string>; 'uptimeSeconds': number; 'execPath': string; 'nodeVersion': string; 'projectDir': string; 'packageName': string; 'packageVersion': string; 'url': string; 'platformaticVersion': string; 'selected': boolean }>
 export type GetRuntimesResponses =
   FullResponse<GetRuntimesResponseOK, 200>
 

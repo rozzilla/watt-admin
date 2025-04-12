@@ -56,12 +56,12 @@ const _getRuntimes = async (url: string, request: Types.GetRuntimesRequest): Pro
     ...defaultFetchParams
   })
 
-  const textResponses = [200]
-  if (textResponses.includes(response.status)) {
+  const jsonResponses = [200]
+  if (jsonResponses.includes(response.status)) {
     return {
       statusCode: response.status as 200,
       headers: headersToJSON(response.headers),
-      body: await response.text()
+      body: await response.json()
     }
   }
   const responseType = response.headers.get('content-type')?.startsWith('application/json') ? 'json' : 'text'

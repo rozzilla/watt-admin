@@ -66,3 +66,64 @@ export const metricResponseSchema = {
   required: ['dataMem', 'dataCpu', 'dataLatency', 'dataReq']
 } as const
 export type MetricsResponse = FromSchema<typeof metricResponseSchema>
+
+export const selectableRuntimeSchema = {
+  type: 'object',
+  additionalProperties: false,
+  properties: {
+    pid: {
+      type: 'integer'
+    },
+    cwd: {
+      type: 'string'
+    },
+    argv: {
+      type: 'array',
+      items: {
+        type: 'string'
+      }
+    },
+    uptimeSeconds: {
+      type: 'number'
+    },
+    execPath: {
+      type: 'string'
+    },
+    nodeVersion: {
+      type: 'string'
+    },
+    projectDir: {
+      type: 'string'
+    },
+    packageName: {
+      type: 'string'
+    },
+    packageVersion: {
+      type: 'string'
+    },
+    url: {
+      type: 'string'
+    },
+    platformaticVersion: {
+      type: 'string'
+    },
+    selected: {
+      type: 'boolean'
+    }
+  },
+  required: [
+    'pid',
+    'cwd',
+    'argv',
+    'uptimeSeconds',
+    'execPath',
+    'nodeVersion',
+    'projectDir',
+    'packageName',
+    'packageVersion',
+    'url',
+    'platformaticVersion',
+    'selected'
+  ]
+} as const
+export type SelectableRuntime = FromSchema<typeof selectableRuntimeSchema>

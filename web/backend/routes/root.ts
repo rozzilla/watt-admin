@@ -1,10 +1,8 @@
 import { FastifyInstance } from 'fastify'
 import { JsonSchemaToTsProvider } from '@fastify/type-provider-json-schema-to-ts'
-import { RuntimeApiClient, Runtime } from '@platformatic/control'
+import { RuntimeApiClient } from '@platformatic/control'
 import { getLogsFromReadable } from '../utils/log'
-import { metricResponseSchema } from '../schemas'
-
-type SelectableRuntime = Runtime & { selected?: boolean }
+import { metricResponseSchema, SelectableRuntime, selectableRuntimeSchema } from '../schemas'
 
 export default async function (fastify: FastifyInstance) {
   const typedFastify = fastify.withTypeProvider<JsonSchemaToTsProvider>()
@@ -22,6 +20,7 @@ export default async function (fastify: FastifyInstance) {
           },
         },
       },
+      response: { 200: { type: 'array', items: selectableRuntimeSchema } }
     }
   }, async (request) => {
     const runtimes = await api.getRuntimes()
@@ -30,12 +29,13 @@ export default async function (fastify: FastifyInstance) {
       if (!request.query.includeAdmin && runtime.packageName === 'watt-admin') {
         continue
       }
+
+      let selected = true
       if (process.env.SELECTED_RUNTIME) {
-        const selected = process.env.SELECTED_RUNTIME === runtime.pid.toString()
-        selectableRuntimes.push({ ...runtime, selected })
-      } else {
-        selectableRuntimes.push({ ...runtime, selected: true })
+        selected = process.env.SELECTED_RUNTIME === runtime.pid.toString()
       }
+
+      selectableRuntimes.push({ ...runtime, packageName: runtime.packageName || '', packageVersion: runtime.packageVersion || '', url: runtime.url || '', selected })
     }
     return selectableRuntimes
   })
