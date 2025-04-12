@@ -34,7 +34,7 @@ test('runtime is running', async (t) => {
     url: `/runtimes/${runtimePid}/metrics`
   })
   assert.strictEqual(metricsEmpty.statusCode, 200, 'metrics endpoint')
-  assert.deepEqual(metricsEmpty.json(), {}, 'metrics result is empty')
+  assert.deepEqual(metricsEmpty.json(), { dataCpu: [], dataLatency: [], dataMem: [], dataReq: [] }, 'metrics result is empty')
 
   const services = await server.inject({
     url: `/runtimes/${runtimePid}/services`
@@ -67,7 +67,7 @@ test('runtime is running', async (t) => {
     url: `/runtimes/${runtimePid}/metrics/fantozzi`
   })
   assert.strictEqual(serviceMetricsEmpty.statusCode, 200, 'service metrics endpoint')
-  assert.deepEqual(serviceMetricsEmpty.json(), {}, 'service metrics are empty for an invalid service name')
+  assert.deepEqual(serviceMetricsEmpty.json(), { dataCpu: [], dataLatency: [], dataMem: [], dataReq: [] }, 'service metrics are empty for an invalid service name')
 
   const serviceOpenapi = await server.inject({
     url: `/runtimes/${runtimePid}/openapi/backend`

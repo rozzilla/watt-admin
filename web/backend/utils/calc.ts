@@ -1,40 +1,6 @@
 import { RuntimeApiClient } from '@platformatic/control'
 import { FastifyInstance } from 'fastify'
-
-interface CommonMetricData {
-  date: Date;
-}
-
-interface MemoryDataPoint extends CommonMetricData {
-  rss: number;
-  totalHeap: number;
-  usedHeap: number;
-  newSpace: number;
-  oldSpace: number;
-}
-
-interface CpuDataPoint extends CommonMetricData {
-  cpu: number;
-  eventLoop: number;
-}
-
-interface LatencyDataPoint extends CommonMetricData {
-  p90: number;
-  p95: number;
-  p99: number;
-}
-
-interface RequestDataPoint extends CommonMetricData {
-  count: number;
-  rps: number
-}
-
-export interface MetricsResponse {
-  dataMem: MemoryDataPoint[];
-  dataCpu: CpuDataPoint[];
-  dataLatency: LatencyDataPoint[];
-  dataReq: RequestDataPoint[];
-}
+import type { CpuDataPoint, LatencyDataPoint, MemoryDataPoint, MetricsResponse, RequestDataPoint } from '../schemas'
 
 export type MappedMetrics = Record<number, {
   aggregated: MetricsResponse,
@@ -49,7 +15,7 @@ export const calculateMetrics = async ({ mappedMetrics, log }: FastifyInstance):
     const api = new RuntimeApiClient()
     const runtimes = await api.getRuntimes()
     for (const { pid } of runtimes) {
-      const date = new Date()
+      const date = new Date().toISOString()
       const aggregatedMemData: MemoryDataPoint = {
         date,
         rss: 0,

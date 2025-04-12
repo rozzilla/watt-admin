@@ -1,7 +1,10 @@
+import { getRuntimesPidMetrics, getRuntimesPidMetricsServiceId, setBaseUrl } from './client/backend'
 import { subtractSecondsFromDate } from './utilities/dates'
 
 // FIXME: once the codebase will be migrated to TypeScript, we should leverage auto-generated clients through `@platformatic/client-cli`
 const host = '/api'
+
+setBaseUrl(host)
 
 export const getApiApplication = async () => {
   const result = await fetch(`${host}/runtimes`)
@@ -42,15 +45,13 @@ export const getLogs = async (id: number) => {
 }
 
 export const getApiMetricsPod = async (id: number) => {
-  const response = await fetch(`${host}/runtimes/${id}/metrics`)
-  const data = await response.json()
-  return data
+  const { body } = await getRuntimesPidMetrics({ path: { pid: id } })
+  return body
 }
 
 export const getApiMetricsPodService = async (id: number, serviceId: string) => {
-  const response = await fetch(`${host}/runtimes/${id}/metrics/${serviceId}`)
-  const data = await response.json()
-  return data
+  const { body } = await getRuntimesPidMetricsServiceId({ path: { pid: id, serviceId } })
+  return body
 }
 
 export const restartApiApplication = async (id: number) => {

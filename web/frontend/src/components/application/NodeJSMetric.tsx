@@ -8,17 +8,9 @@ import loadingSpinnerStyles from '../../styles/LoadingSpinnerStyles.module.css'
 import NoDataAvailable from '../ui/NoDataAvailable'
 import MetricChart, { DataPoint, getMetricColor } from '../metrics/MetricChart'
 import { POSITION_ABSOLUTE } from '../../ui-constants'
+import type { GetRuntimesPidMetricsResponseOK } from 'src/client/backend-types'
 
-interface MetricOption {
-  label: string;
-  internalKey: string;
-  unit: string;
-}
-
-export type DataValue = {
-  date: Date;
-  values: number[];
-} & { [key: string]: number }
+type DataValues = GetRuntimesPidMetricsResponseOK[keyof GetRuntimesPidMetricsResponseOK]
 
 export type MetricType = 'mem' | 'cpu' | 'latency' | 'req'
 
@@ -26,9 +18,13 @@ interface NodeJSMetricProps {
   title: string;
   metricURL: MetricType;
   initialLoading: boolean;
-  dataValues: DataValue[];
+  dataValues: DataValues;
   unit: string;
-  options: MetricOption[];
+  options: {
+    label: string;
+    internalKey: string;
+    unit: string;
+  }[];
   chartTooltipPosition?: string;
   showLegend?: boolean;
   timeline?: boolean;
@@ -88,10 +84,10 @@ function NodeJSMetric ({
         newValues = dataValues.map(({ date, ...rest }) => ({
           time: new Date(date),
           ...rest
-        }))
+        } as unknown as DataPoint))
       } else {
         dataValues.forEach(dataValue => {
-          const values = options.map(option => Number(dataValue[option.internalKey]) || 0)
+          const values = options.map(option => Number((dataValue as unknown as DataPoint)[option.internalKey]) || 0)
           newValues.push({ time: new Date(dataValue.date), values: [...values] })
           lowerMaxY = Math.max(lowerMaxY, ...values)
         })

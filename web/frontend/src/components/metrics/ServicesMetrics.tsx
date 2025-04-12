@@ -11,14 +11,8 @@ import colorSetMem from './memory.module.css'
 import colorSetCpu from './cpu.module.css'
 import colorSetLatency from './latency.module.css'
 import colorSetReq from './req.module.css'
-import NodeJSMetric, { DataValue, generateLegend } from '../application/NodeJSMetric'
-
-export interface MetricsData {
-  dataMem: Array<DataValue>;
-  dataCpu: Array<DataValue>;
-  dataLatency: Array<DataValue>;
-  dataReq: Array<DataValue>;
-}
+import NodeJSMetric, { generateLegend } from '../application/NodeJSMetric'
+import { GetRuntimesPidMetricsResponseOK } from 'src/client/backend-types'
 
 interface ServicesMetricsProps {
   serviceId: string;
@@ -30,13 +24,13 @@ function ServicesMetrics ({
   showAggregatedMetrics
 }: ServicesMetricsProps): React.ReactElement {
   const [initialLoading, setInitialLoading] = useState(true)
-  const [serviceData, setServiceData] = useState<MetricsData>({
+  const [serviceData, setServiceData] = useState<GetRuntimesPidMetricsResponseOK>({
     dataMem: [],
     dataCpu: [],
     dataLatency: [],
     dataReq: []
   })
-  const [allData, setAllData] = useState<MetricsData>({
+  const [allData, setAllData] = useState<GetRuntimesPidMetricsResponseOK>({
     dataMem: [],
     dataCpu: [],
     dataLatency: [],
