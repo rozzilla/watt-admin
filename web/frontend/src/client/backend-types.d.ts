@@ -10,7 +10,10 @@ export type GetRuntimesRequest = {
   }
 }
 
-export type GetRuntimesResponseOK = unknown
+/**
+ * Default Response
+ */
+export type GetRuntimesResponseOK = Array<{ 'pid': number; 'cwd': string; 'argv': Array<string>; 'uptimeSeconds': number; 'execPath': string; 'nodeVersion': string; 'projectDir': string; 'packageName': string; 'packageVersion': string; 'url': string; 'platformaticVersion': string; 'selected': boolean }>
 export type GetRuntimesResponses =
   FullResponse<GetRuntimesResponseOK, 200>
 
@@ -20,7 +23,10 @@ export type GetRuntimesPidMetricsRequest = {
   }
 }
 
-export type GetRuntimesPidMetricsResponseOK = unknown
+/**
+ * Default Response
+ */
+export type GetRuntimesPidMetricsResponseOK = { 'dataMem': Array<{ 'date': string; 'rss': number; 'totalHeap': number; 'usedHeap': number; 'newSpace': number; 'oldSpace': number }>; 'dataCpu': Array<{ 'date': string; 'cpu': number; 'eventLoop': number }>; 'dataLatency': Array<{ 'date': string; 'p90': number; 'p95': number; 'p99': number }>; 'dataReq': Array<{ 'date': string; 'count': number; 'rps': number }> }
 export type GetRuntimesPidMetricsResponses =
   FullResponse<GetRuntimesPidMetricsResponseOK, 200>
 
@@ -31,7 +37,10 @@ export type GetRuntimesPidMetricsServiceIdRequest = {
   }
 }
 
-export type GetRuntimesPidMetricsServiceIdResponseOK = unknown
+/**
+ * Default Response
+ */
+export type GetRuntimesPidMetricsServiceIdResponseOK = { 'dataMem': Array<{ 'date': string; 'rss': number; 'totalHeap': number; 'usedHeap': number; 'newSpace': number; 'oldSpace': number }>; 'dataCpu': Array<{ 'date': string; 'cpu': number; 'eventLoop': number }>; 'dataLatency': Array<{ 'date': string; 'p90': number; 'p95': number; 'p99': number }>; 'dataReq': Array<{ 'date': string; 'count': number; 'rps': number }> }
 export type GetRuntimesPidMetricsServiceIdResponses =
   FullResponse<GetRuntimesPidMetricsServiceIdResponseOK, 200>
 

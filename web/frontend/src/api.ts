@@ -1,13 +1,16 @@
+import { getRuntimes, getRuntimesPidMetrics, getRuntimesPidMetricsServiceId, setBaseUrl } from './client/backend'
+import { ApiApplication } from './components/application/AppNameBox'
 import { subtractSecondsFromDate } from './utilities/dates'
 
 // FIXME: once the codebase will be migrated to TypeScript, we should leverage auto-generated clients through `@platformatic/client-cli`
 const host = '/api'
 
-export const getApiApplication = async () => {
-  const result = await fetch(`${host}/runtimes`)
-  const data = await result.json()
+setBaseUrl(host)
 
-  for (const runtime of data) {
+export const getApiApplication = async (): Promise<ApiApplication> => {
+  const { body } = await getRuntimes({ query: { includeAdmin: false } })
+
+  for (const runtime of body) {
     const { platformaticVersion: pltVersion, packageName: name, pid: id, uptimeSeconds, url, selected } = runtime
     if (!selected) continue
     const lastStarted = subtractSecondsFromDate(new Date(), uptimeSeconds)
@@ -42,15 +45,13 @@ export const getLogs = async (id: number) => {
 }
 
 export const getApiMetricsPod = async (id: number) => {
-  const response = await fetch(`${host}/runtimes/${id}/metrics`)
-  const data = await response.json()
-  return data
+  const { body } = await getRuntimesPidMetrics({ path: { pid: id } })
+  return body
 }
 
 export const getApiMetricsPodService = async (id: number, serviceId: string) => {
-  const response = await fetch(`${host}/runtimes/${id}/metrics/${serviceId}`)
-  const data = await response.json()
-  return data
+  const { body } = await getRuntimesPidMetricsServiceId({ path: { pid: id, serviceId } })
+  return body
 }
 
 export const restartApiApplication = async (id: number) => {

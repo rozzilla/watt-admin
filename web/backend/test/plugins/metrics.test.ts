@@ -1,7 +1,7 @@
 import test from 'node:test'
 import assert from 'node:assert'
 import { getServer, startWatt, loadMetrics } from '../helper'
-import { MetricsResponse } from '../../utils/calc'
+import { MetricsResponse } from '../../schemas'
 
 test('metrics without runtime', async (t) => {
   const server = await getServer(t)

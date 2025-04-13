@@ -10,11 +10,11 @@ import NodeJSMetric from './NodeJSMetric'
 import { REFRESH_INTERVAL_METRICS, MEMORY_UNIT_METRICS, LATENCY_UNIT_METRICS, CPU_UNIT_METRICS, REQ_UNIT_METRICS } from '../../ui-constants'
 import { getApiMetricsPod } from '../../api'
 import useAdminStore from '../../useAdminStore'
-import { MetricsData } from '../metrics/ServicesMetrics'
+import type { GetRuntimesPidMetricsResponseOK } from 'src/client/backend-types'
 
 function NodeJSMetrics (): React.ReactElement {
   const [initialLoading, setInitialLoading] = useState(true)
-  const [allData, setAllData] = useState<MetricsData>({
+  const [allData, setAllData] = useState<GetRuntimesPidMetricsResponseOK>({
     dataMem: [],
     dataCpu: [],
     dataLatency: [],

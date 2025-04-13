@@ -1,13 +1,13 @@
 import { FastifyInstance } from 'fastify'
 import { JsonSchemaToTsProvider } from '@fastify/type-provider-json-schema-to-ts'
-import { RuntimeApiClient, Runtime } from '@platformatic/control'
+import { RuntimeApiClient } from '@platformatic/control'
 import { getLogsFromReadable } from '../utils/log'
-
-type SelectableRuntime = Runtime & { selected?: boolean }
+import { metricResponseSchema, SelectableRuntime, selectableRuntimeSchema } from '../schemas'
 
 export default async function (fastify: FastifyInstance) {
   const typedFastify = fastify.withTypeProvider<JsonSchemaToTsProvider>()
   const api = new RuntimeApiClient()
+  const emptyMetrics = { dataCpu: [], dataLatency: [], dataMem: [], dataReq: [] }
 
   typedFastify.get('/runtimes', {
     schema: {
@@ -20,6 +20,7 @@ export default async function (fastify: FastifyInstance) {
           },
         },
       },
+      response: { 200: { type: 'array', items: selectableRuntimeSchema } }
     }
   }, async (request) => {
     const runtimes = await api.getRuntimes()
@@ -28,30 +29,40 @@ export default async function (fastify: FastifyInstance) {
       if (!request.query.includeAdmin && runtime.packageName === 'watt-admin') {
         continue
       }
+
+      let selected = true
       if (process.env.SELECTED_RUNTIME) {
-        const selected = process.env.SELECTED_RUNTIME === runtime.pid.toString()
-        selectableRuntimes.push({ ...runtime, selected })
-      } else {
-        selectableRuntimes.push({ ...runtime, selected: true })
+        selected = process.env.SELECTED_RUNTIME === runtime.pid.toString()
       }
+
+      selectableRuntimes.push({ ...runtime, packageName: runtime.packageName || '', packageVersion: runtime.packageVersion || '', url: runtime.url || '', selected })
     }
     return selectableRuntimes
   })
 
   typedFastify.get('/runtimes/:pid/metrics', {
     schema: {
-      params: { type: 'object', properties: { pid: { type: 'number' } }, required: ['pid'] }
-    }
+      params: { type: 'object', properties: { pid: { type: 'number' } }, required: ['pid'] },
+      response: { 200: metricResponseSchema }
+    },
   }, async ({ params: { pid } }) => {
-    return typedFastify.mappedMetrics[pid]?.aggregated || {}
+    return typedFastify.mappedMetrics[pid]?.aggregated || emptyMetrics
   })
 
   typedFastify.get('/runtimes/:pid/metrics/:serviceId', {
     schema: {
-      params: { type: 'object', properties: { pid: { type: 'number' }, serviceId: { type: 'string' } }, required: ['pid', 'serviceId'] }
+      params: {
+        type: 'object',
+        properties: {
+          pid: { type: 'number' },
+          serviceId: { type: 'string' }
+        },
+        required: ['pid', 'serviceId']
+      },
+      response: { 200: metricResponseSchema }
     }
   }, async ({ params: { pid, serviceId } }) => {
-    return fastify.mappedMetrics[pid]?.services[serviceId] || {}
+    return fastify.mappedMetrics[pid]?.services[serviceId] || emptyMetrics
   })
 
   typedFastify.get('/runtimes/:pid/services', {
