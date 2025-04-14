@@ -1,13 +1,10 @@
-import { getRuntimes, getRuntimesPidMetrics, getRuntimesPidMetricsServiceId, setBaseUrl } from './client/backend'
-import { ApiApplication } from './components/application/AppNameBox'
+import { getRuntimes, getRuntimesPidMetrics, getRuntimesPidMetricsServiceId, getRuntimesPidServices, postRuntimesPidRestart, setBaseUrl } from './client/backend'
 import { subtractSecondsFromDate } from './utilities/dates'
 
-// FIXME: once the codebase will be migrated to TypeScript, we should leverage auto-generated clients through `@platformatic/client-cli`
 const host = '/api'
-
 setBaseUrl(host)
 
-export const getApiApplication = async (): Promise<ApiApplication> => {
+export const getApiApplication = async () => {
   const { body } = await getRuntimes({ query: { includeAdmin: false } })
 
   for (const runtime of body) {
@@ -32,10 +29,9 @@ export const isWattpmVersionOutdated = async (currentVersion?: string) => {
   return latest !== currentVersion
 }
 
-export const getServices = async (id: number) => {
-  const result = await fetch(`${host}/runtimes/${id}/services`)
-  const data = await result.json()
-  return data.services
+export const getServices = async (pid: number) => {
+  const { body } = await getRuntimesPidServices({ path: { pid } })
+  return body?.services
 }
 
 export const getLogs = async (id: number) => {
@@ -44,18 +40,18 @@ export const getLogs = async (id: number) => {
   return data
 }
 
-export const getApiMetricsPod = async (id: number) => {
-  const { body } = await getRuntimesPidMetrics({ path: { pid: id } })
+export const getApiMetricsPod = async (pid: number) => {
+  const { body } = await getRuntimesPidMetrics({ path: { pid } })
   return body
 }
 
-export const getApiMetricsPodService = async (id: number, serviceId: string) => {
-  const { body } = await getRuntimesPidMetricsServiceId({ path: { pid: id, serviceId } })
+export const getApiMetricsPodService = async (pid: number, serviceId: string) => {
+  const { body } = await getRuntimesPidMetricsServiceId({ path: { pid, serviceId } })
   return body
 }
 
-export const restartApiApplication = async (id: number) => {
-  const result = await fetch(`${host}/runtimes/${id}/restart`, { method: 'POST' })
-  console.log('restart api application status', result.status)
+export const restartApiApplication = async (pid: number) => {
+  const result = await postRuntimesPidRestart({ body: {}, path: { pid } })
+  console.log('restart api application status', result)
   return {}
 }

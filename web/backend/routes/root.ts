@@ -67,7 +67,89 @@ export default async function (fastify: FastifyInstance) {
 
   typedFastify.get('/runtimes/:pid/services', {
     schema: {
-      params: { type: 'object', properties: { pid: { type: 'number' } }, required: ['pid'] }
+      params: { type: 'object', properties: { pid: { type: 'number' } }, required: ['pid'] },
+      response: {
+        200: {
+          type: 'object',
+          additionalProperties: false,
+          required: ['entrypoint', 'production', 'services'],
+          properties: {
+            entrypoint: {
+              type: 'string'
+            },
+            production: {
+              type: 'boolean'
+            },
+            services: {
+              type: 'array',
+              items: {
+                anyOf: [
+                  {
+                    type: 'object',
+                    required: ['id', 'type', 'status', 'version', 'localUrl', 'entrypoint', 'dependencies'],
+                    properties: {
+                      id: {
+                        type: 'string'
+                      },
+                      type: {
+                        type: 'string'
+                      },
+                      status: {
+                        type: 'string'
+                      },
+                      version: {
+                        type: 'string'
+                      },
+                      localUrl: {
+                        type: 'string'
+                      },
+                      entrypoint: {
+                        type: 'boolean'
+                      },
+                      workers: {
+                        type: 'number'
+                      },
+                      url: {
+                        type: 'string'
+                      },
+                      dependencies: {
+                        type: 'array',
+                        items: {
+                          type: 'object',
+                          required: ['id', 'url', 'local'],
+                          properties: {
+                            id: {
+                              type: 'string'
+                            },
+                            url: {
+                              type: 'string'
+                            },
+                            local: {
+                              type: 'boolean'
+                            }
+                          }
+                        }
+                      }
+                    }
+                  },
+                  {
+                    type: 'object',
+                    required: ['id', 'status'],
+                    properties: {
+                      id: {
+                        type: 'string'
+                      },
+                      status: {
+                        type: 'string'
+                      }
+                    }
+                  }
+                ]
+              }
+            }
+          }
+        }
+      }
     }
   }, async (request) => {
     return api.getRuntimeServices(request.params.pid)
@@ -90,7 +172,8 @@ export default async function (fastify: FastifyInstance) {
 
   typedFastify.post('/runtimes/:pid/restart', {
     schema: {
-      params: { type: 'object', properties: { pid: { type: 'number' } }, required: ['pid'] }
+      params: { type: 'object', properties: { pid: { type: 'number' } }, required: ['pid'] },
+      body: { type: 'object' }
     }
   }, async (request) => {
     try {

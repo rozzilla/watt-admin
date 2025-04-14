@@ -32,6 +32,8 @@ jobs:
           timeout_minutes: 15
           retry_on: error
           command: npm ci
+      - name: Update client
+        run: npm run client:openapi && npm run client:generate
       - name: Run build
         run: npm run build
       - name: Run tests

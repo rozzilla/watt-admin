@@ -50,7 +50,10 @@ export type GetRuntimesPidServicesRequest = {
   }
 }
 
-export type GetRuntimesPidServicesResponseOK = unknown
+/**
+ * Default Response
+ */
+export type GetRuntimesPidServicesResponseOK = { 'entrypoint': string; 'production': boolean; 'services': Array<{ 'id': string; 'type': string; 'status': string; 'version': string; 'localUrl': string; 'entrypoint': boolean; 'workers'?: number; 'url'?: string; 'dependencies': Array<{ 'id': string; 'url': string; 'local': boolean }> } | { 'id': string; 'status': string }> }
 export type GetRuntimesPidServicesResponses =
   FullResponse<GetRuntimesPidServicesResponseOK, 200>
 
@@ -78,6 +81,8 @@ export type GetRuntimesPidOpenapiServiceIdResponses =
 export type PostRuntimesPidRestartRequest = {
   path: {
     'pid': number;
+  }
+  body: {
   }
 }
 
