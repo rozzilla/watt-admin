@@ -118,7 +118,8 @@ test('runtime is running', async (t) => {
 
   const restart = await server.inject({
     method: 'POST',
-    url: `/runtimes/${pid}/restart`
+    url: `/runtimes/${pid}/restart`,
+    body: {}
   })
   assert.strictEqual(restart.statusCode, 200, 'check for restart endpoint')
 })
