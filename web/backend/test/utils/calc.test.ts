@@ -19,13 +19,13 @@ class RuntimeApiClient {
       production: false,
       entrypoint: 'composer',
       services: [
-        { id: 'composer', status },
-        { id: 'fastify2', status },
-        { id: 'fastify3', status },
-        { id: 'node3', status },
-        { id: 'type1', status },
-        { id: 'type4', status }
-      ]
+        { id: 'composer', status, workers: 2 },
+        { id: 'fastify2', status, workers: 2 },
+        { id: 'fastify3', status, workers: 2 },
+        { id: 'node3', status, workers: 2 },
+        { id: 'type1', status, workers: 2 },
+        { id: 'type4', status, workers: 2 }
+      ] as unknown as RuntimeServices['services']
     }
     return services
   }
@@ -62,8 +62,8 @@ test('calculateMetrics collects and aggregates metrics correctly', async () => {
   assert.strictEqual(service1Mem.oldSpace, 22.86)
 
   const service1Cpu = metricService1.dataCpu[0]
-  assert.strictEqual(service1Cpu.cpu, 0.6113706617939665)
-  assert.strictEqual(service1Cpu.eventLoop, 2.0150545235133976)
+  assert.strictEqual(service1Cpu.cpu, 0.30568533089698324)
+  assert.strictEqual(service1Cpu.eventLoop, 1.0075272617566988)
 
   const service1Latency = metricService1.dataLatency[0]
   assert.strictEqual(service1Latency.p90, 0)
@@ -71,9 +71,9 @@ test('calculateMetrics collects and aggregates metrics correctly', async () => {
   assert.strictEqual(service1Latency.p99, 0)
 
   const service2Latency = metricService2.dataLatency[0]
-  assert.strictEqual(service2Latency.p90, 0.731325)
-  assert.strictEqual(service2Latency.p95, 0.952985)
-  assert.strictEqual(service2Latency.p99, 1.061085)
+  assert.strictEqual(service2Latency.p90, 0.3656625)
+  assert.strictEqual(service2Latency.p95, 0.4764925)
+  assert.strictEqual(service2Latency.p99, 0.5305425)
 
   const service1Req = metricService1.dataReq[0]
   assert.strictEqual(service1Req.count, 1)
@@ -95,13 +95,13 @@ test('calculateMetrics collects and aggregates metrics correctly', async () => {
   assert.strictEqual(aggregatedReq.rps, 7)
 
   const aggregatedCpu = mockedMetrics.aggregated.dataCpu[0]
-  assert.strictEqual(aggregatedCpu.cpu, 10.32570334682594)
-  assert.strictEqual(aggregatedCpu.eventLoop, 44.79003071417996)
+  assert.strictEqual(aggregatedCpu.cpu, 5.16285167341297)
+  assert.strictEqual(aggregatedCpu.eventLoop, 22.39501535708998)
 
   const aggregatedLatency = mockedMetrics.aggregated.dataLatency[0]
-  assert.strictEqual(aggregatedLatency.p90, 3.2)
-  assert.strictEqual(aggregatedLatency.p95, 4.5)
-  assert.strictEqual(aggregatedLatency.p99, 5.6)
+  assert.strictEqual(aggregatedLatency.p90, 1.6)
+  assert.strictEqual(aggregatedLatency.p95, 2.25)
+  assert.strictEqual(aggregatedLatency.p99, 2.8)
 
   assert.ok(metricService1.dataMem.length <= 20)
   assert.ok(metricService1.dataCpu.length <= 20)

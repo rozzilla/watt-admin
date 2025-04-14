@@ -48,7 +48,11 @@ export const calculateMetrics = async ({ mappedMetrics, log }: FastifyInstance):
       }
 
       const { services, entrypoint } = await api.getRuntimeServices(pid)
-      for (const { id: serviceId } of services) {
+      for (const service of services) {
+        const { id: serviceId } = service
+        // FIXME: update type once this is merged => https://github.com/platformatic/platformatic/pull/4003/files#diff-86634bc79deb5fd4ef040f2e0ed4a928e268d411f1c93cd8b2913278fa233b04R38
+        const workers = (service as { workers?: number }).workers || 1
+
         const isEntrypointService = entrypoint === serviceId
 
         if (!mappedMetrics[pid].services[serviceId]) {
@@ -114,12 +118,12 @@ export const calculateMetrics = async ({ mappedMetrics, log }: FastifyInstance):
               }
 
               if (metric.name === 'thread_cpu_percent_usage') {
-                serviceCpuData.cpu += value
+                serviceCpuData.cpu += (value / workers)
                 aggregatedCpuData.cpu += serviceCpuData.cpu
               }
 
               if (metric.name === 'nodejs_eventloop_utilization') {
-                serviceCpuData.eventLoop += value * 100
+                serviceCpuData.eventLoop += ((value * 100) / workers)
                 aggregatedCpuData.eventLoop += serviceCpuData.eventLoop
               }
 
@@ -128,21 +132,21 @@ export const calculateMetrics = async ({ mappedMetrics, log }: FastifyInstance):
                   const data = metricValue.value * 1000
                   if (data > 0) {
                     if (metricValue.labels?.quantile === 0.9) {
-                      serviceLatencyData.p90 += data
+                      serviceLatencyData.p90 += (data / workers)
                       if (isEntrypointService) {
-                        aggregatedLatencyData.p90 += data
+                        aggregatedLatencyData.p90 += serviceLatencyData.p90
                       }
                     }
                     if (metricValue.labels?.quantile === 0.95) {
-                      serviceLatencyData.p95 += data
+                      serviceLatencyData.p95 += (data / workers)
                       if (isEntrypointService) {
-                        aggregatedLatencyData.p95 += data
+                        aggregatedLatencyData.p95 += serviceLatencyData.p95
                       }
                     }
                     if (metricValue.labels?.quantile === 0.99) {
-                      serviceLatencyData.p99 += data
+                      serviceLatencyData.p99 += (data / workers)
                       if (isEntrypointService) {
-                        aggregatedLatencyData.p99 += data
+                        aggregatedLatencyData.p99 += serviceLatencyData.p99
                       }
                     }
                   }
@@ -192,14 +196,14 @@ export const calculateMetrics = async ({ mappedMetrics, log }: FastifyInstance):
                 if (!count) {
                   log.debug(metric.values, 'Empty HTTP request count')
                 } else {
-                  const req = mappedMetrics[pid].services[serviceId].dataReq
-                  const rps = Math.abs(count - (req[req.length - 1]?.count || 0))
-                  serviceReqData.rps += rps
                   serviceReqData.count += count
+                  const req = mappedMetrics[pid].services[serviceId].dataReq
+                  const rps = Math.abs(serviceReqData.count - (req[req.length - 1]?.count || 0))
+                  serviceReqData.rps = rps
 
                   if (isEntrypointService) {
-                    aggregatedReqData.count += count
-                    aggregatedReqData.rps += rps
+                    aggregatedReqData.count += serviceReqData.count
+                    aggregatedReqData.rps = rps
                   }
                 }
               }
