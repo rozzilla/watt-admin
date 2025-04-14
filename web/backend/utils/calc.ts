@@ -202,7 +202,7 @@ export const calculateMetrics = async ({ mappedMetrics, log }: FastifyInstance):
                   serviceReqData.rps = rps
 
                   if (isEntrypointService) {
-                    aggregatedReqData.count += serviceReqData.count
+                    aggregatedReqData.count = serviceReqData.count
                     aggregatedReqData.rps = rps
                   }
                 }
