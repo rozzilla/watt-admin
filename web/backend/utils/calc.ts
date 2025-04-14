@@ -136,7 +136,7 @@ export const calculateMetrics = async ({ mappedMetrics, log }: FastifyInstance):
                         serviceLatencyData.p90 = data
                       }
                       if (isEntrypointService) {
-                        aggregatedLatencyData.p90 += serviceLatencyData.p90
+                        aggregatedLatencyData.p90 = serviceLatencyData.p90
                       }
                     }
                     if (metricValue.labels?.quantile === 0.95) {
@@ -144,7 +144,7 @@ export const calculateMetrics = async ({ mappedMetrics, log }: FastifyInstance):
                         serviceLatencyData.p95 = data
                       }
                       if (isEntrypointService) {
-                        aggregatedLatencyData.p95 += serviceLatencyData.p95
+                        aggregatedLatencyData.p95 = serviceLatencyData.p95
                       }
                     }
                     if (metricValue.labels?.quantile === 0.99) {
@@ -152,7 +152,7 @@ export const calculateMetrics = async ({ mappedMetrics, log }: FastifyInstance):
                         serviceLatencyData.p99 = data
                       }
                       if (isEntrypointService) {
-                        aggregatedLatencyData.p99 += serviceLatencyData.p99
+                        aggregatedLatencyData.p99 = serviceLatencyData.p99
                       }
                     }
                   }
