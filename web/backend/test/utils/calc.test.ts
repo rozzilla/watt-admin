@@ -71,9 +71,9 @@ test('calculateMetrics collects and aggregates metrics correctly', async () => {
   assert.strictEqual(service1Latency.p99, 0)
 
   const service2Latency = metricService2.dataLatency[0]
-  assert.strictEqual(service2Latency.p90, 0.3656625)
-  assert.strictEqual(service2Latency.p95, 0.4764925)
-  assert.strictEqual(service2Latency.p99, 0.5305425)
+  assert.strictEqual(service2Latency.p90, 9.8765)
+  assert.strictEqual(service2Latency.p95, 0.45678)
+  assert.strictEqual(service2Latency.p99, 0.45321)
 
   const service1Req = metricService1.dataReq[0]
   assert.strictEqual(service1Req.count, 1)
@@ -99,9 +99,9 @@ test('calculateMetrics collects and aggregates metrics correctly', async () => {
   assert.strictEqual(aggregatedCpu.eventLoop, 22.39501535708998)
 
   const aggregatedLatency = mockedMetrics.aggregated.dataLatency[0]
-  assert.strictEqual(aggregatedLatency.p90, 1.6)
-  assert.strictEqual(aggregatedLatency.p95, 2.25)
-  assert.strictEqual(aggregatedLatency.p99, 2.8)
+  assert.strictEqual(aggregatedLatency.p90, 3.2)
+  assert.strictEqual(aggregatedLatency.p95, 4.5)
+  assert.strictEqual(aggregatedLatency.p99, 5.6)
 
   assert.ok(metricService1.dataMem.length <= 20)
   assert.ok(metricService1.dataCpu.length <= 20)

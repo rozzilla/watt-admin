@@ -132,19 +132,25 @@ export const calculateMetrics = async ({ mappedMetrics, log }: FastifyInstance):
                   const data = metricValue.value * 1000
                   if (data > 0) {
                     if (metricValue.labels?.quantile === 0.9) {
-                      serviceLatencyData.p90 += (data / workers)
+                      if (data > serviceLatencyData.p90) {
+                        serviceLatencyData.p90 = data
+                      }
                       if (isEntrypointService) {
                         aggregatedLatencyData.p90 += serviceLatencyData.p90
                       }
                     }
                     if (metricValue.labels?.quantile === 0.95) {
-                      serviceLatencyData.p95 += (data / workers)
+                      if (data > serviceLatencyData.p95) {
+                        serviceLatencyData.p95 = data
+                      }
                       if (isEntrypointService) {
                         aggregatedLatencyData.p95 += serviceLatencyData.p95
                       }
                     }
                     if (metricValue.labels?.quantile === 0.99) {
-                      serviceLatencyData.p99 += (data / workers)
+                      if (data > serviceLatencyData.p99) {
+                        serviceLatencyData.p99 = data
+                      }
                       if (isEntrypointService) {
                         aggregatedLatencyData.p99 += serviceLatencyData.p99
                       }
