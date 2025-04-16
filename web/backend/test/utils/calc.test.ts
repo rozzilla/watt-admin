@@ -25,7 +25,7 @@ class RuntimeApiClient {
         { id: 'node3', status, workers: 2 },
         { id: 'type1', status, workers: 2 },
         { id: 'type4', status, workers: 2 }
-      ] as unknown as RuntimeServices['services'] // FIXME: remove this cast once new version of `platformatic` has been released => https://github.com/platformatic/platformatic/pull/4003/files#diff-86634bc79deb5fd4ef040f2e0ed4a928e268d411f1c93cd8b2913278fa233b04R38
+      ]
     }
     return services
   }

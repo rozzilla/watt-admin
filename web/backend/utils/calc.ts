@@ -50,8 +50,7 @@ export const calculateMetrics = async ({ mappedMetrics, log }: FastifyInstance):
       const { services, entrypoint } = await api.getRuntimeServices(pid)
       for (const service of services) {
         const { id: serviceId } = service
-        // FIXME: update type once this is merged => https://github.com/platformatic/platformatic/pull/4003/files#diff-86634bc79deb5fd4ef040f2e0ed4a928e268d411f1c93cd8b2913278fa233b04R38
-        const workers = (service as { workers?: number }).workers || 1
+        const workers = 'workers' in service && service?.workers ? service.workers : 1
 
         const isEntrypointService = entrypoint === serviceId
 
