@@ -2,10 +2,8 @@ import React, { useState } from 'react'
 import typographyStyles from '../../styles/Typography.module.css'
 import commonStyles from '../../styles/CommonStyles.module.css'
 import styles from './ServicesSelector.module.css'
-import Forms from '@platformatic/ui-components/src/components/forms'
 import { OPACITY_100, OPACITY_15, OPACITY_30, RICH_BLACK, SMALL, TRANSPARENT, WHITE } from '@platformatic/ui-components/src/components/constants'
-import { BorderedBox } from '@platformatic/ui-components'
-import Icons from '@platformatic/ui-components/src/components/icons'
+import { Icons, BorderedBox, Forms } from '@platformatic/ui-components'
 import { ServiceData } from 'src/types'
 
 interface ServiceProps {
