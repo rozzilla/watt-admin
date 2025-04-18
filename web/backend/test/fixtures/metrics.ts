@@ -10189,7 +10189,7 @@ export const metricFixtures: Metric[] = [
           telemetry_id: 'unknown',
           serviceId: 'type1'
         },
-        value: 0
+        value: 0.5433
       },
       {
         labels: {
@@ -10199,7 +10199,7 @@ export const metricFixtures: Metric[] = [
           telemetry_id: 'unknown',
           serviceId: 'type1'
         },
-        value: 0
+        value: 0.8324
       },
       {
         labels: {
@@ -10209,7 +10209,7 @@ export const metricFixtures: Metric[] = [
           telemetry_id: 'unknown',
           serviceId: 'type1'
         },
-        value: 0
+        value: 0.4312
       },
       {
         labels: {

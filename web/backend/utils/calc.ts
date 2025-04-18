@@ -4,11 +4,13 @@ import type { CpuDataPoint, LatencyDataPoint, MemoryDataPoint, MetricsResponse, 
 
 export type MappedMetrics = Record<number, {
   aggregated: MetricsResponse,
-  services: Record<string, MetricsResponse>
+  services: Record<string, Record<'all' | number, MetricsResponse>>
 }>
 
 // This is to avoid the mapped metrics array from growing indefinitely (and therefore a memory leak)
 const MAX_STORED_METRICS = 20
+
+export const calcReqRps = (count: number, req: RequestDataPoint[]) => Math.abs(count - (req[req.length - 1]?.count || 0))
 
 export const calculateMetrics = async ({ mappedMetrics, log }: FastifyInstance): Promise<void> => {
   try {
@@ -51,13 +53,43 @@ export const calculateMetrics = async ({ mappedMetrics, log }: FastifyInstance):
       for (const service of services) {
         const { id: serviceId } = service
         const workers = 'workers' in service && service?.workers ? service.workers : 1
-
+        const areMultipleWorkersEnabled = workers > 1
         const isEntrypointService = entrypoint === serviceId
 
         if (!mappedMetrics[pid].services[serviceId]) {
-          mappedMetrics[pid].services[serviceId] = { dataCpu: [], dataLatency: [], dataMem: [], dataReq: [] }
+          mappedMetrics[pid].services[serviceId] = { all: { dataCpu: [], dataLatency: [], dataMem: [], dataReq: [] } }
+
+          if (workers > 1) {
+            for (let i = 0; i < workers; i++) {
+              mappedMetrics[pid].services[serviceId][i] = { dataCpu: [], dataLatency: [], dataMem: [], dataReq: [] }
+            }
+          }
         }
 
+        const workersMemData: MemoryDataPoint[] = Array.from({ length: workers }, () => ({
+          date,
+          rss: 0,
+          totalHeap: 0,
+          usedHeap: 0,
+          newSpace: 0,
+          oldSpace: 0
+        }))
+        const workersCpuData: CpuDataPoint[] = Array.from({ length: workers }, () => ({
+          date,
+          cpu: 0,
+          eventLoop: 0
+        }))
+        const workersLatencyData: LatencyDataPoint[] = Array.from({ length: workers }, () => ({
+          date,
+          p90: 0,
+          p95: 0,
+          p99: 0
+        }))
+        const workersReqData: RequestDataPoint[] = Array.from({ length: workers }, () => ({
+          date,
+          count: 0,
+          rps: 0
+        }))
         const serviceMemData: MemoryDataPoint = {
           date,
           rss: 0,
@@ -86,6 +118,7 @@ export const calculateMetrics = async ({ mappedMetrics, log }: FastifyInstance):
         for (const metric of runtimeMetrics) {
           if (metric.values.length > 0) {
             const [{ value, labels }] = metric.values
+            const workerId = labels.workerId ?? 0
 
             if (isEntrypointService) {
               if (metric.name === 'process_resident_memory_bytes') {
@@ -95,34 +128,57 @@ export const calculateMetrics = async ({ mappedMetrics, log }: FastifyInstance):
 
             if (serviceId === labels.serviceId) {
               if (metric.name === 'nodejs_heap_size_total_bytes') {
-                serviceMemData.totalHeap += calcBytesToMB(value)
+                const data = calcBytesToMB(value)
+                if (areMultipleWorkersEnabled) {
+                  workersMemData[workerId].totalHeap = data
+                }
+                serviceMemData.totalHeap += data
                 aggregatedMemData.totalHeap += serviceMemData.totalHeap
               }
 
               if (metric.name === 'nodejs_heap_size_used_bytes') {
-                serviceMemData.usedHeap += calcBytesToMB(value)
+                const data = calcBytesToMB(value)
+                if (areMultipleWorkersEnabled) {
+                  workersMemData[workerId].usedHeap = data
+                }
+                serviceMemData.usedHeap += data
                 aggregatedMemData.usedHeap += serviceMemData.usedHeap
               }
 
               if (metric.name === 'nodejs_heap_space_size_used_bytes') {
                 metric.values.forEach(val => {
+                  const data = calcBytesToMB(val.value)
                   if (val.labels?.space === 'new') {
-                    serviceMemData.newSpace += calcBytesToMB(val.value)
+                    if (areMultipleWorkersEnabled) {
+                      workersMemData[workerId].newSpace = data
+                    }
+                    serviceMemData.newSpace += data
                     aggregatedMemData.newSpace += serviceMemData.newSpace
                   } else if (val.labels?.space === 'old') {
-                    serviceMemData.oldSpace += calcBytesToMB(val.value)
+                    if (areMultipleWorkersEnabled) {
+                      workersMemData[workerId].oldSpace = data
+                    }
+                    serviceMemData.oldSpace += data
                     aggregatedMemData.oldSpace += serviceMemData.oldSpace
                   }
                 })
               }
 
               if (metric.name === 'thread_cpu_percent_usage') {
-                serviceCpuData.cpu += (value / workers)
+                const data = value / workers
+                if (areMultipleWorkersEnabled) {
+                  workersCpuData[workerId].cpu = data
+                }
+                serviceCpuData.cpu += data
                 aggregatedCpuData.cpu += serviceCpuData.cpu
               }
 
               if (metric.name === 'nodejs_eventloop_utilization') {
-                serviceCpuData.eventLoop += ((value * 100) / workers)
+                const data = (value * 100) / workers
+                if (areMultipleWorkersEnabled) {
+                  workersCpuData[workerId].eventLoop = data
+                }
+                serviceCpuData.eventLoop += data
                 aggregatedCpuData.eventLoop += serviceCpuData.eventLoop
               }
 
@@ -132,6 +188,9 @@ export const calculateMetrics = async ({ mappedMetrics, log }: FastifyInstance):
                   if (data > 0) {
                     if (metricValue.labels?.quantile === 0.9) {
                       if (data > serviceLatencyData.p90) {
+                        if (areMultipleWorkersEnabled) {
+                          workersLatencyData[workerId].p90 = data
+                        }
                         serviceLatencyData.p90 = data
                       }
                       if (isEntrypointService) {
@@ -140,6 +199,9 @@ export const calculateMetrics = async ({ mappedMetrics, log }: FastifyInstance):
                     }
                     if (metricValue.labels?.quantile === 0.95) {
                       if (data > serviceLatencyData.p95) {
+                        if (areMultipleWorkersEnabled) {
+                          workersLatencyData[workerId].p95 = data
+                        }
                         serviceLatencyData.p95 = data
                       }
                       if (isEntrypointService) {
@@ -148,6 +210,9 @@ export const calculateMetrics = async ({ mappedMetrics, log }: FastifyInstance):
                     }
                     if (metricValue.labels?.quantile === 0.99) {
                       if (data > serviceLatencyData.p99) {
+                        if (areMultipleWorkersEnabled) {
+                          workersLatencyData[workerId].p99 = data
+                        }
                         serviceLatencyData.p99 = data
                       }
                       if (isEntrypointService) {
@@ -201,9 +266,13 @@ export const calculateMetrics = async ({ mappedMetrics, log }: FastifyInstance):
                 if (!count) {
                   log.debug(metric.values, 'Empty HTTP request count')
                 } else {
+                  if (areMultipleWorkersEnabled) {
+                    workersReqData[workerId].count = count
+                    const rps = calcReqRps(count, mappedMetrics[pid].services[serviceId][workerId].dataReq)
+                    workersReqData[workerId].rps = rps
+                  }
                   serviceReqData.count += count
-                  const req = mappedMetrics[pid].services[serviceId].dataReq
-                  const rps = Math.abs(serviceReqData.count - (req[req.length - 1]?.count || 0))
+                  const rps = calcReqRps(serviceReqData.count, mappedMetrics[pid].services[serviceId].all.dataReq)
                   serviceReqData.rps = rps
 
                   if (isEntrypointService) {
@@ -218,22 +287,47 @@ export const calculateMetrics = async ({ mappedMetrics, log }: FastifyInstance):
 
         serviceMemData.rss = aggregatedRss
         aggregatedMemData.rss = aggregatedRss
-        if (mappedMetrics[pid].services[serviceId].dataMem.length >= MAX_STORED_METRICS) {
-          mappedMetrics[pid].services[serviceId].dataMem.shift()
+
+        if (areMultipleWorkersEnabled) {
+          for (let i = 0; i < workers; i++) {
+            workersMemData[i].rss = aggregatedRss
+
+            if (mappedMetrics[pid].services[serviceId][i].dataMem.length >= MAX_STORED_METRICS) {
+              mappedMetrics[pid].services[serviceId][i].dataMem.shift()
+            }
+            if (mappedMetrics[pid].services[serviceId][i].dataCpu.length >= MAX_STORED_METRICS) {
+              mappedMetrics[pid].services[serviceId][i].dataCpu.shift()
+            }
+            if (mappedMetrics[pid].services[serviceId][i].dataLatency.length >= MAX_STORED_METRICS) {
+              mappedMetrics[pid].services[serviceId][i].dataLatency.shift()
+            }
+            if (mappedMetrics[pid].services[serviceId][i].dataReq.length >= MAX_STORED_METRICS) {
+              mappedMetrics[pid].services[serviceId][i].dataReq.shift()
+            }
+
+            mappedMetrics[pid].services[serviceId][i].dataMem.push(workersMemData[i])
+            mappedMetrics[pid].services[serviceId][i].dataCpu.push(workersCpuData[i])
+            mappedMetrics[pid].services[serviceId][i].dataLatency.push(workersLatencyData[i])
+            mappedMetrics[pid].services[serviceId][i].dataReq.push(workersReqData[i])
+          }
         }
-        if (mappedMetrics[pid].services[serviceId].dataCpu.length >= MAX_STORED_METRICS) {
-          mappedMetrics[pid].services[serviceId].dataCpu.shift()
+
+        if (mappedMetrics[pid].services[serviceId].all.dataMem.length >= MAX_STORED_METRICS) {
+          mappedMetrics[pid].services[serviceId].all.dataMem.shift()
         }
-        if (mappedMetrics[pid].services[serviceId].dataLatency.length >= MAX_STORED_METRICS) {
-          mappedMetrics[pid].services[serviceId].dataLatency.shift()
+        if (mappedMetrics[pid].services[serviceId].all.dataCpu.length >= MAX_STORED_METRICS) {
+          mappedMetrics[pid].services[serviceId].all.dataCpu.shift()
         }
-        if (mappedMetrics[pid].services[serviceId].dataReq.length >= MAX_STORED_METRICS) {
-          mappedMetrics[pid].services[serviceId].dataReq.shift()
+        if (mappedMetrics[pid].services[serviceId].all.dataLatency.length >= MAX_STORED_METRICS) {
+          mappedMetrics[pid].services[serviceId].all.dataLatency.shift()
         }
-        mappedMetrics[pid].services[serviceId].dataMem.push(serviceMemData)
-        mappedMetrics[pid].services[serviceId].dataCpu.push(serviceCpuData)
-        mappedMetrics[pid].services[serviceId].dataLatency.push(serviceLatencyData)
-        mappedMetrics[pid].services[serviceId].dataReq.push(serviceReqData)
+        if (mappedMetrics[pid].services[serviceId].all.dataReq.length >= MAX_STORED_METRICS) {
+          mappedMetrics[pid].services[serviceId].all.dataReq.shift()
+        }
+        mappedMetrics[pid].services[serviceId].all.dataMem.push(serviceMemData)
+        mappedMetrics[pid].services[serviceId].all.dataCpu.push(serviceCpuData)
+        mappedMetrics[pid].services[serviceId].all.dataLatency.push(serviceLatencyData)
+        mappedMetrics[pid].services[serviceId].all.dataReq.push(serviceReqData)
       }
 
       if (mappedMetrics[pid].aggregated.dataMem.length >= MAX_STORED_METRICS) {
