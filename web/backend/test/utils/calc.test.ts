@@ -60,6 +60,36 @@ test('calculateMetrics handles runtime client errors gracefully', async () => {
   assert.ok(warn.mock.calls[0].arguments[1].includes('Unable to get runtime metrics'))
 })
 
+test('calculateMetrics handles services with single worker correctly', async () => {
+  class SingleWorkerClient extends RuntimeApiClient {
+    async getRuntimeServices () {
+      const status = 'ok'
+      return {
+        production: false,
+        entrypoint: 'composer',
+        services: [
+          { id: 'singleWorker', status, workers: 1 }
+        ]
+      }
+    }
+  }
+
+  const { calculateMetrics: calculateSingleWorker } = proxyquire(calcPath, {
+    '@platformatic/control': {
+      RuntimeApiClient: SingleWorkerClient
+    }
+  })
+
+  const fastify = getMockFastify()
+  await calculateSingleWorker(fastify)
+
+  assert.ok(fastify.mappedMetrics[1234])
+  assert.ok(fastify.mappedMetrics[1234].services['singleWorker'])
+  assert.ok(fastify.mappedMetrics[1234].services['singleWorker'].all)
+  assert.strictEqual(Object.keys(fastify.mappedMetrics[1234].services['singleWorker']).length, 1,
+    'Single worker service should only have "all" metrics and no worker-specific metrics')
+})
+
 test('calculateMetrics collects and aggregates metrics correctly', async () => {
   const { calculateMetrics } = proxyquire(calcPath, {
     '@platformatic/control': { RuntimeApiClient },
