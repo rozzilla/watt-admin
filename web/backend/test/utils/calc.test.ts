@@ -398,3 +398,17 @@ test('calcReqRps uses most recent request count from array', () => {
   const result = calcReqRps(currentCount, previousRequests)
   assert.strictEqual(result, 50)
 })
+
+test('calcReqRps handles request spikes and dips correctly', () => {
+  const previousRequests: RequestDataPoint[] = [
+    { date: '2024-01-01T00:00:00.000Z', count: 100, rps: 10 },
+    { date: '2024-01-01T00:00:01.000Z', count: 200, rps: 100 },
+    { date: '2024-01-01T00:00:02.000Z', count: 150, rps: 0 }
+  ]
+
+  let result = calcReqRps(300, previousRequests)
+  assert.strictEqual(result, 150)
+
+  result = calcReqRps(100, previousRequests)
+  assert.strictEqual(result, 50)
+})
