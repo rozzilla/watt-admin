@@ -12,6 +12,8 @@ const MAX_STORED_METRICS = 20
 
 export const calcReqRps = (count: number, req: RequestDataPoint[]) => Math.abs(count - (req[req.length - 1]?.count || 0))
 
+const initMetricsResponse = (): MetricsResponse => ({ dataCpu: [], dataLatency: [], dataMem: [], dataReq: [] })
+
 const initMemData = (date: string): MemoryDataPoint => ({ date, rss: 0, totalHeap: 0, usedHeap: 0, newSpace: 0, oldSpace: 0 })
 
 const initCpuData = (date: string): CpuDataPoint => ({ date, cpu: 0, eventLoop: 0 })
@@ -34,7 +36,7 @@ export const calculateMetrics = async ({ mappedMetrics, log }: FastifyInstance):
 
       const runtimeMetrics = await api.getRuntimeMetrics(pid, { format: 'json' })
       if (!mappedMetrics[pid]) {
-        mappedMetrics[pid] = { services: {}, aggregated: { dataCpu: [], dataLatency: [], dataMem: [], dataReq: [] } }
+        mappedMetrics[pid] = { services: {}, aggregated: initMetricsResponse() }
       }
 
       const { services, entrypoint } = await api.getRuntimeServices(pid)
@@ -45,11 +47,11 @@ export const calculateMetrics = async ({ mappedMetrics, log }: FastifyInstance):
         const isEntrypointService = entrypoint === serviceId
 
         if (!mappedMetrics[pid].services[serviceId]) {
-          mappedMetrics[pid].services[serviceId] = { all: { dataCpu: [], dataLatency: [], dataMem: [], dataReq: [] } }
+          mappedMetrics[pid].services[serviceId] = { all: initMetricsResponse() }
 
           if (areMultipleWorkersEnabled) {
             for (let i = 0; i < workers; i++) {
-              mappedMetrics[pid].services[serviceId][i] = { dataCpu: [], dataLatency: [], dataMem: [], dataReq: [] }
+              mappedMetrics[pid].services[serviceId][i] = initMetricsResponse()
             }
           }
         }
