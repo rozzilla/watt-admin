@@ -177,6 +177,18 @@ test('calculateMetrics handles empty metrics correctly', async () => {
   assert.strictEqual(service1Metrics.all.dataCpu[0].cpu, 0)
   assert.strictEqual(service1Metrics.all.dataLatency[0].p90, 0)
   assert.strictEqual(service1Metrics.all.dataReq[0].count, 0)
+
+  assert.strictEqual(service1Metrics[0].dataMem[0].rss, 0)
+  assert.strictEqual(service1Metrics[0].dataMem[0].totalHeap, 0)
+  assert.strictEqual(service1Metrics[0].dataCpu[0].cpu, 0)
+  assert.strictEqual(service1Metrics[0].dataLatency[0].p90, 0)
+  assert.strictEqual(service1Metrics[0].dataReq[0].count, 0)
+
+  assert.strictEqual(service1Metrics[1].dataMem[0].rss, 0)
+  assert.strictEqual(service1Metrics[1].dataMem[0].totalHeap, 0)
+  assert.strictEqual(service1Metrics[1].dataCpu[0].cpu, 0)
+  assert.strictEqual(service1Metrics[1].dataLatency[0].p90, 0)
+  assert.strictEqual(service1Metrics[1].dataReq[0].count, 0)
 })
 
 test('calculateMetrics handles missing services', async () => {
@@ -218,6 +230,16 @@ test('calculateMetrics respects MAX_STORED_METRICS limit', async () => {
     assert.strictEqual(service.all.dataCpu.length, 20, 'Service CPU metrics should be limited to 20 entries')
     assert.strictEqual(service.all.dataLatency.length, 20, 'Service latency metrics should be limited to 20 entries')
     assert.strictEqual(service.all.dataReq.length, 20, 'Service req metrics should be limited to 20 entries')
+
+    assert.strictEqual(service[0].dataMem.length, 20, 'Worker 0 memory metrics should be limited to 20 entries')
+    assert.strictEqual(service[0].dataCpu.length, 20, 'Worker 0 CPU metrics should be limited to 20 entries')
+    assert.strictEqual(service[0].dataLatency.length, 20, 'Worker 0 latency metrics should be limited to 20 entries')
+    assert.strictEqual(service[0].dataReq.length, 20, 'Worker 0 req metrics should be limited to 20 entries')
+
+    assert.strictEqual(service[1].dataMem.length, 20, 'Worker 1 memory metrics should be limited to 20 entries')
+    assert.strictEqual(service[1].dataCpu.length, 20, 'Worker 1 CPU metrics should be limited to 20 entries')
+    assert.strictEqual(service[1].dataLatency.length, 20, 'Worker 1 latency metrics should be limited to 20 entries')
+    assert.strictEqual(service[1].dataReq.length, 20, 'Worker 1 req metrics should be limited to 20 entries')
   })
 
   assert.strictEqual(fastify.mappedMetrics[1234].aggregated.dataMem.length, 20, 'Aggregated memory metrics should be limited to 20 entries')
