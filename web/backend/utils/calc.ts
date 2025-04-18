@@ -12,36 +12,24 @@ const MAX_STORED_METRICS = 20
 
 export const calcReqRps = (count: number, req: RequestDataPoint[]) => Math.abs(count - (req[req.length - 1]?.count || 0))
 
+const initMemData = (date: string): MemoryDataPoint => ({ date, rss: 0, totalHeap: 0, usedHeap: 0, newSpace: 0, oldSpace: 0 })
+
+const initCpuData = (date: string): CpuDataPoint => ({ date, cpu: 0, eventLoop: 0 })
+
+const initLatencyData = (date: string): LatencyDataPoint => ({ date, p90: 0, p95: 0, p99: 0 })
+
+const initReqData = (date: string): RequestDataPoint => ({ date, count: 0, rps: 0, })
+
 export const calculateMetrics = async ({ mappedMetrics, log }: FastifyInstance): Promise<void> => {
   try {
     const api = new RuntimeApiClient()
     const runtimes = await api.getRuntimes()
     for (const { pid } of runtimes) {
       const date = new Date().toISOString()
-      const aggregatedMemData: MemoryDataPoint = {
-        date,
-        rss: 0,
-        totalHeap: 0,
-        usedHeap: 0,
-        newSpace: 0,
-        oldSpace: 0
-      }
-      const aggregatedCpuData: CpuDataPoint = {
-        date,
-        cpu: 0,
-        eventLoop: 0
-      }
-      const aggregatedLatencyData: LatencyDataPoint = {
-        date,
-        p90: 0,
-        p95: 0,
-        p99: 0
-      }
-      const aggregatedReqData: RequestDataPoint = {
-        date,
-        count: 0,
-        rps: 0,
-      }
+      const aggregatedMemData = initMemData(date)
+      const aggregatedCpuData = initCpuData(date)
+      const aggregatedLatencyData = initLatencyData(date)
+      const aggregatedReqData = initReqData(date)
       let aggregatedRss = 0
 
       const runtimeMetrics = await api.getRuntimeMetrics(pid, { format: 'json' })
@@ -59,61 +47,21 @@ export const calculateMetrics = async ({ mappedMetrics, log }: FastifyInstance):
         if (!mappedMetrics[pid].services[serviceId]) {
           mappedMetrics[pid].services[serviceId] = { all: { dataCpu: [], dataLatency: [], dataMem: [], dataReq: [] } }
 
-          if (workers > 1) {
+          if (areMultipleWorkersEnabled) {
             for (let i = 0; i < workers; i++) {
               mappedMetrics[pid].services[serviceId][i] = { dataCpu: [], dataLatency: [], dataMem: [], dataReq: [] }
             }
           }
         }
 
-        const workersMemData: MemoryDataPoint[] = Array.from({ length: workers }, () => ({
-          date,
-          rss: 0,
-          totalHeap: 0,
-          usedHeap: 0,
-          newSpace: 0,
-          oldSpace: 0
-        }))
-        const workersCpuData: CpuDataPoint[] = Array.from({ length: workers }, () => ({
-          date,
-          cpu: 0,
-          eventLoop: 0
-        }))
-        const workersLatencyData: LatencyDataPoint[] = Array.from({ length: workers }, () => ({
-          date,
-          p90: 0,
-          p95: 0,
-          p99: 0
-        }))
-        const workersReqData: RequestDataPoint[] = Array.from({ length: workers }, () => ({
-          date,
-          count: 0,
-          rps: 0
-        }))
-        const serviceMemData: MemoryDataPoint = {
-          date,
-          rss: 0,
-          totalHeap: 0,
-          usedHeap: 0,
-          newSpace: 0,
-          oldSpace: 0
-        }
-        const serviceCpuData: CpuDataPoint = {
-          date,
-          cpu: 0,
-          eventLoop: 0
-        }
-        const serviceLatencyData: LatencyDataPoint = {
-          date,
-          p90: 0,
-          p95: 0,
-          p99: 0
-        }
-        const serviceReqData: RequestDataPoint = {
-          date,
-          count: 0,
-          rps: 0
-        }
+        const workersMemData: MemoryDataPoint[] = Array.from({ length: workers }, () => initMemData(date))
+        const workersCpuData: CpuDataPoint[] = Array.from({ length: workers }, () => initCpuData(date))
+        const workersLatencyData: LatencyDataPoint[] = Array.from({ length: workers }, () => initLatencyData(date))
+        const workersReqData: RequestDataPoint[] = Array.from({ length: workers }, () => initReqData(date))
+        const serviceMemData = initMemData(date)
+        const serviceCpuData = initCpuData(date)
+        const serviceLatencyData = initLatencyData(date)
+        const serviceReqData = initReqData(date)
 
         for (const metric of runtimeMetrics) {
           if (metric.values.length > 0) {
