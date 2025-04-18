@@ -39,6 +39,27 @@ class RuntimeApiClient {
 const debug = mock.fn<FastifyBaseLogger['debug']>()
 const getMockFastify = () => ({ mappedMetrics: {}, log: { debug } }) as unknown as FastifyInstance
 
+test('calculateMetrics handles runtime client errors gracefully', async () => {
+  class ErrorThrowingClient extends RuntimeApiClient {
+    async getRuntimes (): Promise<{ pid: number }[]> {
+      throw new Error('Failed to get runtimes')
+    }
+  }
+
+  const warn = mock.fn<FastifyBaseLogger['warn']>()
+  const { calculateMetrics: calculateErrorMetrics } = proxyquire(calcPath, {
+    '@platformatic/control': {
+      RuntimeApiClient: ErrorThrowingClient
+    }
+  })
+
+  const fastify = { mappedMetrics: {}, log: { debug, warn } } as unknown as FastifyInstance
+  await calculateErrorMetrics(fastify)
+
+  assert.strictEqual(warn.mock.calls.length, 1)
+  assert.ok(warn.mock.calls[0].arguments[1].includes('Unable to get runtime metrics'))
+})
+
 test('calculateMetrics collects and aggregates metrics correctly', async () => {
   const { calculateMetrics } = proxyquire(calcPath, {
     '@platformatic/control': { RuntimeApiClient },
