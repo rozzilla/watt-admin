@@ -30,7 +30,7 @@ function ServiceDetailPanel ({ openapi, onClose }: ServiceDetailPanelProps): Rea
         </button>
       </div>
 
-      {typeof openapi === 'string' && openapi !== 'null'
+      {openapi && typeof openapi === 'string' && openapi !== 'null'
         ? <ApiReferenceReact configuration={{
           content: openapi, showSidebar: false, customCss: `
   .dark-mode {
