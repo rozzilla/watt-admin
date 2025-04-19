@@ -35,7 +35,6 @@
 .emptyOpenApi {
   @apply mt-20 text-2xl
 }
-
 .serviceDetailPanel {
   @apply fixed top-0 right-0 bottom-0 z-[9999] flex flex-col bg-rich-black overflow-auto;
   min-width: 1020px;

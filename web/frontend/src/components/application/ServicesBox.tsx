@@ -18,21 +18,7 @@ interface ServiceDetailPanelProps {
 }
 
 function ServiceDetailPanel ({ openapi, onClose }: ServiceDetailPanelProps): React.ReactElement {
-  return (
-    <div className={styles.serviceDetailPanel}>
-      <div className={`${commonStyles.smallFlexRow} ${commonStyles.fullWidth} ${commonStyles.justifyBetween}`}>
-        <div />
-        <button
-          onClick={onClose}
-          className={styles.closeButton}
-        >
-          <Icons.CloseIcon color={WHITE} size={MEDIUM} />
-        </button>
-      </div>
-
-      {openapi && typeof openapi === 'string' && openapi !== 'null'
-        ? <ApiReferenceReact configuration={{
-          content: openapi, showSidebar: false, customCss: `
+  const customCss = `
   .dark-mode {
     --scalar-color-1: rgb(255 255 255 / var(--tw-bg-opacity));
     --scalar-background-1: rgb(0 5 11 / var(--tw-bg-opacity));
@@ -47,8 +33,21 @@ function ServiceDetailPanel ({ openapi, onClose }: ServiceDetailPanelProps): Rea
   .section-container > section {
     padding: 40px 0 !important;
   }`
-        }}
-          />
+
+  return (
+    <div className={styles.serviceDetailPanel}>
+      <div className={`${commonStyles.smallFlexRow} ${commonStyles.fullWidth} ${commonStyles.justifyBetween}`}>
+        <div />
+        <button
+          onClick={onClose}
+          className={styles.closeButton}
+        >
+          <Icons.CloseIcon color={WHITE} size={MEDIUM} />
+        </button>
+      </div>
+
+      {openapi && typeof openapi === 'string' && openapi !== 'null'
+        ? <ApiReferenceReact configuration={{ content: openapi, showSidebar: false, customCss }} />
         : <div className={`${typographyStyles.desktopBodyLargeSemibold} ${typographyStyles.textWhite} ${typographyStyles.ellipsis} ${typographyStyles.textCenter} ${styles.emptyOpenApi}`}>No valid Open API data available</div>}
     </div>
   )
@@ -125,13 +124,9 @@ function ServicesBox (): React.ReactElement {
 
   useEffect(() => {
     const fetchData = async (): Promise<void> => {
-      try {
-        if (selectedService && runtimePid) {
-          const response = await getOpenApi(runtimePid, selectedService)
-          setOpenapi(response)
-        }
-      } catch (error) {
-        console.error('Error getting services:', error)
+      if (selectedService && runtimePid) {
+        const response = await getOpenApi(runtimePid, selectedService)
+        setOpenapi(response)
       }
     }
     fetchData()
