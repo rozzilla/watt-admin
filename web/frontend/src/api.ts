@@ -14,7 +14,7 @@ export const getApiApplication = async () => {
     return { id, url, name, pltVersion, lastStarted }
   }
 
-  throw new Error(`No available runtime ${body.toString()}`)
+  throw new Error('No available runtime')
 }
 
 // This is to avoid calling npm registry every time we run the method below
