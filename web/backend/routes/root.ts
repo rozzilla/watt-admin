@@ -40,6 +40,36 @@ export default async function (fastify: FastifyInstance) {
     return selectableRuntimes
   })
 
+  typedFastify.get('/runtimes/:pid/health', {
+    schema: {
+      params: { type: 'object', properties: { pid: { type: 'number' } }, required: ['pid'] },
+      response: {
+        200: {
+          type: 'object',
+          additionalProperties: false,
+          properties: {
+            status: {
+              type: 'string',
+              enum: ['OK', 'KO'],
+              description: "Status can only be 'OK' or 'KO'"
+            }
+          },
+          required: ['status']
+        }
+      }
+    }
+  }, async ({ params: { pid } }) => {
+    try {
+      const result = await api.getMatchingRuntime({ pid: pid.toString() })
+      if (result.pid === pid) {
+        return { status: 'OK' as const }
+      }
+      return { status: 'KO' as const }
+    } catch {
+      return { status: 'KO' as const }
+    }
+  })
+
   typedFastify.get('/runtimes/:pid/metrics', {
     schema: {
       params: { type: 'object', properties: { pid: { type: 'number' } }, required: ['pid'] },

@@ -17,6 +17,19 @@ export type GetRuntimesResponseOK = Array<{ 'pid': number; 'cwd': string; 'argv'
 export type GetRuntimesResponses =
   FullResponse<GetRuntimesResponseOK, 200>
 
+export type GetRuntimesPidHealthRequest = {
+  path: {
+    'pid': number;
+  }
+}
+
+/**
+ * Default Response
+ */
+export type GetRuntimesPidHealthResponseOK = { 'status': 'OK' | 'KO' }
+export type GetRuntimesPidHealthResponses =
+  FullResponse<GetRuntimesPidHealthResponseOK, 200>
+
 export type GetRuntimesPidMetricsRequest = {
   path: {
     'pid': number;
@@ -101,6 +114,11 @@ export interface Backend {
    * @returns the API response
    */
   getRuntimes(req: GetRuntimesRequest): Promise<GetRuntimesResponses>;
+  /**
+   * @param req - request parameters object
+   * @returns the API response
+   */
+  getRuntimesPidHealth(req: GetRuntimesPidHealthRequest): Promise<GetRuntimesPidHealthResponses>;
   /**
    * @param req - request parameters object
    * @returns the API response

@@ -11,10 +11,12 @@ import ServicesMetrics from '../../components/metrics/ServicesMetrics'
 import { POD_SERVICES_PATH } from '../../ui-constants'
 import { getServices } from '../../api'
 import { ServiceData } from 'src/types'
+import ErrorComponent from '../errors/ErrorComponent'
 
 const ServicesCharts: React.FC = () => {
   const globalState = useAdminStore()
   const { setCurrentPage, runtimePid } = globalState
+  const [error, setError] = useState<unknown>(undefined)
   const [showAggregatedMetrics, setShowAggregatedMetrics] = useState(true)
   const [services, setServices] = useState<ServiceData[]>([])
   const [serviceSelected, setServiceSelected] = useState<ServiceData>({ id: '', selected: false })
@@ -30,13 +32,18 @@ const ServicesCharts: React.FC = () => {
           const response = await getServices(runtimePid)
           setServices(response)
           setServiceSelected(response[0])
+          setError(undefined)
         }
       } catch (error) {
-        console.error('Error getting services:', error)
+        setError(error)
       }
     }
     fetchData()
   }, [runtimePid])
+
+  if (error) {
+    return <ErrorComponent error={error} onClickDismiss={() => setError(undefined)} />
+  }
 
   return (
     <div className={styles.podServicesContainer}>

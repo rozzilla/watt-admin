@@ -19,6 +19,7 @@ export const STATUS_RESUMED_LOGS = 'RESUMED'
 
 export const REFRESH_INTERVAL_METRICS = 2000
 export const REFRESH_INTERVAL_LOGS = 2000
+export const INTERVAL_HEALTH = 1000
 
 export const MEMORY_UNIT_METRICS = 'MB'
 export const LATENCY_UNIT_METRICS = 'ms'

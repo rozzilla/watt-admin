@@ -11,10 +11,12 @@ import { BorderedBox } from '@platformatic/ui-components'
 import { POD_LOGS_PATH } from '../../ui-constants'
 import { getServices } from '../../api'
 import { ServiceData } from 'src/types'
+import ErrorComponent from '../errors/ErrorComponent'
 
 const ServicesLogs: React.FC = () => {
   const globalState = useAdminStore()
   const { setCurrentPage, runtimePid } = globalState
+  const [error, setError] = useState<unknown>(undefined)
   const [selectAllServices, setSelectAllServices] = useState(true)
   const [colorPod, setColorPod] = useState(WHITE)
   const [services, setServices] = useState<ServiceData[]>([])
@@ -33,9 +35,10 @@ const ServicesLogs: React.FC = () => {
         if (runtimePid) {
           const response = await getServices(runtimePid)
           setServices(response.map((service: ServiceData) => ({ ...service, selected: true })))
+          setError(undefined)
         }
       } catch (error) {
-        console.error('Error getting services:', error)
+        setError(error)
       }
     }
     fetchData()
@@ -63,6 +66,10 @@ const ServicesLogs: React.FC = () => {
   function handleChangeAllService (): void {
     setSelectAllServices(!selectAllServices)
     setServices(services.map(service => ({ ...service, selected: !selectAllServices })))
+  }
+
+  if (error) {
+    return <ErrorComponent error={error} onClickDismiss={() => setError(undefined)} />
   }
 
   return (

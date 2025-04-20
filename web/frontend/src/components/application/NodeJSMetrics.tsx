@@ -11,8 +11,10 @@ import { REFRESH_INTERVAL_METRICS, MEMORY_UNIT_METRICS, LATENCY_UNIT_METRICS, CP
 import { getApiMetricsPod } from '../../api'
 import useAdminStore from '../../useAdminStore'
 import type { GetRuntimesPidMetricsResponseOK } from 'src/client/backend-types'
+import ErrorComponent from '../errors/ErrorComponent'
 
 function NodeJSMetrics (): React.ReactElement {
+  const [error, setError] = useState<unknown>(undefined)
   const [initialLoading, setInitialLoading] = useState(true)
   const [allData, setAllData] = useState<GetRuntimesPidMetricsResponseOK>({
     dataMem: [],
@@ -27,9 +29,10 @@ function NodeJSMetrics (): React.ReactElement {
       if (runtimePid) {
         const data = await getApiMetricsPod(runtimePid)
         setAllData(data)
+        setError(undefined)
       }
     } catch (error) {
-      console.error('Failed to fetch runtime metrics:', error)
+      setError(error)
     } finally {
       setInitialLoading(false)
     }
@@ -37,6 +40,10 @@ function NodeJSMetrics (): React.ReactElement {
 
   useInterval(() => { getData() }, REFRESH_INTERVAL_METRICS)
   useEffect(() => { getData() }, [runtimePid])
+
+  if (error) {
+    return <ErrorComponent error={error} onClickDismiss={() => setError(undefined)} />
+  }
 
   return (
     <BorderedBox classes={`${styles.borderexBoxContainer}`} backgroundColor={BLACK_RUSSIAN} color={TRANSPARENT}>

@@ -38,7 +38,7 @@ function AppNameBox ({
         const outdated = await isWattpmVersionOutdated(apiApplication?.pltVersion)
         setOutdatedVersion(outdated)
       } catch (e) {
-        console.error('Unable to get version', e)
+        onErrorOccurred(e)
       }
     }
 

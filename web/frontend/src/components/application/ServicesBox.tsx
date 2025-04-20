@@ -8,6 +8,7 @@ import Icons from '@platformatic/ui-components/src/components/icons'
 import useAdminStore from '../../useAdminStore'
 import { getServices } from '../../api'
 import { ServiceData } from 'src/types'
+import ErrorComponent from '../errors/ErrorComponent'
 
 interface ServiceProps {
   id: string;
@@ -57,6 +58,7 @@ function Service ({ id, entrypoint, type }: ServiceProps): React.ReactElement {
 }
 
 function ServicesBox (): React.ReactElement {
+  const [error, setError] = useState<unknown>(undefined)
   const [services, setServices] = useState<ServiceData[]>([])
   const { runtimePid } = useAdminStore()
 
@@ -66,13 +68,18 @@ function ServicesBox (): React.ReactElement {
         if (runtimePid) {
           const response = await getServices(runtimePid)
           setServices(response)
+          setError(undefined)
         }
       } catch (error) {
-        console.error('Error getting services:', error)
+        setError(error)
       }
     }
     fetchData()
   }, [runtimePid])
+
+  if (error) {
+    return <ErrorComponent error={error} onClickDismiss={() => setError(undefined)} />
+  }
 
   return (
     <BorderedBox classes={`${styles.borderexBoxContainer}`} backgroundColor={BLACK_RUSSIAN} color={TRANSPARENT}>
