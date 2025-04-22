@@ -40,10 +40,6 @@ export const getLogs = async (id: number) => {
   return data
 }
 
-export const getApiMetricsPod = async (pid: number) => {
-  const { body } = await getRuntimesPidMetrics({ path: { pid } })
-  return body
-}
 export const getServiceHealth = async (pid: number) => {
   const { body: { status } } = await getRuntimesPidHealth({ path: { pid } })
   if (status === 'KO') {
@@ -51,7 +47,14 @@ export const getServiceHealth = async (pid: number) => {
   }
 }
 
+export const getApiMetricsPod = async (pid: number) => {
+  await getServiceHealth(pid)
+  const { body } = await getRuntimesPidMetrics({ path: { pid } })
+  return body
+}
+
 export const getApiMetricsPodService = async (pid: number, serviceId: string) => {
+  await getServiceHealth(pid)
   const { body } = await getRuntimesPidMetricsServiceId({ path: { pid, serviceId } })
   return body
 }
