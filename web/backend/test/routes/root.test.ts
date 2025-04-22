@@ -16,6 +16,12 @@ test('no runtime running', async (t) => {
   })
   assert.strictEqual(services.statusCode, 500)
   assert.ok(services.json().message.includes('connect ENOENT'), 'unable to list services due to no runtime available')
+
+  const health = await server.inject({
+    url: '/runtimes/42/health'
+  })
+  assert.strictEqual(health.statusCode, 200)
+  assert.deepEqual(health.json(), { status: 'KO' })
 })
 
 test('runtime is running', async (t) => {
@@ -29,6 +35,12 @@ test('runtime is running', async (t) => {
   const runtimePid = runtime.pid
   assert.strictEqual(runtime.packageName, '@platformatic/watt-admin')
   assert.strictEqual(typeof runtimePid, 'number')
+
+  const health = await server.inject({
+    url: `/runtimes/${runtimePid}/health`
+  })
+  assert.strictEqual(health.statusCode, 200)
+  assert.deepEqual(health.json(), { status: 'OK' })
 
   const metricsEmpty = await server.inject({
     url: `/runtimes/${runtimePid}/metrics`

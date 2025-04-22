@@ -13,6 +13,7 @@ import colorSetLatency from './latency.module.css'
 import colorSetReq from './req.module.css'
 import NodeJSMetric, { generateLegend } from '../application/NodeJSMetric'
 import { GetRuntimesPidMetricsResponseOK } from 'src/client/backend-types'
+import ErrorComponent from '../errors/ErrorComponent'
 
 interface ServicesMetricsProps {
   serviceId: string;
@@ -23,6 +24,7 @@ function ServicesMetrics ({
   serviceId,
   showAggregatedMetrics
 }: ServicesMetricsProps): React.ReactElement {
+  const [error, setError] = useState<unknown>(undefined)
   const [initialLoading, setInitialLoading] = useState(true)
   const [serviceData, setServiceData] = useState<GetRuntimesPidMetricsResponseOK>({
     dataMem: [],
@@ -44,9 +46,10 @@ function ServicesMetrics ({
         const [runtimeData, serviceData] = await Promise.all([getApiMetricsPod(runtimePid), getApiMetricsPodService(runtimePid, serviceId)])
         setAllData(runtimeData)
         setServiceData(serviceData)
+        setError(undefined)
       }
     } catch (error) {
-      console.error('Failed to fetch services metrics:', error)
+      setError(error)
     } finally {
       setInitialLoading(false)
     }
@@ -54,6 +57,10 @@ function ServicesMetrics ({
 
   useInterval(() => { getData() }, REFRESH_INTERVAL_METRICS)
   useEffect(() => { getData() }, [serviceId, showAggregatedMetrics])
+
+  if (error) {
+    return <ErrorComponent error={error} onClickDismiss={() => setError(undefined)} />
+  }
 
   return (
     <div className={`${styles.container} ${styles.content} ${commonStyles.smallFlexBlock} ${commonStyles.fullWidth} ${styles.flexGrow}`}>

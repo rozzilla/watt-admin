@@ -75,6 +75,35 @@ const _getRuntimes = async (url: string, request: Types.GetRuntimesRequest): Pro
 export const getRuntimes: Backend['getRuntimes'] = async (request: Types.GetRuntimesRequest): Promise<Types.GetRuntimesResponses> => {
   return await _getRuntimes(baseUrl, request)
 }
+const _getRuntimesPidHealth = async (url: string, request: Types.GetRuntimesPidHealthRequest): Promise<Types.GetRuntimesPidHealthResponses> => {
+  const headers: HeadersInit = {
+    ...defaultHeaders
+  }
+
+  const response = await fetch(`${url}/runtimes/${request.path['pid']}/health`, {
+    headers,
+    ...defaultFetchParams
+  })
+
+  const jsonResponses = [200]
+  if (jsonResponses.includes(response.status)) {
+    return {
+      statusCode: response.status as 200,
+      headers: headersToJSON(response.headers),
+      body: await response.json()
+    }
+  }
+  const responseType = response.headers.get('content-type')?.startsWith('application/json') ? 'json' : 'text'
+  return {
+    statusCode: response.status as 200,
+    headers: headersToJSON(response.headers),
+    body: await response[responseType]()
+  }
+}
+
+export const getRuntimesPidHealth: Backend['getRuntimesPidHealth'] = async (request: Types.GetRuntimesPidHealthRequest): Promise<Types.GetRuntimesPidHealthResponses> => {
+  return await _getRuntimesPidHealth(baseUrl, request)
+}
 const _getRuntimesPidMetrics = async (url: string, request: Types.GetRuntimesPidMetricsRequest): Promise<Types.GetRuntimesPidMetricsResponses> => {
   const headers: HeadersInit = {
     ...defaultHeaders
@@ -264,6 +293,7 @@ export default function build (url: string, options?: BuildOptions) {
   }
   return {
     getRuntimes: _getRuntimes.bind(url, ...arguments),
+    getRuntimesPidHealth: _getRuntimesPidHealth.bind(url, ...arguments),
     getRuntimesPidMetrics: _getRuntimesPidMetrics.bind(url, ...arguments),
     getRuntimesPidMetricsServiceId: _getRuntimesPidMetricsServiceId.bind(url, ...arguments),
     getRuntimesPidServices: _getRuntimesPidServices.bind(url, ...arguments),

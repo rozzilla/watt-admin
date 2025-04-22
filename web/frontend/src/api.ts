@@ -1,4 +1,4 @@
-import { getRuntimes, getRuntimesPidMetrics, getRuntimesPidMetricsServiceId, getRuntimesPidServices, postRuntimesPidRestart, setBaseUrl } from './client/backend'
+import { getRuntimes, getRuntimesPidHealth, getRuntimesPidMetrics, getRuntimesPidMetricsServiceId, getRuntimesPidServices, postRuntimesPidRestart, setBaseUrl } from './client/backend'
 import { subtractSecondsFromDate } from './utilities/dates'
 
 const host = '/api'
@@ -14,7 +14,7 @@ export const getApiApplication = async () => {
     return { id, url, name, pltVersion, lastStarted }
   }
 
-  return { id: 0, lastStarted: '', name: '', url: '' }
+  throw new Error('No available runtime')
 }
 
 // This is to avoid calling npm registry every time we run the method below
@@ -40,12 +40,21 @@ export const getLogs = async (id: number) => {
   return data
 }
 
+export const getServiceHealth = async (pid: number) => {
+  const { body: { status } } = await getRuntimesPidHealth({ path: { pid } })
+  if (status === 'KO') {
+    throw new Error(`Service with pid ${pid} is currently down`)
+  }
+}
+
 export const getApiMetricsPod = async (pid: number) => {
+  await getServiceHealth(pid)
   const { body } = await getRuntimesPidMetrics({ path: { pid } })
   return body
 }
 
 export const getApiMetricsPodService = async (pid: number, serviceId: string) => {
+  await getServiceHealth(pid)
   const { body } = await getRuntimesPidMetricsServiceId({ path: { pid, serviceId } })
   return body
 }
