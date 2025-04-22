@@ -31,6 +31,7 @@
                   "type": "array",
                   "items": {
                     "type": "object",
+                    "additionalProperties": false,
                     "properties": {
                       "pid": {
                         "type": "integer"
@@ -153,11 +154,13 @@
               "application/json": {
                 "schema": {
                   "type": "object",
+                  "additionalProperties": false,
                   "properties": {
                     "dataMem": {
                       "type": "array",
                       "items": {
                         "type": "object",
+                        "additionalProperties": false,
                         "properties": {
                           "date": {
                             "type": "string",
@@ -193,6 +196,7 @@
                       "type": "array",
                       "items": {
                         "type": "object",
+                        "additionalProperties": false,
                         "properties": {
                           "date": {
                             "type": "string",
@@ -216,6 +220,7 @@
                       "type": "array",
                       "items": {
                         "type": "object",
+                        "additionalProperties": false,
                         "properties": {
                           "date": {
                             "type": "string",
@@ -243,6 +248,7 @@
                       "type": "array",
                       "items": {
                         "type": "object",
+                        "additionalProperties": false,
                         "properties": {
                           "date": {
                             "type": "string",
@@ -303,11 +309,13 @@
               "application/json": {
                 "schema": {
                   "type": "object",
+                  "additionalProperties": false,
                   "properties": {
                     "dataMem": {
                       "type": "array",
                       "items": {
                         "type": "object",
+                        "additionalProperties": false,
                         "properties": {
                           "date": {
                             "type": "string",
@@ -343,6 +351,7 @@
                       "type": "array",
                       "items": {
                         "type": "object",
+                        "additionalProperties": false,
                         "properties": {
                           "date": {
                             "type": "string",
@@ -366,6 +375,7 @@
                       "type": "array",
                       "items": {
                         "type": "object",
+                        "additionalProperties": false,
                         "properties": {
                           "date": {
                             "type": "string",
@@ -393,6 +403,170 @@
                       "type": "array",
                       "items": {
                         "type": "object",
+                        "additionalProperties": false,
+                        "properties": {
+                          "date": {
+                            "type": "string",
+                            "format": "date-time"
+                          },
+                          "count": {
+                            "type": "number"
+                          },
+                          "rps": {
+                            "type": "number"
+                          }
+                        },
+                        "required": [
+                          "date",
+                          "count",
+                          "rps"
+                        ]
+                      }
+                    }
+                  },
+                  "required": [
+                    "dataMem",
+                    "dataCpu",
+                    "dataLatency",
+                    "dataReq"
+                  ]
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/runtimes/{pid}/metrics/{serviceId}/{workerId}": {
+      "get": {
+        "parameters": [
+          {
+            "schema": {
+              "type": "number"
+            },
+            "in": "path",
+            "name": "pid",
+            "required": true
+          },
+          {
+            "schema": {
+              "type": "string"
+            },
+            "in": "path",
+            "name": "serviceId",
+            "required": true
+          },
+          {
+            "schema": {
+              "type": "number"
+            },
+            "in": "path",
+            "name": "workerId",
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Default Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "additionalProperties": false,
+                  "properties": {
+                    "dataMem": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "additionalProperties": false,
+                        "properties": {
+                          "date": {
+                            "type": "string",
+                            "format": "date-time"
+                          },
+                          "rss": {
+                            "type": "number"
+                          },
+                          "totalHeap": {
+                            "type": "number"
+                          },
+                          "usedHeap": {
+                            "type": "number"
+                          },
+                          "newSpace": {
+                            "type": "number"
+                          },
+                          "oldSpace": {
+                            "type": "number"
+                          }
+                        },
+                        "required": [
+                          "date",
+                          "rss",
+                          "totalHeap",
+                          "usedHeap",
+                          "newSpace",
+                          "oldSpace"
+                        ]
+                      }
+                    },
+                    "dataCpu": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "additionalProperties": false,
+                        "properties": {
+                          "date": {
+                            "type": "string",
+                            "format": "date-time"
+                          },
+                          "cpu": {
+                            "type": "number"
+                          },
+                          "eventLoop": {
+                            "type": "number"
+                          }
+                        },
+                        "required": [
+                          "date",
+                          "cpu",
+                          "eventLoop"
+                        ]
+                      }
+                    },
+                    "dataLatency": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "additionalProperties": false,
+                        "properties": {
+                          "date": {
+                            "type": "string",
+                            "format": "date-time"
+                          },
+                          "p90": {
+                            "type": "number"
+                          },
+                          "p95": {
+                            "type": "number"
+                          },
+                          "p99": {
+                            "type": "number"
+                          }
+                        },
+                        "required": [
+                          "date",
+                          "p90",
+                          "p95",
+                          "p99"
+                        ]
+                      }
+                    },
+                    "dataReq": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "additionalProperties": false,
                         "properties": {
                           "date": {
                             "type": "string",
