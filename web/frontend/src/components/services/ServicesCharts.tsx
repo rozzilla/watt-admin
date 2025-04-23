@@ -4,7 +4,7 @@ import commonStyles from '../../styles/CommonStyles.module.css'
 import styles from './ServicesCharts.module.css'
 import { BLACK_RUSSIAN, MEDIUM, TRANSPARENT, WHITE } from '@platformatic/ui-components/src/components/constants'
 import useAdminStore from '../../useAdminStore'
-import ServicesSelectorForCharts from './ServicesSelectorForCharts'
+import ServicesSelectorForCharts, { hasMultipleWorkers, ThreadIndex } from './ServicesSelectorForCharts'
 import { BorderedBox, Icons } from '@platformatic/ui-components'
 import ServicesMetrics from '../../components/metrics/ServicesMetrics'
 import { POD_SERVICES_PATH } from '../../ui-constants'
@@ -19,6 +19,7 @@ const ServicesCharts: React.FC = () => {
   const [showAggregatedMetrics, setShowAggregatedMetrics] = useState(true)
   const [services, setServices] = useState<ServiceData[]>([])
   const [serviceSelected, setServiceSelected] = useState<ServiceData>({ id: '', selected: false })
+  const [threadIndex, setThreadIndex] = useState<ThreadIndex>()
 
   useEffect(() => {
     setCurrentPage(POD_SERVICES_PATH)
@@ -63,12 +64,27 @@ const ServicesCharts: React.FC = () => {
               key={serviceSelected.id}
               services={services}
               serviceSelected={serviceSelected}
-              handleClickService={(service) => setServiceSelected(service)}
+              handleClickService={(service) => {
+                setServiceSelected(service)
+                if (hasMultipleWorkers(service.workers)) {
+                  setThreadIndex('all')
+                } else {
+                  setThreadIndex(undefined)
+                }
+              }}
+              handleClickThread={(threadIndex) => {
+                if (hasMultipleWorkers(serviceSelected.workers)) {
+                  setThreadIndex(threadIndex)
+                } else {
+                  setThreadIndex(undefined)
+                }
+              }}
               showAggregatedMetrics={showAggregatedMetrics}
               handleChangeShowAggregateMetrics={() => setShowAggregatedMetrics(!showAggregatedMetrics)}
             />
             <ServicesMetrics
-              serviceId={serviceSelected.id}
+              threadIndex={threadIndex}
+              service={serviceSelected}
               showAggregatedMetrics={showAggregatedMetrics}
             />
           </div>

@@ -29,6 +29,7 @@ interface NodeJSMetricProps {
   showLegend?: boolean;
   timeline?: boolean;
   slimCss?: boolean;
+  threadName?: string;
 }
 
 export const generateLegend = (options: string[], colorStyles: Record<string, string>): React.ReactElement => {
@@ -61,7 +62,8 @@ function NodeJSMetric ({
   chartTooltipPosition = POSITION_ABSOLUTE,
   showLegend = true,
   timeline = false,
-  slimCss = false
+  slimCss = false,
+  threadName
 }: NodeJSMetricProps): React.ReactElement {
   const backgroundColor = RICH_BLACK
   const [showNoResult, setShowNoResult] = useState(false)
@@ -154,6 +156,11 @@ function NodeJSMetric ({
             <span className={`${typographyStyles.desktopBodySemibold} ${typographyStyles.textWhite}`}>{title}</span>
             <span className={`${typographyStyles.desktopBodySmall} ${typographyStyles.textWhite} ${typographyStyles.opacity70}`}>{unit}</span>
           </div>
+
+          {threadName &&
+            <div className={`${commonStyles.tinyFlexRow} ${commonStyles.itemsCenter}`}>
+              <div className={`${styles.label} ${typographyStyles.desktopBodySmallest} ${typographyStyles.opacity70} ${typographyStyles.textWhite}`}> {threadName} </div>
+            </div>}
           {!showNoResult && showLegend && generateLegend(labels, colorStyles)}
         </div>
         <div className={`${commonStyles.smallFlexRow} ${commonStyles.fullWidth} ${commonStyles.justifyBetween} ${commonStyles.itemsCenter} ${commonStyles.fullHeight}`}>
