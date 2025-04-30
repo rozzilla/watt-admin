@@ -2,9 +2,8 @@ import React, { useState } from 'react'
 import typographyStyles from '../../styles/Typography.module.css'
 import commonStyles from '../../styles/CommonStyles.module.css'
 import styles from './ErrorComponent.module.css'
-import Icons from '@platformatic/ui-components/src/components/icons'
 import { ANTI_FLASH_WHITE, DULLS_BACKGROUND_COLOR, ERROR_RED, LARGE, SMALL, RICH_BLACK, WHITE, TRANSPARENT, OPACITY_30, MARGIN_0 } from '@platformatic/ui-components/src/components/constants'
-import { BorderedBox, Button, HorizontalSeparator, Tooltip } from '@platformatic/ui-components'
+import { Icons, BorderedBox, Button, HorizontalSeparator, Tooltip } from '@platformatic/ui-components'
 import tooltipStyles from '../../styles/TooltipStyles.module.css'
 
 interface ErrorComponentProps {
