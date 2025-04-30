@@ -3,7 +3,7 @@ import { TRANSPARENT, RICH_BLACK } from '@platformatic/ui-components/src/compone
 import styles from './ServicesMetrics.module.css'
 import commonStyles from '../../styles/CommonStyles.module.css'
 import { BorderedBox } from '@platformatic/ui-components'
-import { getApiMetricsPodService, getApiMetricsPod } from '../../api'
+import { getApiMetricsPodService, getApiMetricsPod, getApiMetricsPodWorker } from '../../api'
 import { useInterval } from '../../hooks/useInterval'
 import useAdminStore from '../../useAdminStore'
 import { REFRESH_INTERVAL_METRICS, POSITION_FIXED, MEMORY_UNIT_METRICS, LATENCY_UNIT_METRICS, CPU_UNIT_METRICS, REQ_UNIT_METRICS } from '../../ui-constants'
@@ -14,16 +14,21 @@ import colorSetReq from './req.module.css'
 import NodeJSMetric, { generateLegend } from '../application/NodeJSMetric'
 import { GetRuntimesPidMetricsResponseOK } from 'src/client/backend-types'
 import ErrorComponent from '../errors/ErrorComponent'
+import { ServiceData } from 'src/types'
+import { getThreadName, ThreadIndex } from '../services/ServicesSelectorForCharts'
 
 interface ServicesMetricsProps {
-  serviceId: string;
+  service: ServiceData;
+  threadIndex?: ThreadIndex;
   showAggregatedMetrics: boolean;
 }
 
 function ServicesMetrics ({
-  serviceId,
+  threadIndex,
+  service: { id: serviceId },
   showAggregatedMetrics
 }: ServicesMetricsProps): React.ReactElement {
+  const threadName = threadIndex ? getThreadName(threadIndex) : ''
   const [error, setError] = useState<unknown>(undefined)
   const [initialLoading, setInitialLoading] = useState(true)
   const [serviceData, setServiceData] = useState<GetRuntimesPidMetricsResponseOK>({
@@ -43,7 +48,8 @@ function ServicesMetrics ({
   const getData = async (): Promise<void> => {
     try {
       if (serviceId && runtimePid) {
-        const [runtimeData, serviceData] = await Promise.all([getApiMetricsPod(runtimePid), getApiMetricsPodService(runtimePid, serviceId)])
+        const detailedMetricsPromise = (threadIndex && threadIndex !== 'all') ? getApiMetricsPodWorker(runtimePid, serviceId, threadIndex - 1) : getApiMetricsPodService(runtimePid, serviceId)
+        const [runtimeData, serviceData] = await Promise.all([getApiMetricsPod(runtimePid), detailedMetricsPromise])
         setAllData(runtimeData)
         setServiceData(serviceData)
         setError(undefined)
@@ -56,7 +62,7 @@ function ServicesMetrics ({
   }
 
   useInterval(() => { getData() }, REFRESH_INTERVAL_METRICS)
-  useEffect(() => { getData() }, [serviceId, showAggregatedMetrics])
+  useEffect(() => { getData() }, [serviceId, showAggregatedMetrics, threadIndex])
 
   if (error) {
     return <ErrorComponent error={error} onClickDismiss={() => setError(undefined)} />
@@ -98,6 +104,7 @@ function ServicesMetrics ({
               showLegend={false}
               timeline
               slimCss
+              threadName={threadName}
             />
           </BorderedBox>
 
@@ -164,6 +171,7 @@ function ServicesMetrics ({
               showLegend={false}
               timeline
               slimCss
+              threadName={threadName}
             />
           </BorderedBox>
 
@@ -220,6 +228,7 @@ function ServicesMetrics ({
                 unit: LATENCY_UNIT_METRICS
               }]}
               showLegend={false}
+              threadName={threadName}
               slimCss
               timeline
             />
@@ -274,6 +283,7 @@ function ServicesMetrics ({
                 unit: REQ_UNIT_METRICS
               }]}
               showLegend={false}
+              threadName={threadName}
               slimCss
               timeline
             />

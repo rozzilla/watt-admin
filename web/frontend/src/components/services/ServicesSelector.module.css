@@ -4,3 +4,16 @@
 .servicesContainer {
   @apply max-w-[227px]
 }
+.selectedThread {
+  @apply bg-white bg-opacity-30 text-white opacity-100;
+}
+.workerThreads {
+  @apply hover:bg-white hover:bg-opacity-15 hover:text-white hover:opacity-100;
+  font-size: 12px;
+  line-height: 18px;
+  font-weight: 300;
+  padding-top: 5px;
+  padding-bottom: 5px;
+  padding-left: 4px;
+  border-radius: 2px;
+}

@@ -6,25 +6,60 @@ import { OPACITY_100, OPACITY_15, OPACITY_30, RICH_BLACK, SMALL, TRANSPARENT, WH
 import { Icons, BorderedBox, Forms } from '@platformatic/ui-components'
 import { ServiceData } from 'src/types'
 
-interface ServiceProps {
-  id: string;
-  entrypoint?: boolean;
+export type ThreadIndex = number | 'all'
+
+interface ServiceProps extends ServiceData {
   isSelected: boolean;
-  onClickService?: () => void;
+  selectedThread?: ThreadIndex;
+  onClickService: () => void;
+  onSelectThread: (threadIndex: ThreadIndex) => void;
 }
 
-function Service ({ id, entrypoint, isSelected, onClickService = () => {} }: ServiceProps): React.ReactElement {
+export const getThreadName = (idx: ThreadIndex): string => idx === 'all' ? 'All Threads' : `Thread-${idx}`
+
+export const hasMultipleWorkers = (workers?: number): workers is number => workers ? workers > 1 : false
+
+function Service ({
+  id,
+  entrypoint,
+  isSelected,
+  workers,
+  onClickService,
+  selectedThread = 'all',
+  onSelectThread
+}: ServiceProps): React.ReactElement {
   const [selected] = useState(isSelected)
+  const multipleWorkers = hasMultipleWorkers(workers)
+  const showAllThreads = () => {
+    const allThreads = []
+    if (multipleWorkers) {
+      for (let i = 0; i <= workers; i++) {
+        const index = i === 0 ? 'all' : i
+        allThreads.push(
+          <div
+            key={index}
+            className={`${commonStyles.fullWidth} ${commonStyles.justifyBetween} ${styles.workerThreads} ${typographyStyles.opacity70} ${selectedThread === index && styles.selectedThread}`}
+            onClick={(e) => {
+              e.stopPropagation()
+              onSelectThread(index)
+            }}
+          >
+            {getThreadName(index)}
+          </div>)
+      }
+    }
+    return allThreads
+  }
 
   return (
     <BorderedBox
       classes={styles.boxService}
       color={TRANSPARENT}
-      backgroundColor={selected ? WHITE : RICH_BLACK}
-      backgroundColorOpacity={selected ? OPACITY_30 : OPACITY_100}
+      backgroundColor={selected && !multipleWorkers ? WHITE : RICH_BLACK}
+      backgroundColorOpacity={selected && !multipleWorkers ? OPACITY_30 : OPACITY_100}
       internalOverHandling
-      backgroundColorOpacityOver={OPACITY_15}
-      backgroundColorOver={WHITE}
+      backgroundColorOpacityOver={(!selected || !multipleWorkers) && OPACITY_15}
+      backgroundColorOver={(!selected || !multipleWorkers) && WHITE}
       clickable
       onClick={() => onClickService()}
     >
@@ -35,8 +70,9 @@ function Service ({ id, entrypoint, isSelected, onClickService = () => {} }: Ser
             {entrypoint &&
               <span className={`${typographyStyles.desktopBodySmallest} ${typographyStyles.textWhite} ${typographyStyles.opacity70}`}>(Entrypoint)</span>}
           </div>
-          <Icons.InternalLinkIcon color={WHITE} size={SMALL} />
+          {multipleWorkers && (selected ? <span><Icons.ArrowDownIcon color={WHITE} size={SMALL} /></span> : <span className={`${typographyStyles.opacity70}`}><Icons.ArrowRightIcon color={WHITE} size={SMALL} /></span>)}
         </div>
+        {multipleWorkers && selected && (<div className={`${commonStyles.fullWidth}`}>{showAllThreads()}</div>)}
       </div>
     </BorderedBox>
   )
@@ -44,19 +80,28 @@ function Service ({ id, entrypoint, isSelected, onClickService = () => {} }: Ser
 
 interface ServicesSelectorForChartsProps {
   services: ServiceData[];
-  handleClickService?: (service: ServiceData) => void;
   showAggregatedMetrics?: boolean;
-  handleChangeShowAggregateMetrics?: () => void;
+  handleClickService: (service: ServiceData) => void;
+  handleClickThread: (threadIndex: ThreadIndex) => void;
+  handleChangeShowAggregateMetrics: () => void;
   serviceSelected: ServiceData;
 }
 
 function ServicesSelectorForCharts ({
   services,
-  handleClickService = () => {},
+  handleClickService,
+  handleClickThread,
   showAggregatedMetrics = true,
-  handleChangeShowAggregateMetrics = () => {},
+  handleChangeShowAggregateMetrics,
   serviceSelected
 }: ServicesSelectorForChartsProps): React.ReactElement {
+  const [selectedThread, setSelectedThread] = useState<ThreadIndex>('all')
+
+  const handleThreadSelection = (threadIndex: ThreadIndex) => {
+    setSelectedThread(threadIndex)
+    handleClickThread(threadIndex)
+  }
+
   return (
     <div className={`${commonStyles.smallFlexBlock} ${commonStyles.fullWidth} ${styles.servicesContainer}`}>
       {services.length > 1 &&
@@ -69,12 +114,19 @@ function ServicesSelectorForCharts ({
           size={SMALL}
         />}
       <div className={`${commonStyles.tinyFlexBlock} ${commonStyles.fullWidth}`}>
-        {services.map(service => <Service
-          key={`${service.id}-$${service.selected}`}
-          {...service}
-          isSelected={serviceSelected.id === service.id}
-          onClickService={() => handleClickService(service)}
-                                 />)}
+        {services.map(service => {
+          const isSelected = serviceSelected.id === service.id
+          return (
+            <Service
+              key={`${service.id}-$${service.selected}`}
+              {...service}
+              isSelected={isSelected}
+              onClickService={() => handleClickService(service)}
+              selectedThread={isSelected ? selectedThread : 'all'}
+              onSelectThread={(threadIndex) => handleThreadSelection(threadIndex)}
+            />
+          )
+        })}
       </div>
     </div>
   )
