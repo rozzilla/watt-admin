@@ -205,6 +205,9 @@ export default async function (fastify: FastifyInstance) {
     websocket: true
   }, async (socket, { params: { pid } }) => {
     try {
+      if (!logStream[pid]) {
+        logStream[pid] = await api.getRuntimeAllLogsStream(pid)
+      }
       socket.on('close', () => {
         logStream[pid].destroy()
         delete logStream[pid]
