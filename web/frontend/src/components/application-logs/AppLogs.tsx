@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef, useCallback } from 'react'
+import React, { useState, useEffect, useRef } from 'react'
 import useWebSocket from 'react-use-websocket'
 import { RICH_BLACK, WHITE, TRANSPARENT, MARGIN_0, OPACITY_15 } from '@platformatic/ui-components/src/components/constants'
 import styles from './AppLogs.module.css'
@@ -48,33 +48,9 @@ const AppLogs: React.FC<AppLogsProps> = ({ filteredServices }) => {
   const [statusPausedLogs, setStatusPausedLogs] = useState('')
   const [filteredLogsLengthAtPause, setFilteredLogsLengthAtPause] = useState(0)
   const [error, setError] = useState<unknown>(undefined)
-  const [isPaused, setIsPaused] = useState(false)
 
   const protocol = window.location.protocol === 'https:' ? 'wss:' : 'ws:'
   const wsUrl = `${protocol}//${window.location.host}/api/runtimes/${runtimePid}/logs/ws`
-
-  const handleMessage = useCallback((event: MessageEvent) => {
-    console.log('the event', event)
-    try {
-      let logEntry: LogEntry
-      try {
-        logEntry = JSON.parse(event.data)
-      } catch (e) {
-        logEntry = {
-          level: 30,
-          time: new Date().toISOString(),
-          name: 'unknown',
-          msg: event.data
-        }
-      }
-
-      if (!isPaused) {
-        setApplicationLogs(prevLogs => [...prevLogs, logEntry])
-      }
-    } catch (err) {
-      console.error('Error processing log message:', err)
-    }
-  }, [isPaused])
 
   useWebSocket(wsUrl, {
     onOpen: () => {
@@ -82,7 +58,25 @@ const AppLogs: React.FC<AppLogsProps> = ({ filteredServices }) => {
       setLoading(false)
       setError(undefined)
     },
-    onMessage: handleMessage,
+    onMessage: (event: MessageEvent) => {
+      try {
+        let logEntry: LogEntry
+        try {
+          logEntry = JSON.parse(event.data)
+        } catch (e) {
+          logEntry = {
+            level: 30,
+            time: new Date().toISOString(),
+            name: 'unknown',
+            msg: event.data
+          }
+        }
+
+        setApplicationLogs(prevLogs => [...prevLogs, logEntry])
+      } catch (err) {
+        console.error('Error processing log message:', err)
+      }
+    },
     onError: (event) => {
       console.error('WebSocket error:', event)
       setError(new Error('Failed to connect to log stream'))
@@ -91,9 +85,9 @@ const AppLogs: React.FC<AppLogsProps> = ({ filteredServices }) => {
     onClose: () => {
       console.log('WebSocket disconnected')
     },
-    shouldReconnect: () => !!runtimePid,
-    reconnectAttempts: 10,
-    reconnectInterval: 3000
+    shouldReconnect: () => typeof runtimePid !== 'number',
+    reconnectAttempts: 5,
+    reconnectInterval: 2000,
   })
 
   useEffect(() => {
@@ -116,11 +110,13 @@ const AppLogs: React.FC<AppLogsProps> = ({ filteredServices }) => {
     if (statusPausedLogs) {
       switch (statusPausedLogs) {
         case STATUS_PAUSED_LOGS:
-          setIsPaused(true)
+          // callApiPauseLogs()
+          console.log('pause TODO')
           break
 
         case STATUS_RESUMED_LOGS:
-          setIsPaused(false)
+          console.log('resume TODO')
+          // callApiResumeLogs()
           break
 
         default:
@@ -221,12 +217,6 @@ const AppLogs: React.FC<AppLogsProps> = ({ filteredServices }) => {
     setLastScrollTop(st <= 0 ? 0 : st)
   }
 
-  // Clear logs button
-  function clearLogs (): void {
-    setApplicationLogs([])
-    setFilteredLogs([])
-  }
-
   if (error) {
     return <ErrorComponent error={error} onClickDismiss={() => setError(undefined)} />
   }
@@ -272,24 +262,6 @@ const AppLogs: React.FC<AppLogsProps> = ({ filteredServices }) => {
                   color={WHITE}
                   backgroundColor={TRANSPARENT}
                   selected={displayLog === RAW}
-                  textClass={typographyStyles.desktopButtonSmall}
-                />
-                <Button
-                  type='button'
-                  paddingClass={commonStyles.smallButtonPadding}
-                  label={isPaused ? 'Resume' : 'Pause'}
-                  onClick={() => setIsPaused(!isPaused)}
-                  color={WHITE}
-                  backgroundColor={TRANSPARENT}
-                  textClass={typographyStyles.desktopButtonSmall}
-                />
-                <Button
-                  type='button'
-                  paddingClass={commonStyles.smallButtonPadding}
-                  label='Clear'
-                  onClick={clearLogs}
-                  color={WHITE}
-                  backgroundColor={TRANSPARENT}
                   textClass={typographyStyles.desktopButtonSmall}
                 />
               </div>

@@ -236,17 +236,9 @@ export default async function (fastify: FastifyInstance) {
         }
         delete logStream[pid]
       })
-
-      logStream[pid].on('end', () => {
-        if (socket.readyState === WebSocket.OPEN) {
-          socket.close()
-          delete logStream[pid]
-        }
-      })
     } catch (err) {
       fastify.log.error({ err }, 'Fatal error caught on log stream')
       if (socket.readyState === WebSocket.OPEN) {
-        socket.send(JSON.stringify({ error: 'Failed to get log stream' }))
         socket.close()
         delete logStream[pid]
       }
