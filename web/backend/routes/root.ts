@@ -1,8 +1,10 @@
+import split2 from 'split2'
 import { FastifyInstance } from 'fastify'
 import { JsonSchemaToTsProvider } from '@fastify/type-provider-json-schema-to-ts'
 import { RuntimeApiClient } from '@platformatic/control'
 import { metricResponseSchema, PidParam, pidParamSchema, SelectableRuntime, selectableRuntimeSchema } from '../schemas'
 import BodyReadable from 'undici/types/readable'
+import { pipeline } from 'node:stream/promises'
 
 export default async function (fastify: FastifyInstance) {
   const typedFastify = fastify.withTypeProvider<JsonSchemaToTsProvider>()
@@ -208,14 +210,22 @@ export default async function (fastify: FastifyInstance) {
       if (!logStream[pid]) {
         logStream[pid] = await api.getRuntimeAllLogsStream(pid)
       }
+
       socket.on('close', () => {
-        logStream[pid].destroy()
+        logStream[pid]?.destroy()
         delete logStream[pid]
       })
 
-      logStream[pid].on('data', (chunk) => {
-        fastify.log.info({ chunk }, 'Incoming log stream data chunk')
-        socket.send(chunk.toString())
+      logStream[pid].on('data', async (chunk) => {
+        await pipeline(
+          chunk.toString(),
+          split2(),
+          async function * (source) {
+            for await (const line of source) {
+              socket.send(line)
+            }
+          }
+        )
       })
 
       logStream[pid].on('error', (err) => {

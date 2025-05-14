@@ -1,7 +1,14 @@
 import test from 'node:test'
 import assert from 'node:assert'
 import { getServer, startWatt, loadMetrics } from '../helper'
-import type { Log } from '../../utils/log'
+
+type Log = {
+  level: number,
+  time: number,
+  pid: number,
+  hostname: string,
+  msg: string
+}
 
 test('no runtime running', async (t) => {
   const server = await getServer(t)
