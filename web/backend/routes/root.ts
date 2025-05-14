@@ -3,7 +3,6 @@ import { FastifyInstance } from 'fastify'
 import { JsonSchemaToTsProvider } from '@fastify/type-provider-json-schema-to-ts'
 import { RuntimeApiClient } from '@platformatic/control'
 import { metricResponseSchema, PidParam, pidParamSchema, SelectableRuntime, selectableRuntimeSchema } from '../schemas'
-import BodyReadable from 'undici/types/readable'
 import { pipeline } from 'node:stream/promises'
 
 export default async function (fastify: FastifyInstance) {
@@ -201,22 +200,18 @@ export default async function (fastify: FastifyInstance) {
     return api.getRuntimeServices(request.params.pid)
   })
 
-  const logStream: Record<number, BodyReadable> = {}
   typedFastify.get<{ Params: PidParam }>('/runtimes/:pid/logs/ws', {
     schema: { params: pidParamSchema, hide: true },
     websocket: true
   }, async (socket, { params: { pid } }) => {
     try {
-      if (!logStream[pid]) {
-        logStream[pid] = await api.getRuntimeAllLogsStream(pid)
-      }
+      const clientStream = await api.getRuntimeAllLogsStream(pid)
 
       socket.on('close', () => {
-        logStream[pid]?.destroy()
-        delete logStream[pid]
+        clientStream.destroy()
       })
 
-      logStream[pid].on('data', async (chunk) => {
+      clientStream.on('data', async (chunk) => {
         await pipeline(
           chunk.toString(),
           split2(),
@@ -228,19 +223,17 @@ export default async function (fastify: FastifyInstance) {
         )
       })
 
-      logStream[pid].on('error', (err) => {
+      clientStream.on('error', (err) => {
         fastify.log.error({ err }, 'Error during log stream')
         if (socket.readyState === WebSocket.OPEN) {
           socket.send(JSON.stringify({ error: err.message }))
           socket.close()
         }
-        delete logStream[pid]
       })
     } catch (err) {
       fastify.log.error({ err }, 'Fatal error caught on log stream')
       if (socket.readyState === WebSocket.OPEN) {
         socket.close()
-        delete logStream[pid]
       }
     }
   })
