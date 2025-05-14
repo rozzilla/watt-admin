@@ -7,6 +7,12 @@
         "openapi": {
           "url": "/documentation/json",
           "prefix": "/api"
+        },
+        "proxy": {
+          "ws": {
+            "upstream": "/api"
+          },
+          "prefix": "/api"
         }
       },
       {
