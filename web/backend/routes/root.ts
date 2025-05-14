@@ -2,6 +2,7 @@ import { FastifyInstance } from 'fastify'
 import { JsonSchemaToTsProvider } from '@fastify/type-provider-json-schema-to-ts'
 import { RuntimeApiClient } from '@platformatic/control'
 import { metricResponseSchema, PidParam, pidParamSchema, SelectableRuntime, selectableRuntimeSchema } from '../schemas'
+import BodyReadable from 'undici/types/readable'
 
 export default async function (fastify: FastifyInstance) {
   const typedFastify = fastify.withTypeProvider<JsonSchemaToTsProvider>()
@@ -198,57 +199,45 @@ export default async function (fastify: FastifyInstance) {
     return api.getRuntimeServices(request.params.pid)
   })
 
-  // const logStream: Record<number, BodyReadable> = {}
+  const logStream: Record<number, BodyReadable> = {}
   typedFastify.get<{ Params: PidParam }>('/runtimes/:pid/logs/ws', {
     schema: { params: pidParamSchema, hide: true },
     websocket: true
-  // }, async (socket, { params: { pid } }) => {
-  }, async (socket) => {
-    // try {
+  }, async (socket, { params: { pid } }) => {
+    try {
+      socket.on('close', () => {
+        logStream[pid].destroy()
+        delete logStream[pid]
+      })
 
-    // FIXME: remove this test logic (that is exactly the same as on `/test.ts`)
-    const interval = setInterval(() => {
-      const message = `Current time: ${new Date().toISOString()}`
-      socket.send(message)
-    }, 1000)
+      logStream[pid].on('data', (chunk) => {
+        fastify.log.info({ chunk }, 'Incoming log stream data chunk')
+        socket.send(chunk.toString())
+      })
 
-    socket.on('close', () => {
-      clearInterval(interval)
-    })
+      logStream[pid].on('error', (err) => {
+        fastify.log.error({ err }, 'Error during log stream')
+        if (socket.readyState === WebSocket.OPEN) {
+          socket.send(JSON.stringify({ error: err.message }))
+          socket.close()
+        }
+        delete logStream[pid]
+      })
 
-    //   socket.on('close', () => {
-    //     logStream[pid].destroy()
-    //     delete logStream[pid]
-    //   })
-
-    //   logStream[pid].on('data', (chunk) => {
-    //     fastify.log.info({ chunk }, 'Incoming log stream data chunk')
-    //     socket.send(chunk.toString())
-    //   })
-
-    //   logStream[pid].on('error', (err) => {
-    //     fastify.log.error({ err }, 'Error during log stream')
-    //     if (socket.readyState === WebSocket.OPEN) {
-    //       socket.send(JSON.stringify({ error: err.message }))
-    //       socket.close()
-    //     }
-    //     delete logStream[pid]
-    //   })
-
-    //   logStream[pid].on('end', () => {
-    //     if (socket.readyState === WebSocket.OPEN) {
-    //       socket.close()
-    //       delete logStream[pid]
-    //     }
-    //   })
-    // } catch (err) {
-    //   fastify.log.error({ err }, 'Fatal error caught on log stream')
-    //   if (socket.readyState === WebSocket.OPEN) {
-    //     socket.send(JSON.stringify({ error: 'Failed to get log stream' }))
-    //     socket.close()
-    //     delete logStream[pid]
-    //   }
-    // }
+      logStream[pid].on('end', () => {
+        if (socket.readyState === WebSocket.OPEN) {
+          socket.close()
+          delete logStream[pid]
+        }
+      })
+    } catch (err) {
+      fastify.log.error({ err }, 'Fatal error caught on log stream')
+      if (socket.readyState === WebSocket.OPEN) {
+        socket.send(JSON.stringify({ error: 'Failed to get log stream' }))
+        socket.close()
+        delete logStream[pid]
+      }
+    }
   })
 
   typedFastify.get('/runtimes/:pid/openapi/:serviceId', {
