@@ -51,7 +51,7 @@ const AppLogs: React.FC<AppLogsProps> = ({ filteredServices }) => {
   const [isPaused, setIsPaused] = useState(false)
 
   const protocol = window.location.protocol === 'https:' ? 'wss:' : 'ws:'
-  const wsUrl = `${protocol}//${window.location.host}/runtimes/${runtimePid}/logs/ws`
+  const wsUrl = `${protocol}//${window.location.host}/api/runtimes/${runtimePid}/logs/ws`
 
   const handleMessage = useCallback((event: MessageEvent) => {
     console.log('the event', event)

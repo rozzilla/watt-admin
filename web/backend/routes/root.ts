@@ -199,9 +199,8 @@ export default async function (fastify: FastifyInstance) {
   })
 
   // const logStream: Record<number, BodyReadable> = {}
-  // typedFastify.get<{ Params: PidParam }>('/runtimes/:pid/logs/ws', {
-  typedFastify.get<{ Params: PidParam }>('/ws', {
-    schema: { params: pidParamSchema },
+  typedFastify.get<{ Params: PidParam }>('/runtimes/:pid/logs/ws', {
+    schema: { params: pidParamSchema, hide: true },
     websocket: true
   // }, async (socket, { params: { pid } }) => {
   }, async (socket) => {

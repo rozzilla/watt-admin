@@ -10,7 +10,6 @@
         },
         "proxy": {
           "ws": {
-            "upstream": "/api"
           },
           "prefix": "/api"
         }
