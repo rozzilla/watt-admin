@@ -204,15 +204,15 @@ export default async function (fastify: FastifyInstance) {
     schema: { params: pidParamSchema, hide: true },
     websocket: true
   }, async (socket, { params: { pid } }) => {
-    const clientStream = api.getRuntimeLiveLogsStream(pid)
+    try {
+      const clientStream = api.getRuntimeLiveLogsStream(pid)
 
-    socket.on('close', () => {
-      clientStream.destroy()
-    })
+      socket.on('close', () => {
+        clientStream.destroy()
+      })
 
-    clientStream.on('data', async (chunk) => {
       await pipeline(
-        chunk.toString(),
+        clientStream,
         split2(),
         async function * (source) {
           for await (const line of source) {
@@ -220,15 +220,10 @@ export default async function (fastify: FastifyInstance) {
           }
         }
       )
-    })
-
-    clientStream.on('error', (err) => {
-      fastify.log.error({ err }, 'Error during log stream')
-      if (socket.readyState === WebSocket.OPEN) {
-        socket.send(JSON.stringify({ error: err.message }))
-        socket.close()
-      }
-    })
+    } catch (error) {
+      socket.send(JSON.stringify({ error }))
+      socket.close()
+    }
   })
 
   typedFastify.get('/runtimes/:pid/openapi/:serviceId', {
