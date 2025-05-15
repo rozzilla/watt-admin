@@ -125,3 +125,42 @@ test('runtime is running', async (t) => {
   })
   assert.strictEqual(restart.statusCode, 200, 'check for restart endpoint')
 })
+
+test('runtime logs websocket', async (t) => {
+  const port = await startWatt(t)
+  const server = await getServer(t)
+
+  const res = await server.inject({
+    url: '/runtimes?includeAdmin=true'
+  })
+  assert.strictEqual(res.statusCode, 200, 'runtimes endpoint')
+  const [runtime] = res.json()
+  const runtimePid = runtime.pid
+
+  const WebSocket = require('ws')
+  const ws = new WebSocket(`ws://localhost:${port}/runtimes/${runtimePid}/logs/ws`)
+
+  await new Promise((resolve, reject) => {
+    const timeout = setTimeout(() => {
+      reject(new Error('WebSocket connection timed out'))
+    }, 3000)
+
+    ws.on('open', () => {
+      clearTimeout(timeout)
+
+      setTimeout(() => {
+        ws.close()
+        resolve(null)
+      }, 1000)
+    })
+
+    ws.on('error', (err: unknown) => {
+      clearTimeout(timeout)
+      reject(err)
+    })
+
+    ws.on('message', (data: string) => {
+      assert.ok(data, 'Received log message from websocket')
+    })
+  })
+})
