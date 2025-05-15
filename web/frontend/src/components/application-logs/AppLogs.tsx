@@ -199,7 +199,7 @@ const AppLogs: React.FC<AppLogsProps> = ({ filteredServices }) => {
 
   function renderLogs (): React.ReactNode {
     if (displayLog === PRETTY) {
-      return filteredLogs.map((log, index) => <Log key={`${index}-${filterLogsByLevel}`} log={log} onClickArrow={() => handlingClickArrow()} />)
+      return filteredLogs.map((log, index) => <Log key={index} log={log} onClickArrow={() => handlingClickArrow()} />)
     }
 
     return (
