@@ -72,7 +72,13 @@ const AppLogs: React.FC<AppLogsProps> = ({ filteredServices }) => {
           }
         }
 
-        setApplicationLogs(prevLogs => [...prevLogs, logEntry])
+        setApplicationLogs(prevLogs => {
+          const newLogs = [...prevLogs, logEntry]
+          if (newLogs.length >= 100) {
+            newLogs.shift()
+          }
+          return newLogs
+        })
       } catch (err) {
         console.error('Error processing log message:', err)
       }
