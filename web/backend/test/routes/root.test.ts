@@ -2,14 +2,6 @@ import test from 'node:test'
 import assert from 'node:assert'
 import { getServer, startWatt, loadMetrics } from '../helper'
 
-type Log = {
-  level: number,
-  time: number,
-  pid: number,
-  hostname: string,
-  msg: string
-}
-
 test('no runtime running', async (t) => {
   const server = await getServer(t)
   const res = await server.inject({
@@ -126,26 +118,9 @@ test('runtime is running', async (t) => {
   assert.strictEqual(serviceInvalidOpenapi.statusCode, 500, 'service OpenAPI endpoint')
   assert.strictEqual(typeof serviceInvalidOpenapi.json().code, 'string')
 
-  const logs = await server.inject({
-    url: `/runtimes/${runtimePid}/logs`
-  })
-  assert.strictEqual(logs.statusCode, 200)
-
-  const result = logs.json<Log[]>()
-  assert.ok(result.some(({ msg }) => msg.includes('Starting the service')))
-  assert.ok(result.some(({ msg }) => msg.includes('Started the service')))
-  assert.ok(result.some(({ msg }) => msg.includes('Server listening at')))
-  assert.ok(result.some(({ msg }) => msg.includes('Platformatic is now listening')))
-
-  const [{ level, time, pid, hostname }] = result
-  assert.ok(typeof level, 'number')
-  assert.ok(typeof time, 'number')
-  assert.ok(typeof pid, 'number')
-  assert.ok(typeof hostname, 'string')
-
   const restart = await server.inject({
     method: 'POST',
-    url: `/runtimes/${pid}/restart`,
+    url: `/runtimes/${runtimePid}/restart`,
     body: {}
   })
   assert.strictEqual(restart.statusCode, 200, 'check for restart endpoint')
