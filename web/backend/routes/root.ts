@@ -204,38 +204,31 @@ export default async function (fastify: FastifyInstance) {
     schema: { params: pidParamSchema, hide: true },
     websocket: true
   }, async (socket, { params: { pid } }) => {
-    try {
-      const clientStream = await api.getRuntimeAllLogsStream(pid)
+    const clientStream = api.getRuntimeLiveLogsStream(pid)
 
-      socket.on('close', () => {
-        clientStream.destroy()
-      })
+    socket.on('close', () => {
+      clientStream.destroy()
+    })
 
-      clientStream.on('data', async (chunk) => {
-        await pipeline(
-          chunk.toString(),
-          split2(),
-          async function * (source) {
-            for await (const line of source) {
-              socket.send(line)
-            }
+    clientStream.on('data', async (chunk) => {
+      await pipeline(
+        chunk.toString(),
+        split2(),
+        async function * (source) {
+          for await (const line of source) {
+            socket.send(line)
           }
-        )
-      })
-
-      clientStream.on('error', (err) => {
-        fastify.log.error({ err }, 'Error during log stream')
-        if (socket.readyState === WebSocket.OPEN) {
-          socket.send(JSON.stringify({ error: err.message }))
-          socket.close()
         }
-      })
-    } catch (err) {
-      fastify.log.error({ err }, 'Fatal error caught on log stream')
+      )
+    })
+
+    clientStream.on('error', (err) => {
+      fastify.log.error({ err }, 'Error during log stream')
       if (socket.readyState === WebSocket.OPEN) {
+        socket.send(JSON.stringify({ error: err.message }))
         socket.close()
       }
-    }
+    })
   })
 
   typedFastify.get('/runtimes/:pid/openapi/:serviceId', {
