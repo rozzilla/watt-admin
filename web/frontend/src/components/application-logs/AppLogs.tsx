@@ -54,7 +54,6 @@ const AppLogs: React.FC<AppLogsProps> = ({ filteredServices }) => {
 
   useWebSocket(wsUrl, {
     onOpen: () => {
-      console.log('WebSocket connected')
       setLoading(false)
       setError(undefined)
     },
@@ -80,16 +79,12 @@ const AppLogs: React.FC<AppLogsProps> = ({ filteredServices }) => {
           return newLogs
         })
       } catch (err) {
-        console.error('Error processing log message:', err)
+        setError(err)
       }
     },
-    onError: (event) => {
-      console.error('WebSocket error:', event)
-      setError(new Error('Failed to connect to log stream'))
+    onError: (error) => {
+      setError(error)
       setLoading(false)
-    },
-    onClose: () => {
-      console.log('WebSocket disconnected')
     },
     shouldReconnect: () => typeof runtimePid !== 'number',
     reconnectAttempts: 5,
