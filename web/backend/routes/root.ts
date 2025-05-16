@@ -1,3 +1,4 @@
+import type { WebSocket } from 'ws'
 import split2 from 'split2'
 import { FastifyInstance } from 'fastify'
 import { JsonSchemaToTsProvider } from '@fastify/type-provider-json-schema-to-ts'
@@ -200,6 +201,11 @@ export default async function (fastify: FastifyInstance) {
     return api.getRuntimeServices(request.params.pid)
   })
 
+  const wsSendAsync = (socket: WebSocket, data: string): Promise<void> => new Promise((resolve, reject) =>
+    socket.send(data, (err: unknown) => (err) ? reject(err) : resolve()
+    )
+  )
+
   typedFastify.get<{ Params: PidParam }>('/runtimes/:pid/logs/ws', {
     schema: { params: pidParamSchema, hide: true },
     websocket: true
@@ -214,9 +220,9 @@ export default async function (fastify: FastifyInstance) {
       await pipeline(
         clientStream,
         split2(),
-        async function * (source) {
+        async function * (source: AsyncIterable<string>) {
           for await (const line of source) {
-            socket.send(line)
+            await wsSendAsync(socket, line)
           }
         }
       )
