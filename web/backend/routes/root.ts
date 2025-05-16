@@ -221,7 +221,7 @@ export default async function (fastify: FastifyInstance) {
         }
       )
     } catch (error) {
-      socket.send(JSON.stringify({ error }))
+      fastify.log.error({ error }, 'fatal error on runtime logs ws')
       socket.close()
     }
   })
