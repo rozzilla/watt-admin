@@ -138,8 +138,15 @@ test('runtime logs websocket', async (t) => {
   const runtimePid = runtime.pid
 
   const WebSocket = require('ws')
-  const ws = new WebSocket(`ws://localhost:${port}/runtimes/${runtimePid}/logs/ws`)
+  const ws = new WebSocket(`ws://127.0.0.1:${port}/api/runtimes/${runtimePid}/logs/ws`)
 
+  const logs: {
+    level: number,
+    time: number,
+    pid: number,
+    hostname: string,
+    msg: string
+  }[] = []
   await new Promise((resolve, reject) => {
     const timeout = setTimeout(() => {
       reject(new Error('WebSocket connection timed out'))
@@ -160,7 +167,19 @@ test('runtime logs websocket', async (t) => {
     })
 
     ws.on('message', (data: string) => {
+      logs.push(JSON.parse(data.toString()))
       assert.ok(data, 'Received log message from websocket')
     })
   })
+
+  assert.ok(logs.some(({ msg }) => msg.includes('Starting the service')))
+  assert.ok(logs.some(({ msg }) => msg.includes('Started the service')))
+  assert.ok(logs.some(({ msg }) => msg.includes('Server listening at')))
+  assert.ok(logs.some(({ msg }) => msg.includes('Platformatic is now listening')))
+
+  const [{ level, time, pid, hostname }] = logs
+  assert.ok(typeof level, 'number')
+  assert.ok(typeof time, 'number')
+  assert.ok(typeof pid, 'number')
+  assert.ok(typeof hostname, 'string')
 })
