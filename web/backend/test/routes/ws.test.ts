@@ -24,9 +24,8 @@ test('websocket logs', async (t) => {
     msg: string
   }[] = []
   await new Promise((resolve, reject) => {
-    const timeout = setTimeout(() => {
-      reject(new Error('WebSocket connection timed out'))
-    }, 2000)
+    const ms = 2000
+    const timeout = setTimeout(() => reject(new Error('WebSocket connection timed out')), ms)
 
     ws.on('open', () => {
       clearTimeout(timeout)
@@ -34,7 +33,7 @@ test('websocket logs', async (t) => {
       setTimeout(() => {
         ws.close()
         resolve(null)
-      }, 1999)
+      }, ms - 1)
     })
 
     ws.on('error', (err: unknown) => {
