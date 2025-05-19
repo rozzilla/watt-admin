@@ -14,9 +14,7 @@ import {
   DIRECTION_UP,
   DIRECTION_DOWN,
   DIRECTION_STILL,
-  DIRECTION_TAIL,
-  STATUS_PAUSED_LOGS,
-  STATUS_RESUMED_LOGS
+  DIRECTION_TAIL
 } from '../../ui-constants'
 import LogFilterSelector from './LogFilterSelector'
 import useAdminStore from '../../useAdminStore'
@@ -45,7 +43,6 @@ const AppLogs: React.FC<AppLogsProps> = ({ filteredServices }) => {
   const logContentRef = useRef<HTMLDivElement>(null)
   const [lastScrollTop, setLastScrollTop] = useState(0)
   const [displayGoToBottom, setDisplayGoToBottom] = useState(false)
-  const [statusPausedLogs, setStatusPausedLogs] = useState('')
   const [filteredLogsLengthAtPause, setFilteredLogsLengthAtPause] = useState(0)
   const [error, setError] = useState<unknown>(undefined)
 
@@ -98,33 +95,11 @@ const AppLogs: React.FC<AppLogsProps> = ({ filteredServices }) => {
         left: 0,
         behavior: 'smooth'
       })
-      if (statusPausedLogs === STATUS_PAUSED_LOGS) {
-        setStatusPausedLogs(STATUS_RESUMED_LOGS)
-      }
     }
     if (scrollDirection !== DIRECTION_TAIL) {
       setFilteredLogsLengthAtPause(filteredLogs.length)
     }
   }, [logContentRef, scrollDirection, filteredLogs])
-
-  useEffect(() => {
-    if (statusPausedLogs) {
-      switch (statusPausedLogs) {
-        case STATUS_PAUSED_LOGS:
-          // callApiPauseLogs()
-          console.log('pause TODO')
-          break
-
-        case STATUS_RESUMED_LOGS:
-          console.log('resume TODO')
-          // callApiResumeLogs()
-          break
-
-        default:
-          break
-      }
-    }
-  }, [statusPausedLogs])
 
   useEffect(() => {
     if (applicationLogs.length > 0) {
@@ -133,12 +108,12 @@ const AppLogs: React.FC<AppLogsProps> = ({ filteredServices }) => {
         setFiltersInitialized(true)
         return
       }
-      if (filterLogsByLevel || filteredServices.length >= 0) {
+      if (filterLogsByLevel || filteredServices.length > 0) {
         let founds = [...applicationLogs]
         if (filterLogsByLevel) {
           founds = founds.filter(log => log.level >= filterLogsByLevel)
         }
-        if (filteredServices.length >= 0) {
+        if (filteredServices.length > 0) {
           founds = founds.filter(log => filteredServices.includes(log.name))
         }
         setFilteredLogs(founds)
