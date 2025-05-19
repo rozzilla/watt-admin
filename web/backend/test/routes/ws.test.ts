@@ -26,7 +26,7 @@ test('websocket logs', async (t) => {
   await new Promise((resolve, reject) => {
     const timeout = setTimeout(() => {
       reject(new Error('WebSocket connection timed out'))
-    }, 3000)
+    }, 2000)
 
     ws.on('open', () => {
       clearTimeout(timeout)
@@ -34,7 +34,7 @@ test('websocket logs', async (t) => {
       setTimeout(() => {
         ws.close()
         resolve(null)
-      }, 1000)
+      }, 1999)
     })
 
     ws.on('error', (err: unknown) => {
@@ -42,10 +42,7 @@ test('websocket logs', async (t) => {
       reject(err)
     })
 
-    ws.on('message', (data: string) => {
-      logs.push(JSON.parse(data.toString()))
-      assert.ok(data, 'Received log message from websocket')
-    })
+    ws.on('message', (data: string) => logs.push(JSON.parse(data.toString())))
   })
 
   assert.ok(logs.some(({ msg }) => msg.includes('Starting the service')))

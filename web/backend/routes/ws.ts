@@ -10,9 +10,10 @@ export default async function (fastify: FastifyInstance) {
   const typedFastify = fastify.withTypeProvider<JsonSchemaToTsProvider>()
   const api = new RuntimeApiClient()
 
-  const wsSendAsync = (socket: WebSocket, data: string): Promise<void> => new Promise((resolve, reject) =>
-    socket.send(data, (err: unknown) => (err) ? reject(err) : resolve()
-    )
+  const wsSendAsync = (socket: WebSocket, data: string): Promise<void> => new Promise((resolve, reject) => setTimeout(() => socket.send(data, (err) => (err)
+    ? reject(err)
+    : resolve()
+  ), 100)
   )
 
   typedFastify.get<{ Params: PidParam }>('/runtimes/:pid/logs/ws', {
