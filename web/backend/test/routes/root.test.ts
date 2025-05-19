@@ -1,6 +1,6 @@
 import test from 'node:test'
 import assert from 'node:assert'
-import { getServer, startWatt, loadMetrics } from '../helper'
+import { getServer, startWatt } from '../helper'
 
 test('no runtime running', async (t) => {
   const server = await getServer(t)
@@ -24,8 +24,6 @@ test('no runtime running', async (t) => {
 })
 
 test('runtime is running', async (t) => {
-  const emptyMetrics = { dataCpu: [], dataLatency: [], dataMem: [], dataReq: [] }
-
   await startWatt(t)
   const server = await getServer(t)
   const res = await server.inject({
@@ -43,12 +41,6 @@ test('runtime is running', async (t) => {
   assert.strictEqual(health.statusCode, 200)
   assert.deepEqual(health.json(), { status: 'OK' })
 
-  const metricsEmpty = await server.inject({
-    url: `/runtimes/${runtimePid}/metrics`
-  })
-  assert.strictEqual(metricsEmpty.statusCode, 200, 'metrics endpoint')
-  assert.deepEqual(metricsEmpty.json(), emptyMetrics, 'metrics result is empty')
-
   const services = await server.inject({
     url: `/runtimes/${runtimePid}/services`
   })
@@ -58,35 +50,6 @@ test('runtime is running', async (t) => {
   assert.strictEqual(servicesJson.entrypoint, 'composer')
   assert.strictEqual(typeof servicesJson.services[0].localUrl, 'string')
   assert.strictEqual(typeof servicesJson.services[0].entrypoint, 'boolean')
-
-  await loadMetrics(server)
-  const metrics = await server.inject({
-    url: `/runtimes/${runtimePid}/metrics`
-  })
-  assert.strictEqual(metrics.statusCode, 200, 'metrics endpoint')
-  const metricsJson = metrics.json()
-  assert.ok('dataCpu' in metricsJson)
-  assert.ok('dataLatency' in metricsJson)
-  assert.ok('dataMem' in metricsJson)
-  assert.notDeepEqual(metricsJson, {}, 'metrics are not empty after the interval')
-
-  const serviceMetrics = await server.inject({
-    url: `/runtimes/${runtimePid}/metrics/backend`
-  })
-  assert.strictEqual(serviceMetrics.statusCode, 200, 'service metrics endpoint')
-  assert.notDeepEqual(serviceMetrics.json(), emptyMetrics, 'service metrics are not empty for a valid service name')
-
-  const serviceMetricsEmpty = await server.inject({
-    url: `/runtimes/${runtimePid}/metrics/fantozzi`
-  })
-  assert.strictEqual(serviceMetricsEmpty.statusCode, 200, 'service metrics endpoint')
-  assert.deepEqual(serviceMetricsEmpty.json(), emptyMetrics, 'service metrics are empty for an invalid service name')
-
-  const workerMetricsEmpty = await server.inject({
-    url: `/runtimes/${runtimePid}/metrics/backend/42`
-  })
-  assert.strictEqual(workerMetricsEmpty.statusCode, 200, 'worker metrics endpoint')
-  assert.deepEqual(workerMetricsEmpty.json(), emptyMetrics, 'worker metrics are empty for a non existent worker id')
 
   const serviceOpenapi = await server.inject({
     url: `/runtimes/${runtimePid}/openapi/backend`
@@ -124,62 +87,4 @@ test('runtime is running', async (t) => {
     body: {}
   })
   assert.strictEqual(restart.statusCode, 200, 'check for restart endpoint')
-})
-
-test('runtime logs websocket', async (t) => {
-  const port = await startWatt(t)
-  const server = await getServer(t)
-
-  const res = await server.inject({
-    url: '/runtimes?includeAdmin=true'
-  })
-  assert.strictEqual(res.statusCode, 200, 'runtimes endpoint')
-  const [runtime] = res.json()
-  const runtimePid = runtime.pid
-
-  const WebSocket = require('ws')
-  const ws = new WebSocket(`ws://127.0.0.1:${port}/api/runtimes/${runtimePid}/logs/ws`)
-
-  const logs: {
-    level: number,
-    time: number,
-    pid: number,
-    hostname: string,
-    msg: string
-  }[] = []
-  await new Promise((resolve, reject) => {
-    const timeout = setTimeout(() => {
-      reject(new Error('WebSocket connection timed out'))
-    }, 3000)
-
-    ws.on('open', () => {
-      clearTimeout(timeout)
-
-      setTimeout(() => {
-        ws.close()
-        resolve(null)
-      }, 1000)
-    })
-
-    ws.on('error', (err: unknown) => {
-      clearTimeout(timeout)
-      reject(err)
-    })
-
-    ws.on('message', (data: string) => {
-      logs.push(JSON.parse(data.toString()))
-      assert.ok(data, 'Received log message from websocket')
-    })
-  })
-
-  assert.ok(logs.some(({ msg }) => msg.includes('Starting the service')))
-  assert.ok(logs.some(({ msg }) => msg.includes('Started the service')))
-  assert.ok(logs.some(({ msg }) => msg.includes('Server listening at')))
-  assert.ok(logs.some(({ msg }) => msg.includes('Platformatic is now listening')))
-
-  const [{ level, time, pid, hostname }] = logs
-  assert.ok(typeof level, 'number')
-  assert.ok(typeof time, 'number')
-  assert.ok(typeof pid, 'number')
-  assert.ok(typeof hostname, 'string')
 })

@@ -1,15 +1,11 @@
-import type { WebSocket } from 'ws'
-import split2 from 'split2'
 import { FastifyInstance } from 'fastify'
 import { JsonSchemaToTsProvider } from '@fastify/type-provider-json-schema-to-ts'
 import { RuntimeApiClient } from '@platformatic/control'
-import { metricResponseSchema, PidParam, pidParamSchema, SelectableRuntime, selectableRuntimeSchema } from '../schemas'
-import { pipeline } from 'node:stream/promises'
+import { pidParamSchema, SelectableRuntime, selectableRuntimeSchema } from '../schemas'
 
 export default async function (fastify: FastifyInstance) {
   const typedFastify = fastify.withTypeProvider<JsonSchemaToTsProvider>()
   const api = new RuntimeApiClient()
-  const emptyMetrics = { dataCpu: [], dataLatency: [], dataMem: [], dataReq: [] }
 
   typedFastify.get('/runtimes', {
     schema: {
@@ -70,45 +66,6 @@ export default async function (fastify: FastifyInstance) {
     } catch {
       return { status: 'KO' as const }
     }
-  })
-
-  typedFastify.get('/runtimes/:pid/metrics', {
-    schema: { params: pidParamSchema, response: { 200: metricResponseSchema } },
-  }, async ({ params: { pid } }) => {
-    return typedFastify.mappedMetrics[pid]?.aggregated || emptyMetrics
-  })
-
-  typedFastify.get('/runtimes/:pid/metrics/:serviceId', {
-    schema: {
-      params: {
-        type: 'object',
-        properties: {
-          pid: { type: 'number' },
-          serviceId: { type: 'string' }
-        },
-        required: ['pid', 'serviceId']
-      },
-      response: { 200: metricResponseSchema }
-    }
-  }, async ({ params: { pid, serviceId } }) => {
-    return fastify.mappedMetrics[pid]?.services[serviceId]?.all || emptyMetrics
-  })
-
-  typedFastify.get('/runtimes/:pid/metrics/:serviceId/:workerId', {
-    schema: {
-      params: {
-        type: 'object',
-        properties: {
-          pid: { type: 'number' },
-          serviceId: { type: 'string' },
-          workerId: { type: 'number' },
-        },
-        required: ['pid', 'serviceId', 'workerId']
-      },
-      response: { 200: metricResponseSchema }
-    }
-  }, async ({ params: { pid, serviceId, workerId } }) => {
-    return fastify.mappedMetrics[pid]?.services[serviceId]?.[workerId] || emptyMetrics
   })
 
   typedFastify.get('/runtimes/:pid/services', {
@@ -201,37 +158,6 @@ export default async function (fastify: FastifyInstance) {
     return api.getRuntimeServices(request.params.pid)
   })
 
-  const wsSendAsync = (socket: WebSocket, data: string): Promise<void> => new Promise((resolve, reject) =>
-    socket.send(data, (err: unknown) => (err) ? reject(err) : resolve()
-    )
-  )
-
-  typedFastify.get<{ Params: PidParam }>('/runtimes/:pid/logs/ws', {
-    schema: { params: pidParamSchema, hide: true },
-    websocket: true
-  }, async (socket, { params: { pid } }) => {
-    try {
-      const clientStream = api.getRuntimeLiveLogsStream(pid)
-
-      socket.on('close', () => {
-        clientStream.destroy()
-      })
-
-      await pipeline(
-        clientStream,
-        split2(),
-        async function * (source: AsyncIterable<string>) {
-          for await (const line of source) {
-            await wsSendAsync(socket, line)
-          }
-        }
-      )
-    } catch (error) {
-      fastify.log.error({ error }, 'fatal error on runtime logs ws')
-      socket.close()
-    }
-  })
-
   typedFastify.get('/runtimes/:pid/openapi/:serviceId', {
     schema: {
       params: { type: 'object', properties: { pid: { type: 'number' }, serviceId: { type: 'string' } }, required: ['pid', 'serviceId'] }
@@ -246,7 +172,6 @@ export default async function (fastify: FastifyInstance) {
     try {
       await api.restartRuntime(request.params.pid)
     } catch (err) {
-      // TODO: restart is currently not working. Apparently, the call to `this.start()` on `@platformatic/runtime/lib/runtime.js` fails. Once it will be fixed, we can remove the catch and the warning log (and leave the function throw as it was before). Monitor this issue to check if it's fixed or not (https://github.com/platformatic/platformatic/issues/3928)
       fastify.log.warn({ err }, 'Issue restarting the runtime')
     }
   })
