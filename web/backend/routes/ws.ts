@@ -17,7 +17,7 @@ export default async function (fastify: FastifyInstance) {
   )
 
   typedFastify.get<{ Params: PidParam }>('/runtimes/:pid/logs/ws', {
-    schema: { params: pidParamSchema, hide: true },
+    schema: { params: pidParamSchema },
     websocket: true
   }, async (socket, { params: { pid } }) => {
     try {

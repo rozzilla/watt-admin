@@ -30,80 +30,6 @@ function headersToJSON(headers: Headers): JSON {
   return output
 }
 
-const _getRuntimes = async (url: string, request: Types.GetRuntimesRequest): Promise<Types.GetRuntimesResponses> => {
-  const queryParameters: (keyof NonNullable<Types.GetRuntimesRequest['query']>)[] = ['includeAdmin']
-  const searchParams = new URLSearchParams()
-  if (request.query) {
-    queryParameters.forEach((qp) => {
-      const queryValue = request.query?.[qp]
-      if (queryValue) {
-        if (Array.isArray(queryValue)) {
-          queryValue.forEach((p) => searchParams.append(qp, p))
-        } else {
-          searchParams.append(qp, queryValue.toString())
-        }
-      }
-      delete request.query?.[qp]
-    })
-  }
-
-  const headers: HeadersInit = {
-    ...defaultHeaders
-  }
-
-  const response = await fetch(`${url}/runtimes?${searchParams.toString()}`, {
-    headers,
-    ...defaultFetchParams
-  })
-
-  const jsonResponses = [200]
-  if (jsonResponses.includes(response.status)) {
-    return {
-      statusCode: response.status as 200,
-      headers: headersToJSON(response.headers),
-      body: await response.json()
-    }
-  }
-  const responseType = response.headers.get('content-type')?.startsWith('application/json') ? 'json' : 'text'
-  return {
-    statusCode: response.status as 200,
-    headers: headersToJSON(response.headers),
-    body: await response[responseType]()
-  }
-}
-
-export const getRuntimes: Backend['getRuntimes'] = async (request: Types.GetRuntimesRequest): Promise<Types.GetRuntimesResponses> => {
-  return await _getRuntimes(baseUrl, request)
-}
-const _getRuntimesPidHealth = async (url: string, request: Types.GetRuntimesPidHealthRequest): Promise<Types.GetRuntimesPidHealthResponses> => {
-  const headers: HeadersInit = {
-    ...defaultHeaders
-  }
-
-  const response = await fetch(`${url}/runtimes/${request.path['pid']}/health`, {
-    headers,
-    ...defaultFetchParams
-  })
-
-  const jsonResponses = [200]
-  if (jsonResponses.includes(response.status)) {
-    return {
-      statusCode: response.status as 200,
-      headers: headersToJSON(response.headers),
-      body: await response.json()
-    }
-  }
-  const responseType = response.headers.get('content-type')?.startsWith('application/json') ? 'json' : 'text'
-  return {
-    statusCode: response.status as 200,
-    headers: headersToJSON(response.headers),
-    body: await response[responseType]()
-  }
-}
-
-export const getRuntimesPidHealth: Backend['getRuntimesPidHealth'] = async (request: Types.GetRuntimesPidHealthRequest): Promise<Types.GetRuntimesPidHealthResponses> => {
-  return await _getRuntimesPidHealth(baseUrl, request)
-}
 const _getRuntimesPidMetrics = async (url: string, request: Types.GetRuntimesPidMetricsRequest): Promise<Types.GetRuntimesPidMetricsResponses> => {
   const headers: HeadersInit = {
     ...defaultHeaders
@@ -190,6 +116,80 @@ const _getRuntimesPidMetricsServiceIdWorkerId = async (url: string, request: Typ
 
 export const getRuntimesPidMetricsServiceIdWorkerId: Backend['getRuntimesPidMetricsServiceIdWorkerId'] = async (request: Types.GetRuntimesPidMetricsServiceIdWorkerIdRequest): Promise<Types.GetRuntimesPidMetricsServiceIdWorkerIdResponses> => {
   return await _getRuntimesPidMetricsServiceIdWorkerId(baseUrl, request)
+}
+const _getRuntimes = async (url: string, request: Types.GetRuntimesRequest): Promise<Types.GetRuntimesResponses> => {
+  const queryParameters: (keyof NonNullable<Types.GetRuntimesRequest['query']>)[] = ['includeAdmin']
+  const searchParams = new URLSearchParams()
+  if (request.query) {
+    queryParameters.forEach((qp) => {
+      const queryValue = request.query?.[qp]
+      if (queryValue) {
+        if (Array.isArray(queryValue)) {
+          queryValue.forEach((p) => searchParams.append(qp, p))
+        } else {
+          searchParams.append(qp, queryValue.toString())
+        }
+      }
+      delete request.query?.[qp]
+    })
+  }
+
+  const headers: HeadersInit = {
+    ...defaultHeaders
+  }
+
+  const response = await fetch(`${url}/runtimes?${searchParams.toString()}`, {
+    headers,
+    ...defaultFetchParams
+  })
+
+  const jsonResponses = [200]
+  if (jsonResponses.includes(response.status)) {
+    return {
+      statusCode: response.status as 200,
+      headers: headersToJSON(response.headers),
+      body: await response.json()
+    }
+  }
+  const responseType = response.headers.get('content-type')?.startsWith('application/json') ? 'json' : 'text'
+  return {
+    statusCode: response.status as 200,
+    headers: headersToJSON(response.headers),
+    body: await response[responseType]()
+  }
+}
+
+export const getRuntimes: Backend['getRuntimes'] = async (request: Types.GetRuntimesRequest): Promise<Types.GetRuntimesResponses> => {
+  return await _getRuntimes(baseUrl, request)
+}
+const _getRuntimesPidHealth = async (url: string, request: Types.GetRuntimesPidHealthRequest): Promise<Types.GetRuntimesPidHealthResponses> => {
+  const headers: HeadersInit = {
+    ...defaultHeaders
+  }
+
+  const response = await fetch(`${url}/runtimes/${request.path['pid']}/health`, {
+    headers,
+    ...defaultFetchParams
+  })
+
+  const jsonResponses = [200]
+  if (jsonResponses.includes(response.status)) {
+    return {
+      statusCode: response.status as 200,
+      headers: headersToJSON(response.headers),
+      body: await response.json()
+    }
+  }
+  const responseType = response.headers.get('content-type')?.startsWith('application/json') ? 'json' : 'text'
+  return {
+    statusCode: response.status as 200,
+    headers: headersToJSON(response.headers),
+    body: await response[responseType]()
+  }
+}
+
+export const getRuntimesPidHealth: Backend['getRuntimesPidHealth'] = async (request: Types.GetRuntimesPidHealthRequest): Promise<Types.GetRuntimesPidHealthResponses> => {
+  return await _getRuntimesPidHealth(baseUrl, request)
 }
 const _getRuntimesPidServices = async (url: string, request: Types.GetRuntimesPidServicesRequest): Promise<Types.GetRuntimesPidServicesResponses> => {
   const headers: HeadersInit = {
@@ -292,11 +292,11 @@ export default function build (url: string, options?: BuildOptions) {
     defaultHeaders = options.headers
   }
   return {
-    getRuntimes: _getRuntimes.bind(url, ...arguments),
-    getRuntimesPidHealth: _getRuntimesPidHealth.bind(url, ...arguments),
     getRuntimesPidMetrics: _getRuntimesPidMetrics.bind(url, ...arguments),
     getRuntimesPidMetricsServiceId: _getRuntimesPidMetricsServiceId.bind(url, ...arguments),
     getRuntimesPidMetricsServiceIdWorkerId: _getRuntimesPidMetricsServiceIdWorkerId.bind(url, ...arguments),
+    getRuntimes: _getRuntimes.bind(url, ...arguments),
+    getRuntimesPidHealth: _getRuntimesPidHealth.bind(url, ...arguments),
     getRuntimesPidServices: _getRuntimesPidServices.bind(url, ...arguments),
     getRuntimesPidOpenapiServiceId: _getRuntimesPidOpenapiServiceId.bind(url, ...arguments),
     postRuntimesPidRestart: _postRuntimesPidRestart.bind(url, ...arguments)

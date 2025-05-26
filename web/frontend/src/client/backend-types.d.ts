@@ -4,32 +4,6 @@ export interface FullResponse<T, U extends number> {
   'body': T;
 }
 
-export type GetRuntimesRequest = {
-  query?: {
-    'includeAdmin'?: boolean;
-  }
-}
-
-/**
- * Default Response
- */
-export type GetRuntimesResponseOK = Array<{ 'pid': number; 'cwd': string; 'argv': Array<string>; 'uptimeSeconds': number; 'execPath': string; 'nodeVersion': string; 'projectDir': string; 'packageName': string; 'packageVersion': string; 'url': string; 'platformaticVersion': string; 'selected': boolean }>
-export type GetRuntimesResponses =
-  FullResponse<GetRuntimesResponseOK, 200>
-
-export type GetRuntimesPidHealthRequest = {
-  path: {
-    'pid': number;
-  }
-}
-
-/**
- * Default Response
- */
-export type GetRuntimesPidHealthResponseOK = { 'status': 'OK' | 'KO' }
-export type GetRuntimesPidHealthResponses =
-  FullResponse<GetRuntimesPidHealthResponseOK, 200>
-
 export type GetRuntimesPidMetricsRequest = {
   path: {
     'pid': number;
@@ -71,6 +45,32 @@ export type GetRuntimesPidMetricsServiceIdWorkerIdRequest = {
 export type GetRuntimesPidMetricsServiceIdWorkerIdResponseOK = { 'dataMem': Array<{ 'date': string; 'rss': number; 'totalHeap': number; 'usedHeap': number; 'newSpace': number; 'oldSpace': number }>; 'dataCpu': Array<{ 'date': string; 'cpu': number; 'eventLoop': number }>; 'dataLatency': Array<{ 'date': string; 'p90': number; 'p95': number; 'p99': number }>; 'dataReq': Array<{ 'date': string; 'count': number; 'rps': number }> }
 export type GetRuntimesPidMetricsServiceIdWorkerIdResponses =
   FullResponse<GetRuntimesPidMetricsServiceIdWorkerIdResponseOK, 200>
+
+export type GetRuntimesRequest = {
+  query?: {
+    'includeAdmin'?: boolean;
+  }
+}
+
+/**
+ * Default Response
+ */
+export type GetRuntimesResponseOK = Array<{ 'pid': number; 'cwd': string; 'argv': Array<string>; 'uptimeSeconds': number; 'execPath': string; 'nodeVersion': string; 'projectDir': string; 'packageName': string; 'packageVersion': string; 'url': string; 'platformaticVersion': string; 'selected': boolean }>
+export type GetRuntimesResponses =
+  FullResponse<GetRuntimesResponseOK, 200>
+
+export type GetRuntimesPidHealthRequest = {
+  path: {
+    'pid': number;
+  }
+}
+
+/**
+ * Default Response
+ */
+export type GetRuntimesPidHealthResponseOK = { 'status': 'OK' | 'KO' }
+export type GetRuntimesPidHealthResponses =
+  FullResponse<GetRuntimesPidHealthResponseOK, 200>
 
 export type GetRuntimesPidServicesRequest = {
   path: {
@@ -118,16 +118,6 @@ export interface Backend {
    * @param req - request parameters object
    * @returns the API response
    */
-  getRuntimes(req: GetRuntimesRequest): Promise<GetRuntimesResponses>;
-  /**
-   * @param req - request parameters object
-   * @returns the API response
-   */
-  getRuntimesPidHealth(req: GetRuntimesPidHealthRequest): Promise<GetRuntimesPidHealthResponses>;
-  /**
-   * @param req - request parameters object
-   * @returns the API response
-   */
   getRuntimesPidMetrics(req: GetRuntimesPidMetricsRequest): Promise<GetRuntimesPidMetricsResponses>;
   /**
    * @param req - request parameters object
@@ -139,6 +129,16 @@ export interface Backend {
    * @returns the API response
    */
   getRuntimesPidMetricsServiceIdWorkerId(req: GetRuntimesPidMetricsServiceIdWorkerIdRequest): Promise<GetRuntimesPidMetricsServiceIdWorkerIdResponses>;
+  /**
+   * @param req - request parameters object
+   * @returns the API response
+   */
+  getRuntimes(req: GetRuntimesRequest): Promise<GetRuntimesResponses>;
+  /**
+   * @param req - request parameters object
+   * @returns the API response
+   */
+  getRuntimesPidHealth(req: GetRuntimesPidHealthRequest): Promise<GetRuntimesPidHealthResponses>;
   /**
    * @param req - request parameters object
    * @returns the API response
