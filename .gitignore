@@ -132,3 +132,7 @@ dist
 
 # Watt resolved folder
 external/
+
+# Playwright
+test-results
+playwright-report

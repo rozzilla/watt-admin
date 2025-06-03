@@ -5,7 +5,7 @@ export default defineConfig({
   ...viteConfig,
   test: {
     globals: true,
-    exclude: ['node_modules', 'dist', '.idea', '.git', '.cache'],
+    exclude: ['node_modules', 'dist', '.idea', '.git', '.cache', 'test/e2e'],
     include: ['**/*.{test,spec}.{js,ts,jsx,tsx}']
   }
 })
