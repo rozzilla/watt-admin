@@ -13,7 +13,7 @@
     "test:backend": "cd web/backend && borp --concurrency 1",
     "test:frontend": "cd web/frontend && vitest run",
     "pretest:e2e": "./node_modules/.bin/playwright install chromium",
-    "test:e2e": "PORT=5042 cd web/frontend && playwright test",
+    "test:e2e": "cd web/frontend && playwright test",
     "test:e2e:ui": "npm run test:e2e -- --ui",
     "clean": "rm -rf ./web/*/dist",
     "lint": "eslint .",
