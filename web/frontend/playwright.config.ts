@@ -19,6 +19,7 @@ export default defineConfig({
     url: 'http://127.0.0.1:5042',
     timeout: 10000,
     stdout: 'pipe',
-    stderr: 'pipe'
+    stderr: 'pipe',
+    env: { PORT: '5042' }
   },
 })
