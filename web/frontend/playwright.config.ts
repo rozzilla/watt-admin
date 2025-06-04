@@ -4,7 +4,6 @@ export default defineConfig({
   testDir: './test/e2e',
   fullyParallel: true,
   reporter: 'html',
-  timeout: 10000,
   use: {
     baseURL: 'http://127.0.0.1:5042',
     trace: 'on-first-retry',
@@ -18,5 +17,6 @@ export default defineConfig({
   webServer: {
     command: 'cd ../.. && npm run dev',
     url: 'http://127.0.0.1:5042',
+    timeout: 10000
   },
 })
