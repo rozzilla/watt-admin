@@ -25,13 +25,13 @@ jobs:
       - uses: actions/setup-node@v4
         with:
           node-version: 22
-      - name: Install deps
+      - name: npm ci
         uses: nick-fields/retry@v3.0.0
         with:
           max_attempts: 10
           timeout_minutes: 15
           retry_on: error
-          command: npm ci && npx playwright install
+          command: npm ci
       - name: Update client
         run: npm run client:openapi && npm run client:generate
       - name: Run build
