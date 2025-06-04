@@ -20,6 +20,6 @@ export default defineConfig({
     timeout: 10000,
     stdout: 'pipe',
     stderr: 'pipe',
-    env: { PORT: '5042' }
+    env: { PORT }
   },
 })
