@@ -17,6 +17,8 @@ export default defineConfig({
   webServer: {
     command: 'cd ../.. && npm run dev',
     url: 'http://127.0.0.1:5042',
-    timeout: 10000
+    timeout: 10000,
+    stdout: 'pipe',
+    stderr: 'pipe'
   },
 })
