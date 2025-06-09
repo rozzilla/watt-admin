@@ -23,7 +23,7 @@
     "@fastify/websocket": "^11.1.0",
     "@inquirer/prompts": "^7.3.3",
     "@platformatic/composer": "^2.69.0",
-    "@platformatic/control": "^2.69.0",
+    "@platformatic/control": "^2.70.0",
     "@platformatic/runtime": "^2.69.0",
     "@platformatic/service": "^2.69.0",
     "@platformatic/vite": "^2.69.0",
