@@ -6,6 +6,9 @@ export default async function (fastify: FastifyInstance) {
   const typedFastify = fastify.withTypeProvider<JsonSchemaToTsProvider>()
   const api = new RuntimeApiClient()
 
+  typedFastify.removeContentTypeParser(['application/json', 'text/*'])
+  typedFastify.addContentTypeParser('*', { parseAs: 'buffer' }, async (_request: unknown, body: unknown) => body)
+
   typedFastify.all('/proxy/:pid/services/:serviceId/*', {
     schema: {
       hide: true, // needed since the client generation fails to properly handle the '*' wildcard
@@ -23,7 +26,7 @@ export default async function (fastify: FastifyInstance) {
       url: '/' + requestUrl,
       headers: request.headers,
       query: request.query,
-      body: JSON.stringify(request.body)
+      body: request.body
     }
 
     fastify.log.info({ pid, serviceId, injectParams }, 'runtime request proxy')

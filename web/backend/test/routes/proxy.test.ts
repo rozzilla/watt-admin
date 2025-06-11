@@ -9,6 +9,9 @@ test('proxy', async (t) => {
   assert.strictEqual(res.statusCode, 200, 'runtimes endpoint')
   const [runtime] = res.json()
   const runtimePid = runtime.pid
+  const health = await server.inject({ url: `/proxy/${runtimePid}/services/backend/runtimes/${runtimePid}/health` })
+  assert.strictEqual(health.statusCode, 200)
+  assert.strictEqual(health.json().status, 'OK', 'backend service is in healthy state')
 
   const frontend = await server.inject({ url: `/proxy/${runtimePid}/services/frontend/#/` })
   assert.strictEqual(frontend.statusCode, 200, 'proxy endpoint')
