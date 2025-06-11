@@ -10,10 +10,7 @@ test('proxy', async (t) => {
   const [runtime] = res.json()
   const runtimePid = runtime.pid
 
-  const frontend = await server.inject({
-    url: `/proxy/${runtimePid}/services/frontend/method/GET/#/`,
-    method: 'POST'
-  })
+  const frontend = await server.inject({ url: `/proxy/${runtimePid}/services/frontend/#/` })
   assert.strictEqual(frontend.statusCode, 200, 'proxy endpoint')
   assert.ok(frontend.payload.includes('<!doctype html>'))
   assert.ok(frontend.payload.includes('<html lang="en">'))
@@ -21,10 +18,7 @@ test('proxy', async (t) => {
   assert.ok(frontend.payload.includes('<meta name="viewport" content="width=device-width, initial-scale=1.0" />'))
   assert.ok(frontend.payload.includes('<div id="root"></div>'))
 
-  const backend = await server.inject({
-    url: `/proxy/${runtimePid}/services/backend/method/GET/documentation/json`,
-    method: 'POST'
-  })
+  const backend = await server.inject({ url: `/proxy/${runtimePid}/services/backend/documentation/json` })
   assert.strictEqual(backend.statusCode, 200)
   assert.deepEqual(backend.json().info, {
     title: 'Platformatic',
@@ -32,15 +26,12 @@ test('proxy', async (t) => {
     version: '1.0.0'
   })
 
-  const composer = await server.inject({
-    url: `/proxy/${runtimePid}/services/composer/method/GET/api/documentation/json`,
-    method: 'POST'
-  })
+  const composer = await server.inject({ url: `/proxy/${runtimePid}/services/composer/api/documentation/json` })
   assert.strictEqual(composer.statusCode, 200)
   assert.strictEqual(composer.json().openapi, '3.0.3')
 
   const jsonPost = await server.inject({
-    url: `/proxy/${runtimePid}/services/backend/method/POST/runtimes/0/restart`,
+    url: `/proxy/${runtimePid}/services/backend/runtimes/0/restart`,
     method: 'POST',
     body: {}
   })
@@ -48,7 +39,7 @@ test('proxy', async (t) => {
 
   const jsonPayload = JSON.stringify({})
   const restartPost = await server.inject({
-    url: `/proxy/${runtimePid}/services/backend/method/POST/runtimes/0/restart`,
+    url: `/proxy/${runtimePid}/services/backend/runtimes/0/restart`,
     method: 'POST',
     headers: {
       'content-type': 'application/json',
