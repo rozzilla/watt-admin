@@ -25,11 +25,26 @@ test.describe('Basic E2E tests', () => {
     await page.getByText('(Entrypoint)').click()
     await expect(page.getByText('composer Latency')).toHaveCount(1)
     await expect(page.getByText('composer Requests')).toHaveCount(1)
+    await expect(page.getByText('Heap Used')).toHaveCount(1)
+    await expect(page.getByText('Old Space')).toHaveCount(1)
 
     // logs
     await page.goto('/#/logs')
     await page.getByText('Select all services').waitFor()
     await page.getByText('Trace').click()
     await page.getByText('Server listening at').waitFor()
+    await page.getByText('Raw').click()
+    await page.getByText('Pretty').click()
+    await page.getByText('Select all services').click()
+
+    // back the the home
+    await page.goto('/#/')
+    await expect(page.getByText('RUNNING')).toHaveCount(1)
+    const documentationButton = page.locator('[title="Documentation"]')
+    await expect(documentationButton).toBeVisible()
+    await expect(documentationButton).toBeEnabled()
+    await documentationButton.click()
+    await page.getByText('Restart').click()
+    await page.getByText('Restarting...').waitFor()
   })
 })
