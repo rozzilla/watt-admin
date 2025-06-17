@@ -10,7 +10,7 @@
     "client:generate": "./node_modules/.bin/plt-client ./web/backend/openapi.json --name backend --folder web/frontend/src/client --language ts --frontend --full --skip-config-update --props-optional",
     "test": "npm run test:cli && npm run test:e2e && npm run test:backend && npm run test:frontend",
     "test:cli": "node --test test/cli.test.js test/start.test.js test/cli-integration.test.js",
-    "test:backend": "./node_modules/.bin/wattpm start &> /dev/null & cd web/backend && borp",
+    "test:backend": "./node_modules/.bin/wattpm start &> /dev/null & WATT_PID=$!; timeout 100s bash -c \"while ! curl -s http://127.0.0.1:5042/api/runtimes/$WATT_PID/health | grep -q '\"status\":\"OK\"'; do sleep 1; done\" & cd web/backend && borp; kill $WATT_PID 2>/dev/null",
     "test:frontend": "cd web/frontend && vitest run",
     "pretest:e2e": "./node_modules/.bin/playwright install chromium",
     "test:e2e": "cd web/frontend && playwright test",
