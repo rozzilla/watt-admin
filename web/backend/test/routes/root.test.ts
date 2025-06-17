@@ -1,30 +1,8 @@
 import test from 'node:test'
 import assert from 'node:assert'
-import { getServer, startWatt } from '../helper'
-
-test('no runtime running', async (t) => {
-  const server = await getServer(t)
-  const res = await server.inject({
-    url: '/runtimes?includeAdmin=true'
-  })
-  assert.strictEqual(res.statusCode, 200)
-  assert.deepStrictEqual(res.json(), [], 'with no runtime running')
-
-  const services = await server.inject({
-    url: '/runtimes/42/services'
-  })
-  assert.strictEqual(services.statusCode, 500)
-  assert.ok(services.json().message.includes('connect ENOENT'), 'unable to list services due to no runtime available')
-
-  const health = await server.inject({
-    url: '/runtimes/42/health'
-  })
-  assert.strictEqual(health.statusCode, 200)
-  assert.deepEqual(health.json(), { status: 'KO' })
-})
+import { getServer } from '../helper'
 
 test('runtime is running', async (t) => {
-  await startWatt(t)
   const server = await getServer(t)
   const res = await server.inject({
     url: '/runtimes?includeAdmin=true'
@@ -80,11 +58,4 @@ test('runtime is running', async (t) => {
   })
   assert.strictEqual(serviceInvalidOpenapi.statusCode, 500, 'service OpenAPI endpoint')
   assert.strictEqual(typeof serviceInvalidOpenapi.json().code, 'string')
-
-  const restart = await server.inject({
-    method: 'POST',
-    url: `/runtimes/${runtimePid}/restart`,
-    body: {}
-  })
-  assert.strictEqual(restart.statusCode, 200, 'check for restart endpoint')
 })

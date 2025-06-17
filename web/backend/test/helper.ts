@@ -2,7 +2,6 @@ import { join } from 'node:path'
 import { readFile } from 'node:fs/promises'
 import { buildServer } from '@platformatic/service'
 import { test } from 'node:test'
-import { spawn } from 'node:child_process'
 import { FastifyInstance } from 'fastify'
 
 type testfn = Parameters<typeof test>[0]
@@ -48,33 +47,4 @@ export async function getServer (t: TestContext) {
   t.after(() => server.close())
 
   return server
-}
-
-export async function startWatt (t: TestContext): Promise<string> {
-  const fixturesPath = join(__dirname, '..', '..', '..', '..', 'node_modules', '.bin', 'wattpm')
-  const process = spawn(fixturesPath, ['start'])
-  t.after(() => process.kill('SIGKILL'))
-
-  return new Promise((resolve, reject) => {
-    const onData = (data: Buffer) => {
-      const input = data.toString()
-      if (input.includes('Platformatic is now listening at ')) {
-        removeListeners()
-        resolve(input.match(/http:\/\/[^:]+:(\d+)/)?.[1] || '0')
-      }
-    }
-
-    const onError = (error: Error) => {
-      removeListeners()
-      reject(error)
-    }
-
-    const removeListeners = () => {
-      process.stdout.removeListener('data', onData)
-      process.removeListener('error', onError)
-    }
-
-    process.stdout.on('data', onData)
-    process.on('error', onError)
-  })
 }

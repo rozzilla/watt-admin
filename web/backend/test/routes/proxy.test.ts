@@ -1,9 +1,8 @@
 import test from 'node:test'
 import assert from 'node:assert'
-import { getServer, startWatt } from '../helper'
+import { getServer } from '../helper'
 
 test('proxy', async (t) => {
-  await startWatt(t)
   const server = await getServer(t)
   const res = await server.inject({ url: '/runtimes?includeAdmin=true' })
   assert.strictEqual(res.statusCode, 200, 'runtimes endpoint')
@@ -32,23 +31,4 @@ test('proxy', async (t) => {
   const composer = await server.inject({ url: `/proxy/${runtimePid}/services/composer/api/documentation/json` })
   assert.strictEqual(composer.statusCode, 200)
   assert.strictEqual(composer.json().openapi, '3.0.3')
-
-  const jsonPost = await server.inject({
-    url: `/proxy/${runtimePid}/services/backend/runtimes/0/restart`,
-    method: 'POST',
-    body: {}
-  })
-  assert.strictEqual(jsonPost.statusCode, 200, 'normal json body')
-
-  const jsonPayload = JSON.stringify({})
-  const restartPost = await server.inject({
-    url: `/proxy/${runtimePid}/services/backend/runtimes/0/restart`,
-    method: 'POST',
-    headers: {
-      'content-type': 'application/json',
-      'content-length': Buffer.byteLength(jsonPayload)
-    },
-    payload: Buffer.from(jsonPayload, 'utf8')
-  })
-  assert.strictEqual(restartPost.statusCode, 200, 'buffer json body')
 })

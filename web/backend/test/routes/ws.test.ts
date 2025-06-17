@@ -1,9 +1,9 @@
 import test from 'node:test'
 import assert from 'node:assert'
-import { getServer, startWatt } from '../helper'
+import { getServer } from '../helper'
 
 test('websocket logs', async (t) => {
-  const port = await startWatt(t)
+  const port = process.env.PORT || '5042'
   const server = await getServer(t)
 
   const res = await server.inject({

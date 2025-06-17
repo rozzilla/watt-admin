@@ -1,11 +1,9 @@
 import test from 'node:test'
 import assert from 'node:assert'
-import { getServer, startWatt, loadMetrics } from '../helper'
+import { getServer, loadMetrics } from '../helper'
 
 test('metrics are calculated', async (t) => {
   const emptyMetrics = { dataCpu: [], dataLatency: [], dataMem: [], dataReq: [] }
-
-  await startWatt(t)
   const server = await getServer(t)
   const res = await server.inject({
     url: '/runtimes?includeAdmin=true'

@@ -1,6 +1,6 @@
 import test from 'node:test'
 import assert from 'node:assert'
-import { getServer, startWatt, loadMetrics } from '../helper'
+import { getServer, loadMetrics } from '../helper'
 import { MetricsResponse } from '../../schemas'
 
 test('metrics without runtime', async (t) => {
@@ -11,9 +11,6 @@ test('metrics without runtime', async (t) => {
 })
 
 test('metrics with runtime', async (t) => {
-  // Collecting metrics requires no parallelism in tests
-  // TODO: fix it and make tests parallel again
-  await startWatt(t)
   const server = await getServer(t)
   await loadMetrics(server)
   const [pid] = Object.keys(server.mappedMetrics)
