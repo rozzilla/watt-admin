@@ -39,7 +39,7 @@ function ServiceDetailPanel ({ openapi, pid, service, onClose }: ServiceDetailPa
     display: none;
   }`
 
-  const serviceUrl = `${window.location.origin}/api/proxy/${pid}/services/${service}/`
+  const baseServerURL = `${window.location.origin}/api/proxy/${pid}/services/${service}/`
 
   return (
     <div className={styles.serviceDetailPanel}>
@@ -54,8 +54,8 @@ function ServiceDetailPanel ({ openapi, pid, service, onClose }: ServiceDetailPa
       </div>
 
       {openapi && typeof openapi === 'string' && openapi !== 'null'
-        ? <ApiReferenceReact configuration={{ content: openapi, showSidebar: false, customCss, baseServerURL: `/api/proxy/${pid}/services/${service}` }} />
-        : <div className={`${typographyStyles.textWhite} ${typographyStyles.textCenter} ${styles.emptyOpenApi}`}><Icons.OpenAPIEditsIcon color={WHITE} size={MEDIUM} /><div className={`${typographyStyles.ellipsis} ${styles.emptyOpenApiTitle}`}>This service has no OpenAPI Schema</div><div className={`${styles.emptyOpenApiText}`}>This service cannot be tested because it doesn't expose a valid OpenAPI schema.<br />Open it at <a href={serviceUrl} target='_blank' rel='noopener noreferrer' className={`${typographyStyles.textWhite}`}>{serviceUrl}</a></div></div>}
+        ? <ApiReferenceReact configuration={{ content: openapi, showSidebar: false, customCss, baseServerURL }} />
+        : <div className={`${typographyStyles.textWhite} ${typographyStyles.textCenter} ${styles.emptyOpenApi}`}><Icons.OpenAPIEditsIcon color={WHITE} size={MEDIUM} /><div className={`${typographyStyles.ellipsis} ${styles.emptyOpenApiTitle}`}>This service has no OpenAPI Schema</div><div className={`${styles.emptyOpenApiText}`}>This service cannot be tested because it doesn't expose a valid OpenAPI schema.<br />Open it at <a href={baseServerURL} target='_blank' rel='noopener noreferrer' className={`${typographyStyles.textWhite}`}>{baseServerURL}</a></div></div>}
     </div>
   )
 }
