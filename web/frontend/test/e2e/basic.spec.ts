@@ -1,4 +1,11 @@
-import { test, expect } from '@playwright/test'
+import { test, expect, Page } from '@playwright/test'
+
+const sendScalarReq = async (page: Page) => await page.locator('button.scalar-button').filter({ hasText: 'send' }).click()
+
+const closeScalarModal = async (page: Page) => {
+  await page.keyboard.press('Escape')
+  await page.locator('[class*="_closeButton_"]').click()
+}
 
 test.describe('Basic E2E tests', () => {
   test('should load the main functionalities', async ({ page }) => {
@@ -37,7 +44,36 @@ test.describe('Basic E2E tests', () => {
     await page.getByText('Pretty').click()
     await page.getByText('Select all services').click()
 
-    // back the the home
+    // frontend (no Open API)
+    await page.goto('/#/')
+    await page.getByText('Service Type: vite').click()
+    await page.getByText('This service has no OpenAPI Schema').waitFor()
+    await expect(page.getByText('Open it at http://127.0.0.1:5042/api/proxy')).toHaveCount(1)
+    await closeScalarModal(page)
+
+    // composer (Scalar)
+    await page.getByText('(Application Entrypoint)').click()
+    await page.getByText('Platformatic Composer').waitFor()
+    await page
+      .locator('[id="tag/default/get/api/runtimes"]')
+      .locator('.show-api-client-button')
+      .click()
+    await sendScalarReq(page)
+    await page.getByText('200 OK').waitFor()
+    await closeScalarModal(page)
+
+    // backend (Scalar)
+    await page.getByText('Service Type: service').click()
+    await page.getByText('This is a service built on top of Platformatic').waitFor()
+    await page
+      .locator('[id="tag/default/get/runtimes"]')
+      .locator('.show-api-client-button')
+      .click()
+    await sendScalarReq(page)
+    await page.getByText('200 OK').waitFor()
+    await closeScalarModal(page)
+
+    // back the the home and restart
     await page.goto('/#/')
     await expect(page.getByText('RUNNING')).toHaveCount(1)
     const documentationButton = page.locator('[title="Documentation"]')

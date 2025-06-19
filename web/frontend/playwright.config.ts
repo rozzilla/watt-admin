@@ -2,6 +2,7 @@ import { defineConfig, devices } from '@playwright/test'
 
 const PORT = process.env.PORT || '5042'
 const baseURL = `http://127.0.0.1:${PORT}`
+const timeout = 10000
 
 export default defineConfig({
   testDir: './test/e2e',
@@ -17,9 +18,10 @@ export default defineConfig({
   webServer: {
     command: 'cd ../.. && npm run dev',
     url: baseURL,
-    timeout: 10000,
+    timeout,
     stdout: 'pipe',
     stderr: 'pipe',
     env: { PORT }
   },
+  timeout
 })
