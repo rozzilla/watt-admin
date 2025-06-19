@@ -68,7 +68,7 @@ test.describe('Basic E2E tests', () => {
       .locator('.show-api-client-button')
       .click()
     await page.locator('button.scalar-button').filter({ hasText: 'send' }).click()
-    await page.locator('div.scalar-app-layout.scalar-client').getByText('platformaticVersion').waitFor()
+    await page.getByText('200 OK').waitFor()
     await page.keyboard.press('Escape')
     await closeScalarModal(page)
 
