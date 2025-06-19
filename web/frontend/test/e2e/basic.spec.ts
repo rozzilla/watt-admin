@@ -68,8 +68,7 @@ test.describe('Basic E2E tests', () => {
       .locator('.show-api-client-button')
       .click()
     await page.locator('button.scalar-button').filter({ hasText: 'send' }).click()
-    await page.locator('div.scalar-app-layout.scalar-client').waitFor()
-    await page.getByText('"packageName": "@platformatic/watt-admin"').waitFor()
+    await page.locator('div.scalar-app-layout.scalar-client').getByText('platformaticVersion').waitFor()
     await page.keyboard.press('Escape')
     await closeScalarModal(page)
 
