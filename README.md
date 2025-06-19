@@ -12,6 +12,8 @@ After installing the project dependencies, you can run the tool directly:
 ./cli.js
 ```
 
+To run the CLI on a custom port, you can just pass it as an argument with `./cli.js --port 4321`.
+
 The tool is also available as a binary when installed globally or linked:
 
 ```bash
