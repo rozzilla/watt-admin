@@ -11,6 +11,7 @@ import { ServiceData } from 'src/types'
 import ErrorComponent from '../errors/ErrorComponent'
 import { HOME_PATH } from '../../ui-constants'
 import { useNavigate } from 'react-router-dom'
+import { getServiceEntrypoint } from '../../utilities/getters'
 
 interface ServiceDetailPanelProps {
   openapi: unknown;
@@ -82,7 +83,7 @@ function Service ({ service, onServiceClick }: ServiceProps): React.ReactElement
         <div className={`${commonStyles.tinyFlexRow} ${commonStyles.fullWidth} ${commonStyles.flexGrow}`}>
           <div className={`${commonStyles.tinyFlexRow} ${commonStyles.fullWidth}`}>
             {
-              'entrypoint' in service
+              getServiceEntrypoint(service)
                 ? <Icons.EntrypointIcon
                     color={WHITE}
                     size={SMALL}
@@ -93,7 +94,7 @@ function Service ({ service, onServiceClick }: ServiceProps): React.ReactElement
                   />
             }
             <span className={`${typographyStyles.textWhite}`}>{service.id}</span>
-            {'entrypoint' in service &&
+            {getServiceEntrypoint(service) &&
               <span className={`${typographyStyles.desktopBodySmallest} ${typographyStyles.textWhite} ${typographyStyles.opacity70}`}>(Application Entrypoint)</span>}
 
             {'type' in service && <span className={`${typographyStyles.desktopBodySmallest} ${typographyStyles.textWhite} ${typographyStyles.opacity70}`}> | &nbsp; Service Type: {service.type}</span>}
