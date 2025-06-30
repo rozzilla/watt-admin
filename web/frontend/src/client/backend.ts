@@ -254,7 +254,7 @@ const _postRuntimesPidRestart = async (url: string, request: Types.PostRuntimesP
   const isFormData = body instanceof FormData
   const headers: HeadersInit = {
     ...defaultHeaders,
-    ...(isFormData ? {} : defaultJsonType)
+    ...(isFormData || body === undefined) ? {} : defaultJsonType
   }
 
   const response = await fetch(`${url}/runtimes/${request.path['pid']}/restart`, {
