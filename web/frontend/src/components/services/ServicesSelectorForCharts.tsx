@@ -5,10 +5,12 @@ import styles from './ServicesSelector.module.css'
 import { OPACITY_100, OPACITY_15, OPACITY_30, RICH_BLACK, SMALL, TRANSPARENT, WHITE } from '@platformatic/ui-components/src/components/constants'
 import { Icons, BorderedBox, Forms } from '@platformatic/ui-components'
 import { ServiceData } from 'src/types'
+import { getServiceWorkers } from '../../utilities/getters'
 
 export type ThreadIndex = number | 'all'
 
-interface ServiceProps extends ServiceData {
+type ServiceProps = {
+  service: ServiceData
   isSelected: boolean;
   selectedThread?: ThreadIndex;
   onClickService: () => void;
@@ -20,16 +22,15 @@ export const getThreadName = (idx: ThreadIndex): string => idx === 'all' ? 'All 
 export const hasMultipleWorkers = (workers?: number): workers is number => workers ? workers > 1 : false
 
 function Service ({
-  id,
-  entrypoint,
+  service,
   isSelected,
-  workers,
   onClickService,
   selectedThread = 'all',
   onSelectThread
 }: ServiceProps): React.ReactElement {
   const [selected] = useState(isSelected)
-  const multipleWorkers = hasMultipleWorkers(workers)
+  const workers = getServiceWorkers(service)
+  const multipleWorkers = hasMultipleWorkers(getServiceWorkers(service))
   const showAllThreads = () => {
     const allThreads = []
     if (multipleWorkers) {
@@ -66,8 +67,8 @@ function Service ({
       <div className={`${commonStyles.miniFlexBlock} ${commonStyles.fullWidth}`}>
         <div className={`${commonStyles.tinyFlexRow} ${commonStyles.fullWidth} ${commonStyles.justifyBetween}`}>
           <div className={`${commonStyles.tinyFlexRow} ${commonStyles.fullWidth}`}>
-            <span className={`${typographyStyles.desktopBodySmall} ${typographyStyles.textWhite}`}>{id}</span>
-            {entrypoint &&
+            <span className={`${typographyStyles.desktopBodySmall} ${typographyStyles.textWhite}`}>{service.id}</span>
+            {'entrypoint' in service &&
               <span className={`${typographyStyles.desktopBodySmallest} ${typographyStyles.textWhite} ${typographyStyles.opacity70}`}>(Entrypoint)</span>}
           </div>
           {multipleWorkers && (selected ? <span><Icons.ArrowDownIcon color={WHITE} size={SMALL} /></span> : <span className={`${typographyStyles.opacity70}`}><Icons.ArrowRightIcon color={WHITE} size={SMALL} /></span>)}
@@ -119,7 +120,7 @@ function ServicesSelectorForCharts ({
           return (
             <Service
               key={`${service.id}-$${service.selected}`}
-              {...service}
+              service={service}
               isSelected={isSelected}
               onClickService={() => handleClickService(service)}
               selectedThread={isSelected ? selectedThread : 'all'}

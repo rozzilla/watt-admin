@@ -11,6 +11,7 @@ import { POD_SERVICES_PATH } from '../../ui-constants'
 import { getServices } from '../../api'
 import { ServiceData } from 'src/types'
 import ErrorComponent from '../errors/ErrorComponent'
+import { getServiceWorkers } from '../../utilities/getters'
 
 const ServicesCharts: React.FC = () => {
   const globalState = useAdminStore()
@@ -18,7 +19,7 @@ const ServicesCharts: React.FC = () => {
   const [error, setError] = useState<unknown>(undefined)
   const [showAggregatedMetrics, setShowAggregatedMetrics] = useState(true)
   const [services, setServices] = useState<ServiceData[]>([])
-  const [serviceSelected, setServiceSelected] = useState<ServiceData>({ id: '', selected: false })
+  const [serviceSelected, setServiceSelected] = useState<ServiceData>({ id: '', status: '' })
   const [threadIndex, setThreadIndex] = useState<ThreadIndex>()
 
   useEffect(() => {
@@ -66,14 +67,14 @@ const ServicesCharts: React.FC = () => {
               serviceSelected={serviceSelected}
               handleClickService={(service) => {
                 setServiceSelected(service)
-                if (hasMultipleWorkers(service.workers)) {
+                if (hasMultipleWorkers(getServiceWorkers(service))) {
                   setThreadIndex('all')
                 } else {
                   setThreadIndex(undefined)
                 }
               }}
               handleClickThread={(threadIndex) => {
-                if (hasMultipleWorkers(serviceSelected.workers)) {
+                if (hasMultipleWorkers(getServiceWorkers(serviceSelected))) {
                   setThreadIndex(threadIndex)
                 } else {
                   setThreadIndex(undefined)

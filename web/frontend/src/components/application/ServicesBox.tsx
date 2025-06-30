@@ -61,13 +61,11 @@ function ServiceDetailPanel ({ openapi, pid, service, onClose }: ServiceDetailPa
 }
 
 interface ServiceProps {
-  id: string;
-  entrypoint?: boolean;
-  type?: string;
+  service: ServiceData;
   onServiceClick: (id: string) => void;
 }
 
-function Service ({ id, entrypoint, type, onServiceClick }: ServiceProps): React.ReactElement {
+function Service ({ service, onServiceClick }: ServiceProps): React.ReactElement {
   return (
     <div className={`${commonStyles.tinyFlexRow} ${commonStyles.fullWidth} ${commonStyles.flexGrow}`}>
       <BorderedBox
@@ -79,12 +77,12 @@ function Service ({ id, entrypoint, type, onServiceClick }: ServiceProps): React
         backgroundColorOpacityOver={OPACITY_15}
         backgroundColorOver={WHITE}
         clickable
-        onClick={() => onServiceClick(id)}
+        onClick={() => onServiceClick(service.id)}
       >
         <div className={`${commonStyles.tinyFlexRow} ${commonStyles.fullWidth} ${commonStyles.flexGrow}`}>
           <div className={`${commonStyles.tinyFlexRow} ${commonStyles.fullWidth}`}>
             {
-              entrypoint
+              'entrypoint' in service
                 ? <Icons.EntrypointIcon
                     color={WHITE}
                     size={SMALL}
@@ -94,11 +92,11 @@ function Service ({ id, entrypoint, type, onServiceClick }: ServiceProps): React
                     size={SMALL}
                   />
             }
-            <span className={`${typographyStyles.textWhite}`}>{id}</span>
-            {entrypoint &&
+            <span className={`${typographyStyles.textWhite}`}>{service.id}</span>
+            {'entrypoint' in service &&
               <span className={`${typographyStyles.desktopBodySmallest} ${typographyStyles.textWhite} ${typographyStyles.opacity70}`}>(Application Entrypoint)</span>}
 
-            <span className={`${typographyStyles.desktopBodySmallest} ${typographyStyles.textWhite} ${typographyStyles.opacity70}`}> | &nbsp; Service Type: {type}</span>
+            {'type' in service && <span className={`${typographyStyles.desktopBodySmallest} ${typographyStyles.textWhite} ${typographyStyles.opacity70}`}> | &nbsp; Service Type: {service.type}</span>}
           </div>
           <div className={`${styles.w45} ${typographyStyles.desktopBodySmallest} ${typographyStyles.textWhite} ${typographyStyles.opacity70}`}>Test it</div>
           <Icons.InternalLinkIcon className={`${typographyStyles.opacity70}`} color={WHITE} size={SMALL} />
@@ -167,13 +165,11 @@ function ServicesBox (): React.ReactElement {
             </div>
           </div>
           <div className={`${commonStyles.tinyFlexBlock} ${commonStyles.fullWidth}`}>
-            {services.map(({ id, entrypoint, type }) => (
+            {services.map((service) => (
               <Service
-                key={id}
-                id={id}
-                entrypoint={entrypoint}
-                type={type}
-                onServiceClick={() => setSelectedService(id)}
+                key={service.id}
+                service={service}
+                onServiceClick={() => setSelectedService(service.id)}
               />
             ))}
           </div>

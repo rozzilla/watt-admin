@@ -11,6 +11,7 @@ import { POD_LOGS_PATH } from '../../ui-constants'
 import { getServices } from '../../api'
 import { ServiceData } from 'src/types'
 import ErrorComponent from '../errors/ErrorComponent'
+import { getServiceSelected } from '../../utilities/getters'
 
 const ServicesLogs: React.FC = () => {
   const globalState = useAdminStore()
@@ -46,17 +47,17 @@ const ServicesLogs: React.FC = () => {
   function handleChangeService (serviceUpdated: ServiceData): void {
     const newServices = services.map(service => {
       if (serviceUpdated.id === service.id) {
-        return { ...service, selected: !service.selected }
+        return { ...service, selected: !getServiceSelected(service) }
       } else {
         return { ...service }
       }
     })
     // if all selected but not find a service that is selected, turn off the toggle
-    if (selectAllServices && newServices.find(service => !service.selected) !== undefined) {
+    if (selectAllServices && newServices.find(service => !getServiceSelected(service)) !== undefined) {
       setSelectAllServices(false)
     }
     // if no service is selected but not all service select correspont to length of all service
-    if (!selectAllServices && newServices.filter(service => service.selected).length === newServices.length) {
+    if (!selectAllServices && newServices.filter(getServiceSelected).length === newServices.length) {
       setSelectAllServices(true)
     }
     setServices(newServices)
@@ -93,7 +94,7 @@ const ServicesLogs: React.FC = () => {
               handleChangeAllServices={() => handleChangeAllService()}
             />
             <AppLogs
-              filteredServices={services.filter(service => service.selected).map(service => service.id)}
+              filteredServices={services.filter(getServiceSelected).map(service => service.id)}
             />
           </div>
         </BorderedBox>
