@@ -1,7 +1,3 @@
-export interface ServiceData {
-  id: string;
-  entrypoint?: boolean;
-  type?: string;
-  workers?: number;
-  selected?: boolean;
-}
+import { GetRuntimesPidServicesResponseOK } from './client/backend-types'
+
+export type ServiceData = GetRuntimesPidServicesResponseOK['services'][number] & { selected?: boolean }

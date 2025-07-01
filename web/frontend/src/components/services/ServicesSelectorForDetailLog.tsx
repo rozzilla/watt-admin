@@ -5,6 +5,7 @@ import styles from './ServicesSelector.module.css'
 import { OPACITY_100, OPACITY_15, OPACITY_30, RICH_BLACK, SMALL, TRANSPARENT, WHITE } from '@platformatic/ui-components/src/components/constants'
 import { BorderedBox, Checkbox, Icons, Forms } from '@platformatic/ui-components'
 import { ServiceData } from 'src/types'
+import { getServiceSelected } from '../../utilities/getters'
 
 interface ServiceProps {
   id: string;
@@ -66,7 +67,7 @@ function ServicesSelectorForDetailLog ({
           size={SMALL}
         />}
       <div className={`${commonStyles.tinyFlexBlock} ${commonStyles.fullWidth}`}>
-        {services.map(service => <Service key={service.id} {...service} isSelected={service.selected || false} onChangeService={() => handleChangeService(service)} />)}
+        {services.map(service => <Service key={service.id} {...service} isSelected={getServiceSelected(service)} onChangeService={() => handleChangeService(service)} />)}
       </div>
     </div>
   )
