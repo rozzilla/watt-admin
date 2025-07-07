@@ -13676,5 +13676,95 @@ export const metricFixtures: Metric[] = [
       }
     ],
     aggregator: 'sum'
+  }, {
+    help: 'Number of active Kafka producers',
+    name: 'kafka_producers',
+    type: 'gauge',
+    values: [
+      {
+        value: 2,
+        labels: {
+          serviceId: 'kafka',
+          workerId: 1
+        }
+      }
+    ],
+    aggregator: 'sum'
+  },
+  {
+    help: 'Number of produced Kafka messages',
+    name: 'kafka_produced_messages',
+    type: 'counter',
+    values: [
+      {
+        value: 0,
+        labels: {
+          serviceId: 'kafka',
+          workerId: 1
+        }
+      }
+    ],
+    aggregator: 'sum'
+  },
+  {
+    help: 'Number of active Kafka consumers',
+    name: 'kafka_consumers',
+    type: 'gauge',
+    values: [{
+      value: 1,
+      labels: { serviceId: 'kafka', workerId: 1 }
+    }
+    ],
+    aggregator: 'sum'
+  },
+  {
+    help: 'Number of active Kafka consumers streams',
+    name: 'kafka_consumers_streams',
+    type: 'gauge',
+    values: [{ value: 1, labels: { serviceId: 'kafka', workerId: 1 } }],
+    aggregator: 'sum'
+  },
+  {
+    help: 'Number of topics being consumed',
+    name: 'kafka_consumers_topics',
+    type: 'gauge',
+    values: [
+      {
+        value: 1,
+        labels: {
+          serviceId: 'kafka',
+          workerId: 1
+        }
+      }
+    ],
+    aggregator: 'sum'
+  },
+  {
+    help: 'Number of consumed Kafka messages',
+    name: 'kafka_consumed_messages',
+    type: 'counter',
+    values: [{ value: 0, labels: { serviceId: 'kafka', workerId: 1 } }],
+    aggregator: 'sum'
+  },
+  {
+    help: 'Number of messages currently being processed',
+    name: 'kafka_hooks_messages_in_flight',
+    type: 'gauge',
+    values: [],
+    aggregator: 'sum'
+  },
+  {
+    name: 'kafka_hooks_http_request_duration_seconds',
+    help: 'HTTP request duration for webhook deliveries',
+    type: 'histogram',
+    values: [],
+    aggregator: 'sum'
+  },
+  {
+    help: 'Total number of messages sent to the DLQ (Dead Letter Queue)',
+    name: 'kafka_hooks_dlq_messages_total',
+    type: 'counter',
+    values: [],
+    aggregator: 'sum'
   }
 ]

@@ -1,6 +1,6 @@
 import { RuntimeApiClient } from '@platformatic/control'
 import { FastifyInstance } from 'fastify'
-import type { CpuDataPoint, LatencyDataPoint, MemoryDataPoint, MetricsResponse, RequestDataPoint } from '../schemas'
+import type { CpuDataPoint, KafkaDataPoint, LatencyDataPoint, MemoryDataPoint, MetricsResponse, RequestDataPoint } from '../schemas'
 
 export type MappedMetrics = Record<number, {
   aggregated: MetricsResponse,
@@ -12,7 +12,7 @@ const MAX_STORED_METRICS = 20
 
 export const calcReqRps = (count: number, req: RequestDataPoint[]) => Math.abs(count - (req[req.length - 1]?.count || 0))
 
-const initMetricsResponse = (): MetricsResponse => ({ dataCpu: [], dataLatency: [], dataMem: [], dataReq: [] })
+const initMetricsResponse = (): MetricsResponse => ({ dataCpu: [], dataLatency: [], dataMem: [], dataReq: [], dataKafka: [] })
 
 const initMemData = (date: string): MemoryDataPoint => ({ date, rss: 0, totalHeap: 0, usedHeap: 0, newSpace: 0, oldSpace: 0 })
 
@@ -21,6 +21,8 @@ const initCpuData = (date: string): CpuDataPoint => ({ date, cpu: 0, eventLoop: 
 const initLatencyData = (date: string): LatencyDataPoint => ({ date, p90: 0, p95: 0, p99: 0 })
 
 const initReqData = (date: string): RequestDataPoint => ({ date, count: 0, rps: 0, })
+
+const initKafkaData = (date: string): KafkaDataPoint => ({ date, consumedMessages: 0, consumers: 0, consumersStreams: 0, consumersTopics: 0, hooksDlqMessagesTotal: 0, hooksMessagesInFlight: 0, producedMessages: 0, producers: 0 })
 
 export const calculateMetrics = async ({ mappedMetrics, log }: FastifyInstance): Promise<void> => {
   try {
@@ -32,6 +34,7 @@ export const calculateMetrics = async ({ mappedMetrics, log }: FastifyInstance):
       const aggregatedCpuData = initCpuData(date)
       const aggregatedLatencyData = initLatencyData(date)
       const aggregatedReqData = initReqData(date)
+      const aggregatedKafkaData = initKafkaData(date)
       let aggregatedRss = 0
 
       const runtimeMetrics = await api.getRuntimeMetrics(pid, { format: 'json' })
@@ -60,10 +63,12 @@ export const calculateMetrics = async ({ mappedMetrics, log }: FastifyInstance):
         const workersCpuData: CpuDataPoint[] = Array.from({ length: workers }, () => initCpuData(date))
         const workersLatencyData: LatencyDataPoint[] = Array.from({ length: workers }, () => initLatencyData(date))
         const workersReqData: RequestDataPoint[] = Array.from({ length: workers }, () => initReqData(date))
+        const workersKafkaData: KafkaDataPoint[] = Array.from({ length: workers }, () => initKafkaData(date))
         const serviceMemData = initMemData(date)
         const serviceCpuData = initCpuData(date)
         const serviceLatencyData = initLatencyData(date)
         const serviceReqData = initReqData(date)
+        const serviceKafkaData = initKafkaData(date)
 
         for (const metric of runtimeMetrics) {
           if (metric.values.length > 0) {
@@ -203,6 +208,70 @@ export const calculateMetrics = async ({ mappedMetrics, log }: FastifyInstance):
                   }
                 }
               }
+
+              if (metric.name === 'kafka_producers') {
+                serviceKafkaData.producers = value
+                aggregatedKafkaData.producers = value
+                if (areMultipleWorkersEnabled) {
+                  workersKafkaData[workerId].producers = value
+                }
+              }
+
+              if (metric.name === 'kafka_produced_messages') {
+                serviceKafkaData.producedMessages = value
+                aggregatedKafkaData.producedMessages = value
+                if (areMultipleWorkersEnabled) {
+                  workersKafkaData[workerId].producedMessages = value
+                }
+              }
+
+              if (metric.name === 'kafka_consumers') {
+                serviceKafkaData.consumers = value
+                aggregatedKafkaData.consumers = value
+                if (areMultipleWorkersEnabled) {
+                  workersKafkaData[workerId].consumers = value
+                }
+              }
+
+              if (metric.name === 'kafka_consumers_streams') {
+                serviceKafkaData.consumersStreams = value
+                aggregatedKafkaData.consumersStreams = value
+                if (areMultipleWorkersEnabled) {
+                  workersKafkaData[workerId].consumersStreams = value
+                }
+              }
+
+              if (metric.name === 'kafka_consumers_topics') {
+                serviceKafkaData.consumersTopics = value
+                aggregatedKafkaData.consumersTopics = value
+                if (areMultipleWorkersEnabled) {
+                  workersKafkaData[workerId].consumersTopics = value
+                }
+              }
+
+              if (metric.name === 'kafka_consumed_messages') {
+                serviceKafkaData.consumedMessages = value
+                aggregatedKafkaData.consumedMessages = value
+                if (areMultipleWorkersEnabled) {
+                  workersKafkaData[workerId].consumedMessages = value
+                }
+              }
+
+              if (metric.name === 'kafka_hooks_messages_in_flight') {
+                serviceKafkaData.hooksMessagesInFlight = value
+                aggregatedKafkaData.hooksMessagesInFlight = value
+                if (areMultipleWorkersEnabled) {
+                  workersKafkaData[workerId].hooksMessagesInFlight = value
+                }
+              }
+
+              if (metric.name === 'kafka_hooks_dlq_messages_total') {
+                serviceKafkaData.hooksDlqMessagesTotal = value
+                aggregatedKafkaData.hooksDlqMessagesTotal = value
+                if (areMultipleWorkersEnabled) {
+                  workersKafkaData[workerId].hooksDlqMessagesTotal = value
+                }
+              }
             }
           }
         }
@@ -226,11 +295,15 @@ export const calculateMetrics = async ({ mappedMetrics, log }: FastifyInstance):
             if (mappedMetrics[pid].services[serviceId][i].dataReq.length >= MAX_STORED_METRICS) {
               mappedMetrics[pid].services[serviceId][i].dataReq.shift()
             }
+            if (mappedMetrics[pid].services[serviceId][i].dataKafka.length >= MAX_STORED_METRICS) {
+              mappedMetrics[pid].services[serviceId][i].dataKafka.shift()
+            }
 
             mappedMetrics[pid].services[serviceId][i].dataMem.push(workersMemData[i])
             mappedMetrics[pid].services[serviceId][i].dataCpu.push(workersCpuData[i])
             mappedMetrics[pid].services[serviceId][i].dataLatency.push(workersLatencyData[i])
             mappedMetrics[pid].services[serviceId][i].dataReq.push(workersReqData[i])
+            mappedMetrics[pid].services[serviceId][i].dataKafka.push(workersKafkaData[i])
           }
         }
 
@@ -246,10 +319,14 @@ export const calculateMetrics = async ({ mappedMetrics, log }: FastifyInstance):
         if (mappedMetrics[pid].services[serviceId].all.dataReq.length >= MAX_STORED_METRICS) {
           mappedMetrics[pid].services[serviceId].all.dataReq.shift()
         }
+        if (mappedMetrics[pid].services[serviceId].all.dataKafka.length >= MAX_STORED_METRICS) {
+          mappedMetrics[pid].services[serviceId].all.dataKafka.shift()
+        }
         mappedMetrics[pid].services[serviceId].all.dataMem.push(serviceMemData)
         mappedMetrics[pid].services[serviceId].all.dataCpu.push(serviceCpuData)
         mappedMetrics[pid].services[serviceId].all.dataLatency.push(serviceLatencyData)
         mappedMetrics[pid].services[serviceId].all.dataReq.push(serviceReqData)
+        mappedMetrics[pid].services[serviceId].all.dataKafka.push(serviceKafkaData)
       }
 
       if (mappedMetrics[pid].aggregated.dataMem.length >= MAX_STORED_METRICS) {
@@ -264,11 +341,15 @@ export const calculateMetrics = async ({ mappedMetrics, log }: FastifyInstance):
       if (mappedMetrics[pid].aggregated.dataReq.length >= MAX_STORED_METRICS) {
         mappedMetrics[pid].aggregated.dataReq.shift()
       }
+      if (mappedMetrics[pid].aggregated.dataKafka.length >= MAX_STORED_METRICS) {
+        mappedMetrics[pid].aggregated.dataKafka.shift()
+      }
 
       mappedMetrics[pid].aggregated.dataMem.push(aggregatedMemData)
       mappedMetrics[pid].aggregated.dataCpu.push(aggregatedCpuData)
       mappedMetrics[pid].aggregated.dataLatency.push(aggregatedLatencyData)
       mappedMetrics[pid].aggregated.dataReq.push(aggregatedReqData)
+      mappedMetrics[pid].aggregated.dataKafka.push(aggregatedKafkaData)
     }
   } catch (error) {
     log.warn(error, 'Unable to get runtime metrics. Retry will start soon...')

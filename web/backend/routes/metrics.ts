@@ -1,10 +1,10 @@
 import { FastifyInstance } from 'fastify'
 import { JsonSchemaToTsProvider } from '@fastify/type-provider-json-schema-to-ts'
-import { metricResponseSchema, pidParamSchema } from '../schemas'
+import { metricResponseSchema, MetricsResponse, pidParamSchema } from '../schemas'
 
 export default async function (fastify: FastifyInstance) {
   const typedFastify = fastify.withTypeProvider<JsonSchemaToTsProvider>()
-  const emptyMetrics = { dataCpu: [], dataLatency: [], dataMem: [], dataReq: [] }
+  const emptyMetrics: MetricsResponse = { dataCpu: [], dataLatency: [], dataMem: [], dataReq: [], dataKafka: [] }
 
   typedFastify.get('/runtimes/:pid/metrics', {
     schema: { params: pidParamSchema, response: { 200: metricResponseSchema } },
