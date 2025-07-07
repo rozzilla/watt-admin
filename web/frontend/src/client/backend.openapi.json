@@ -141,13 +141,62 @@
                           "rps"
                         ]
                       }
+                    },
+                    "dataKafka": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "additionalProperties": false,
+                        "properties": {
+                          "date": {
+                            "type": "string",
+                            "format": "date-time"
+                          },
+                          "producers": {
+                            "type": "number"
+                          },
+                          "producedMessages": {
+                            "type": "number"
+                          },
+                          "consumers": {
+                            "type": "number"
+                          },
+                          "consumersStreams": {
+                            "type": "number"
+                          },
+                          "consumersTopics": {
+                            "type": "number"
+                          },
+                          "consumedMessages": {
+                            "type": "number"
+                          },
+                          "hooksMessagesInFlight": {
+                            "type": "number"
+                          },
+                          "hooksDlqMessagesTotal": {
+                            "type": "number"
+                          }
+                        },
+                        "required": [
+                          "date",
+                          "producers",
+                          "producedMessages",
+                          "consumers",
+                          "consumersStreams",
+                          "consumersTopics",
+                          "consumedMessages",
+                          "hooksMessagesInFlight",
+                          "hooksDlqMessagesTotal"
+                        ]
+                      }
                     }
                   },
                   "required": [
                     "dataMem",
                     "dataCpu",
                     "dataLatency",
-                    "dataReq"
+                    "dataReq",
+                    "dataKafka"
                   ]
                 }
               }
@@ -296,13 +345,62 @@
                           "rps"
                         ]
                       }
+                    },
+                    "dataKafka": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "additionalProperties": false,
+                        "properties": {
+                          "date": {
+                            "type": "string",
+                            "format": "date-time"
+                          },
+                          "producers": {
+                            "type": "number"
+                          },
+                          "producedMessages": {
+                            "type": "number"
+                          },
+                          "consumers": {
+                            "type": "number"
+                          },
+                          "consumersStreams": {
+                            "type": "number"
+                          },
+                          "consumersTopics": {
+                            "type": "number"
+                          },
+                          "consumedMessages": {
+                            "type": "number"
+                          },
+                          "hooksMessagesInFlight": {
+                            "type": "number"
+                          },
+                          "hooksDlqMessagesTotal": {
+                            "type": "number"
+                          }
+                        },
+                        "required": [
+                          "date",
+                          "producers",
+                          "producedMessages",
+                          "consumers",
+                          "consumersStreams",
+                          "consumersTopics",
+                          "consumedMessages",
+                          "hooksMessagesInFlight",
+                          "hooksDlqMessagesTotal"
+                        ]
+                      }
                     }
                   },
                   "required": [
                     "dataMem",
                     "dataCpu",
                     "dataLatency",
-                    "dataReq"
+                    "dataReq",
+                    "dataKafka"
                   ]
                 }
               }
@@ -459,13 +557,62 @@
                           "rps"
                         ]
                       }
+                    },
+                    "dataKafka": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "additionalProperties": false,
+                        "properties": {
+                          "date": {
+                            "type": "string",
+                            "format": "date-time"
+                          },
+                          "producers": {
+                            "type": "number"
+                          },
+                          "producedMessages": {
+                            "type": "number"
+                          },
+                          "consumers": {
+                            "type": "number"
+                          },
+                          "consumersStreams": {
+                            "type": "number"
+                          },
+                          "consumersTopics": {
+                            "type": "number"
+                          },
+                          "consumedMessages": {
+                            "type": "number"
+                          },
+                          "hooksMessagesInFlight": {
+                            "type": "number"
+                          },
+                          "hooksDlqMessagesTotal": {
+                            "type": "number"
+                          }
+                        },
+                        "required": [
+                          "date",
+                          "producers",
+                          "producedMessages",
+                          "consumers",
+                          "consumersStreams",
+                          "consumersTopics",
+                          "consumedMessages",
+                          "hooksMessagesInFlight",
+                          "hooksDlqMessagesTotal"
+                        ]
+                      }
                     }
                   },
                   "required": [
                     "dataMem",
                     "dataCpu",
                     "dataLatency",
-                    "dataReq"
+                    "dataReq",
+                    "dataKafka"
                   ]
                 }
               }

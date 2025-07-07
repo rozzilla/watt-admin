@@ -12,15 +12,12 @@ import useAdminStore from '../../useAdminStore'
 import type { GetRuntimesPidMetricsResponseOK } from 'src/client/backend-types'
 import ErrorComponent from '../errors/ErrorComponent'
 
+export const getEmptyMetrics = (): GetRuntimesPidMetricsResponseOK => ({ dataMem: [], dataCpu: [], dataLatency: [], dataReq: [], dataKafka: [] })
+
 function NodeJSMetrics (): React.ReactElement {
   const [error, setError] = useState<unknown>(undefined)
   const [initialLoading, setInitialLoading] = useState(true)
-  const [allData, setAllData] = useState<GetRuntimesPidMetricsResponseOK>({
-    dataMem: [],
-    dataCpu: [],
-    dataLatency: [],
-    dataReq: []
-  })
+  const [allData, setAllData] = useState<GetRuntimesPidMetricsResponseOK>(getEmptyMetrics())
   const { runtimePid } = useAdminStore()
 
   const getData = async (): Promise<void> => {
