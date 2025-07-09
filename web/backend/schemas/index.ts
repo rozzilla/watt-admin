@@ -54,6 +54,34 @@ const requestDataPointSchema = {
 } as const
 export type RequestDataPoint = FromSchema<typeof requestDataPointSchema>
 
+const kafkaDataPointSchema = {
+  type: 'object',
+  additionalProperties: false,
+  properties: {
+    date: { type: 'string', format: 'date-time' },
+    producers: { type: 'number' },
+    producedMessages: { type: 'number' },
+    consumers: { type: 'number' },
+    consumersStreams: { type: 'number' },
+    consumersTopics: { type: 'number' },
+    consumedMessages: { type: 'number' },
+    hooksMessagesInFlight: { type: 'number' },
+    hooksDlqMessagesTotal: { type: 'number' },
+  },
+  required: [
+    'date',
+    'producers',
+    'producedMessages',
+    'consumers',
+    'consumersStreams',
+    'consumersTopics',
+    'consumedMessages',
+    'hooksMessagesInFlight',
+    'hooksDlqMessagesTotal',
+  ]
+} as const
+export type KafkaDataPoint = FromSchema<typeof kafkaDataPointSchema>
+
 export const metricResponseSchema = {
   type: 'object',
   additionalProperties: false,
@@ -61,9 +89,10 @@ export const metricResponseSchema = {
     dataMem: { type: 'array', items: memoryDataPointSchema },
     dataCpu: { type: 'array', items: cpuDataPointSchema },
     dataLatency: { type: 'array', items: latencyDataPointSchema },
-    dataReq: { type: 'array', items: requestDataPointSchema }
+    dataReq: { type: 'array', items: requestDataPointSchema },
+    dataKafka: { type: 'array', items: kafkaDataPointSchema },
   },
-  required: ['dataMem', 'dataCpu', 'dataLatency', 'dataReq']
+  required: ['dataMem', 'dataCpu', 'dataLatency', 'dataReq', 'dataKafka']
 } as const
 export type MetricsResponse = FromSchema<typeof metricResponseSchema>
 

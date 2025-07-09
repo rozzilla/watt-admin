@@ -16,6 +16,7 @@ import { GetRuntimesPidMetricsResponseOK } from 'src/client/backend-types'
 import ErrorComponent from '../errors/ErrorComponent'
 import { ServiceData } from 'src/types'
 import { getThreadName, ThreadIndex } from '../services/ServicesSelectorForCharts'
+import { getEmptyMetrics } from '../application/NodeJSMetrics'
 
 interface ServicesMetricsProps {
   service: ServiceData;
@@ -31,18 +32,8 @@ function ServicesMetrics ({
   const threadName = threadIndex ? getThreadName(threadIndex) : ''
   const [error, setError] = useState<unknown>(undefined)
   const [initialLoading, setInitialLoading] = useState(true)
-  const [serviceData, setServiceData] = useState<GetRuntimesPidMetricsResponseOK>({
-    dataMem: [],
-    dataCpu: [],
-    dataLatency: [],
-    dataReq: []
-  })
-  const [allData, setAllData] = useState<GetRuntimesPidMetricsResponseOK>({
-    dataMem: [],
-    dataCpu: [],
-    dataLatency: [],
-    dataReq: []
-  })
+  const [serviceData, setServiceData] = useState<GetRuntimesPidMetricsResponseOK>(getEmptyMetrics())
+  const [allData, setAllData] = useState<GetRuntimesPidMetricsResponseOK>(getEmptyMetrics())
   const { runtimePid } = useAdminStore()
 
   const getData = async (): Promise<void> => {
