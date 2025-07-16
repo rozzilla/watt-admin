@@ -1,5 +1,5 @@
 import { describe, test, expect } from 'vitest'
-import { getServiceSelected, getServiceWorkers, getServiceEntrypoint } from '../../src/utilities/getters'
+import { getServiceSelected, getServiceWorkers, getServiceEntrypoint, getKafkaType } from '../../src/utilities/getters'
 import { ServiceData } from '../../src/types'
 
 describe('getServiceSelected', () => {
@@ -155,5 +155,69 @@ describe('getServiceEntrypoint', () => {
   test('should work when service has entrypoint along with other properties', () => {
     const service = { selected: true, workers: 10, entrypoint: true } as ServiceData
     expect(getServiceEntrypoint(service)).toBe(true)
+  })
+})
+
+describe('getKafkaType', () => {
+  test('should return false when there are no positive values', () => {
+    expect(getKafkaType([{
+      date: new Date().toISOString(),
+      producers: 0,
+      producedMessages: 0,
+      consumers: 0,
+      consumersStreams: 0,
+      consumersTopics: 0,
+      consumedMessages: 0,
+      hooksMessagesInFlight: 0,
+      hooksDlqMessagesTotal: 0
+    }])).toBe(false)
+  })
+
+  test('should return true when there is at least a positive value', () => {
+    expect(getKafkaType([{
+      date: new Date().toISOString(),
+      producers: 0,
+      producedMessages: 0,
+      consumers: 0,
+      consumersStreams: 0,
+      consumersTopics: 0,
+      consumedMessages: 0,
+      hooksMessagesInFlight: 0,
+      hooksDlqMessagesTotal: 0
+    }, {
+      date: new Date().toISOString(),
+      producers: 0,
+      producedMessages: 0,
+      consumers: 0,
+      consumersStreams: 1,
+      consumersTopics: 0,
+      consumedMessages: 0,
+      hooksMessagesInFlight: 0,
+      hooksDlqMessagesTotal: 0
+    }])).toBe(true)
+  })
+
+  test('should return true when there are all positive values', () => {
+    expect(getKafkaType([{
+      date: new Date().toISOString(),
+      producers: 2,
+      producedMessages: 2,
+      consumers: 2,
+      consumersStreams: 3,
+      consumersTopics: 3,
+      consumedMessages: 3,
+      hooksMessagesInFlight: 5,
+      hooksDlqMessagesTotal: 5
+    }, {
+      date: new Date().toISOString(),
+      producers: 4,
+      producedMessages: 4,
+      consumers: 4,
+      consumersStreams: 1,
+      consumersTopics: 7,
+      consumedMessages: 7,
+      hooksMessagesInFlight: 7,
+      hooksDlqMessagesTotal: 10
+    }])).toBe(true)
   })
 })

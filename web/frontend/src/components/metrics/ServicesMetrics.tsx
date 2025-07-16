@@ -6,17 +6,19 @@ import { BorderedBox } from '@platformatic/ui-components'
 import { getApiMetricsPodService, getApiMetricsPod, getApiMetricsPodWorker } from '../../api'
 import { useInterval } from '../../hooks/useInterval'
 import useAdminStore from '../../useAdminStore'
-import { REFRESH_INTERVAL_METRICS, POSITION_FIXED, MEMORY_UNIT_METRICS, LATENCY_UNIT_METRICS, CPU_UNIT_METRICS, REQ_UNIT_METRICS } from '../../ui-constants'
+import { REFRESH_INTERVAL_METRICS, POSITION_FIXED, MEMORY_UNIT_METRICS, LATENCY_UNIT_METRICS, CPU_UNIT_METRICS, REQ_UNIT_METRICS, KAFKA_UNIT_METRICS } from '../../ui-constants'
 import colorSetMem from './memory.module.css'
 import colorSetCpu from './cpu.module.css'
 import colorSetLatency from './latency.module.css'
 import colorSetReq from './req.module.css'
+import colorSetKafka from './kafka.module.css'
 import NodeJSMetric, { generateLegend } from '../application/NodeJSMetric'
 import { GetRuntimesPidMetricsResponseOK } from 'src/client/backend-types'
 import ErrorComponent from '../errors/ErrorComponent'
 import { ServiceData } from 'src/types'
 import { getThreadName, ThreadIndex } from '../services/ServicesSelectorForCharts'
 import { getEmptyMetrics } from '../application/NodeJSMetrics'
+import { getKafkaType } from '../../utilities/getters'
 
 interface ServicesMetricsProps {
   service: ServiceData;
@@ -35,6 +37,7 @@ function ServicesMetrics ({
   const [serviceData, setServiceData] = useState<GetRuntimesPidMetricsResponseOK>(getEmptyMetrics())
   const [allData, setAllData] = useState<GetRuntimesPidMetricsResponseOK>(getEmptyMetrics())
   const { runtimePid } = useAdminStore()
+  const [hasKafkaData, setHasKafkaData] = useState(false)
 
   const getData = async (): Promise<void> => {
     try {
@@ -44,6 +47,7 @@ function ServicesMetrics ({
         setAllData(runtimeData)
         setServiceData(serviceData)
         setError(undefined)
+        setHasKafkaData(getKafkaType(serviceData.dataKafka))
       }
     } catch (error) {
       setError(error)
@@ -304,6 +308,108 @@ function ServicesMetrics ({
 
         {generateLegend(['Requests'], colorSetReq)}
       </div>
+
+      {hasKafkaData &&
+        <div className={`${commonStyles.tinyFlexBlock} ${commonStyles.fullWidth}`}>
+          <div className={`${commonStyles.smallFlexRow} ${commonStyles.fullWidth}`}>
+            <BorderedBox color={TRANSPARENT} backgroundColor={RICH_BLACK} classes={styles.boxMetricContainer}>
+              <NodeJSMetric
+                title={`${serviceId} Kafka`}
+                metricURL='kafka'
+                dataValues={serviceData.dataKafka}
+                initialLoading={initialLoading}
+                chartTooltipPosition={POSITION_FIXED}
+                unit={`(${REQ_UNIT_METRICS})`}
+                options={[
+                  {
+                    label: 'Producers',
+                    internalKey: 'producers',
+                    unit: KAFKA_UNIT_METRICS
+                  },
+                  {
+                    label: 'Consumers',
+                    internalKey: 'consumers',
+                    unit: KAFKA_UNIT_METRICS
+                  },
+                  {
+                    label: 'Topics',
+                    internalKey: 'consumersTopics',
+                    unit: KAFKA_UNIT_METRICS
+                  },
+                  {
+                    label: 'Streams',
+                    internalKey: 'consumersStreams',
+                    unit: KAFKA_UNIT_METRICS
+                  },
+                  {
+                    label: 'Flight',
+                    internalKey: 'hooksMessagesInFlight',
+                    unit: KAFKA_UNIT_METRICS
+                  },
+                  {
+                    label: 'DLQ',
+                    internalKey: 'hooksDlqMessagesTotal',
+                    unit: KAFKA_UNIT_METRICS
+                  }
+                ]}
+                showLegend={false}
+                threadName={threadName}
+                slimCss
+                timeline
+              />
+            </BorderedBox>
+
+            {showAggregatedMetrics && (
+              <BorderedBox color={TRANSPARENT} backgroundColor={RICH_BLACK} classes={styles.boxMetricContainer}>
+                <NodeJSMetric
+                  title='Entrypoint Kafka'
+                  metricURL='kafka'
+                  dataValues={allData.dataKafka}
+                  initialLoading={initialLoading}
+                  chartTooltipPosition={POSITION_FIXED}
+                  unit={`(${KAFKA_UNIT_METRICS})`}
+                  options={[
+                    {
+                      label: 'Producers',
+                      internalKey: 'producers',
+                      unit: KAFKA_UNIT_METRICS
+                    },
+                    {
+                      label: 'Consumers',
+                      internalKey: 'consumers',
+                      unit: KAFKA_UNIT_METRICS
+                    },
+                    {
+                      label: 'Topics',
+                      internalKey: 'consumersTopics',
+                      unit: KAFKA_UNIT_METRICS
+                    },
+                    {
+                      label: 'Streams',
+                      internalKey: 'consumersStreams',
+                      unit: KAFKA_UNIT_METRICS
+                    },
+                    {
+                      label: 'Flight',
+                      internalKey: 'hooksMessagesInFlight',
+                      unit: KAFKA_UNIT_METRICS
+                    },
+                    {
+                      label: 'DLQ',
+                      internalKey: 'hooksDlqMessagesTotal',
+                      unit: KAFKA_UNIT_METRICS
+                    }
+                  ]}
+                  showLegend={false}
+                  slimCss
+                  timeline
+                />
+              </BorderedBox>
+            )}
+          </div>
+
+          {generateLegend(['Producers', 'Consumers', 'Topics', 'Streams', 'Flight', 'DLQ'], colorSetKafka)}
+        </div>}
     </div>
   )
 }

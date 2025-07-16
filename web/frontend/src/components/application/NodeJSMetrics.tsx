@@ -6,11 +6,12 @@ import typographyStyles from '../../styles/Typography.module.css'
 import commonStyles from '../../styles/CommonStyles.module.css'
 import { BorderedBox, Icons } from '@platformatic/ui-components'
 import NodeJSMetric from './NodeJSMetric'
-import { REFRESH_INTERVAL_METRICS, MEMORY_UNIT_METRICS, LATENCY_UNIT_METRICS, CPU_UNIT_METRICS, REQ_UNIT_METRICS } from '../../ui-constants'
+import { REFRESH_INTERVAL_METRICS, MEMORY_UNIT_METRICS, LATENCY_UNIT_METRICS, CPU_UNIT_METRICS, REQ_UNIT_METRICS, KAFKA_UNIT_METRICS } from '../../ui-constants'
 import { getApiMetricsPod } from '../../api'
 import useAdminStore from '../../useAdminStore'
 import type { GetRuntimesPidMetricsResponseOK } from 'src/client/backend-types'
 import ErrorComponent from '../errors/ErrorComponent'
+import { getKafkaType } from '../../utilities/getters'
 
 export const getEmptyMetrics = (): GetRuntimesPidMetricsResponseOK => ({ dataMem: [], dataCpu: [], dataLatency: [], dataReq: [], dataKafka: [] })
 
@@ -19,6 +20,7 @@ function NodeJSMetrics (): React.ReactElement {
   const [initialLoading, setInitialLoading] = useState(true)
   const [allData, setAllData] = useState<GetRuntimesPidMetricsResponseOK>(getEmptyMetrics())
   const { runtimePid } = useAdminStore()
+  const [hasKafkaData, setHasKafkaData] = useState(false)
 
   const getData = async (): Promise<void> => {
     try {
@@ -26,6 +28,7 @@ function NodeJSMetrics (): React.ReactElement {
         const data = await getApiMetricsPod(runtimePid)
         setAllData(data)
         setError(undefined)
+        setHasKafkaData(getKafkaType(data.dataKafka))
       }
     } catch (error) {
       setError(error)
@@ -127,6 +130,46 @@ function NodeJSMetrics (): React.ReactElement {
               unit: REQ_UNIT_METRICS
             }]}
           />
+          {hasKafkaData &&
+            <NodeJSMetric
+              title='Kafka'
+              metricURL='kafka'
+              dataValues={allData.dataKafka}
+              initialLoading={initialLoading}
+              unit={`(${KAFKA_UNIT_METRICS})`}
+              options={[
+                {
+                  label: 'Producers',
+                  internalKey: 'producers',
+                  unit: KAFKA_UNIT_METRICS
+                },
+                {
+                  label: 'Consumers',
+                  internalKey: 'consumers',
+                  unit: KAFKA_UNIT_METRICS
+                },
+                {
+                  label: 'Topics',
+                  internalKey: 'consumersTopics',
+                  unit: KAFKA_UNIT_METRICS
+                },
+                {
+                  label: 'Streams',
+                  internalKey: 'consumersStreams',
+                  unit: KAFKA_UNIT_METRICS
+                },
+                {
+                  label: 'Flight',
+                  internalKey: 'hooksMessagesInFlight',
+                  unit: KAFKA_UNIT_METRICS
+                },
+                {
+                  label: 'DLQ',
+                  internalKey: 'hooksDlqMessagesTotal',
+                  unit: KAFKA_UNIT_METRICS
+                }
+              ]}
+            />}
         </div>
       </div>
     </BorderedBox>
