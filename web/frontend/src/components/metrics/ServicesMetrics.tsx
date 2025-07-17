@@ -6,7 +6,7 @@ import { BorderedBox } from '@platformatic/ui-components'
 import { getApiMetricsPodService, getApiMetricsPod, getApiMetricsPodWorker } from '../../api'
 import { useInterval } from '../../hooks/useInterval'
 import useAdminStore from '../../useAdminStore'
-import { REFRESH_INTERVAL_METRICS, POSITION_FIXED, MEMORY_UNIT_METRICS, LATENCY_UNIT_METRICS, CPU_UNIT_METRICS, REQ_UNIT_METRICS, KAFKA_UNIT_METRICS } from '../../ui-constants'
+import { REFRESH_INTERVAL_METRICS, POSITION_FIXED, MEMORY_UNIT_METRICS, LATENCY_UNIT_METRICS, CPU_UNIT_METRICS, REQ_UNIT_METRICS, KAFKA_UNIT_METRICS, KAFKA_OPTIONS_METRICS, REQ_OPTIONS_METRICS, LATENCY_OPTIONS_METRICS, CPU_OPTIONS_METRICS, MEMORY_OPTIONS_METRICS } from '../../ui-constants'
 import colorSetMem from './memory.module.css'
 import colorSetCpu from './cpu.module.css'
 import colorSetLatency from './latency.module.css'
@@ -75,27 +75,7 @@ function ServicesMetrics ({
               dataValues={serviceData.dataMem}
               initialLoading={initialLoading}
               chartTooltipPosition={POSITION_FIXED}
-              options={[{
-                label: 'RSS',
-                internalKey: 'rss',
-                unit: MEMORY_UNIT_METRICS
-              }, {
-                label: 'Total Heap',
-                internalKey: 'totalHeap',
-                unit: MEMORY_UNIT_METRICS
-              }, {
-                label: 'Heap Used',
-                internalKey: 'usedHeap',
-                unit: MEMORY_UNIT_METRICS
-              }, {
-                label: 'New Space',
-                internalKey: 'newSpace',
-                unit: MEMORY_UNIT_METRICS
-              }, {
-                label: 'Old Space',
-                internalKey: 'oldSpace',
-                unit: MEMORY_UNIT_METRICS
-              }]}
+              options={MEMORY_OPTIONS_METRICS}
               showLegend={false}
               timeline
               slimCss
@@ -112,27 +92,7 @@ function ServicesMetrics ({
                 dataValues={allData.dataMem}
                 initialLoading={initialLoading}
                 chartTooltipPosition={POSITION_FIXED}
-                options={[{
-                  label: 'RSS',
-                  internalKey: 'rss',
-                  unit: MEMORY_UNIT_METRICS
-                }, {
-                  label: 'Total Heap',
-                  internalKey: 'totalHeap',
-                  unit: MEMORY_UNIT_METRICS
-                }, {
-                  label: 'Heap Used',
-                  internalKey: 'usedHeap',
-                  unit: MEMORY_UNIT_METRICS
-                }, {
-                  label: 'New Space',
-                  internalKey: 'newSpace',
-                  unit: MEMORY_UNIT_METRICS
-                }, {
-                  label: 'Old Space',
-                  internalKey: 'oldSpace',
-                  unit: MEMORY_UNIT_METRICS
-                }]}
+                options={MEMORY_OPTIONS_METRICS}
                 showLegend={false}
                 timeline
                 slimCss
@@ -140,12 +100,11 @@ function ServicesMetrics ({
             </BorderedBox>
           )}
         </div>
-
         {generateLegend(['RSS', 'Total Heap', 'Heap Used', 'New Space', 'Old Space'], colorSetMem)}
       </div>
+
       <div className={`${commonStyles.tinyFlexBlock} ${commonStyles.fullWidth}`}>
         <div className={`${commonStyles.smallFlexRow} ${commonStyles.fullWidth}`}>
-
           <BorderedBox color={TRANSPARENT} backgroundColor={RICH_BLACK} classes={styles.boxMetricContainer}>
             <NodeJSMetric
               title={`${serviceId} CPU & ELU`}
@@ -154,15 +113,7 @@ function ServicesMetrics ({
               initialLoading={initialLoading}
               chartTooltipPosition={POSITION_FIXED}
               unit={`(${CPU_UNIT_METRICS})`}
-              options={[{
-                label: 'CPU',
-                internalKey: 'cpu',
-                unit: CPU_UNIT_METRICS
-              }, {
-                label: 'ELU',
-                internalKey: 'eventLoop',
-                unit: CPU_UNIT_METRICS
-              }]}
+              options={CPU_OPTIONS_METRICS}
               showLegend={false}
               timeline
               slimCss
@@ -179,15 +130,7 @@ function ServicesMetrics ({
                 initialLoading={initialLoading}
                 chartTooltipPosition={POSITION_FIXED}
                 unit={`(${CPU_UNIT_METRICS})`}
-                options={[{
-                  label: 'CPU',
-                  internalKey: 'cpu',
-                  unit: CPU_UNIT_METRICS
-                }, {
-                  label: 'ELU',
-                  internalKey: 'eventLoop',
-                  unit: CPU_UNIT_METRICS
-                }]}
+                options={CPU_OPTIONS_METRICS}
                 showLegend={false}
                 timeline
                 slimCss
@@ -195,12 +138,11 @@ function ServicesMetrics ({
             </BorderedBox>
           )}
         </div>
-
         {generateLegend(['CPU', 'ELU'], colorSetCpu)}
       </div>
+
       <div className={`${commonStyles.tinyFlexBlock} ${commonStyles.fullWidth}`}>
         <div className={`${commonStyles.smallFlexRow} ${commonStyles.fullWidth}`}>
-
           <BorderedBox color={TRANSPARENT} backgroundColor={RICH_BLACK} classes={styles.boxMetricContainer}>
             <NodeJSMetric
               title={`${serviceId} Latency`}
@@ -209,19 +151,7 @@ function ServicesMetrics ({
               initialLoading={initialLoading}
               chartTooltipPosition={POSITION_FIXED}
               unit={`(${LATENCY_UNIT_METRICS})`}
-              options={[{
-                label: 'P90',
-                internalKey: 'p90',
-                unit: LATENCY_UNIT_METRICS
-              }, {
-                label: 'P95',
-                internalKey: 'p95',
-                unit: LATENCY_UNIT_METRICS
-              }, {
-                label: 'P99',
-                internalKey: 'p99',
-                unit: LATENCY_UNIT_METRICS
-              }]}
+              options={LATENCY_OPTIONS_METRICS}
               showLegend={false}
               threadName={threadName}
               slimCss
@@ -238,19 +168,7 @@ function ServicesMetrics ({
                 initialLoading={initialLoading}
                 chartTooltipPosition={POSITION_FIXED}
                 unit={`(${LATENCY_UNIT_METRICS})`}
-                options={[{
-                  label: 'P90',
-                  internalKey: 'p90',
-                  unit: LATENCY_UNIT_METRICS
-                }, {
-                  label: 'P95',
-                  internalKey: 'p95',
-                  unit: LATENCY_UNIT_METRICS
-                }, {
-                  label: 'P99',
-                  internalKey: 'p99',
-                  unit: LATENCY_UNIT_METRICS
-                }]}
+                options={LATENCY_OPTIONS_METRICS}
                 showLegend={false}
                 slimCss
                 timeline
@@ -258,12 +176,11 @@ function ServicesMetrics ({
             </BorderedBox>
           )}
         </div>
-
         {generateLegend(['P99', 'P95', 'P90'], colorSetLatency)}
       </div>
+
       <div className={`${commonStyles.tinyFlexBlock} ${commonStyles.fullWidth}`}>
         <div className={`${commonStyles.smallFlexRow} ${commonStyles.fullWidth}`}>
-
           <BorderedBox color={TRANSPARENT} backgroundColor={RICH_BLACK} classes={styles.boxMetricContainer}>
             <NodeJSMetric
               title={`${serviceId} Requests`}
@@ -272,11 +189,7 @@ function ServicesMetrics ({
               initialLoading={initialLoading}
               chartTooltipPosition={POSITION_FIXED}
               unit={`(${REQ_UNIT_METRICS})`}
-              options={[{
-                label: 'RPS',
-                internalKey: 'rps',
-                unit: REQ_UNIT_METRICS
-              }]}
+              options={REQ_OPTIONS_METRICS}
               showLegend={false}
               threadName={threadName}
               slimCss
@@ -293,11 +206,7 @@ function ServicesMetrics ({
                 initialLoading={initialLoading}
                 chartTooltipPosition={POSITION_FIXED}
                 unit={`(${REQ_UNIT_METRICS})`}
-                options={[{
-                  label: 'RPS',
-                  internalKey: 'rps',
-                  unit: REQ_UNIT_METRICS
-                }]}
+                options={REQ_OPTIONS_METRICS}
                 showLegend={false}
                 slimCss
                 timeline
@@ -305,7 +214,6 @@ function ServicesMetrics ({
             </BorderedBox>
           )}
         </div>
-
         {generateLegend(['Requests'], colorSetReq)}
       </div>
 
@@ -320,38 +228,7 @@ function ServicesMetrics ({
                 initialLoading={initialLoading}
                 chartTooltipPosition={POSITION_FIXED}
                 unit={`(${REQ_UNIT_METRICS})`}
-                options={[
-                  {
-                    label: 'Producers',
-                    internalKey: 'producers',
-                    unit: KAFKA_UNIT_METRICS
-                  },
-                  {
-                    label: 'Consumers',
-                    internalKey: 'consumers',
-                    unit: KAFKA_UNIT_METRICS
-                  },
-                  {
-                    label: 'Topics',
-                    internalKey: 'consumersTopics',
-                    unit: KAFKA_UNIT_METRICS
-                  },
-                  {
-                    label: 'Streams',
-                    internalKey: 'consumersStreams',
-                    unit: KAFKA_UNIT_METRICS
-                  },
-                  {
-                    label: 'Flight',
-                    internalKey: 'hooksMessagesInFlight',
-                    unit: KAFKA_UNIT_METRICS
-                  },
-                  {
-                    label: 'DLQ',
-                    internalKey: 'hooksDlqMessagesTotal',
-                    unit: KAFKA_UNIT_METRICS
-                  }
-                ]}
+                options={KAFKA_OPTIONS_METRICS}
                 showLegend={false}
                 threadName={threadName}
                 slimCss
@@ -368,38 +245,7 @@ function ServicesMetrics ({
                   initialLoading={initialLoading}
                   chartTooltipPosition={POSITION_FIXED}
                   unit={`(${KAFKA_UNIT_METRICS})`}
-                  options={[
-                    {
-                      label: 'Producers',
-                      internalKey: 'producers',
-                      unit: KAFKA_UNIT_METRICS
-                    },
-                    {
-                      label: 'Consumers',
-                      internalKey: 'consumers',
-                      unit: KAFKA_UNIT_METRICS
-                    },
-                    {
-                      label: 'Topics',
-                      internalKey: 'consumersTopics',
-                      unit: KAFKA_UNIT_METRICS
-                    },
-                    {
-                      label: 'Streams',
-                      internalKey: 'consumersStreams',
-                      unit: KAFKA_UNIT_METRICS
-                    },
-                    {
-                      label: 'Flight',
-                      internalKey: 'hooksMessagesInFlight',
-                      unit: KAFKA_UNIT_METRICS
-                    },
-                    {
-                      label: 'DLQ',
-                      internalKey: 'hooksDlqMessagesTotal',
-                      unit: KAFKA_UNIT_METRICS
-                    }
-                  ]}
+                  options={KAFKA_OPTIONS_METRICS}
                   showLegend={false}
                   slimCss
                   timeline
@@ -407,7 +253,6 @@ function ServicesMetrics ({
               </BorderedBox>
             )}
           </div>
-
           {generateLegend(['Producers', 'Consumers', 'Topics', 'Streams', 'Flight', 'DLQ'], colorSetKafka)}
         </div>}
     </div>
