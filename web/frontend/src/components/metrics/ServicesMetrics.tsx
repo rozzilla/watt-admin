@@ -18,7 +18,7 @@ import ErrorComponent from '../errors/ErrorComponent'
 import { ServiceData } from 'src/types'
 import { getThreadName, ThreadIndex } from '../services/ServicesSelectorForCharts'
 import { getEmptyMetrics } from '../application/NodeJSMetrics'
-import { getKafkaType } from '../../utilities/getters'
+import { getKafkaType, getOptionMetricsLabel } from '../../utilities/getters'
 
 interface ServicesMetricsProps {
   service: ServiceData;
@@ -100,7 +100,7 @@ function ServicesMetrics ({
             </BorderedBox>
           )}
         </div>
-        {generateLegend(['RSS', 'Total Heap', 'Heap Used', 'New Space', 'Old Space'], colorSetMem)}
+        {generateLegend(getOptionMetricsLabel(MEMORY_OPTIONS_METRICS), colorSetMem)}
       </div>
 
       <div className={`${commonStyles.tinyFlexBlock} ${commonStyles.fullWidth}`}>
@@ -138,7 +138,7 @@ function ServicesMetrics ({
             </BorderedBox>
           )}
         </div>
-        {generateLegend(['CPU', 'ELU'], colorSetCpu)}
+        {generateLegend(getOptionMetricsLabel(CPU_OPTIONS_METRICS), colorSetCpu)}
       </div>
 
       <div className={`${commonStyles.tinyFlexBlock} ${commonStyles.fullWidth}`}>
@@ -176,7 +176,7 @@ function ServicesMetrics ({
             </BorderedBox>
           )}
         </div>
-        {generateLegend(['P99', 'P95', 'P90'], colorSetLatency)}
+        {generateLegend(getOptionMetricsLabel(LATENCY_OPTIONS_METRICS), colorSetLatency)}
       </div>
 
       <div className={`${commonStyles.tinyFlexBlock} ${commonStyles.fullWidth}`}>
@@ -214,7 +214,7 @@ function ServicesMetrics ({
             </BorderedBox>
           )}
         </div>
-        {generateLegend(['Requests'], colorSetReq)}
+        {generateLegend(getOptionMetricsLabel(REQ_OPTIONS_METRICS), colorSetReq)}
       </div>
 
       {hasKafkaData &&
@@ -253,7 +253,7 @@ function ServicesMetrics ({
               </BorderedBox>
             )}
           </div>
-          {generateLegend(['Producers', 'Consumers', 'Topics', 'Streams', 'Flight', 'DLQ'], colorSetKafka)}
+          {generateLegend(getOptionMetricsLabel(KAFKA_OPTIONS_METRICS), colorSetKafka)}
         </div>}
     </div>
   )

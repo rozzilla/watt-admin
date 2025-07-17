@@ -1,6 +1,7 @@
 import { describe, test, expect } from 'vitest'
-import { getServiceSelected, getServiceWorkers, getServiceEntrypoint, getKafkaType } from '../../src/utilities/getters'
+import { getServiceSelected, getServiceWorkers, getServiceEntrypoint, getKafkaType, getOptionMetricsLabel } from '../../src/utilities/getters'
 import { ServiceData } from '../../src/types'
+import { KAFKA_OPTIONS_METRICS } from '../../src/ui-constants'
 
 describe('getServiceSelected', () => {
   test('should return true when service has selected property set to true', () => {
@@ -158,8 +159,18 @@ describe('getServiceEntrypoint', () => {
   })
 })
 
+describe('getOptionMetricsLabel', () => {
+  test('when passing an empty array, should return the same', () =>
+    expect(getOptionMetricsLabel([])).toEqual([])
+  )
+
+  test('when passing an an array containing multiple property including labels, should return an array of only labels', () =>
+    expect(getOptionMetricsLabel(KAFKA_OPTIONS_METRICS)).toEqual(['Producers', 'Consumers', 'Topics', 'Streams', 'Flight', 'DLQ'])
+  )
+})
+
 describe('getKafkaType', () => {
-  test('should return false when there are no positive values', () => {
+  test('should return false when there are no positive values', () =>
     expect(getKafkaType([{
       date: new Date().toISOString(),
       producers: 0,
@@ -171,9 +182,9 @@ describe('getKafkaType', () => {
       hooksMessagesInFlight: 0,
       hooksDlqMessagesTotal: 0
     }])).toBe(false)
-  })
+  )
 
-  test('should return true when there is at least a positive value', () => {
+  test('should return true when there is at least a positive value', () =>
     expect(getKafkaType([{
       date: new Date().toISOString(),
       producers: 0,
@@ -195,9 +206,9 @@ describe('getKafkaType', () => {
       hooksMessagesInFlight: 0,
       hooksDlqMessagesTotal: 0
     }])).toBe(true)
-  })
+  )
 
-  test('should return true when there are all positive values', () => {
+  test('should return true when there are all positive values', () =>
     expect(getKafkaType([{
       date: new Date().toISOString(),
       producers: 2,
@@ -219,5 +230,5 @@ describe('getKafkaType', () => {
       hooksMessagesInFlight: 7,
       hooksDlqMessagesTotal: 10
     }])).toBe(true)
-  })
+  )
 })
