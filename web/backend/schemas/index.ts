@@ -82,7 +82,31 @@ const kafkaDataPointSchema = {
 } as const
 export type KafkaDataPoint = FromSchema<typeof kafkaDataPointSchema>
 
-export const requiredMetricKeys = ['dataMem', 'dataCpu', 'dataKafka', 'dataReq', 'dataLatency'] as const
+const undiciDataPointSchema = {
+  type: 'object',
+  additionalProperties: false,
+  properties: {
+    date: { type: 'string', format: 'date-time' },
+    idleSockets: { type: 'number' },
+    openSockets: { type: 'number' },
+    pendingRequests: { type: 'number' },
+    queuedRequests: { type: 'number' },
+    activeRequests: { type: 'number' },
+    sizeRequests: { type: 'number' },
+  },
+  required: [
+    'date',
+    'idleSockets',
+    'openSockets',
+    'pendingRequests',
+    'queuedRequests',
+    'activeRequests',
+    'sizeRequests',
+  ]
+} as const
+export type UndiciDataPoint = FromSchema<typeof undiciDataPointSchema>
+
+export const requiredMetricKeys = ['dataMem', 'dataCpu', 'dataKafka', 'dataReq', 'dataLatency', 'dataUndici'] as const
 export const metricResponseSchema = {
   type: 'object',
   additionalProperties: false,
@@ -92,6 +116,7 @@ export const metricResponseSchema = {
     dataLatency: { type: 'array', items: latencyDataPointSchema },
     dataReq: { type: 'array', items: requestDataPointSchema },
     dataKafka: { type: 'array', items: kafkaDataPointSchema },
+    dataUndici: { type: 'array', items: undiciDataPointSchema },
   },
   required: requiredMetricKeys
 } as const

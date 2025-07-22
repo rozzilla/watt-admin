@@ -55,6 +55,14 @@ test('metrics with runtime', async (t) => {
   assert.ok(metrics.dataKafka[0].hooksDlqMessagesTotal >= 0)
   assert.ok(new Date(metrics.dataKafka[0].date) <= new Date())
 
+  assert.ok(metrics.dataUndici[0].activeRequests >= 0)
+  assert.ok(metrics.dataUndici[0].idleSockets >= 0)
+  assert.ok(metrics.dataUndici[0].openSockets >= 0)
+  assert.ok(metrics.dataUndici[0].pendingRequests >= 0)
+  assert.ok(metrics.dataUndici[0].queuedRequests >= 0)
+  assert.ok(metrics.dataUndici[0].sizeRequests >= 0)
+  assert.ok(new Date(metrics.dataUndici[0].date) <= new Date())
+
   const backendMetrics = await server.inject({
     url: `/runtimes/${pid}/metrics/backend`
   })
@@ -65,6 +73,7 @@ test('metrics with runtime', async (t) => {
   assert.ok('dataMem' in response)
   assert.ok('dataReq' in response)
   assert.ok('dataKafka' in response)
+  assert.ok('dataUndici' in response)
 
   const composer = await server.inject({
     url: `/runtimes/${pid}/metrics/composer`

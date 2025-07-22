@@ -13766,5 +13766,88 @@ export const metricFixtures: Metric[] = [
     type: 'counter',
     values: [],
     aggregator: 'sum'
+  },
+  {
+    help: 'Number of free (idle) http clients (sockets)',
+    name: 'http_client_stats_free',
+    type: 'gauge',
+    values: [
+      {
+        value: 1,
+        labels: {
+          serviceId: 'composer'
+        }
+      }
+    ],
+    aggregator: 'sum'
+  },
+  {
+    help: 'Number of open socket connections',
+    name: 'http_client_stats_connected',
+    type: 'gauge',
+    values: [
+      {
+        value: 1,
+        labels: {
+          serviceId: 'composer'
+        }
+      }
+    ],
+    aggregator: 'sum'
+  },
+  {
+    help: 'Number of pending requests across all clients',
+    name: 'http_client_stats_pending',
+    type: 'gauge',
+    values: [
+      {
+        value: 2,
+        labels: {
+          serviceId: 'composer'
+        }
+      }
+    ],
+    aggregator: 'sum'
+  },
+  {
+    help: 'Number of queued requests across all clients',
+    name: 'http_client_stats_queued',
+    type: 'gauge',
+    values: [
+      {
+        value: 3,
+        labels: {
+          serviceId: 'composer'
+        }
+      }
+    ],
+    aggregator: 'sum'
+  },
+  {
+    help: 'Number of currently active requests across all clients',
+    name: 'http_client_stats_running',
+    type: 'gauge',
+    values: [
+      {
+        value: 4,
+        labels: {
+          serviceId: 'composer'
+        }
+      }
+    ],
+    aggregator: 'sum'
+  },
+  {
+    help: 'Number of active, pending, or queued requests across all clients',
+    name: 'http_client_stats_size',
+    type: 'gauge',
+    values: [
+      {
+        value: 9,
+        labels: {
+          serviceId: 'composer'
+        }
+      }],
+    aggregator: 'sum'
   }
 ]
