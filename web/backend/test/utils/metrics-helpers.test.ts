@@ -6,7 +6,8 @@ import {
   initMetricsObject,
   initMetricsResponse,
   initServiceMetrics,
-  MappedMetrics
+  MappedMetrics,
+  isUndiciMetricName
 } from '../../utils/metrics-helpers'
 import { MemoryDataPoint } from '../../schemas'
 
@@ -20,6 +21,18 @@ test('isKafkaMetricName returns false for invalid kafka metric names', () => {
   assert.strictEqual(isKafkaMetricName('invalid_metric'), false)
   assert.strictEqual(isKafkaMetricName('kafka_invalid'), false)
   assert.strictEqual(isKafkaMetricName(''), false)
+})
+
+test('isUndiciMetricName returns true for valid undici metric names', () => {
+  assert.strictEqual(isUndiciMetricName('http_client_stats_free'), true)
+  assert.strictEqual(isUndiciMetricName('http_client_stats_pending'), true)
+  assert.strictEqual(isUndiciMetricName('http_client_stats_size'), true)
+})
+
+test('isUndiciMetricName returns false for invalid undici metric names', () => {
+  assert.strictEqual(isUndiciMetricName('wrong_metric'), false)
+  assert.strictEqual(isUndiciMetricName('undici_invalid'), false)
+  assert.strictEqual(isUndiciMetricName(''), false)
 })
 
 test('addMetricDataPoint adds data point to empty array', () => {
