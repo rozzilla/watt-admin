@@ -43,9 +43,9 @@ function ApplicationContainer ({ children }: ApplicationContainerProps): React.R
           onClick: () => handleNavigation('Overview', HOME_PATH)
         }, {
           name: POD_SERVICES_PATH,
-          label: 'NodeJS Metrics',
+          label: 'Metrics',
           iconName: 'NodeJSMetricsIcon',
-          onClick: () => handleNavigation('NodeJS Metrics', POD_SERVICES_PATH)
+          onClick: () => handleNavigation('Metrics', POD_SERVICES_PATH)
         }, {
           name: POD_LOGS_PATH,
           label: 'Logs',

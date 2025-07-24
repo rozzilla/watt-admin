@@ -4,7 +4,7 @@ import { getServer, startWatt, loadMetrics } from '../helper'
 import { MetricsResponse } from '../../schemas'
 
 test('metrics are calculated', async (t) => {
-  const emptyMetrics: MetricsResponse = { dataCpu: [], dataLatency: [], dataMem: [], dataReq: [], dataKafka: [] }
+  const emptyMetrics: MetricsResponse = { dataCpu: [], dataLatency: [], dataMem: [], dataReq: [], dataKafka: [], dataUndici: [] }
 
   await startWatt(t)
   const server = await getServer(t)
@@ -34,6 +34,7 @@ test('metrics are calculated', async (t) => {
   assert.ok('dataMem' in metricsJson)
   assert.ok('dataReq' in metricsJson)
   assert.ok('dataKafka' in metricsJson)
+  assert.ok('dataUndici' in metricsJson)
   assert.notDeepEqual(metricsJson, {}, 'metrics are not empty after the interval')
 
   const serviceMetrics = await server.inject({

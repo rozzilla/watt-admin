@@ -8,6 +8,7 @@ import colorSetCpu from './cpu.module.css'
 import colorSetReq from './req.module.css'
 import colorSetLatency from './latency.module.css'
 import colorSetKafka from './kafka.module.css'
+import colorSetUndici from './undici.module.css'
 import { xMargin, yMargin } from './chart_constants'
 import { getTicks } from './utils'
 import { POSITION_ABSOLUTE, POSITION_FIXED } from '../../ui-constants'
@@ -68,6 +69,9 @@ export const getMetricColor = (metricType: MetricType) => {
       break
     case 'kafka':
       colorStyles = colorSetKafka
+      break
+    case 'undici':
+      colorStyles = colorSetUndici
       break
     default:
       throw new Error(`Unhandled metric type: ${metricType}`)

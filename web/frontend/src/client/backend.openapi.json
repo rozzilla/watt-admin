@@ -189,14 +189,55 @@
                           "hooksDlqMessagesTotal"
                         ]
                       }
+                    },
+                    "dataUndici": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "additionalProperties": false,
+                        "properties": {
+                          "date": {
+                            "type": "string",
+                            "format": "date-time"
+                          },
+                          "idleSockets": {
+                            "type": "number"
+                          },
+                          "openSockets": {
+                            "type": "number"
+                          },
+                          "pendingRequests": {
+                            "type": "number"
+                          },
+                          "queuedRequests": {
+                            "type": "number"
+                          },
+                          "activeRequests": {
+                            "type": "number"
+                          },
+                          "sizeRequests": {
+                            "type": "number"
+                          }
+                        },
+                        "required": [
+                          "date",
+                          "idleSockets",
+                          "openSockets",
+                          "pendingRequests",
+                          "queuedRequests",
+                          "activeRequests",
+                          "sizeRequests"
+                        ]
+                      }
                     }
                   },
                   "required": [
                     "dataMem",
                     "dataCpu",
-                    "dataLatency",
+                    "dataKafka",
                     "dataReq",
-                    "dataKafka"
+                    "dataLatency",
+                    "dataUndici"
                   ]
                 }
               }
@@ -393,14 +434,55 @@
                           "hooksDlqMessagesTotal"
                         ]
                       }
+                    },
+                    "dataUndici": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "additionalProperties": false,
+                        "properties": {
+                          "date": {
+                            "type": "string",
+                            "format": "date-time"
+                          },
+                          "idleSockets": {
+                            "type": "number"
+                          },
+                          "openSockets": {
+                            "type": "number"
+                          },
+                          "pendingRequests": {
+                            "type": "number"
+                          },
+                          "queuedRequests": {
+                            "type": "number"
+                          },
+                          "activeRequests": {
+                            "type": "number"
+                          },
+                          "sizeRequests": {
+                            "type": "number"
+                          }
+                        },
+                        "required": [
+                          "date",
+                          "idleSockets",
+                          "openSockets",
+                          "pendingRequests",
+                          "queuedRequests",
+                          "activeRequests",
+                          "sizeRequests"
+                        ]
+                      }
                     }
                   },
                   "required": [
                     "dataMem",
                     "dataCpu",
-                    "dataLatency",
+                    "dataKafka",
                     "dataReq",
-                    "dataKafka"
+                    "dataLatency",
+                    "dataUndici"
                   ]
                 }
               }
@@ -605,14 +687,55 @@
                           "hooksDlqMessagesTotal"
                         ]
                       }
+                    },
+                    "dataUndici": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "additionalProperties": false,
+                        "properties": {
+                          "date": {
+                            "type": "string",
+                            "format": "date-time"
+                          },
+                          "idleSockets": {
+                            "type": "number"
+                          },
+                          "openSockets": {
+                            "type": "number"
+                          },
+                          "pendingRequests": {
+                            "type": "number"
+                          },
+                          "queuedRequests": {
+                            "type": "number"
+                          },
+                          "activeRequests": {
+                            "type": "number"
+                          },
+                          "sizeRequests": {
+                            "type": "number"
+                          }
+                        },
+                        "required": [
+                          "date",
+                          "idleSockets",
+                          "openSockets",
+                          "pendingRequests",
+                          "queuedRequests",
+                          "activeRequests",
+                          "sizeRequests"
+                        ]
+                      }
                     }
                   },
                   "required": [
                     "dataMem",
                     "dataCpu",
-                    "dataLatency",
+                    "dataKafka",
                     "dataReq",
-                    "dataKafka"
+                    "dataLatency",
+                    "dataUndici"
                   ]
                 }
               }
