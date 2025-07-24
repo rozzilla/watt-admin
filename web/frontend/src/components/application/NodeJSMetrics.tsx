@@ -55,7 +55,7 @@ function NodeJSMetrics (): React.ReactElement {
                 size={MEDIUM}
               />
               <div>
-                <p className={`${typographyStyles.desktopBodySemibold} ${typographyStyles.textWhite}`}>NodeJS Metrics</p>
+                <p className={`${typographyStyles.desktopBodySemibold} ${typographyStyles.textWhite}`}>Metrics</p>
               </div>
             </div>
           </div>

@@ -16,7 +16,7 @@ test.describe('Basic E2E tests', () => {
     await expect(page).toHaveTitle(/Watt admin/)
     await expect(page.locator('body')).toBeVisible()
     await expect(page.getByText('@platformatic/watt-admin')).toBeVisible()
-    await expect(page.getByText('NodeJS Metrics')).toBeVisible()
+    await expect(page.getByText('Metrics')).toBeVisible()
     await expect(page.getByText('Services')).toBeVisible()
     await expect(page.getByText('backend')).toHaveCount(1)
     await expect(page.getByText('frontend')).toHaveCount(1)

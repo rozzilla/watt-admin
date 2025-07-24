@@ -55,7 +55,7 @@ const ServicesCharts: React.FC = () => {
               color={WHITE}
               size={MEDIUM}
             />
-            <p className={`${typographyStyles.desktopBodyLargeSemibold} ${typographyStyles.textWhite} `}>NodeJS Metrics</p>
+            <p className={`${typographyStyles.desktopBodyLargeSemibold} ${typographyStyles.textWhite} `}>Metrics</p>
           </div>
         </div>
 
