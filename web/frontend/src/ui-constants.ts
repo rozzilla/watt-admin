@@ -21,6 +21,7 @@ export const MEMORY_UNIT_METRICS = 'MB'
 export const LATENCY_UNIT_METRICS = 'ms'
 export const CPU_UNIT_METRICS = '%'
 export const REQ_UNIT_METRICS = '#'
+export const UNDICI_UNIT_METRICS = '#'
 export const KAFKA_UNIT_METRICS = '#'
 
 export const MEMORY_OPTIONS_METRICS = [{
@@ -71,6 +72,38 @@ export const REQ_OPTIONS_METRICS = [{
   internalKey: 'rps',
   unit: REQ_UNIT_METRICS
 }]
+export const UNDICI_OPTIONS_METRICS = [
+  {
+    label: 'Idle',
+    internalKey: 'idleSockets',
+    unit: UNDICI_UNIT_METRICS
+  },
+  {
+    label: 'Open',
+    internalKey: 'openSockets',
+    unit: UNDICI_UNIT_METRICS
+  },
+  {
+    label: 'Pending',
+    internalKey: 'pendingRequests',
+    unit: UNDICI_UNIT_METRICS
+  },
+  {
+    label: 'Queued',
+    internalKey: 'queuedRequests',
+    unit: UNDICI_UNIT_METRICS
+  },
+  {
+    label: 'Active',
+    internalKey: 'activeRequests',
+    unit: UNDICI_UNIT_METRICS
+  },
+  {
+    label: 'Size',
+    internalKey: 'sizeRequests',
+    unit: UNDICI_UNIT_METRICS
+  }
+]
 export const KAFKA_OPTIONS_METRICS = [
   {
     label: 'Producers',

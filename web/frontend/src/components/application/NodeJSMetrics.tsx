@@ -6,7 +6,7 @@ import typographyStyles from '../../styles/Typography.module.css'
 import commonStyles from '../../styles/CommonStyles.module.css'
 import { BorderedBox, Icons } from '@platformatic/ui-components'
 import NodeJSMetric from './NodeJSMetric'
-import { REFRESH_INTERVAL_METRICS, MEMORY_UNIT_METRICS, LATENCY_UNIT_METRICS, CPU_UNIT_METRICS, REQ_UNIT_METRICS, KAFKA_UNIT_METRICS, KAFKA_OPTIONS_METRICS, REQ_OPTIONS_METRICS, LATENCY_OPTIONS_METRICS, CPU_OPTIONS_METRICS, MEMORY_OPTIONS_METRICS } from '../../ui-constants'
+import { REFRESH_INTERVAL_METRICS, MEMORY_UNIT_METRICS, LATENCY_UNIT_METRICS, CPU_UNIT_METRICS, REQ_UNIT_METRICS, KAFKA_UNIT_METRICS, KAFKA_OPTIONS_METRICS, REQ_OPTIONS_METRICS, LATENCY_OPTIONS_METRICS, CPU_OPTIONS_METRICS, MEMORY_OPTIONS_METRICS, UNDICI_UNIT_METRICS, UNDICI_OPTIONS_METRICS } from '../../ui-constants'
 import { getApiMetricsPod } from '../../api'
 import useAdminStore from '../../useAdminStore'
 import type { GetRuntimesPidMetricsResponseOK } from 'src/client/backend-types'
@@ -93,6 +93,14 @@ function NodeJSMetrics (): React.ReactElement {
             initialLoading={initialLoading}
             unit={`(${REQ_UNIT_METRICS})`}
             options={REQ_OPTIONS_METRICS}
+          />
+          <NodeJSMetric
+            title='Undici'
+            metricURL='undici'
+            dataValues={allData.dataUndici}
+            initialLoading={initialLoading}
+            unit={`(${UNDICI_UNIT_METRICS})`}
+            options={UNDICI_OPTIONS_METRICS}
           />
           {hasKafkaData &&
             <NodeJSMetric
