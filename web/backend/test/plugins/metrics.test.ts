@@ -55,6 +55,9 @@ test('metrics with runtime', async (t) => {
   assert.ok(metrics.dataKafka[0].hooksDlqMessagesTotal >= 0)
   assert.ok(new Date(metrics.dataKafka[0].date) <= new Date())
 
+  assert.ok(metrics.dataWebsocket[0].connections >= 0)
+  assert.ok(new Date(metrics.dataWebsocket[0].date) <= new Date())
+
   assert.ok(metrics.dataUndici[0].activeRequests >= 0)
   assert.ok(metrics.dataUndici[0].idleSockets >= 0)
   assert.ok(metrics.dataUndici[0].openSockets >= 0)
@@ -74,6 +77,7 @@ test('metrics with runtime', async (t) => {
   assert.ok('dataReq' in response)
   assert.ok('dataKafka' in response)
   assert.ok('dataUndici' in response)
+  assert.ok('dataWebsocket' in response)
 
   const composer = await server.inject({
     url: `/runtimes/${pid}/metrics/composer`

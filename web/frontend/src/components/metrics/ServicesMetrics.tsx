@@ -6,13 +6,14 @@ import { BorderedBox } from '@platformatic/ui-components'
 import { getApiMetricsPodService, getApiMetricsPod, getApiMetricsPodWorker } from '../../api'
 import { useInterval } from '../../hooks/useInterval'
 import useAdminStore from '../../useAdminStore'
-import { REFRESH_INTERVAL_METRICS, POSITION_FIXED, MEMORY_UNIT_METRICS, LATENCY_UNIT_METRICS, CPU_UNIT_METRICS, REQ_UNIT_METRICS, KAFKA_UNIT_METRICS, KAFKA_OPTIONS_METRICS, REQ_OPTIONS_METRICS, LATENCY_OPTIONS_METRICS, CPU_OPTIONS_METRICS, MEMORY_OPTIONS_METRICS, UNDICI_OPTIONS_METRICS, UNDICI_UNIT_METRICS } from '../../ui-constants'
+import { REFRESH_INTERVAL_METRICS, POSITION_FIXED, MEMORY_UNIT_METRICS, LATENCY_UNIT_METRICS, CPU_UNIT_METRICS, REQ_UNIT_METRICS, KAFKA_UNIT_METRICS, KAFKA_OPTIONS_METRICS, REQ_OPTIONS_METRICS, LATENCY_OPTIONS_METRICS, CPU_OPTIONS_METRICS, MEMORY_OPTIONS_METRICS, UNDICI_OPTIONS_METRICS, UNDICI_UNIT_METRICS, WS_UNIT_METRICS, WS_OPTIONS_METRICS } from '../../ui-constants'
 import colorSetMem from './memory.module.css'
 import colorSetCpu from './cpu.module.css'
 import colorSetLatency from './latency.module.css'
 import colorSetReq from './req.module.css'
 import colorSetKafka from './kafka.module.css'
 import colorSetUndici from './undici.module.css'
+import colorSetWs from './ws.module.css'
 import NodeJSMetric, { generateLegend } from '../application/NodeJSMetric'
 import { GetRuntimesPidMetricsResponseOK } from 'src/client/backend-types'
 import ErrorComponent from '../errors/ErrorComponent'
@@ -254,6 +255,44 @@ function ServicesMetrics ({
           )}
         </div>
         {generateLegend(getOptionMetricsLabel(UNDICI_OPTIONS_METRICS), colorSetUndici)}
+      </div>
+
+      <div className={`${commonStyles.tinyFlexBlock} ${commonStyles.fullWidth}`}>
+        <div className={`${commonStyles.smallFlexRow} ${commonStyles.fullWidth}`}>
+          <BorderedBox color={TRANSPARENT} backgroundColor={RICH_BLACK} classes={styles.boxMetricContainer}>
+            <NodeJSMetric
+              title={`${serviceId} WS`}
+              metricURL='ws'
+              dataValues={serviceData.dataWebsocket}
+              initialLoading={initialLoading}
+              chartTooltipPosition={POSITION_FIXED}
+              unit={`(${WS_UNIT_METRICS})`}
+              options={WS_OPTIONS_METRICS}
+              showLegend={false}
+              threadName={threadName}
+              slimCss
+              timeline
+            />
+          </BorderedBox>
+
+          {showAggregatedMetrics && (
+            <BorderedBox color={TRANSPARENT} backgroundColor={RICH_BLACK} classes={styles.boxMetricContainer}>
+              <NodeJSMetric
+                title='Entrypoint WS'
+                metricURL='ws'
+                dataValues={allData.dataWebsocket}
+                initialLoading={initialLoading}
+                chartTooltipPosition={POSITION_FIXED}
+                unit={`(${WS_UNIT_METRICS})`}
+                options={WS_OPTIONS_METRICS}
+                showLegend={false}
+                slimCss
+                timeline
+              />
+            </BorderedBox>
+          )}
+        </div>
+        {generateLegend(getOptionMetricsLabel(WS_OPTIONS_METRICS), colorSetWs)}
       </div>
 
       {hasKafkaData &&

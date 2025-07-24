@@ -13849,5 +13849,19 @@ export const metricFixtures: Metric[] = [
         }
       }],
     aggregator: 'sum'
+  },
+  {
+    help: 'Active Websocket composer connections in "@platformatic/composer"',
+    name: 'active_ws_composer_connections',
+    type: 'gauge',
+    values: [
+      {
+        value: 2,
+        labels: {
+          serviceId: 'composer'
+        }
+      }
+    ],
+    aggregator: 'sum'
   }
 ]

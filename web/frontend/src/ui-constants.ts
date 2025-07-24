@@ -22,6 +22,7 @@ export const LATENCY_UNIT_METRICS = 'ms'
 export const CPU_UNIT_METRICS = '%'
 export const REQ_UNIT_METRICS = '#'
 export const UNDICI_UNIT_METRICS = '#'
+export const WS_UNIT_METRICS = '#'
 export const KAFKA_UNIT_METRICS = '#'
 
 export const MEMORY_OPTIONS_METRICS = [{
@@ -104,6 +105,11 @@ export const UNDICI_OPTIONS_METRICS = [
     unit: UNDICI_UNIT_METRICS
   }
 ]
+export const WS_OPTIONS_METRICS = [{
+  label: 'Connections',
+  internalKey: 'connections',
+  unit: WS_UNIT_METRICS
+}]
 export const KAFKA_OPTIONS_METRICS = [
   {
     label: 'Producers',
