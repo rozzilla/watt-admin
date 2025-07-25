@@ -6,7 +6,7 @@ import typographyStyles from '../../styles/Typography.module.css'
 import commonStyles from '../../styles/CommonStyles.module.css'
 import { BorderedBox, Icons } from '@platformatic/ui-components'
 import NodeJSMetric from './NodeJSMetric'
-import { REFRESH_INTERVAL_METRICS, MEMORY_UNIT_METRICS, LATENCY_UNIT_METRICS, CPU_UNIT_METRICS, REQ_UNIT_METRICS, KAFKA_UNIT_METRICS, KAFKA_OPTIONS_METRICS, REQ_OPTIONS_METRICS, LATENCY_OPTIONS_METRICS, CPU_OPTIONS_METRICS, MEMORY_OPTIONS_METRICS, UNDICI_UNIT_METRICS, UNDICI_OPTIONS_METRICS, WS_UNIT_METRICS, WS_OPTIONS_METRICS } from '../../ui-constants'
+import { KEY_CPU, KEY_KAFKA, KEY_LATENCY, KEY_MEM, KEY_REQ, KEY_UNDICI, KEY_WS, OPTIONS_METRICS, REFRESH_INTERVAL_METRICS } from '../../ui-constants'
 import { getApiMetricsPod } from '../../api'
 import useAdminStore from '../../useAdminStore'
 import type { GetRuntimesPidMetricsResponseOK } from 'src/client/backend-types'
@@ -63,61 +63,61 @@ function NodeJSMetrics (): React.ReactElement {
 
         <div className={styles.metricsContainer}>
           <NodeJSMetric
-            title='Memory'
-            unit={`(${MEMORY_UNIT_METRICS})`}
-            metricURL='mem'
+            title={OPTIONS_METRICS[KEY_MEM].title}
+            unit={`(${OPTIONS_METRICS[KEY_MEM].unit})`}
+            metricURL={KEY_MEM}
             dataValues={allData.dataMem}
             initialLoading={initialLoading}
-            options={MEMORY_OPTIONS_METRICS}
+            options={OPTIONS_METRICS[KEY_MEM].options}
           />
           <NodeJSMetric
-            title='CPU & ELU Average'
-            metricURL='cpu'
+            title={OPTIONS_METRICS[KEY_CPU].title}
+            metricURL={KEY_CPU}
             dataValues={allData.dataCpu}
             initialLoading={initialLoading}
-            unit={`(${CPU_UNIT_METRICS})`}
-            options={CPU_OPTIONS_METRICS}
+            unit={`(${OPTIONS_METRICS[KEY_CPU].unit})`}
+            options={OPTIONS_METRICS[KEY_CPU].options}
           />
           <NodeJSMetric
-            title='Entrypoint Latency'
-            metricURL='latency'
+            title={OPTIONS_METRICS[KEY_LATENCY].title}
+            metricURL={KEY_LATENCY}
             dataValues={allData.dataLatency}
             initialLoading={initialLoading}
-            unit={`(${LATENCY_UNIT_METRICS})`}
-            options={LATENCY_OPTIONS_METRICS}
+            unit={`(${OPTIONS_METRICS[KEY_LATENCY].unit}})`}
+            options={OPTIONS_METRICS[KEY_LATENCY].options}
           />
           <NodeJSMetric
-            title='Requests'
-            metricURL='req'
+            title={OPTIONS_METRICS[KEY_REQ].title}
+            metricURL={KEY_REQ}
             dataValues={allData.dataReq}
             initialLoading={initialLoading}
-            unit={`(${REQ_UNIT_METRICS})`}
-            options={REQ_OPTIONS_METRICS}
+            unit={`(${OPTIONS_METRICS[KEY_REQ].unit})`}
+            options={OPTIONS_METRICS[KEY_REQ].options}
           />
           <NodeJSMetric
-            title='Undici'
-            metricURL='undici'
+            title={OPTIONS_METRICS[KEY_UNDICI].title}
+            metricURL={KEY_UNDICI}
             dataValues={allData.dataUndici}
             initialLoading={initialLoading}
-            unit={`(${UNDICI_UNIT_METRICS})`}
-            options={UNDICI_OPTIONS_METRICS}
+            unit={`(${OPTIONS_METRICS[KEY_UNDICI].unit})`}
+            options={OPTIONS_METRICS[KEY_UNDICI].options}
           />
           <NodeJSMetric
-            title='WS'
-            metricURL='ws'
+            title={OPTIONS_METRICS[KEY_WS].title}
+            metricURL={KEY_WS}
             dataValues={allData.dataWebsocket}
             initialLoading={initialLoading}
-            unit={`(${WS_UNIT_METRICS})`}
-            options={WS_OPTIONS_METRICS}
+            unit={`(${OPTIONS_METRICS[KEY_WS].unit})`}
+            options={OPTIONS_METRICS[KEY_WS].options}
           />
           {hasKafkaData &&
             <NodeJSMetric
-              title='Kafka'
-              metricURL='kafka'
+              title={OPTIONS_METRICS[KEY_KAFKA].title}
+              metricURL={KEY_KAFKA}
               dataValues={allData.dataKafka}
               initialLoading={initialLoading}
-              unit={`(${KAFKA_UNIT_METRICS})`}
-              options={KAFKA_OPTIONS_METRICS}
+              unit={`(${OPTIONS_METRICS[KEY_KAFKA].unit})`}
+              options={OPTIONS_METRICS[KEY_KAFKA].options}
             />}
         </div>
       </div>

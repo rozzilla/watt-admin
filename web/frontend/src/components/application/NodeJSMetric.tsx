@@ -14,17 +14,19 @@ type DataValues = GetRuntimesPidMetricsResponseOK[keyof GetRuntimesPidMetricsRes
 
 export type MetricType = 'mem' | 'cpu' | 'latency' | 'req' | 'undici' | 'kafka' | 'ws'
 
+export type MetricOption = {
+  label: string;
+  internalKey: string;
+  unit: string;
+}
+
 interface NodeJSMetricProps {
   title: string;
   metricURL: MetricType;
   initialLoading: boolean;
   dataValues: DataValues;
   unit: string;
-  options: {
-    label: string;
-    internalKey: string;
-    unit: string;
-  }[];
+  options: MetricOption[];
   chartTooltipPosition?: string;
   showLegend?: boolean;
   timeline?: boolean;
