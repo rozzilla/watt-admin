@@ -6,13 +6,14 @@ import { BorderedBox } from '@platformatic/ui-components'
 import { getApiMetricsPodService, getApiMetricsPod, getApiMetricsPodWorker } from '../../api'
 import { useInterval } from '../../hooks/useInterval'
 import useAdminStore from '../../useAdminStore'
-import { REFRESH_INTERVAL_METRICS, POSITION_FIXED, MEMORY_UNIT_METRICS, LATENCY_UNIT_METRICS, CPU_UNIT_METRICS, REQ_UNIT_METRICS, KAFKA_UNIT_METRICS, KAFKA_OPTIONS_METRICS, REQ_OPTIONS_METRICS, LATENCY_OPTIONS_METRICS, CPU_OPTIONS_METRICS, MEMORY_OPTIONS_METRICS, UNDICI_OPTIONS_METRICS, UNDICI_UNIT_METRICS } from '../../ui-constants'
+import { REFRESH_INTERVAL_METRICS, POSITION_FIXED, OPTIONS_METRICS, KEY_MEM, KEY_CPU, KEY_LATENCY, KEY_REQ, KEY_UNDICI, KEY_WS, KEY_KAFKA } from '../../ui-constants'
 import colorSetMem from './memory.module.css'
 import colorSetCpu from './cpu.module.css'
 import colorSetLatency from './latency.module.css'
 import colorSetReq from './req.module.css'
 import colorSetKafka from './kafka.module.css'
 import colorSetUndici from './undici.module.css'
+import colorSetWs from './ws.module.css'
 import NodeJSMetric, { generateLegend } from '../application/NodeJSMetric'
 import { GetRuntimesPidMetricsResponseOK } from 'src/client/backend-types'
 import ErrorComponent from '../errors/ErrorComponent'
@@ -70,13 +71,13 @@ function ServicesMetrics ({
         <div className={`${commonStyles.smallFlexRow} ${commonStyles.fullWidth}`}>
           <BorderedBox color={TRANSPARENT} backgroundColor={RICH_BLACK} classes={styles.boxMetricContainer}>
             <NodeJSMetric
-              title={`${serviceId} Memory`}
-              unit={`(${MEMORY_UNIT_METRICS})`}
-              metricURL='mem'
+              title={`${serviceId} ${OPTIONS_METRICS[KEY_MEM].title}`}
+              unit={`(${OPTIONS_METRICS[KEY_MEM].unit})`}
+              metricURL={KEY_MEM}
               dataValues={serviceData.dataMem}
               initialLoading={initialLoading}
               chartTooltipPosition={POSITION_FIXED}
-              options={MEMORY_OPTIONS_METRICS}
+              options={OPTIONS_METRICS[KEY_MEM].options}
               showLegend={false}
               timeline
               slimCss
@@ -87,13 +88,13 @@ function ServicesMetrics ({
           {showAggregatedMetrics && (
             <BorderedBox color={TRANSPARENT} backgroundColor={RICH_BLACK} classes={styles.boxMetricContainer}>
               <NodeJSMetric
-                title='Memory'
-                unit={`(${MEMORY_UNIT_METRICS})`}
-                metricURL='mem'
+                title={`Entrypoint ${OPTIONS_METRICS[KEY_MEM].title}`}
+                unit={`(${OPTIONS_METRICS[KEY_MEM].unit})`}
+                metricURL={KEY_MEM}
                 dataValues={allData.dataMem}
                 initialLoading={initialLoading}
                 chartTooltipPosition={POSITION_FIXED}
-                options={MEMORY_OPTIONS_METRICS}
+                options={OPTIONS_METRICS[KEY_MEM].options}
                 showLegend={false}
                 timeline
                 slimCss
@@ -101,20 +102,20 @@ function ServicesMetrics ({
             </BorderedBox>
           )}
         </div>
-        {generateLegend(getOptionMetricsLabel(MEMORY_OPTIONS_METRICS), colorSetMem)}
+        {generateLegend(getOptionMetricsLabel(OPTIONS_METRICS[KEY_MEM].options), colorSetMem)}
       </div>
 
       <div className={`${commonStyles.tinyFlexBlock} ${commonStyles.fullWidth}`}>
         <div className={`${commonStyles.smallFlexRow} ${commonStyles.fullWidth}`}>
           <BorderedBox color={TRANSPARENT} backgroundColor={RICH_BLACK} classes={styles.boxMetricContainer}>
             <NodeJSMetric
-              title={`${serviceId} CPU & ELU`}
-              metricURL='cpu'
+              title={`${serviceId} ${OPTIONS_METRICS[KEY_CPU].title}`}
+              metricURL={KEY_CPU}
               dataValues={serviceData.dataCpu}
               initialLoading={initialLoading}
               chartTooltipPosition={POSITION_FIXED}
-              unit={`(${CPU_UNIT_METRICS})`}
-              options={CPU_OPTIONS_METRICS}
+              unit={`(${OPTIONS_METRICS[KEY_CPU].unit})`}
+              options={OPTIONS_METRICS[KEY_CPU].options}
               showLegend={false}
               timeline
               slimCss
@@ -125,13 +126,13 @@ function ServicesMetrics ({
           {showAggregatedMetrics && (
             <BorderedBox color={TRANSPARENT} backgroundColor={RICH_BLACK} classes={styles.boxMetricContainer}>
               <NodeJSMetric
-                title='CPU & ELU'
-                metricURL='cpu'
+                title={`Entrypoint ${OPTIONS_METRICS[KEY_CPU].title}`}
+                metricURL={KEY_CPU}
                 dataValues={allData.dataCpu}
                 initialLoading={initialLoading}
                 chartTooltipPosition={POSITION_FIXED}
-                unit={`(${CPU_UNIT_METRICS})`}
-                options={CPU_OPTIONS_METRICS}
+                unit={`(${OPTIONS_METRICS[KEY_CPU].unit})`}
+                options={OPTIONS_METRICS[KEY_CPU].options}
                 showLegend={false}
                 timeline
                 slimCss
@@ -139,20 +140,20 @@ function ServicesMetrics ({
             </BorderedBox>
           )}
         </div>
-        {generateLegend(getOptionMetricsLabel(CPU_OPTIONS_METRICS), colorSetCpu)}
+        {generateLegend(getOptionMetricsLabel(OPTIONS_METRICS[KEY_CPU].options), colorSetCpu)}
       </div>
 
       <div className={`${commonStyles.tinyFlexBlock} ${commonStyles.fullWidth}`}>
         <div className={`${commonStyles.smallFlexRow} ${commonStyles.fullWidth}`}>
           <BorderedBox color={TRANSPARENT} backgroundColor={RICH_BLACK} classes={styles.boxMetricContainer}>
             <NodeJSMetric
-              title={`${serviceId} Latency`}
-              metricURL='latency'
+              title={`${serviceId} ${OPTIONS_METRICS[KEY_LATENCY].title}`}
+              metricURL={KEY_LATENCY}
               dataValues={serviceData.dataLatency}
               initialLoading={initialLoading}
               chartTooltipPosition={POSITION_FIXED}
-              unit={`(${LATENCY_UNIT_METRICS})`}
-              options={LATENCY_OPTIONS_METRICS}
+              unit={`(${OPTIONS_METRICS[KEY_LATENCY].unit})`}
+              options={OPTIONS_METRICS[KEY_LATENCY].options}
               showLegend={false}
               threadName={threadName}
               slimCss
@@ -163,13 +164,13 @@ function ServicesMetrics ({
           {showAggregatedMetrics && (
             <BorderedBox color={TRANSPARENT} backgroundColor={RICH_BLACK} classes={styles.boxMetricContainer}>
               <NodeJSMetric
-                title='Aggregated Service Latency'
-                metricURL='latency'
+                title={`Entrypoint ${OPTIONS_METRICS[KEY_LATENCY].title}`}
+                metricURL={KEY_LATENCY}
                 dataValues={allData.dataLatency}
                 initialLoading={initialLoading}
                 chartTooltipPosition={POSITION_FIXED}
-                unit={`(${LATENCY_UNIT_METRICS})`}
-                options={LATENCY_OPTIONS_METRICS}
+                unit={`(${OPTIONS_METRICS[KEY_LATENCY].unit})`}
+                options={OPTIONS_METRICS[KEY_LATENCY].options}
                 showLegend={false}
                 slimCss
                 timeline
@@ -177,20 +178,20 @@ function ServicesMetrics ({
             </BorderedBox>
           )}
         </div>
-        {generateLegend(getOptionMetricsLabel(LATENCY_OPTIONS_METRICS), colorSetLatency)}
+        {generateLegend(getOptionMetricsLabel(OPTIONS_METRICS[KEY_LATENCY].options), colorSetLatency)}
       </div>
 
       <div className={`${commonStyles.tinyFlexBlock} ${commonStyles.fullWidth}`}>
         <div className={`${commonStyles.smallFlexRow} ${commonStyles.fullWidth}`}>
           <BorderedBox color={TRANSPARENT} backgroundColor={RICH_BLACK} classes={styles.boxMetricContainer}>
             <NodeJSMetric
-              title={`${serviceId} Requests`}
-              metricURL='req'
+              title={`${serviceId} ${OPTIONS_METRICS[KEY_REQ].title}`}
+              metricURL={KEY_REQ}
               dataValues={serviceData.dataReq}
               initialLoading={initialLoading}
               chartTooltipPosition={POSITION_FIXED}
-              unit={`(${REQ_UNIT_METRICS})`}
-              options={REQ_OPTIONS_METRICS}
+              unit={`(${OPTIONS_METRICS[KEY_REQ].unit})`}
+              options={OPTIONS_METRICS[KEY_REQ].options}
               showLegend={false}
               threadName={threadName}
               slimCss
@@ -201,13 +202,13 @@ function ServicesMetrics ({
           {showAggregatedMetrics && (
             <BorderedBox color={TRANSPARENT} backgroundColor={RICH_BLACK} classes={styles.boxMetricContainer}>
               <NodeJSMetric
-                title='Entrypoint Requests'
-                metricURL='req'
+                title={`Entrypoint ${OPTIONS_METRICS[KEY_REQ].title}`}
+                metricURL={KEY_REQ}
                 dataValues={allData.dataReq}
                 initialLoading={initialLoading}
                 chartTooltipPosition={POSITION_FIXED}
-                unit={`(${REQ_UNIT_METRICS})`}
-                options={REQ_OPTIONS_METRICS}
+                unit={`(${OPTIONS_METRICS[KEY_REQ].unit})`}
+                options={OPTIONS_METRICS[KEY_REQ].options}
                 showLegend={false}
                 slimCss
                 timeline
@@ -215,20 +216,20 @@ function ServicesMetrics ({
             </BorderedBox>
           )}
         </div>
-        {generateLegend(getOptionMetricsLabel(REQ_OPTIONS_METRICS), colorSetReq)}
+        {generateLegend(getOptionMetricsLabel(OPTIONS_METRICS[KEY_REQ].options), colorSetReq)}
       </div>
 
       <div className={`${commonStyles.tinyFlexBlock} ${commonStyles.fullWidth}`}>
         <div className={`${commonStyles.smallFlexRow} ${commonStyles.fullWidth}`}>
           <BorderedBox color={TRANSPARENT} backgroundColor={RICH_BLACK} classes={styles.boxMetricContainer}>
             <NodeJSMetric
-              title={`${serviceId} Undici`}
-              metricURL='undici'
+              title={`${serviceId} ${OPTIONS_METRICS[KEY_UNDICI].title}`}
+              metricURL={KEY_UNDICI}
               dataValues={serviceData.dataUndici}
               initialLoading={initialLoading}
               chartTooltipPosition={POSITION_FIXED}
-              unit={`(${REQ_UNIT_METRICS})`}
-              options={UNDICI_OPTIONS_METRICS}
+              unit={`(${OPTIONS_METRICS[KEY_UNDICI].unit})`}
+              options={OPTIONS_METRICS[KEY_UNDICI].options}
               showLegend={false}
               threadName={threadName}
               slimCss
@@ -239,13 +240,13 @@ function ServicesMetrics ({
           {showAggregatedMetrics && (
             <BorderedBox color={TRANSPARENT} backgroundColor={RICH_BLACK} classes={styles.boxMetricContainer}>
               <NodeJSMetric
-                title='Entrypoint Undici'
-                metricURL='undici'
+                title={`Entrypoint ${OPTIONS_METRICS[KEY_UNDICI].title}`}
+                metricURL={KEY_UNDICI}
                 dataValues={allData.dataUndici}
                 initialLoading={initialLoading}
                 chartTooltipPosition={POSITION_FIXED}
-                unit={`(${UNDICI_UNIT_METRICS})`}
-                options={UNDICI_OPTIONS_METRICS}
+                unit={`(${OPTIONS_METRICS[KEY_UNDICI].unit})`}
+                options={OPTIONS_METRICS[KEY_UNDICI].options}
                 showLegend={false}
                 slimCss
                 timeline
@@ -253,7 +254,45 @@ function ServicesMetrics ({
             </BorderedBox>
           )}
         </div>
-        {generateLegend(getOptionMetricsLabel(UNDICI_OPTIONS_METRICS), colorSetUndici)}
+        {generateLegend(getOptionMetricsLabel(OPTIONS_METRICS[KEY_UNDICI].options), colorSetUndici)}
+      </div>
+
+      <div className={`${commonStyles.tinyFlexBlock} ${commonStyles.fullWidth}`}>
+        <div className={`${commonStyles.smallFlexRow} ${commonStyles.fullWidth}`}>
+          <BorderedBox color={TRANSPARENT} backgroundColor={RICH_BLACK} classes={styles.boxMetricContainer}>
+            <NodeJSMetric
+              title={`${serviceId} ${OPTIONS_METRICS[KEY_WS].title}`}
+              metricURL={KEY_WS}
+              dataValues={serviceData.dataWebsocket}
+              initialLoading={initialLoading}
+              chartTooltipPosition={POSITION_FIXED}
+              unit={`(${OPTIONS_METRICS[KEY_WS].unit})`}
+              options={OPTIONS_METRICS[KEY_WS].options}
+              showLegend={false}
+              threadName={threadName}
+              slimCss
+              timeline
+            />
+          </BorderedBox>
+
+          {showAggregatedMetrics && (
+            <BorderedBox color={TRANSPARENT} backgroundColor={RICH_BLACK} classes={styles.boxMetricContainer}>
+              <NodeJSMetric
+                title={`Entrypoint ${OPTIONS_METRICS[KEY_WS].title}`}
+                metricURL={KEY_WS}
+                dataValues={allData.dataWebsocket}
+                initialLoading={initialLoading}
+                chartTooltipPosition={POSITION_FIXED}
+                unit={`(${OPTIONS_METRICS[KEY_WS].unit})`}
+                options={OPTIONS_METRICS[KEY_WS].options}
+                showLegend={false}
+                slimCss
+                timeline
+              />
+            </BorderedBox>
+          )}
+        </div>
+        {generateLegend(getOptionMetricsLabel(OPTIONS_METRICS[KEY_WS].options), colorSetWs)}
       </div>
 
       {hasKafkaData &&
@@ -261,13 +300,13 @@ function ServicesMetrics ({
           <div className={`${commonStyles.smallFlexRow} ${commonStyles.fullWidth}`}>
             <BorderedBox color={TRANSPARENT} backgroundColor={RICH_BLACK} classes={styles.boxMetricContainer}>
               <NodeJSMetric
-                title={`${serviceId} Kafka`}
-                metricURL='kafka'
+                title={`${serviceId} ${OPTIONS_METRICS[KEY_KAFKA].title}`}
+                metricURL={KEY_KAFKA}
                 dataValues={serviceData.dataKafka}
                 initialLoading={initialLoading}
                 chartTooltipPosition={POSITION_FIXED}
-                unit={`(${REQ_UNIT_METRICS})`}
-                options={KAFKA_OPTIONS_METRICS}
+                unit={`(${OPTIONS_METRICS[KEY_KAFKA].unit})`}
+                options={OPTIONS_METRICS[KEY_KAFKA].options}
                 showLegend={false}
                 threadName={threadName}
                 slimCss
@@ -278,13 +317,13 @@ function ServicesMetrics ({
             {showAggregatedMetrics && (
               <BorderedBox color={TRANSPARENT} backgroundColor={RICH_BLACK} classes={styles.boxMetricContainer}>
                 <NodeJSMetric
-                  title='Entrypoint Kafka'
-                  metricURL='kafka'
+                  title={`Entrypoint ${OPTIONS_METRICS[KEY_KAFKA].title}`}
+                  metricURL={KEY_KAFKA}
                   dataValues={allData.dataKafka}
                   initialLoading={initialLoading}
                   chartTooltipPosition={POSITION_FIXED}
-                  unit={`(${KAFKA_UNIT_METRICS})`}
-                  options={KAFKA_OPTIONS_METRICS}
+                  unit={`(${OPTIONS_METRICS[KEY_KAFKA].unit})`}
+                  options={OPTIONS_METRICS[KEY_KAFKA].options}
                   showLegend={false}
                   slimCss
                   timeline
@@ -292,7 +331,7 @@ function ServicesMetrics ({
               </BorderedBox>
             )}
           </div>
-          {generateLegend(getOptionMetricsLabel(KAFKA_OPTIONS_METRICS), colorSetKafka)}
+          {generateLegend(getOptionMetricsLabel(OPTIONS_METRICS[KEY_KAFKA].options), colorSetKafka)}
         </div>}
     </div>
   )

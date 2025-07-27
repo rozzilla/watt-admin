@@ -1,7 +1,7 @@
 import { describe, test, expect } from 'vitest'
 import { getServiceSelected, getServiceWorkers, getServiceEntrypoint, getKafkaType, getOptionMetricsLabel } from '../../src/utilities/getters'
 import { ServiceData } from '../../src/types'
-import { KAFKA_OPTIONS_METRICS } from '../../src/ui-constants'
+import { OPTIONS_METRICS } from '../../src/ui-constants'
 
 describe('getServiceSelected', () => {
   test('should return true when service has selected property set to true', () => {
@@ -165,7 +165,7 @@ describe('getOptionMetricsLabel', () => {
   )
 
   test('when passing an an array containing multiple property including labels, should return an array of only labels', () =>
-    expect(getOptionMetricsLabel(KAFKA_OPTIONS_METRICS)).toEqual(['Producers', 'Consumers', 'Topics', 'Streams', 'Flight', 'DLQ'])
+    expect(getOptionMetricsLabel(OPTIONS_METRICS.kafka.options)).toEqual(['Producers', 'Consumers', 'Topics', 'Streams', 'Flight', 'DLQ'])
   )
 })
 

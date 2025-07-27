@@ -7,7 +7,8 @@ import {
   initMetricsResponse,
   initServiceMetrics,
   MappedMetrics,
-  isUndiciMetricName
+  isUndiciMetricName,
+  isWebsocketMetricName
 } from '../../utils/metrics-helpers'
 import { MemoryDataPoint } from '../../schemas'
 
@@ -33,6 +34,14 @@ test('isUndiciMetricName returns false for invalid undici metric names', () => {
   assert.strictEqual(isUndiciMetricName('wrong_metric'), false)
   assert.strictEqual(isUndiciMetricName('undici_invalid'), false)
   assert.strictEqual(isUndiciMetricName(''), false)
+})
+
+test('isWebsocketMetricName returns true for valid ws metric names', () => {
+  assert.strictEqual(isWebsocketMetricName('active_ws_composer_connections'), true)
+})
+
+test('isWebsocketMetricName returns false for invalid ws metric names', () => {
+  assert.strictEqual(isWebsocketMetricName('wrong_metric'), false)
 })
 
 test('addMetricDataPoint adds data point to empty array', () => {
@@ -122,6 +131,25 @@ test('initMetricsObject initializes Kafka data with zeros', () => {
   assert.strictEqual(result.dataKafka.producers, 0)
 })
 
+test('initMetricsObject initializes undici data with zeros', () => {
+  const date = '2023-01-01T10:00:00Z'
+  const result = initMetricsObject(date)
+
+  assert.strictEqual(result.dataUndici.activeRequests, 0)
+  assert.strictEqual(result.dataUndici.idleSockets, 0)
+  assert.strictEqual(result.dataUndici.openSockets, 0)
+  assert.strictEqual(result.dataUndici.pendingRequests, 0)
+  assert.strictEqual(result.dataUndici.queuedRequests, 0)
+  assert.strictEqual(result.dataUndici.sizeRequests, 0)
+})
+
+test('initMetricsObject initializes websocket data with zeros', () => {
+  const date = '2023-01-01T10:00:00Z'
+  const result = initMetricsObject(date)
+
+  assert.strictEqual(result.dataWebsocket.connections, 0)
+})
+
 test('initMetricsObject initializes request data with zeros', () => {
   const date = '2023-01-01T10:00:00Z'
   const result = initMetricsObject(date)
@@ -152,6 +180,10 @@ test('initMetricsResponse creates empty arrays when called without parameters', 
   assert.strictEqual(result.dataReq.length, 0)
   assert.strictEqual(Array.isArray(result.dataKafka), true)
   assert.strictEqual(result.dataKafka.length, 0)
+  assert.strictEqual(Array.isArray(result.dataUndici), true)
+  assert.strictEqual(result.dataUndici.length, 0)
+  assert.strictEqual(Array.isArray(result.dataWebsocket), true)
+  assert.strictEqual(result.dataWebsocket.length, 0)
 })
 
 test('initMetricsResponse creates arrays with specified length when date and length provided', () => {
@@ -164,12 +196,16 @@ test('initMetricsResponse creates arrays with specified length when date and len
   assert.strictEqual(result.dataMem.length, length)
   assert.strictEqual(result.dataReq.length, length)
   assert.strictEqual(result.dataKafka.length, length)
+  assert.strictEqual(result.dataUndici.length, length)
+  assert.strictEqual(result.dataWebsocket.length, length)
 
   result.dataCpu.forEach(item => assert.strictEqual(item.date, date))
   result.dataLatency.forEach(item => assert.strictEqual(item.date, date))
   result.dataMem.forEach(item => assert.strictEqual(item.date, date))
   result.dataReq.forEach(item => assert.strictEqual(item.date, date))
   result.dataKafka.forEach(item => assert.strictEqual(item.date, date))
+  result.dataUndici.forEach(item => assert.strictEqual(item.date, date))
+  result.dataWebsocket.forEach(item => assert.strictEqual(item.date, date))
 })
 
 test('initMetricsResponse creates empty arrays when only date provided', () => {
@@ -181,6 +217,8 @@ test('initMetricsResponse creates empty arrays when only date provided', () => {
   assert.strictEqual(result.dataMem.length, 0)
   assert.strictEqual(result.dataReq.length, 0)
   assert.strictEqual(result.dataKafka.length, 0)
+  assert.strictEqual(result.dataUndici.length, 0)
+  assert.strictEqual(result.dataWebsocket.length, 0)
 })
 
 test('initServiceMetrics creates service metrics structure when service does not exist', () => {

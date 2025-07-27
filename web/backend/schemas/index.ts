@@ -106,7 +106,21 @@ const undiciDataPointSchema = {
 } as const
 export type UndiciDataPoint = FromSchema<typeof undiciDataPointSchema>
 
-export const requiredMetricKeys = ['dataMem', 'dataCpu', 'dataKafka', 'dataReq', 'dataLatency', 'dataUndici'] as const
+const websocketDataPointSchema = {
+  type: 'object',
+  additionalProperties: false,
+  properties: {
+    date: { type: 'string', format: 'date-time' },
+    connections: { type: 'number' }
+  },
+  required: [
+    'date',
+    'connections'
+  ]
+} as const
+export type WebsocketDataPoint = FromSchema<typeof websocketDataPointSchema>
+
+export const requiredMetricKeys = ['dataMem', 'dataCpu', 'dataKafka', 'dataReq', 'dataLatency', 'dataUndici', 'dataWebsocket'] as const
 export const metricResponseSchema = {
   type: 'object',
   additionalProperties: false,
@@ -117,6 +131,7 @@ export const metricResponseSchema = {
     dataReq: { type: 'array', items: requestDataPointSchema },
     dataKafka: { type: 'array', items: kafkaDataPointSchema },
     dataUndici: { type: 'array', items: undiciDataPointSchema },
+    dataWebsocket: { type: 'array', items: websocketDataPointSchema }
   },
   required: requiredMetricKeys
 } as const
