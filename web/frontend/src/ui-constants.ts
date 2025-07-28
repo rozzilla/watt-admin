@@ -132,11 +132,6 @@ export const OPTIONS_METRICS: Record<MetricType, {
         label: 'Active',
         internalKey: 'activeRequests',
         unit: UNDICI_UNIT_METRICS
-      },
-      {
-        label: 'Size',
-        internalKey: 'sizeRequests',
-        unit: UNDICI_UNIT_METRICS
       }
     ]
   },
@@ -154,28 +149,13 @@ export const OPTIONS_METRICS: Record<MetricType, {
     unit: KAFKA_UNIT_METRICS,
     options: [
       {
-        label: 'Producers',
-        internalKey: 'producers',
+        label: 'Produced',
+        internalKey: 'producedMessages',
         unit: KAFKA_UNIT_METRICS
       },
       {
-        label: 'Consumers',
-        internalKey: 'consumers',
-        unit: KAFKA_UNIT_METRICS
-      },
-      {
-        label: 'Topics',
-        internalKey: 'consumersTopics',
-        unit: KAFKA_UNIT_METRICS
-      },
-      {
-        label: 'Streams',
-        internalKey: 'consumersStreams',
-        unit: KAFKA_UNIT_METRICS
-      },
-      {
-        label: 'Flight',
-        internalKey: 'hooksMessagesInFlight',
+        label: 'Consumed',
+        internalKey: 'consumedMessages',
         unit: KAFKA_UNIT_METRICS
       },
       {

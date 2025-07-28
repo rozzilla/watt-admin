@@ -1,5 +1,5 @@
 import { describe, test, expect } from 'vitest'
-import { getFormattedDate, getFormattedLogTimestamp, subtractSecondsFromDate } from '../../src/utilities/dates'
+import { getFormattedLogTimestamp, subtractSecondsFromDate } from '../../src/utilities/dates'
 
 const invalidDates = [
   '-',
@@ -9,20 +9,6 @@ const invalidDates = [
   null,
   undefined
 ] as string[]
-
-describe('getFormattedDate', () => {
-  test('should print \'-\' for invalid date types', () => {
-    for (let i = 0; i < invalidDates.length; i++) {
-      expect(getFormattedDate(invalidDates[i])).toEqual('-')
-    }
-  })
-  test('should print formatted date', () => {
-    const input = '2024-02-20T09:52:57.858Z'
-    const expected = 'Feb 20, 2024'
-
-    expect(getFormattedDate(input)).toEqual(expected)
-  })
-})
 
 describe('getFormattedLogTimestamp', () => {
   test('should print \'-\' for invalid date types', () => {

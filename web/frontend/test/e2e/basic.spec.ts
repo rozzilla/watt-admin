@@ -17,7 +17,7 @@ test.describe('Basic E2E tests', () => {
     await expect(page.locator('body')).toBeVisible()
     await expect(page.getByText('@platformatic/watt-admin')).toBeVisible()
     await expect(page.getByText('Metrics')).toBeVisible()
-    await expect(page.getByText('Services')).toBeVisible()
+    await expect(page.getByText('Services (3)')).toBeVisible()
     await expect(page.getByText('backend')).toHaveCount(1)
     await expect(page.getByText('frontend')).toHaveCount(1)
     await expect(page.getByText('composer')).toHaveCount(2)
@@ -36,6 +36,9 @@ test.describe('Basic E2E tests', () => {
     await expect(page.getByText('composer Websocket')).toHaveCount(1)
     await expect(page.getByText('Heap Used')).toHaveCount(1)
     await expect(page.getByText('Old Space')).toHaveCount(1)
+    await expect(page.getByText('Queued')).toHaveCount(1)
+    await expect(page.getByText('Pending')).toHaveCount(1)
+    await expect(page.getByText('Connections')).toHaveCount(1)
 
     // logs
     await page.goto('/#/logs')

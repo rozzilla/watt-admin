@@ -68,7 +68,7 @@ interface ServiceProps {
 
 function Service ({ service, onServiceClick }: ServiceProps): React.ReactElement {
   return (
-    <div className={`${commonStyles.tinyFlexRow} ${commonStyles.fullWidth} ${commonStyles.flexGrow}`}>
+    <div className={`${commonStyles.tinyFlexRow} ${styles.serviceBox}`}>
       <BorderedBox
         classes={`${styles.servicePadding}`}
         color={TRANSPARENT}
@@ -80,27 +80,27 @@ function Service ({ service, onServiceClick }: ServiceProps): React.ReactElement
         clickable
         onClick={() => onServiceClick(service.id)}
       >
-        <div className={`${commonStyles.tinyFlexRow} ${commonStyles.fullWidth} ${commonStyles.flexGrow}`}>
-          <div className={`${commonStyles.tinyFlexRow} ${commonStyles.fullWidth}`}>
-            {
-              getServiceEntrypoint(service)
-                ? <Icons.EntrypointIcon
-                    color={WHITE}
-                    size={SMALL}
-                  />
-                : <Icons.ServiceIcon
-                    color={WHITE}
-                    size={SMALL}
-                  />
-            }
-            <span className={`${typographyStyles.textWhite}`}>{service.id}</span>
-            {getServiceEntrypoint(service) &&
-              <span className={`${typographyStyles.desktopBodySmallest} ${typographyStyles.textWhite} ${typographyStyles.opacity70}`}>(Application Entrypoint)</span>}
-
-            {'type' in service && <span className={`${typographyStyles.desktopBodySmallest} ${typographyStyles.textWhite} ${typographyStyles.opacity70}`}> | &nbsp; Service Type: {service.type}</span>}
+        <div className={`${commonStyles.tinyFlexRow} ${commonStyles.fullWidth} ${commonStyles.flexGrow} ${styles.serviceContentRow}`}>
+          <div className={`${commonStyles.tinyFlexBlock} ${commonStyles.fullWidth}`}>
+            <div className={`${commonStyles.tinyFlexRow}`}>
+              {
+                getServiceEntrypoint(service)
+                  ? <Icons.EntrypointIcon
+                      color={WHITE}
+                      size={SMALL}
+                    />
+                  : <Icons.ServiceIcon
+                      color={WHITE}
+                      size={SMALL}
+                    />
+              }
+              <span className={`${typographyStyles.textWhite}`}>{service.id}</span>
+              {getServiceEntrypoint(service) &&
+                <span className={`${typographyStyles.desktopBodySmallest} ${typographyStyles.textWhite} ${typographyStyles.opacity70}`}>App Entrypoint</span>}
+            </div>
+            <div className={`${typographyStyles.desktopBodySmallest} ${typographyStyles.textWhite} ${typographyStyles.opacity70}`}>{'type' in service && <span>Service Type: {service.type}</span>} &nbsp;</div>
           </div>
-          <div className={`${styles.w45} ${typographyStyles.desktopBodySmallest} ${typographyStyles.textWhite} ${typographyStyles.opacity70}`}>Test it</div>
-          <Icons.InternalLinkIcon className={`${typographyStyles.opacity70}`} color={WHITE} size={SMALL} />
+          <span className={`${typographyStyles.opacity70}`}><Icons.InternalLinkIcon color={WHITE} size={SMALL} /></span>
         </div>
       </BorderedBox>
     </div>
@@ -161,11 +161,11 @@ function ServicesBox (): React.ReactElement {
                 size={MEDIUM}
               />
               <div className={styles.applicationName}>
-                <p className={`${typographyStyles.desktopBodySemibold} ${typographyStyles.textWhite} ${typographyStyles.ellipsis}`}>Services</p>
+                <span className={`${typographyStyles.desktopBodySemibold} ${typographyStyles.textWhite} ${typographyStyles.ellipsis}`}>Services</span> <span className={`${typographyStyles.desktopBodySmall} ${typographyStyles.textWhite} ${typographyStyles.opacity70}`}>({services.length})</span>
               </div>
             </div>
           </div>
-          <div className={`${commonStyles.tinyFlexBlock} ${commonStyles.fullWidth}`}>
+          <div className={`${commonStyles.tinyFlexRow} ${commonStyles.fullWidth} ${styles.flexWrap}`}>
             {services.map((service) => (
               <Service
                 key={service.id}
