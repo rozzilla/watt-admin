@@ -57,7 +57,7 @@ test.describe('Basic E2E tests', () => {
     await closeScalarModal(page)
 
     // composer (Scalar)
-    await page.getByText('(Application Entrypoint)').click()
+    await page.getByText('App Entrypoint').click()
     await page.getByText('Platformatic Composer').waitFor()
     await page
       .locator('[id="tag/default/get/api/runtimes"]')
