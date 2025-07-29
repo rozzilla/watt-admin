@@ -165,7 +165,7 @@ describe('getOptionMetricsLabel', () => {
   )
 
   test('when passing an an array containing multiple property including labels, should return an array of only labels', () =>
-    expect(getOptionMetricsLabel(OPTIONS_METRICS.kafka.options)).toEqual(['Produced', 'Consumed', 'DLQ'])
+    expect(getOptionMetricsLabel(OPTIONS_METRICS.dataKafka.options)).toEqual(['Produced', 'Consumed', 'DLQ'])
   )
 })
 
