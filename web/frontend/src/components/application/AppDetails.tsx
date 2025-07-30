@@ -35,18 +35,9 @@ const AppDetails: React.FC = () => {
   return (
     <div className={styles.container}>
       <div className={styles.containerElement}>
-        <div className={styles.content}>
-          <div className={styles.leftSection}>
-            <AppNameBox
-              onErrorOccurred={setError}
-              apiApplication={apiApplication}
-            />
-            <NodeJSMetrics />
-          </div>
-          <div className={styles.rightSection}>
-            <ServicesBox />
-          </div>
-        </div>
+        <AppNameBox onErrorOccurred={setError} apiApplication={apiApplication} />
+        <ServicesBox />
+        <NodeJSMetrics />
       </div>
     </div>
   )

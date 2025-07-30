@@ -5,12 +5,6 @@ dayjs.extend(utc)
 
 type DateFormat = string | number | Date
 
-export const getFormattedDate = (date: DateFormat): string => {
-  const dateObject = getDateObjectIfValid(date)
-  if (dateObject === false) return '-'
-  return dateObject.format('MMM DD, YYYY')
-}
-
 export const getFormattedLogTimestamp = (
   date: DateFormat,
   includeMilliseconds: boolean = false

@@ -29,6 +29,13 @@
 .flexWrap {
   @apply flex-wrap gap-y-2;
 }
+.serviceBox {
+  @apply min-w-[240px];
+  flex: 1 1 240px;
+}
+.serviceContentRow {
+  @apply flex flex-row w-full items-start;
+}
 .servicePadding {
   @apply p-4;
 }

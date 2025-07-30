@@ -19,14 +19,6 @@ export const DIRECTION_TAIL = 'tail'
 export const REFRESH_INTERVAL_METRICS = 2000
 export const REFRESH_INTERVAL_LOGS = 2000
 
-export const KEY_MEM = 'mem'
-export const KEY_CPU = 'cpu'
-export const KEY_LATENCY = 'latency'
-export const KEY_REQ = 'req'
-export const KEY_UNDICI = 'undici'
-export const KEY_WS = 'ws'
-export const KEY_KAFKA = 'kafka'
-
 const MEMORY_UNIT_METRICS = 'MB'
 const LATENCY_UNIT_METRICS = 'ms'
 const CPU_UNIT_METRICS = '%'
@@ -35,12 +27,16 @@ const UNDICI_UNIT_METRICS = '#'
 const WS_UNIT_METRICS = '#'
 const KAFKA_UNIT_METRICS = '#'
 
-export const OPTIONS_METRICS: Record<MetricType, {
+export const KEYS_METRICS = ['dataMem', 'dataCpu', 'dataKafka', 'dataReq', 'dataLatency', 'dataUndici', 'dataWebsocket'] as const
+export type KeyMetric = typeof KEYS_METRICS[number]
+export const OPTIONS_METRICS: Record<KeyMetric, {
+  type: MetricType,
   unit: string,
   title: string,
   options: MetricOption[]
 }> = {
-  mem: {
+  dataMem: {
+    type: 'mem',
     title: 'Memory',
     unit: MEMORY_UNIT_METRICS,
     options: [{
@@ -65,7 +61,8 @@ export const OPTIONS_METRICS: Record<MetricType, {
       unit: MEMORY_UNIT_METRICS
     }]
   },
-  cpu: {
+  dataCpu: {
+    type: 'cpu',
     title: 'CPU & ELU',
     unit: CPU_UNIT_METRICS,
     options: [{
@@ -78,7 +75,8 @@ export const OPTIONS_METRICS: Record<MetricType, {
       unit: CPU_UNIT_METRICS
     }]
   },
-  latency: {
+  dataLatency: {
+    type: 'latency',
     title: 'Latency',
     unit: LATENCY_UNIT_METRICS,
     options: [{
@@ -95,7 +93,8 @@ export const OPTIONS_METRICS: Record<MetricType, {
       unit: LATENCY_UNIT_METRICS
     }]
   },
-  req: {
+  dataReq: {
+    type: 'req',
     title: 'Requests',
     unit: REQ_UNIT_METRICS,
     options: [{
@@ -104,7 +103,8 @@ export const OPTIONS_METRICS: Record<MetricType, {
       unit: REQ_UNIT_METRICS
     }]
   },
-  undici: {
+  dataUndici: {
+    type: 'undici',
     title: 'Undici',
     unit: UNDICI_UNIT_METRICS,
     options: [
@@ -132,15 +132,11 @@ export const OPTIONS_METRICS: Record<MetricType, {
         label: 'Active',
         internalKey: 'activeRequests',
         unit: UNDICI_UNIT_METRICS
-      },
-      {
-        label: 'Size',
-        internalKey: 'sizeRequests',
-        unit: UNDICI_UNIT_METRICS
       }
     ]
   },
-  ws: {
+  dataWebsocket: {
+    type: 'ws',
     title: 'Websocket',
     unit: WS_UNIT_METRICS,
     options: [{
@@ -149,33 +145,19 @@ export const OPTIONS_METRICS: Record<MetricType, {
       unit: WS_UNIT_METRICS
     }]
   },
-  kafka: {
+  dataKafka: {
+    type: 'kafka',
     title: 'Kafka',
     unit: KAFKA_UNIT_METRICS,
     options: [
       {
-        label: 'Producers',
-        internalKey: 'producers',
+        label: 'Produced',
+        internalKey: 'producedMessages',
         unit: KAFKA_UNIT_METRICS
       },
       {
-        label: 'Consumers',
-        internalKey: 'consumers',
-        unit: KAFKA_UNIT_METRICS
-      },
-      {
-        label: 'Topics',
-        internalKey: 'consumersTopics',
-        unit: KAFKA_UNIT_METRICS
-      },
-      {
-        label: 'Streams',
-        internalKey: 'consumersStreams',
-        unit: KAFKA_UNIT_METRICS
-      },
-      {
-        label: 'Flight',
-        internalKey: 'hooksMessagesInFlight',
+        label: 'Consumed',
+        internalKey: 'consumedMessages',
         unit: KAFKA_UNIT_METRICS
       },
       {

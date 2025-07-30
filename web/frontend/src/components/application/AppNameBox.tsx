@@ -5,7 +5,6 @@ import typographyStyles from '../../styles/Typography.module.css'
 import commonStyles from '../../styles/CommonStyles.module.css'
 import tooltipStyles from '../../styles/TooltipStyles.module.css'
 import { Icons, BorderedBox, Button, PlatformaticIcon, Tooltip } from '@platformatic/ui-components'
-import { getFormattedDate } from '../../utilities/dates'
 import { STATUS_STOPPED, STATUS_RUNNING } from '../../ui-constants'
 import ApplicationStatusPills from '../ui/ApplicationStatusPills'
 import { restartApiApplication, isWattpmVersionOutdated } from '../../api'
@@ -109,12 +108,6 @@ function AppNameBox ({
         </div>
         <div className={`${commonStyles.tinyFlexBlock} ${commonStyles.fullWidth} ${styles.appInnerBox}`}>
           <div className={styles.rowContainer}>
-            <div className={`${commonStyles.tinyFlexRow} ${commonStyles.itemsCenter}`}>
-              <span className={`${typographyStyles.desktopBodySmall} ${typographyStyles.textWhite} ${typographyStyles.opacity70}`}>Last Started:</span>
-              <span className={`${typographyStyles.desktopBodySmall} ${typographyStyles.textWhite}`}>{getFormattedDate(apiApplication.lastStarted)}</span>
-            </div>
-          </div>
-          <div className={styles.rowContainer}>
             <div className={`${commonStyles.smallFlexResponsiveRow}`}>
               {!apiApplication.pltVersion
                 ? (<span className={`${typographyStyles.desktopBodySmall} ${typographyStyles.textWhite} ${typographyStyles.opacity70}`}>Current Runtime Version: -</span>)
@@ -138,17 +131,13 @@ function AppNameBox ({
                             )}
                           </>)
                         : (<span className={`${typographyStyles.desktopBodySmall} ${typographyStyles.textWhite} ${typographyStyles.opacity70}`}>-</span>)}
+                      <span className={`${typographyStyles.desktopBodySmallest} ${typographyStyles.textWhite} ${typographyStyles.opacity70}`}> &nbsp; | &nbsp; </span>
+                      <span className={`${typographyStyles.desktopBodySmall} ${typographyStyles.textWhite} ${typographyStyles.opacity70}`}>URL:</span>
+                      <span className={`${typographyStyles.desktopBodySmall} ${typographyStyles.textWhite}`}>{apiApplication.url} </span>
+                      <PlatformaticIcon iconName='ExpandIcon' color={WHITE} size={SMALL} onClick={() => window.open(apiApplication.url, '_blank')} internalOverHandling disabled={apiApplication.url === ''} />
                     </div>
                   </>
                   )}
-            </div>
-          </div>
-
-          <div className={styles.rowContainer}>
-            <div className={`${commonStyles.tinyFlexRow} ${commonStyles.itemsCenter}`}>
-              <span className={`${typographyStyles.desktopBodySmall} ${typographyStyles.textWhite} ${typographyStyles.opacity70}`}>URL:</span>
-              <span className={`${typographyStyles.desktopBodySmall} ${typographyStyles.textWhite}`}>{apiApplication.url} </span>
-              <PlatformaticIcon iconName='ExpandIcon' color={WHITE} size={SMALL} onClick={() => window.open(apiApplication.url, '_blank')} internalOverHandling disabled={apiApplication.url === ''} />
             </div>
           </div>
         </div>
