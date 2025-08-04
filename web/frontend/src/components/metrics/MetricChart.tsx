@@ -53,6 +53,8 @@ type D3SVGCircleSelection = D3Selection<SVGCircleElement>
 
 const getNum = (point: Point) => typeof point === 'number' ? point : 0
 
+const getTooltipKey = (label: string) => 'tooltip-value-' + label.toLowerCase().replace(/ /g, '-')
+
 export const getMetricColor = (metricType: MetricType) => {
   let colorStyles: Record<string, string>
   switch (metricType) {
@@ -356,7 +358,7 @@ const MetricChart: React.FC<MetricChartProps> = ({
                     <div class="${typographyStyles.desktopBodySmallest} ${typographyStyles.textRichBlack}">${v.label}</div>
                   </div>
                   <div class="${styles.tooltipValueContainer}">
-                    <div class="${typographyStyles.desktopBodySmallest} ${typographyStyles.textRichBlack} ${styles.tooltipValue}">${v.value}</div>
+                    <div data-testid="${getTooltipKey(v.label)}" class="${typographyStyles.desktopBodySmallest} ${typographyStyles.textRichBlack} ${styles.tooltipValue}">${v.value}</div>
                     <div class="${typographyStyles.desktopBodySmallest} ${typographyStyles.textRichBlack} ${styles.tooltipUnit}">${unit}</div>
                   </div>
                 </div>
@@ -430,7 +432,7 @@ const MetricChart: React.FC<MetricChartProps> = ({
                     <div class="${typographyStyles.desktopBodySmallest} ${typographyStyles.textRichBlack}">${v.name}</div>
                   </div>
                   <div class="${styles.tooltipValueContainer}">
-                    <div class="${typographyStyles.desktopBodySmallest} ${typographyStyles.textRichBlack} ${styles.tooltipValue}">${v.value}</div>
+                    <div data-testid="${getTooltipKey(v.name)}" class="${typographyStyles.desktopBodySmallest} ${typographyStyles.textRichBlack} ${styles.tooltipValue}">${v.value}</div>
                     <div class="${typographyStyles.desktopBodySmallest} ${typographyStyles.textRichBlack} ${styles.tooltipUnit}">${unit}</div>
                   </div>
                 </div>
@@ -472,7 +474,7 @@ const MetricChart: React.FC<MetricChartProps> = ({
   }, [svgRef, tooltipRef, data, percentiles, colorSet, labels, lowerMaxY, numberOfLines, percentiles, timeline, tooltipPosition, unit, yMin])
 
   return (
-    <div className={`${commonStyles.tinyFlexBlock} ${commonStyles.fullWidth}`}>
+    <div data-testid='metric-chart' className={`${commonStyles.tinyFlexBlock} ${commonStyles.fullWidth}`}>
       <svg
         ref={svgRef} style={{ width: '100%', height: '96px' }}
       />

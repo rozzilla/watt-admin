@@ -171,8 +171,8 @@ test('getMetrics collects and aggregates metrics correctly', async () => {
   assert.strictEqual(worker2Req.rps, 0)
 
   const service2Req = metricService2.all.dataReq[0]
-  assert.strictEqual(service2Req.count, 5)
-  assert.strictEqual(service2Req.rps, 5)
+  assert.strictEqual(service2Req.count, 6)
+  assert.strictEqual(service2Req.rps, 6)
 
   assert.strictEqual(metricService1.all.dataKafka[0].consumers, 0)
   assert.strictEqual(metricService2.all.dataKafka[0].consumers, 0)
@@ -197,8 +197,8 @@ test('getMetrics collects and aggregates metrics correctly', async () => {
   assert.strictEqual(aggregatedMem.oldSpace, 402.32)
 
   const aggregatedReq = mockedMetrics.aggregated.dataReq[0]
-  assert.strictEqual(aggregatedReq.count, 7)
-  assert.strictEqual(aggregatedReq.rps, 7)
+  assert.strictEqual(aggregatedReq.count, 12)
+  assert.strictEqual(aggregatedReq.rps, 12)
 
   const aggregatedKafka = mockedMetrics.aggregated.dataKafka[0]
   assert.strictEqual(aggregatedKafka.consumedMessages, 0)

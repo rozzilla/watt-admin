@@ -116,15 +116,10 @@ export const getMetrics = async ({ mappedMetrics, log }: FastifyInstance): Promi
                 }
               }
 
-              if (metric.name === 'http_request_duration_seconds') {
-                const alreadyIteratedRoutes: Record<string, boolean> = {}
-                const count = metric.values.reduce((acc, { metricName, value, labels }) => {
-                  const routeLabel = labels.route || ''
-                  const cleanRouteLabel = routeLabel?.endsWith('/') ? routeLabel.slice(0, -1) : routeLabel
-                  if (metricName === 'http_request_duration_seconds_count' && !alreadyIteratedRoutes[cleanRouteLabel]) {
-                    // The check above is to avoid duplicated data returned from `@platformatic/control`, when `route` have trailing slash (or not)
+              if (metric.name === 'http_request_all_duration_seconds') {
+                const count = metric.values.reduce((acc, { metricName, value }) => {
+                  if (metricName === 'http_request_all_duration_seconds_count') {
                     acc += value
-                    alreadyIteratedRoutes[cleanRouteLabel] = true
                   }
                   return acc
                 }, 0)

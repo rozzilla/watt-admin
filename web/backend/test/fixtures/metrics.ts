@@ -1471,13 +1471,13 @@ export const metricFixtures: Metric[] = [
     aggregator: 'sum'
   },
   {
-    name: 'http_request_duration_seconds',
+    name: 'http_request_all_duration_seconds',
     help: 'request duration in seconds',
     type: 'histogram',
     values: [
       {
         value: 0,
-        metricName: 'http_request_duration_seconds_bucket',
+        metricName: 'http_request_all_duration_seconds_bucket',
         exemplar: null,
         labels: {
           le: 0.005,
@@ -1489,7 +1489,7 @@ export const metricFixtures: Metric[] = [
       },
       {
         value: 0,
-        metricName: 'http_request_duration_seconds_bucket',
+        metricName: 'http_request_all_duration_seconds_bucket',
         exemplar: null,
         labels: {
           le: 0.01,
@@ -1501,7 +1501,7 @@ export const metricFixtures: Metric[] = [
       },
       {
         value: 0,
-        metricName: 'http_request_duration_seconds_bucket',
+        metricName: 'http_request_all_duration_seconds_bucket',
         exemplar: null,
         labels: {
           le: 0.025,
@@ -1513,7 +1513,7 @@ export const metricFixtures: Metric[] = [
       },
       {
         value: 0,
-        metricName: 'http_request_duration_seconds_bucket',
+        metricName: 'http_request_all_duration_seconds_bucket',
         exemplar: null,
         labels: {
           le: 0.05,
@@ -1525,7 +1525,7 @@ export const metricFixtures: Metric[] = [
       },
       {
         value: 0,
-        metricName: 'http_request_duration_seconds_bucket',
+        metricName: 'http_request_all_duration_seconds_bucket',
         exemplar: null,
         labels: {
           le: 0.1,
@@ -1537,7 +1537,7 @@ export const metricFixtures: Metric[] = [
       },
       {
         value: 0,
-        metricName: 'http_request_duration_seconds_bucket',
+        metricName: 'http_request_all_duration_seconds_bucket',
         exemplar: null,
         labels: {
           le: 0.25,
@@ -1549,7 +1549,7 @@ export const metricFixtures: Metric[] = [
       },
       {
         value: 0,
-        metricName: 'http_request_duration_seconds_bucket',
+        metricName: 'http_request_all_duration_seconds_bucket',
         exemplar: null,
         labels: {
           le: 0.5,
@@ -1561,7 +1561,7 @@ export const metricFixtures: Metric[] = [
       },
       {
         value: 0,
-        metricName: 'http_request_duration_seconds_bucket',
+        metricName: 'http_request_all_duration_seconds_bucket',
         exemplar: null,
         labels: {
           le: 1,
@@ -1573,7 +1573,7 @@ export const metricFixtures: Metric[] = [
       },
       {
         value: 0,
-        metricName: 'http_request_duration_seconds_bucket',
+        metricName: 'http_request_all_duration_seconds_bucket',
         exemplar: null,
         labels: {
           le: 2.5,
@@ -1585,7 +1585,7 @@ export const metricFixtures: Metric[] = [
       },
       {
         value: 0,
-        metricName: 'http_request_duration_seconds_bucket',
+        metricName: 'http_request_all_duration_seconds_bucket',
         exemplar: null,
         labels: {
           le: 5,
@@ -1597,7 +1597,7 @@ export const metricFixtures: Metric[] = [
       },
       {
         value: 0,
-        metricName: 'http_request_duration_seconds_bucket',
+        metricName: 'http_request_all_duration_seconds_bucket',
         exemplar: null,
         labels: {
           le: 10,
@@ -1609,7 +1609,7 @@ export const metricFixtures: Metric[] = [
       },
       {
         value: 0,
-        metricName: 'http_request_duration_seconds_bucket',
+        metricName: 'http_request_all_duration_seconds_bucket',
         exemplar: null,
         labels: {
           le: '+Inf',
@@ -1621,7 +1621,7 @@ export const metricFixtures: Metric[] = [
       },
       {
         value: 0,
-        metricName: 'http_request_duration_seconds_sum',
+        metricName: 'http_request_all_duration_seconds_sum',
         labels: {
           method: 'GET',
           route: '/__empty_metrics',
@@ -1631,7 +1631,7 @@ export const metricFixtures: Metric[] = [
       },
       {
         value: 2,
-        metricName: 'http_request_duration_seconds_count',
+        metricName: 'http_request_all_duration_seconds_count',
         labels: {
           method: 'GET',
           route: '/__empty_metrics',
@@ -1641,7 +1641,7 @@ export const metricFixtures: Metric[] = [
       },
       {
         value: 0,
-        metricName: 'http_request_duration_seconds_bucket',
+        metricName: 'http_request_all_duration_seconds_bucket',
         exemplar: null,
         labels: {
           le: 0.005,
@@ -1654,7 +1654,7 @@ export const metricFixtures: Metric[] = [
       },
       {
         value: 0,
-        metricName: 'http_request_duration_seconds_bucket',
+        metricName: 'http_request_all_duration_seconds_bucket',
         exemplar: null,
         labels: {
           le: 0.01,
@@ -1667,7 +1667,7 @@ export const metricFixtures: Metric[] = [
       },
       {
         value: 1,
-        metricName: 'http_request_duration_seconds_bucket',
+        metricName: 'http_request_all_duration_seconds_bucket',
         exemplar: null,
         labels: {
           le: 0.025,
@@ -1680,7 +1680,7 @@ export const metricFixtures: Metric[] = [
       },
       {
         value: 1,
-        metricName: 'http_request_duration_seconds_bucket',
+        metricName: 'http_request_all_duration_seconds_bucket',
         exemplar: null,
         labels: {
           le: 0.05,
@@ -1693,7 +1693,7 @@ export const metricFixtures: Metric[] = [
       },
       {
         value: 1,
-        metricName: 'http_request_duration_seconds_bucket',
+        metricName: 'http_request_all_duration_seconds_bucket',
         exemplar: null,
         labels: {
           le: 0.1,
@@ -1706,7 +1706,7 @@ export const metricFixtures: Metric[] = [
       },
       {
         value: 1,
-        metricName: 'http_request_duration_seconds_bucket',
+        metricName: 'http_request_all_duration_seconds_bucket',
         exemplar: null,
         labels: {
           le: 0.25,
@@ -1719,7 +1719,7 @@ export const metricFixtures: Metric[] = [
       },
       {
         value: 1,
-        metricName: 'http_request_duration_seconds_bucket',
+        metricName: 'http_request_all_duration_seconds_bucket',
         exemplar: null,
         labels: {
           le: 0.5,
@@ -1732,7 +1732,7 @@ export const metricFixtures: Metric[] = [
       },
       {
         value: 1,
-        metricName: 'http_request_duration_seconds_bucket',
+        metricName: 'http_request_all_duration_seconds_bucket',
         exemplar: null,
         labels: {
           le: 1,
@@ -1745,7 +1745,7 @@ export const metricFixtures: Metric[] = [
       },
       {
         value: 1,
-        metricName: 'http_request_duration_seconds_bucket',
+        metricName: 'http_request_all_duration_seconds_bucket',
         exemplar: null,
         labels: {
           le: 2.5,
@@ -1758,7 +1758,7 @@ export const metricFixtures: Metric[] = [
       },
       {
         value: 1,
-        metricName: 'http_request_duration_seconds_bucket',
+        metricName: 'http_request_all_duration_seconds_bucket',
         exemplar: null,
         labels: {
           le: 5,
@@ -1771,7 +1771,7 @@ export const metricFixtures: Metric[] = [
       },
       {
         value: 1,
-        metricName: 'http_request_duration_seconds_bucket',
+        metricName: 'http_request_all_duration_seconds_bucket',
         exemplar: null,
         labels: {
           le: 10,
@@ -1784,7 +1784,7 @@ export const metricFixtures: Metric[] = [
       },
       {
         value: 1,
-        metricName: 'http_request_duration_seconds_bucket',
+        metricName: 'http_request_all_duration_seconds_bucket',
         exemplar: null,
         labels: {
           le: '+Inf',
@@ -1797,7 +1797,7 @@ export const metricFixtures: Metric[] = [
       },
       {
         value: 0.0108895,
-        metricName: 'http_request_duration_seconds_sum',
+        metricName: 'http_request_all_duration_seconds_sum',
         labels: {
           method: 'GET',
           route: '/typescript/',
@@ -1808,7 +1808,7 @@ export const metricFixtures: Metric[] = [
       },
       {
         value: 1,
-        metricName: 'http_request_duration_seconds_count',
+        metricName: 'http_request_all_duration_seconds_count',
         labels: {
           method: 'GET',
           route: '/typescript/',
@@ -1819,7 +1819,7 @@ export const metricFixtures: Metric[] = [
       },
       {
         value: 0,
-        metricName: 'http_request_duration_seconds_bucket',
+        metricName: 'http_request_all_duration_seconds_bucket',
         exemplar: null,
         labels: {
           le: 0.005,
@@ -1832,7 +1832,7 @@ export const metricFixtures: Metric[] = [
       },
       {
         value: 0,
-        metricName: 'http_request_duration_seconds_bucket',
+        metricName: 'http_request_all_duration_seconds_bucket',
         exemplar: null,
         labels: {
           le: 0.01,
@@ -1845,7 +1845,7 @@ export const metricFixtures: Metric[] = [
       },
       {
         value: 1,
-        metricName: 'http_request_duration_seconds_bucket',
+        metricName: 'http_request_all_duration_seconds_bucket',
         exemplar: null,
         labels: {
           le: 0.025,
@@ -1858,7 +1858,7 @@ export const metricFixtures: Metric[] = [
       },
       {
         value: 1,
-        metricName: 'http_request_duration_seconds_bucket',
+        metricName: 'http_request_all_duration_seconds_bucket',
         exemplar: null,
         labels: {
           le: 0.05,
@@ -1871,7 +1871,7 @@ export const metricFixtures: Metric[] = [
       },
       {
         value: 1,
-        metricName: 'http_request_duration_seconds_bucket',
+        metricName: 'http_request_all_duration_seconds_bucket',
         exemplar: null,
         labels: {
           le: 0.1,
@@ -1884,7 +1884,7 @@ export const metricFixtures: Metric[] = [
       },
       {
         value: 1,
-        metricName: 'http_request_duration_seconds_bucket',
+        metricName: 'http_request_all_duration_seconds_bucket',
         exemplar: null,
         labels: {
           le: 0.25,
@@ -1897,7 +1897,7 @@ export const metricFixtures: Metric[] = [
       },
       {
         value: 1,
-        metricName: 'http_request_duration_seconds_bucket',
+        metricName: 'http_request_all_duration_seconds_bucket',
         exemplar: null,
         labels: {
           le: 0.5,
@@ -1910,7 +1910,7 @@ export const metricFixtures: Metric[] = [
       },
       {
         value: 1,
-        metricName: 'http_request_duration_seconds_bucket',
+        metricName: 'http_request_all_duration_seconds_bucket',
         exemplar: null,
         labels: {
           le: 1,
@@ -1923,7 +1923,7 @@ export const metricFixtures: Metric[] = [
       },
       {
         value: 1,
-        metricName: 'http_request_duration_seconds_bucket',
+        metricName: 'http_request_all_duration_seconds_bucket',
         exemplar: null,
         labels: {
           le: 2.5,
@@ -1936,7 +1936,7 @@ export const metricFixtures: Metric[] = [
       },
       {
         value: 1,
-        metricName: 'http_request_duration_seconds_bucket',
+        metricName: 'http_request_all_duration_seconds_bucket',
         exemplar: null,
         labels: {
           le: 5,
@@ -1949,7 +1949,7 @@ export const metricFixtures: Metric[] = [
       },
       {
         value: 1,
-        metricName: 'http_request_duration_seconds_bucket',
+        metricName: 'http_request_all_duration_seconds_bucket',
         exemplar: null,
         labels: {
           le: 10,
@@ -1962,7 +1962,7 @@ export const metricFixtures: Metric[] = [
       },
       {
         value: 1,
-        metricName: 'http_request_duration_seconds_bucket',
+        metricName: 'http_request_all_duration_seconds_bucket',
         exemplar: null,
         labels: {
           le: '+Inf',
@@ -1975,7 +1975,7 @@ export const metricFixtures: Metric[] = [
       },
       {
         value: 0.017233584,
-        metricName: 'http_request_duration_seconds_sum',
+        metricName: 'http_request_all_duration_seconds_sum',
         labels: {
           method: 'GET',
           route: '/typescript',
@@ -1986,7 +1986,7 @@ export const metricFixtures: Metric[] = [
       },
       {
         value: 1,
-        metricName: 'http_request_duration_seconds_count',
+        metricName: 'http_request_all_duration_seconds_count',
         labels: {
           method: 'GET',
           route: '/typescript',
@@ -1997,7 +1997,7 @@ export const metricFixtures: Metric[] = [
       },
       {
         value: 2,
-        metricName: 'http_request_duration_seconds_bucket',
+        metricName: 'http_request_all_duration_seconds_bucket',
         exemplar: null,
         labels: {
           le: 0.005,
@@ -2010,7 +2010,7 @@ export const metricFixtures: Metric[] = [
       },
       {
         value: 4,
-        metricName: 'http_request_duration_seconds_bucket',
+        metricName: 'http_request_all_duration_seconds_bucket',
         exemplar: null,
         labels: {
           le: 0.01,
@@ -2023,7 +2023,7 @@ export const metricFixtures: Metric[] = [
       },
       {
         value: 4,
-        metricName: 'http_request_duration_seconds_bucket',
+        metricName: 'http_request_all_duration_seconds_bucket',
         exemplar: null,
         labels: {
           le: 0.025,
@@ -2036,7 +2036,7 @@ export const metricFixtures: Metric[] = [
       },
       {
         value: 4,
-        metricName: 'http_request_duration_seconds_bucket',
+        metricName: 'http_request_all_duration_seconds_bucket',
         exemplar: null,
         labels: {
           le: 0.05,
@@ -2049,7 +2049,7 @@ export const metricFixtures: Metric[] = [
       },
       {
         value: 4,
-        metricName: 'http_request_duration_seconds_bucket',
+        metricName: 'http_request_all_duration_seconds_bucket',
         exemplar: null,
         labels: {
           le: 0.1,
@@ -2062,7 +2062,7 @@ export const metricFixtures: Metric[] = [
       },
       {
         value: 4,
-        metricName: 'http_request_duration_seconds_bucket',
+        metricName: 'http_request_all_duration_seconds_bucket',
         exemplar: null,
         labels: {
           le: 0.25,
@@ -2075,7 +2075,7 @@ export const metricFixtures: Metric[] = [
       },
       {
         value: 4,
-        metricName: 'http_request_duration_seconds_bucket',
+        metricName: 'http_request_all_duration_seconds_bucket',
         exemplar: null,
         labels: {
           le: 0.5,
@@ -2088,7 +2088,7 @@ export const metricFixtures: Metric[] = [
       },
       {
         value: 4,
-        metricName: 'http_request_duration_seconds_bucket',
+        metricName: 'http_request_all_duration_seconds_bucket',
         exemplar: null,
         labels: {
           le: 1,
@@ -2101,7 +2101,7 @@ export const metricFixtures: Metric[] = [
       },
       {
         value: 4,
-        metricName: 'http_request_duration_seconds_bucket',
+        metricName: 'http_request_all_duration_seconds_bucket',
         exemplar: null,
         labels: {
           le: 2.5,
@@ -2114,7 +2114,7 @@ export const metricFixtures: Metric[] = [
       },
       {
         value: 4,
-        metricName: 'http_request_duration_seconds_bucket',
+        metricName: 'http_request_all_duration_seconds_bucket',
         exemplar: null,
         labels: {
           le: 5,
@@ -2127,7 +2127,7 @@ export const metricFixtures: Metric[] = [
       },
       {
         value: 4,
-        metricName: 'http_request_duration_seconds_bucket',
+        metricName: 'http_request_all_duration_seconds_bucket',
         exemplar: null,
         labels: {
           le: 10,
@@ -2140,7 +2140,7 @@ export const metricFixtures: Metric[] = [
       },
       {
         value: 4,
-        metricName: 'http_request_duration_seconds_bucket',
+        metricName: 'http_request_all_duration_seconds_bucket',
         exemplar: null,
         labels: {
           le: '+Inf',
@@ -2153,7 +2153,7 @@ export const metricFixtures: Metric[] = [
       },
       {
         value: 0.019308375,
-        metricName: 'http_request_duration_seconds_sum',
+        metricName: 'http_request_all_duration_seconds_sum',
         labels: {
           method: 'GET',
           route: '/ts2/',
@@ -2164,7 +2164,7 @@ export const metricFixtures: Metric[] = [
       },
       {
         value: 4,
-        metricName: 'http_request_duration_seconds_count',
+        metricName: 'http_request_all_duration_seconds_count',
         labels: {
           method: 'GET',
           route: '/ts2/',
@@ -2175,7 +2175,7 @@ export const metricFixtures: Metric[] = [
       },
       {
         value: 2,
-        metricName: 'http_request_duration_seconds_bucket',
+        metricName: 'http_request_all_duration_seconds_bucket',
         exemplar: null,
         labels: {
           le: 0.005,
@@ -2188,7 +2188,7 @@ export const metricFixtures: Metric[] = [
       },
       {
         value: 4,
-        metricName: 'http_request_duration_seconds_bucket',
+        metricName: 'http_request_all_duration_seconds_bucket',
         exemplar: null,
         labels: {
           le: 0.01,
@@ -2201,7 +2201,7 @@ export const metricFixtures: Metric[] = [
       },
       {
         value: 4,
-        metricName: 'http_request_duration_seconds_bucket',
+        metricName: 'http_request_all_duration_seconds_bucket',
         exemplar: null,
         labels: {
           le: 0.025,
@@ -2214,7 +2214,7 @@ export const metricFixtures: Metric[] = [
       },
       {
         value: 4,
-        metricName: 'http_request_duration_seconds_bucket',
+        metricName: 'http_request_all_duration_seconds_bucket',
         exemplar: null,
         labels: {
           le: 0.05,
@@ -2227,7 +2227,7 @@ export const metricFixtures: Metric[] = [
       },
       {
         value: 4,
-        metricName: 'http_request_duration_seconds_bucket',
+        metricName: 'http_request_all_duration_seconds_bucket',
         exemplar: null,
         labels: {
           le: 0.1,
@@ -2240,7 +2240,7 @@ export const metricFixtures: Metric[] = [
       },
       {
         value: 4,
-        metricName: 'http_request_duration_seconds_bucket',
+        metricName: 'http_request_all_duration_seconds_bucket',
         exemplar: null,
         labels: {
           le: 0.25,
@@ -2253,7 +2253,7 @@ export const metricFixtures: Metric[] = [
       },
       {
         value: 4,
-        metricName: 'http_request_duration_seconds_bucket',
+        metricName: 'http_request_all_duration_seconds_bucket',
         exemplar: null,
         labels: {
           le: 0.5,
@@ -2266,7 +2266,7 @@ export const metricFixtures: Metric[] = [
       },
       {
         value: 4,
-        metricName: 'http_request_duration_seconds_bucket',
+        metricName: 'http_request_all_duration_seconds_bucket',
         exemplar: null,
         labels: {
           le: 1,
@@ -2279,7 +2279,7 @@ export const metricFixtures: Metric[] = [
       },
       {
         value: 4,
-        metricName: 'http_request_duration_seconds_bucket',
+        metricName: 'http_request_all_duration_seconds_bucket',
         exemplar: null,
         labels: {
           le: 2.5,
@@ -2292,7 +2292,7 @@ export const metricFixtures: Metric[] = [
       },
       {
         value: 4,
-        metricName: 'http_request_duration_seconds_bucket',
+        metricName: 'http_request_all_duration_seconds_bucket',
         exemplar: null,
         labels: {
           le: 5,
@@ -2305,7 +2305,7 @@ export const metricFixtures: Metric[] = [
       },
       {
         value: 4,
-        metricName: 'http_request_duration_seconds_bucket',
+        metricName: 'http_request_all_duration_seconds_bucket',
         exemplar: null,
         labels: {
           le: 10,
@@ -2318,7 +2318,7 @@ export const metricFixtures: Metric[] = [
       },
       {
         value: 4,
-        metricName: 'http_request_duration_seconds_bucket',
+        metricName: 'http_request_all_duration_seconds_bucket',
         exemplar: null,
         labels: {
           le: '+Inf',
@@ -2331,7 +2331,7 @@ export const metricFixtures: Metric[] = [
       },
       {
         value: 0.020732082,
-        metricName: 'http_request_duration_seconds_sum',
+        metricName: 'http_request_all_duration_seconds_sum',
         labels: {
           method: 'GET',
           route: '/ts2',
@@ -2342,7 +2342,7 @@ export const metricFixtures: Metric[] = [
       },
       {
         value: 4,
-        metricName: 'http_request_duration_seconds_count',
+        metricName: 'http_request_all_duration_seconds_count',
         labels: {
           method: 'GET',
           route: '/ts2',
@@ -3810,7 +3810,7 @@ export const metricFixtures: Metric[] = [
     aggregator: 'sum'
   },
   {
-    name: 'http_request_duration_seconds',
+    name: 'http_request_all_duration_seconds',
     help: 'request duration in seconds histogram for all requests',
     type: 'histogram',
     values: [],
@@ -4618,7 +4618,7 @@ export const metricFixtures: Metric[] = [
     aggregator: 'sum'
   },
   {
-    name: 'http_request_duration_seconds',
+    name: 'http_request_all_duration_seconds',
     help: 'request duration in seconds histogram for all requests',
     type: 'histogram',
     values: [],
@@ -5733,13 +5733,13 @@ export const metricFixtures: Metric[] = [
     aggregator: 'sum'
   },
   {
-    name: 'http_request_duration_seconds',
+    name: 'http_request_all_duration_seconds',
     help: 'request duration in seconds',
     type: 'histogram',
     values: [
       {
         value: 0,
-        metricName: 'http_request_duration_seconds_bucket',
+        metricName: 'http_request_all_duration_seconds_bucket',
         exemplar: null,
         labels: {
           le: 0.005,
@@ -5752,7 +5752,7 @@ export const metricFixtures: Metric[] = [
       },
       {
         value: 0,
-        metricName: 'http_request_duration_seconds_bucket',
+        metricName: 'http_request_all_duration_seconds_bucket',
         exemplar: null,
         labels: {
           le: 0.01,
@@ -5765,7 +5765,7 @@ export const metricFixtures: Metric[] = [
       },
       {
         value: 0,
-        metricName: 'http_request_duration_seconds_bucket',
+        metricName: 'http_request_all_duration_seconds_bucket',
         exemplar: null,
         labels: {
           le: 0.025,
@@ -5778,7 +5778,7 @@ export const metricFixtures: Metric[] = [
       },
       {
         value: 0,
-        metricName: 'http_request_duration_seconds_bucket',
+        metricName: 'http_request_all_duration_seconds_bucket',
         exemplar: null,
         labels: {
           le: 0.05,
@@ -5791,7 +5791,7 @@ export const metricFixtures: Metric[] = [
       },
       {
         value: 0,
-        metricName: 'http_request_duration_seconds_bucket',
+        metricName: 'http_request_all_duration_seconds_bucket',
         exemplar: null,
         labels: {
           le: 0.1,
@@ -5804,7 +5804,7 @@ export const metricFixtures: Metric[] = [
       },
       {
         value: 0,
-        metricName: 'http_request_duration_seconds_bucket',
+        metricName: 'http_request_all_duration_seconds_bucket',
         exemplar: null,
         labels: {
           le: 0.25,
@@ -5817,7 +5817,7 @@ export const metricFixtures: Metric[] = [
       },
       {
         value: 0,
-        metricName: 'http_request_duration_seconds_bucket',
+        metricName: 'http_request_all_duration_seconds_bucket',
         exemplar: null,
         labels: {
           le: 0.5,
@@ -5830,7 +5830,7 @@ export const metricFixtures: Metric[] = [
       },
       {
         value: 0,
-        metricName: 'http_request_duration_seconds_bucket',
+        metricName: 'http_request_all_duration_seconds_bucket',
         exemplar: null,
         labels: {
           le: 1,
@@ -5843,7 +5843,7 @@ export const metricFixtures: Metric[] = [
       },
       {
         value: 0,
-        metricName: 'http_request_duration_seconds_bucket',
+        metricName: 'http_request_all_duration_seconds_bucket',
         exemplar: null,
         labels: {
           le: 2.5,
@@ -5856,7 +5856,7 @@ export const metricFixtures: Metric[] = [
       },
       {
         value: 0,
-        metricName: 'http_request_duration_seconds_bucket',
+        metricName: 'http_request_all_duration_seconds_bucket',
         exemplar: null,
         labels: {
           le: 5,
@@ -5869,7 +5869,7 @@ export const metricFixtures: Metric[] = [
       },
       {
         value: 0,
-        metricName: 'http_request_duration_seconds_bucket',
+        metricName: 'http_request_all_duration_seconds_bucket',
         exemplar: null,
         labels: {
           le: 10,
@@ -5882,7 +5882,7 @@ export const metricFixtures: Metric[] = [
       },
       {
         value: 0,
-        metricName: 'http_request_duration_seconds_bucket',
+        metricName: 'http_request_all_duration_seconds_bucket',
         exemplar: null,
         labels: {
           le: '+Inf',
@@ -5895,7 +5895,7 @@ export const metricFixtures: Metric[] = [
       },
       {
         value: 0,
-        metricName: 'http_request_duration_seconds_sum',
+        metricName: 'http_request_all_duration_seconds_sum',
         labels: {
           method: 'GET',
           route: '/__empty_metrics',
@@ -5906,7 +5906,7 @@ export const metricFixtures: Metric[] = [
       },
       {
         value: 0,
-        metricName: 'http_request_duration_seconds_count',
+        metricName: 'http_request_all_duration_seconds_count',
         labels: {
           method: 'GET',
           route: '/__empty_metrics',
@@ -7192,13 +7192,13 @@ export const metricFixtures: Metric[] = [
     aggregator: 'sum'
   },
   {
-    name: 'http_request_duration_seconds',
+    name: 'http_request_all_duration_seconds',
     help: 'request duration in seconds',
     type: 'histogram',
     values: [
       {
         value: 0,
-        metricName: 'http_request_duration_seconds_bucket',
+        metricName: 'http_request_all_duration_seconds_bucket',
         exemplar: null,
         labels: {
           le: 0.005,
@@ -7211,7 +7211,7 @@ export const metricFixtures: Metric[] = [
       },
       {
         value: 0,
-        metricName: 'http_request_duration_seconds_bucket',
+        metricName: 'http_request_all_duration_seconds_bucket',
         exemplar: null,
         labels: {
           le: 0.01,
@@ -7224,7 +7224,7 @@ export const metricFixtures: Metric[] = [
       },
       {
         value: 0,
-        metricName: 'http_request_duration_seconds_bucket',
+        metricName: 'http_request_all_duration_seconds_bucket',
         exemplar: null,
         labels: {
           le: 0.025,
@@ -7237,7 +7237,7 @@ export const metricFixtures: Metric[] = [
       },
       {
         value: 0,
-        metricName: 'http_request_duration_seconds_bucket',
+        metricName: 'http_request_all_duration_seconds_bucket',
         exemplar: null,
         labels: {
           le: 0.05,
@@ -7250,7 +7250,7 @@ export const metricFixtures: Metric[] = [
       },
       {
         value: 0,
-        metricName: 'http_request_duration_seconds_bucket',
+        metricName: 'http_request_all_duration_seconds_bucket',
         exemplar: null,
         labels: {
           le: 0.1,
@@ -7263,7 +7263,7 @@ export const metricFixtures: Metric[] = [
       },
       {
         value: 0,
-        metricName: 'http_request_duration_seconds_bucket',
+        metricName: 'http_request_all_duration_seconds_bucket',
         exemplar: null,
         labels: {
           le: 0.25,
@@ -7276,7 +7276,7 @@ export const metricFixtures: Metric[] = [
       },
       {
         value: 0,
-        metricName: 'http_request_duration_seconds_bucket',
+        metricName: 'http_request_all_duration_seconds_bucket',
         exemplar: null,
         labels: {
           le: 0.5,
@@ -7289,7 +7289,7 @@ export const metricFixtures: Metric[] = [
       },
       {
         value: 0,
-        metricName: 'http_request_duration_seconds_bucket',
+        metricName: 'http_request_all_duration_seconds_bucket',
         exemplar: null,
         labels: {
           le: 1,
@@ -7302,7 +7302,7 @@ export const metricFixtures: Metric[] = [
       },
       {
         value: 0,
-        metricName: 'http_request_duration_seconds_bucket',
+        metricName: 'http_request_all_duration_seconds_bucket',
         exemplar: null,
         labels: {
           le: 2.5,
@@ -7315,7 +7315,7 @@ export const metricFixtures: Metric[] = [
       },
       {
         value: 0,
-        metricName: 'http_request_duration_seconds_bucket',
+        metricName: 'http_request_all_duration_seconds_bucket',
         exemplar: null,
         labels: {
           le: 5,
@@ -7328,7 +7328,7 @@ export const metricFixtures: Metric[] = [
       },
       {
         value: 0,
-        metricName: 'http_request_duration_seconds_bucket',
+        metricName: 'http_request_all_duration_seconds_bucket',
         exemplar: null,
         labels: {
           le: 10,
@@ -7341,7 +7341,7 @@ export const metricFixtures: Metric[] = [
       },
       {
         value: 0,
-        metricName: 'http_request_duration_seconds_bucket',
+        metricName: 'http_request_all_duration_seconds_bucket',
         exemplar: null,
         labels: {
           le: '+Inf',
@@ -7354,7 +7354,7 @@ export const metricFixtures: Metric[] = [
       },
       {
         value: 0,
-        metricName: 'http_request_duration_seconds_sum',
+        metricName: 'http_request_all_duration_seconds_sum',
         labels: {
           method: 'GET',
           route: '/__empty_metrics',
@@ -7365,7 +7365,7 @@ export const metricFixtures: Metric[] = [
       },
       {
         value: 0,
-        metricName: 'http_request_duration_seconds_count',
+        metricName: 'http_request_all_duration_seconds_count',
         labels: {
           method: 'GET',
           route: '/__empty_metrics',
@@ -8346,7 +8346,7 @@ export const metricFixtures: Metric[] = [
     aggregator: 'sum'
   },
   {
-    name: 'http_request_duration_seconds',
+    name: 'http_request_all_duration_seconds',
     help: 'request duration in seconds histogram for all requests',
     type: 'histogram',
     values: [],
@@ -9138,7 +9138,7 @@ export const metricFixtures: Metric[] = [
     aggregator: 'sum'
   },
   {
-    name: 'http_request_duration_seconds',
+    name: 'http_request_all_duration_seconds',
     help: 'request duration in seconds histogram for all requests',
     type: 'histogram',
     values: [],
@@ -9975,13 +9975,13 @@ export const metricFixtures: Metric[] = [
     aggregator: 'sum'
   },
   {
-    name: 'http_request_duration_seconds',
+    name: 'http_request_all_duration_seconds',
     help: 'request duration in seconds histogram for all requests',
     type: 'histogram',
     values: [
       {
         value: 1,
-        metricName: 'http_request_duration_seconds_bucket',
+        metricName: 'http_request_all_duration_seconds_bucket',
         exemplar: null,
         labels: {
           le: 0.005,
@@ -9993,7 +9993,7 @@ export const metricFixtures: Metric[] = [
       },
       {
         value: 1,
-        metricName: 'http_request_duration_seconds_bucket',
+        metricName: 'http_request_all_duration_seconds_bucket',
         exemplar: null,
         labels: {
           le: 0.01,
@@ -10005,7 +10005,7 @@ export const metricFixtures: Metric[] = [
       },
       {
         value: 1,
-        metricName: 'http_request_duration_seconds_bucket',
+        metricName: 'http_request_all_duration_seconds_bucket',
         exemplar: null,
         labels: {
           le: 0.025,
@@ -10017,7 +10017,7 @@ export const metricFixtures: Metric[] = [
       },
       {
         value: 1,
-        metricName: 'http_request_duration_seconds_bucket',
+        metricName: 'http_request_all_duration_seconds_bucket',
         exemplar: null,
         labels: {
           le: 0.05,
@@ -10029,7 +10029,7 @@ export const metricFixtures: Metric[] = [
       },
       {
         value: 1,
-        metricName: 'http_request_duration_seconds_bucket',
+        metricName: 'http_request_all_duration_seconds_bucket',
         exemplar: null,
         labels: {
           le: 0.1,
@@ -10041,7 +10041,7 @@ export const metricFixtures: Metric[] = [
       },
       {
         value: 1,
-        metricName: 'http_request_duration_seconds_bucket',
+        metricName: 'http_request_all_duration_seconds_bucket',
         exemplar: null,
         labels: {
           le: 0.25,
@@ -10053,7 +10053,7 @@ export const metricFixtures: Metric[] = [
       },
       {
         value: 1,
-        metricName: 'http_request_duration_seconds_bucket',
+        metricName: 'http_request_all_duration_seconds_bucket',
         exemplar: null,
         labels: {
           le: 0.5,
@@ -10065,7 +10065,7 @@ export const metricFixtures: Metric[] = [
       },
       {
         value: 1,
-        metricName: 'http_request_duration_seconds_bucket',
+        metricName: 'http_request_all_duration_seconds_bucket',
         exemplar: null,
         labels: {
           le: 1,
@@ -10077,7 +10077,7 @@ export const metricFixtures: Metric[] = [
       },
       {
         value: 1,
-        metricName: 'http_request_duration_seconds_bucket',
+        metricName: 'http_request_all_duration_seconds_bucket',
         exemplar: null,
         labels: {
           le: 2.5,
@@ -10089,7 +10089,7 @@ export const metricFixtures: Metric[] = [
       },
       {
         value: 1,
-        metricName: 'http_request_duration_seconds_bucket',
+        metricName: 'http_request_all_duration_seconds_bucket',
         exemplar: null,
         labels: {
           le: 5,
@@ -10101,7 +10101,7 @@ export const metricFixtures: Metric[] = [
       },
       {
         value: 1,
-        metricName: 'http_request_duration_seconds_bucket',
+        metricName: 'http_request_all_duration_seconds_bucket',
         exemplar: null,
         labels: {
           le: 10,
@@ -10113,7 +10113,7 @@ export const metricFixtures: Metric[] = [
       },
       {
         value: 1,
-        metricName: 'http_request_duration_seconds_bucket',
+        metricName: 'http_request_all_duration_seconds_bucket',
         exemplar: null,
         labels: {
           le: '+Inf',
@@ -10125,7 +10125,7 @@ export const metricFixtures: Metric[] = [
       },
       {
         value: 0.001660625,
-        metricName: 'http_request_duration_seconds_sum',
+        metricName: 'http_request_all_duration_seconds_sum',
         labels: {
           method: 'GET',
           status_code: 200,
@@ -10135,7 +10135,7 @@ export const metricFixtures: Metric[] = [
       },
       {
         value: 1,
-        metricName: 'http_request_duration_seconds_count',
+        metricName: 'http_request_all_duration_seconds_count',
         labels: {
           method: 'GET',
           status_code: 200,
@@ -11039,7 +11039,7 @@ export const metricFixtures: Metric[] = [
     aggregator: 'sum'
   },
   {
-    name: 'http_request_duration_seconds',
+    name: 'http_request_all_duration_seconds',
     help: 'request duration in seconds histogram for all requests',
     type: 'histogram',
     values: [],
@@ -12035,13 +12035,13 @@ export const metricFixtures: Metric[] = [
     aggregator: 'sum'
   },
   {
-    name: 'http_request_duration_seconds',
+    name: 'http_request_all_duration_seconds',
     help: 'request duration in seconds histogram for all requests',
     type: 'histogram',
     values: [
       {
         value: 3,
-        metricName: 'http_request_duration_seconds_bucket',
+        metricName: 'http_request_all_duration_seconds_bucket',
         exemplar: null,
         labels: {
           le: 0.005,
@@ -12053,7 +12053,7 @@ export const metricFixtures: Metric[] = [
       },
       {
         value: 3,
-        metricName: 'http_request_duration_seconds_bucket',
+        metricName: 'http_request_all_duration_seconds_bucket',
         exemplar: null,
         labels: {
           le: 0.01,
@@ -12065,7 +12065,7 @@ export const metricFixtures: Metric[] = [
       },
       {
         value: 3,
-        metricName: 'http_request_duration_seconds_bucket',
+        metricName: 'http_request_all_duration_seconds_bucket',
         exemplar: null,
         labels: {
           le: 0.025,
@@ -12077,7 +12077,7 @@ export const metricFixtures: Metric[] = [
       },
       {
         value: 3,
-        metricName: 'http_request_duration_seconds_bucket',
+        metricName: 'http_request_all_duration_seconds_bucket',
         exemplar: null,
         labels: {
           le: 0.05,
@@ -12089,7 +12089,7 @@ export const metricFixtures: Metric[] = [
       },
       {
         value: 3,
-        metricName: 'http_request_duration_seconds_bucket',
+        metricName: 'http_request_all_duration_seconds_bucket',
         exemplar: null,
         labels: {
           le: 0.1,
@@ -12101,7 +12101,7 @@ export const metricFixtures: Metric[] = [
       },
       {
         value: 3,
-        metricName: 'http_request_duration_seconds_bucket',
+        metricName: 'http_request_all_duration_seconds_bucket',
         exemplar: null,
         labels: {
           le: 0.25,
@@ -12113,7 +12113,7 @@ export const metricFixtures: Metric[] = [
       },
       {
         value: 3,
-        metricName: 'http_request_duration_seconds_bucket',
+        metricName: 'http_request_all_duration_seconds_bucket',
         exemplar: null,
         labels: {
           le: 0.5,
@@ -12125,7 +12125,7 @@ export const metricFixtures: Metric[] = [
       },
       {
         value: 3,
-        metricName: 'http_request_duration_seconds_bucket',
+        metricName: 'http_request_all_duration_seconds_bucket',
         exemplar: null,
         labels: {
           le: 1,
@@ -12137,7 +12137,7 @@ export const metricFixtures: Metric[] = [
       },
       {
         value: 3,
-        metricName: 'http_request_duration_seconds_bucket',
+        metricName: 'http_request_all_duration_seconds_bucket',
         exemplar: null,
         labels: {
           le: 2.5,
@@ -12149,7 +12149,7 @@ export const metricFixtures: Metric[] = [
       },
       {
         value: 3,
-        metricName: 'http_request_duration_seconds_bucket',
+        metricName: 'http_request_all_duration_seconds_bucket',
         exemplar: null,
         labels: {
           le: 5,
@@ -12161,7 +12161,7 @@ export const metricFixtures: Metric[] = [
       },
       {
         value: 3,
-        metricName: 'http_request_duration_seconds_bucket',
+        metricName: 'http_request_all_duration_seconds_bucket',
         exemplar: null,
         labels: {
           le: 10,
@@ -12173,7 +12173,7 @@ export const metricFixtures: Metric[] = [
       },
       {
         value: 3,
-        metricName: 'http_request_duration_seconds_bucket',
+        metricName: 'http_request_all_duration_seconds_bucket',
         exemplar: null,
         labels: {
           le: '+Inf',
@@ -12185,7 +12185,7 @@ export const metricFixtures: Metric[] = [
       },
       {
         value: 0.004572499999999999,
-        metricName: 'http_request_duration_seconds_sum',
+        metricName: 'http_request_all_duration_seconds_sum',
         labels: {
           method: 'GET',
           status_code: 200,
@@ -12195,7 +12195,7 @@ export const metricFixtures: Metric[] = [
       },
       {
         value: 3,
-        metricName: 'http_request_duration_seconds_count',
+        metricName: 'http_request_all_duration_seconds_count',
         labels: {
           method: 'GET',
           status_code: 200,
@@ -13348,13 +13348,13 @@ export const metricFixtures: Metric[] = [
     aggregator: 'sum'
   },
   {
-    name: 'http_request_duration_seconds',
+    name: 'http_request_all_duration_seconds',
     help: 'request duration in seconds histogram for all requests',
     type: 'histogram',
     values: [
       {
         value: 2,
-        metricName: 'http_request_duration_seconds_bucket',
+        metricName: 'http_request_all_duration_seconds_bucket',
         exemplar: null,
         labels: {
           le: 0.005,
@@ -13367,7 +13367,7 @@ export const metricFixtures: Metric[] = [
       },
       {
         value: 2,
-        metricName: 'http_request_duration_seconds_bucket',
+        metricName: 'http_request_all_duration_seconds_bucket',
         exemplar: null,
         labels: {
           le: 0.01,
@@ -13380,7 +13380,7 @@ export const metricFixtures: Metric[] = [
       },
       {
         value: 2,
-        metricName: 'http_request_duration_seconds_bucket',
+        metricName: 'http_request_all_duration_seconds_bucket',
         exemplar: null,
         labels: {
           le: 0.025,
@@ -13393,7 +13393,7 @@ export const metricFixtures: Metric[] = [
       },
       {
         value: 2,
-        metricName: 'http_request_duration_seconds_bucket',
+        metricName: 'http_request_all_duration_seconds_bucket',
         exemplar: null,
         labels: {
           le: 0.05,
@@ -13406,7 +13406,7 @@ export const metricFixtures: Metric[] = [
       },
       {
         value: 2,
-        metricName: 'http_request_duration_seconds_bucket',
+        metricName: 'http_request_all_duration_seconds_bucket',
         exemplar: null,
         labels: {
           le: 0.1,
@@ -13419,7 +13419,7 @@ export const metricFixtures: Metric[] = [
       },
       {
         value: 2,
-        metricName: 'http_request_duration_seconds_bucket',
+        metricName: 'http_request_all_duration_seconds_bucket',
         exemplar: null,
         labels: {
           le: 0.25,
@@ -13432,7 +13432,7 @@ export const metricFixtures: Metric[] = [
       },
       {
         value: 2,
-        metricName: 'http_request_duration_seconds_bucket',
+        metricName: 'http_request_all_duration_seconds_bucket',
         exemplar: null,
         labels: {
           le: 0.5,
@@ -13445,7 +13445,7 @@ export const metricFixtures: Metric[] = [
       },
       {
         value: 2,
-        metricName: 'http_request_duration_seconds_bucket',
+        metricName: 'http_request_all_duration_seconds_bucket',
         exemplar: null,
         labels: {
           le: 1,
@@ -13458,7 +13458,7 @@ export const metricFixtures: Metric[] = [
       },
       {
         value: 2,
-        metricName: 'http_request_duration_seconds_bucket',
+        metricName: 'http_request_all_duration_seconds_bucket',
         exemplar: null,
         labels: {
           le: 2.5,
@@ -13471,7 +13471,7 @@ export const metricFixtures: Metric[] = [
       },
       {
         value: 2,
-        metricName: 'http_request_duration_seconds_bucket',
+        metricName: 'http_request_all_duration_seconds_bucket',
         exemplar: null,
         labels: {
           le: 5,
@@ -13484,7 +13484,7 @@ export const metricFixtures: Metric[] = [
       },
       {
         value: 2,
-        metricName: 'http_request_duration_seconds_bucket',
+        metricName: 'http_request_all_duration_seconds_bucket',
         exemplar: null,
         labels: {
           le: 10,
@@ -13497,7 +13497,7 @@ export const metricFixtures: Metric[] = [
       },
       {
         value: 2,
-        metricName: 'http_request_duration_seconds_bucket',
+        metricName: 'http_request_all_duration_seconds_bucket',
         exemplar: null,
         labels: {
           le: '+Inf',
@@ -13510,7 +13510,7 @@ export const metricFixtures: Metric[] = [
       },
       {
         value: 0.003811084,
-        metricName: 'http_request_duration_seconds_sum',
+        metricName: 'http_request_all_duration_seconds_sum',
         labels: {
           method: 'GET',
           status_code: 200,
@@ -13521,7 +13521,7 @@ export const metricFixtures: Metric[] = [
       },
       {
         value: 2,
-        metricName: 'http_request_duration_seconds_count',
+        metricName: 'http_request_all_duration_seconds_count',
         labels: {
           method: 'GET',
           status_code: 200,
@@ -13754,7 +13754,7 @@ export const metricFixtures: Metric[] = [
     aggregator: 'sum'
   },
   {
-    name: 'kafka_hooks_http_request_duration_seconds',
+    name: 'kafka_hooks_http_request_all_duration_seconds',
     help: 'HTTP request duration for webhook deliveries',
     type: 'histogram',
     values: [],

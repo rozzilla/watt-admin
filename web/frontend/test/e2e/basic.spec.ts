@@ -7,6 +7,9 @@ const closeScalarModal = async (page: Page) => {
   await page.locator('[class*="_closeButton_"]').click()
 }
 
+const getMetricValue = async (page: Page, key: string): Promise<number> =>
+  parseInt(await page.locator(`[data-testid="tooltip-value-${key}"]`).first().textContent() || '0')
+
 test.describe('Basic E2E tests', () => {
   test('should load the main functionalities', async ({ page }) => {
     await page.goto('/')
@@ -21,6 +24,25 @@ test.describe('Basic E2E tests', () => {
     await expect(page.getByText('backend')).toHaveCount(1)
     await expect(page.getByText('frontend')).toHaveCount(1)
     await expect(page.getByText('composer')).toHaveCount(2)
+
+    const metricCharts = page.getByTestId('metric-chart')
+    const chartCount = await metricCharts.count()
+    expect(chartCount).toBe(6)
+
+    // To have the tooltip, we need to hover on all of the metric charts
+    for (let i = 0; i < chartCount; i++) {
+      const chart = metricCharts.nth(i)
+      const boundingBox = await chart.boundingBox()
+      if (boundingBox) {
+        await chart.hover({ position: { x: boundingBox.width - 1, y: 1 } })
+      }
+    }
+    expect(await getMetricValue(page, 'rss')).toBeGreaterThanOrEqual(1)
+    expect(await getMetricValue(page, 'total-heap')).toBeGreaterThanOrEqual(1)
+    expect(await getMetricValue(page, 'heap-used')).toBeGreaterThanOrEqual(1)
+    expect(await getMetricValue(page, 'new-space')).toBeGreaterThanOrEqual(1)
+    expect(await getMetricValue(page, 'old-space')).toBeGreaterThanOrEqual(1)
+    expect(await getMetricValue(page, 'elu')).toBeGreaterThanOrEqual(1)
 
     // services
     await page.goto('/#/services')
