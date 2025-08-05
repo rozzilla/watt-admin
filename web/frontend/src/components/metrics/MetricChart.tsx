@@ -3,18 +3,13 @@ import styles from './MetricChart.module.css'
 import commonStyles from '../../styles/CommonStyles.module.css'
 import typographyStyles from '../../styles/Typography.module.css'
 import * as d3 from 'd3'
-import colorSetMem from './memory.module.css'
-import colorSetCpu from './cpu.module.css'
-import colorSetReq from './req.module.css'
 import colorSetLatency from './latency.module.css'
-import colorSetKafka from './kafka.module.css'
-import colorSetWs from './ws.module.css'
-import colorSetUndici from './undici.module.css'
 import { xMargin, yMargin } from './chart_constants'
-import { getTicks } from './utils'
+import { getTicks } from '../../utilities/ticks'
 import { POSITION_ABSOLUTE, POSITION_FIXED } from '../../ui-constants'
 import { findY } from './chart_utils'
 import { MetricType } from '../application/NodeJSMetric'
+import { getMetricColor } from '../../utilities/metrics'
 
 type Point = Date | number[] | number
 
@@ -54,36 +49,6 @@ type D3SVGCircleSelection = D3Selection<SVGCircleElement>
 const getNum = (point: Point) => typeof point === 'number' ? point : 0
 
 const getTooltipKey = (label: string) => 'tooltip-value-' + label.toLowerCase().replace(/ /g, '-')
-
-export const getMetricColor = (metricType: MetricType) => {
-  let colorStyles: Record<string, string>
-  switch (metricType) {
-    case 'mem':
-      colorStyles = colorSetMem
-      break
-    case 'cpu':
-      colorStyles = colorSetCpu
-      break
-    case 'req':
-      colorStyles = colorSetReq
-      break
-    case 'latency':
-      colorStyles = colorSetLatency
-      break
-    case 'kafka':
-      colorStyles = colorSetKafka
-      break
-    case 'undici':
-      colorStyles = colorSetUndici
-      break
-    case 'ws':
-      colorStyles = colorSetWs
-      break
-    default:
-      throw new Error(`Unhandled metric type: ${metricType}`)
-  }
-  return colorStyles
-}
 
 const MetricChart: React.FC<MetricChartProps> = ({
   data,

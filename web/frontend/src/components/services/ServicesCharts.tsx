@@ -4,7 +4,7 @@ import commonStyles from '../../styles/CommonStyles.module.css'
 import styles from './ServicesCharts.module.css'
 import { BLACK_RUSSIAN, MEDIUM, TRANSPARENT, WHITE } from '@platformatic/ui-components/src/components/constants'
 import useAdminStore from '../../useAdminStore'
-import ServicesSelectorForCharts, { hasMultipleWorkers, ThreadIndex } from './ServicesSelectorForCharts'
+import ServicesSelectorForCharts from './ServicesSelectorForCharts'
 import { BorderedBox, Icons } from '@platformatic/ui-components'
 import ServicesMetrics from '../../components/metrics/ServicesMetrics'
 import { POD_SERVICES_PATH } from '../../ui-constants'
@@ -12,6 +12,7 @@ import { getServices } from '../../api'
 import { ServiceData } from 'src/types'
 import ErrorComponent from '../errors/ErrorComponent'
 import { getServiceWorkers } from '../../utilities/getters'
+import { hasMultipleWorkers, ThreadIndex } from '../../utilities/threads'
 
 const ServicesCharts: React.FC = () => {
   const globalState = useAdminStore()

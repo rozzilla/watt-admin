@@ -11,8 +11,7 @@ import { getApiMetricsPod } from '../../api'
 import useAdminStore from '../../useAdminStore'
 import type { GetRuntimesPidMetricsResponseOK } from 'src/client/backend-types'
 import ErrorComponent from '../errors/ErrorComponent'
-
-export const getEmptyMetrics = (): GetRuntimesPidMetricsResponseOK => ({ dataMem: [], dataCpu: [], dataLatency: [], dataReq: [], dataKafka: [], dataUndici: [], dataWebsocket: [] })
+import { getEmptyMetrics } from '../../utilities/metrics'
 
 function NodeJSMetrics (): React.ReactElement {
   const [error, setError] = useState<unknown>(undefined)

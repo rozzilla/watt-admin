@@ -18,9 +18,9 @@ import NodeJSMetric, { generateLegend } from '../application/NodeJSMetric'
 import { GetRuntimesPidMetricsResponseOK } from 'src/client/backend-types'
 import ErrorComponent from '../errors/ErrorComponent'
 import { ServiceData } from 'src/types'
-import { getThreadName, ThreadIndex } from '../services/ServicesSelectorForCharts'
-import { getEmptyMetrics } from '../application/NodeJSMetrics'
+import { getEmptyMetrics } from '../../utilities/metrics'
 import { getKafkaType, getOptionMetricsLabel } from '../../utilities/getters'
+import { getThreadName, ThreadIndex } from '../../utilities/threads'
 
 interface ServicesMetricsProps {
   service: ServiceData;

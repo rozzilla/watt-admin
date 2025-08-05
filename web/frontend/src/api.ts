@@ -24,7 +24,6 @@ export const isWattpmVersionOutdated = async (currentVersion?: string) => {
     const data = await result.json()
     latest = data['dist-tags'].latest
   }
-  console.log('last stable @platformatic/control version', latest)
   return latest !== currentVersion
 }
 
@@ -65,6 +64,5 @@ export const getOpenApi = async (pid: number, serviceId: string) => {
 
 export const restartApiApplication = async (pid: number) => {
   const result = await postRuntimesPidRestart({ body: {}, path: { pid } })
-  console.log('restart api application status', result)
-  return {}
+  return { result }
 }

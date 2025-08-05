@@ -24,6 +24,9 @@ test.describe('Basic E2E tests', () => {
     await expect(page.getByText('backend')).toHaveCount(1)
     await expect(page.getByText('frontend')).toHaveCount(1)
     await expect(page.getByText('composer')).toHaveCount(2)
+    await expect(page.getByText('RUNNING')).toBeVisible()
+    await expect(page.getByText('2.72.0')).toBeVisible()
+    await expect(page.getByText('http://127.0.0.1:5042')).toBeVisible()
 
     const metricCharts = page.getByTestId('metric-chart')
     const chartCount = await metricCharts.count()
@@ -37,12 +40,19 @@ test.describe('Basic E2E tests', () => {
         await chart.hover({ position: { x: boundingBox.width - 1, y: 1 } })
       }
     }
+    expect(await getMetricValue(page, 'connections')).toBeGreaterThanOrEqual(0)
+    expect(await getMetricValue(page, 'rps')).toBeGreaterThanOrEqual(0)
     expect(await getMetricValue(page, 'rss')).toBeGreaterThanOrEqual(1)
     expect(await getMetricValue(page, 'total-heap')).toBeGreaterThanOrEqual(1)
     expect(await getMetricValue(page, 'heap-used')).toBeGreaterThanOrEqual(1)
     expect(await getMetricValue(page, 'new-space')).toBeGreaterThanOrEqual(1)
     expect(await getMetricValue(page, 'old-space')).toBeGreaterThanOrEqual(1)
     expect(await getMetricValue(page, 'elu')).toBeGreaterThanOrEqual(1)
+    expect(await getMetricValue(page, 'idle')).toBeGreaterThanOrEqual(1)
+    expect(await getMetricValue(page, 'open')).toBeGreaterThanOrEqual(1)
+    expect(await getMetricValue(page, 'p90')).toBeGreaterThanOrEqual(1)
+    expect(await getMetricValue(page, 'p95')).toBeGreaterThanOrEqual(1)
+    expect(await getMetricValue(page, 'p99')).toBeGreaterThanOrEqual(1)
 
     // services
     await page.goto('/#/services')
