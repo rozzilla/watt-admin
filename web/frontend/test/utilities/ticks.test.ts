@@ -1,5 +1,5 @@
 import { describe, it, expect } from 'vitest'
-import { getTicks } from '../../../src/components/metrics/utils'
+import { getTicks } from '../../src/utilities/ticks'
 
 describe('getTicks', () => {
   it('should return an array with min value when count is 0', () => {

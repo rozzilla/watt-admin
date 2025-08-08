@@ -6,8 +6,7 @@ import { OPACITY_100, OPACITY_15, OPACITY_30, RICH_BLACK, SMALL, TRANSPARENT, WH
 import { Icons, BorderedBox, Forms } from '@platformatic/ui-components'
 import { ServiceData } from 'src/types'
 import { getServiceEntrypoint, getServiceWorkers } from '../../utilities/getters'
-
-export type ThreadIndex = number | 'all'
+import { getThreadName, hasMultipleWorkers, ThreadIndex } from '../../utilities/threads'
 
 type ServiceProps = {
   service: ServiceData
@@ -16,10 +15,6 @@ type ServiceProps = {
   onClickService: () => void;
   onSelectThread: (threadIndex: ThreadIndex) => void;
 }
-
-export const getThreadName = (idx: ThreadIndex): string => idx === 'all' ? 'All Threads' : `Thread-${idx}`
-
-export const hasMultipleWorkers = (workers?: number): workers is number => workers ? workers > 1 : false
 
 function Service ({
   service,

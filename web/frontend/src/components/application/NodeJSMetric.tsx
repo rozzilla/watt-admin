@@ -6,9 +6,10 @@ import commonStyles from '../../styles/CommonStyles.module.css'
 import { BorderedBox, LoadingSpinnerV2, VerticalSeparator } from '@platformatic/ui-components'
 import loadingSpinnerStyles from '../../styles/LoadingSpinnerStyles.module.css'
 import NoDataAvailable from '../ui/NoDataAvailable'
-import MetricChart, { DataPoint, getMetricColor } from '../metrics/MetricChart'
+import MetricChart, { DataPoint } from '../metrics/MetricChart'
 import { POSITION_ABSOLUTE } from '../../ui-constants'
 import type { GetRuntimesPidMetricsResponseOK } from 'src/client/backend-types'
+import { getMetricColor } from '../../utilities/metrics'
 
 type DataValues = GetRuntimesPidMetricsResponseOK[keyof GetRuntimesPidMetricsResponseOK]
 
