@@ -1,4 +1,5 @@
-import { getRuntimes, getRuntimesPidHealth, getRuntimesPidMetrics, getRuntimesPidMetricsServiceId, getRuntimesPidMetricsServiceIdWorkerId, getRuntimesPidServices, getRuntimesPidOpenapiServiceId, postRuntimesPidRestart, setBaseUrl } from './client/backend'
+import { getRuntimes, getRuntimesPidHealth, getRuntimesPidMetrics, getRuntimesPidMetricsServiceId, getRuntimesPidMetricsServiceIdWorkerId, getRuntimesPidServices, getRuntimesPidOpenapiServiceId, postRuntimesPidRestart, setBaseUrl, postMode, getMode } from './client/backend'
+import { PostModeRequest } from './client/backend-types'
 import { subtractSecondsFromDate } from './utilities/dates'
 
 setBaseUrl('/api')
@@ -67,4 +68,15 @@ export const restartApiApplication = async (pid: number) => {
   const result = await postRuntimesPidRestart({ body: {}, path: { pid } })
   console.log('restart api application status', result)
   return {}
+}
+
+export type MetricsMode = PostModeRequest['body']['mode']
+export const updateMode = async (mode: MetricsMode) => postMode({ body: { mode } })
+
+export const fetchMode = async () => {
+  const result = await getMode({})
+  if (result.statusCode === 200) {
+    return result.body
+  }
+  throw new Error(`Call to fetch mode failed with ${result.statusCode}`)
 }

@@ -15,7 +15,7 @@
     "pretest:e2e": "./node_modules/.bin/playwright install chromium",
     "test:e2e": "cd web/frontend && playwright test",
     "test:e2e:ui": "npm run test:e2e -- --ui",
-    "clean": "rm -rf ./web/*/dist",
+    "clean": "rm -rf ./web/*/dist ./playwright-report ./test-results",
     "lint": "eslint .",
     "lint:fix": "eslint . --fix"
   },
@@ -51,7 +51,7 @@
     "d3": "~7.9.0",
     "dayjs": "^1.11.13",
     "eslint": "^9.22.0",
-    "fastify-tsconfig": "^2.0.0",
+    "fastify-tsconfig": "^3.0.0",
     "neostandard": "^0.12.1",
     "playwright": "^1.52.0",
     "react": "^19.0.0",
