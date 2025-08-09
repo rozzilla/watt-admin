@@ -68,7 +68,7 @@ test('addMetricDataPoint adds multiple data points', () => {
 })
 
 test('addMetricDataPoint removes oldest when MAX_STORED_METRICS is reached', () => {
-  const metrics = Array.from({ length: 20 }, (_, i) => ({
+  const metrics = Array.from({ length: 300 }, (_, i) => ({
     date: `2023-01-${i + 1}`,
     rss: i * 10,
     totalHeap: i * 20,
@@ -81,9 +81,9 @@ test('addMetricDataPoint removes oldest when MAX_STORED_METRICS is reached', () 
 
   addMetricDataPoint(metrics, newDataPoint)
 
-  assert.strictEqual(metrics.length, 20)
+  assert.strictEqual(metrics.length, 300)
   assert.strictEqual(metrics[0].date, '2023-01-2', 'First item was removed')
-  assert.deepStrictEqual(metrics[19], newDataPoint, 'New item is at the end')
+  assert.deepStrictEqual(metrics[299], newDataPoint, 'New item is at the end')
 })
 
 test('initMetricsObject creates object with correct structure and date', () => {
