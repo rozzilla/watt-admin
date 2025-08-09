@@ -24,7 +24,7 @@ describe('CLI Integration', () => {
   ]
 
   // Setup for test
-  let consoleOutput = []
+  let consoleOutput: string[] = []
   const originalConsoleLog = console.log
 
   beforeEach(() => {
@@ -40,7 +40,7 @@ describe('CLI Integration', () => {
 
   it('should correctly select a runtime from multiple options', async () => {
     // Mock modules for the test
-    const mockedCli = proxyquire.noCallThru().load('../cli.js', {
+    const mockedCli = proxyquire.noCallThru().load('../cli.ts', {
       '@platformatic/control': {
         RuntimeApiClient: class {
           // No constructor needed since we only have empty implementation

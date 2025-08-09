@@ -2,14 +2,17 @@
 
 'use strict'
 
+import type { RuntimeApiClient as Client, Runtime } from '@platformatic/control'
+
 const { RuntimeApiClient } = require('@platformatic/control')
 const { select } = require('@inquirer/prompts')
-const { start } = require('./lib/start')
+const { start } = require('./lib/start.ts')
 
-async function getLocationDetails (client, runtime) {
+// FIXME: remove custom types once new version of @platformatic/control is out
+async function getLocationDetails (client: Client, runtime: Runtime & { configPath?: string }) {
   try {
     // Try to get the runtime config
-    const config = await client.getRuntimeConfig(runtime.pid)
+    const config = await client.getRuntimeConfig(runtime.pid) as unknown as Record<string, unknown> & { path?: string, configFile?: string, server?: { path?: string } }
 
     // Log the config object to help debug what properties are available
     // console.log('Runtime config:', JSON.stringify(config, null, 2));
@@ -42,7 +45,7 @@ async function getLocationDetails (client, runtime) {
 async function main () {
   try {
     // Get available runtimes
-    const client = new RuntimeApiClient()
+    const client: Client = new RuntimeApiClient()
 
     try {
       const runtimes = await client.getRuntimes()
@@ -52,7 +55,7 @@ async function main () {
         return null
       } else if (runtimes.length === 1) {
         // Only one runtime, no need to prompt
-        const runtime = runtimes[0]
+        const runtime: Runtime & { startTime?: number } = runtimes[0]
         const locationDetails = await getLocationDetails(client, runtime)
         // Display information about the runtime
         console.log(`Name: ${runtime.packageName || 'unnamed'}`)
@@ -78,9 +81,9 @@ async function main () {
         // Multiple runtimes, prompt user to select one
 
         // Prepare the runtime choices with async map
-        const choicesPromises = runtimes.map(async runtime => {
+        const choicesPromises = runtimes.map(async (runtime: Runtime & { startTime?: number }) => {
           // Create a concise description that helps identify this runtime
-          const description = []
+          const description: string[] = []
 
           // Show working directory as it's usually the most useful identifier
           description.push(`Dir: ${runtime.cwd || 'Unknown'}`)
@@ -134,7 +137,7 @@ async function main () {
       await client.close()
     }
   } catch (error) {
-    console.error('Error:', error.message)
+    console.error('Error:', (error as Error).message)
     return null
   }
 }

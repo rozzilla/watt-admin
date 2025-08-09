@@ -1,3 +1,5 @@
+import path from 'path'
+import fs from 'fs/promises'
 import { test, expect, Page } from '@playwright/test'
 
 const sendScalarReq = async (page: Page) => await page.locator('button.scalar-button').filter({ hasText: 'send' }).click()
@@ -7,10 +9,25 @@ const closeScalarModal = async (page: Page) => {
   await page.locator('[class*="_closeButton_"]').click()
 }
 
-const getMetricValue = async (page: Page, key: string): Promise<number> =>
-  parseInt(await page.locator(`[data-testid="tooltip-value-${key}"]`).first().textContent() || '0')
+const getMetricValue = async (page: Page, key: string): Promise<number> => {
+  const element = page.locator(`[data-testid="tooltip-value-${key}"]`).first()
+  const count = await element.count()
+  if (count === 0) {
+    return 0
+  }
+  return parseInt(await element.textContent() || '0')
+}
 
 test.describe('Basic E2E tests', () => {
+  const metricsPath = path.join(__dirname, '..', '..', 'index.html')
+  let metricsData: Buffer<ArrayBufferLike>
+
+  test.beforeAll(async () => {
+    metricsData = await fs.readFile(metricsPath)
+  })
+  test.afterAll(async () => {
+    await fs.writeFile(metricsPath, metricsData)
+  })
   test('should load the main functionalities', async ({ page }) => {
     await page.goto('/')
     await page.waitForLoadState('networkidle')
@@ -53,6 +70,26 @@ test.describe('Basic E2E tests', () => {
     expect(await getMetricValue(page, 'p90')).toBeGreaterThanOrEqual(0)
     expect(await getMetricValue(page, 'p95')).toBeGreaterThanOrEqual(0)
     expect(await getMetricValue(page, 'p99')).toBeGreaterThanOrEqual(0)
+
+    await page.getByText('Record start').click()
+    expect(await getMetricValue(page, 'rss')).toBeGreaterThanOrEqual(0)
+    expect(await getMetricValue(page, 'total-heap')).toBeGreaterThanOrEqual(0)
+    expect(await getMetricValue(page, 'heap-used')).toBeGreaterThanOrEqual(0)
+    expect(await getMetricValue(page, 'new-space')).toBeGreaterThanOrEqual(0)
+    expect(await getMetricValue(page, 'old-space')).toBeGreaterThanOrEqual(0)
+    expect(await getMetricValue(page, 'elu')).toBeGreaterThanOrEqual(0)
+    expect(await getMetricValue(page, 'idle')).toBeGreaterThanOrEqual(0)
+    expect(await getMetricValue(page, 'open')).toBeGreaterThanOrEqual(0)
+    await page.getByText('Record stop').click()
+
+    await page.waitForLoadState('load') // reload
+    await expect(page.getByText('Record start')).toBeVisible()
+    await page.getByText('Load').click()
+    expect(await getMetricValue(page, 'rss')).toBeGreaterThanOrEqual(0)
+
+    await expect(page.getByText('Live')).toBeVisible()
+    await page.getByText('Live').click()
+    expect(await getMetricValue(page, 'rss')).toBeGreaterThanOrEqual(0)
 
     // services
     await page.goto('/#/services')

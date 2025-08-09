@@ -86,8 +86,6 @@ web_modules/
 # Next.js build output
 .next
 out
-
-# Nuxt.js build / generate output
 .nuxt
 dist
 
@@ -136,3 +134,6 @@ external/
 # Playwright
 test-results
 playwright-report
+
+# Backend
+web/backend/openapi.json
