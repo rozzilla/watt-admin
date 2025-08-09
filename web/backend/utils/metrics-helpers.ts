@@ -5,8 +5,8 @@ export type MappedMetrics = Record<number, {
   services: Record<string, Record<'all' | number, MetricsResponse>>
 }>
 
-// This is to avoid the mapped metrics array from growing indefinitely (and therefore a memory leak)
-const MAX_STORED_METRICS = 20
+// This is to avoid the mapped metrics array from growing indefinitely (and therefore a memory leak). It will store the last 5 minutes of metrics.
+const MAX_STORED_METRICS = 300
 
 export const websocketMetricMap = {
   active_ws_composer_connections: 'connections',

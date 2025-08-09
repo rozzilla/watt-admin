@@ -1,4 +1,5 @@
-import { getRuntimes, getRuntimesPidHealth, getRuntimesPidMetrics, getRuntimesPidMetricsServiceId, getRuntimesPidMetricsServiceIdWorkerId, getRuntimesPidServices, getRuntimesPidOpenapiServiceId, postRuntimesPidRestart, setBaseUrl } from './client/backend'
+import { getRuntimes, getRuntimesPidHealth, getRuntimesPidMetrics, getRuntimesPidMetricsServiceId, getRuntimesPidMetricsServiceIdWorkerId, getRuntimesPidServices, getRuntimesPidOpenapiServiceId, postRuntimesPidRestart, setBaseUrl, postMetricsMode } from './client/backend'
+import { PostMetricsModeRequest } from './client/backend-types'
 import { subtractSecondsFromDate } from './utilities/dates'
 
 setBaseUrl('/api')
@@ -68,3 +69,6 @@ export const restartApiApplication = async (pid: number) => {
   console.log('restart api application status', result)
   return {}
 }
+
+export type MetricsMode = PostMetricsModeRequest['body']['mode']
+export const updateMetricsMode = async (mode: MetricsMode) => await postMetricsMode({ body: { mode } })

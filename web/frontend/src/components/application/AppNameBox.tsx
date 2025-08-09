@@ -7,7 +7,7 @@ import tooltipStyles from '../../styles/TooltipStyles.module.css'
 import { Icons, BorderedBox, Button, PlatformaticIcon, Tooltip } from '@platformatic/ui-components'
 import { STATUS_STOPPED, STATUS_RUNNING } from '../../ui-constants'
 import ApplicationStatusPills from '../ui/ApplicationStatusPills'
-import { restartApiApplication, isWattpmVersionOutdated } from '../../api'
+import { restartApiApplication, isWattpmVersionOutdated, updateMetricsMode } from '../../api'
 
 export interface ApiApplication {
   id: number;
@@ -104,6 +104,28 @@ function AppNameBox ({
                   disabled={appStatus === STATUS_STOPPED}
                 />
                 )}
+
+            <Button
+              type='button'
+              label='Record'
+              onClick={() => updateMetricsMode('record')}
+              color={WHITE}
+              backgroundColor={TRANSPARENT}
+              paddingClass={commonStyles.smallButtonPadding}
+              platformaticIcon={{ iconName: 'DownloadIcon', color: WHITE }}
+              textClass={typographyStyles.desktopButtonSmall}
+            />
+
+            <Button
+              type='button'
+              label='Load'
+              onClick={() => updateMetricsMode('load')}
+              color={WHITE}
+              backgroundColor={TRANSPARENT}
+              paddingClass={commonStyles.smallButtonPadding}
+              platformaticIcon={{ iconName: 'UploadFileIcon', color: WHITE }}
+              textClass={typographyStyles.desktopButtonSmall}
+            />
           </div>
         </div>
         <div className={`${commonStyles.tinyFlexBlock} ${commonStyles.fullWidth} ${styles.appInnerBox}`}>

@@ -30,6 +30,40 @@ function headersToJSON(headers: Headers): JSON {
   return output
 }
 
+const _postMetricsMode = async (url: string, request: Types.PostMetricsModeRequest): Promise<Types.PostMetricsModeResponses> => {
+  const body = 'body' in request ? (request.body) : undefined
+  const isFormData = body instanceof FormData
+  const headers: HeadersInit = {
+    ...defaultHeaders,
+    ...(isFormData || body === undefined) ? {} : defaultJsonType
+  }
+
+  const response = await fetch(`${url}/metrics/mode`, {
+    method: 'POST',
+    body: isFormData ? body : JSON.stringify(body),
+    headers,
+    ...defaultFetchParams
+  })
+
+  const textResponses = [200]
+  if (textResponses.includes(response.status)) {
+    return {
+      statusCode: response.status as 200,
+      headers: headersToJSON(response.headers),
+      body: await response.text()
+    }
+  }
+  const responseType = response.headers.get('content-type')?.startsWith('application/json') ? 'json' : 'text'
+  return {
+    statusCode: response.status as 200,
+    headers: headersToJSON(response.headers),
+    body: await response[responseType]()
+  }
+}
+
+export const postMetricsMode: Backend['postMetricsMode'] = async (request: Types.PostMetricsModeRequest): Promise<Types.PostMetricsModeResponses> => {
+  return await _postMetricsMode(baseUrl, request)
+}
 const _getRuntimesPidMetrics = async (url: string, request: Types.GetRuntimesPidMetricsRequest): Promise<Types.GetRuntimesPidMetricsResponses> => {
   const headers: HeadersInit = {
     ...defaultHeaders
@@ -292,6 +326,7 @@ export default function build (url: string, options?: BuildOptions) {
     defaultHeaders = options.headers
   }
   return {
+    postMetricsMode: _postMetricsMode.bind(url, ...arguments),
     getRuntimesPidMetrics: _getRuntimesPidMetrics.bind(url, ...arguments),
     getRuntimesPidMetricsServiceId: _getRuntimesPidMetricsServiceId.bind(url, ...arguments),
     getRuntimesPidMetricsServiceIdWorkerId: _getRuntimesPidMetricsServiceIdWorkerId.bind(url, ...arguments),

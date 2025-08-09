@@ -1,7 +1,8 @@
 import { FastifyInstance } from 'fastify'
 import { JsonSchemaToTsProvider } from '@fastify/type-provider-json-schema-to-ts'
 import { RuntimeApiClient } from '@platformatic/control'
-import { pidParamSchema, SelectableRuntime, selectableRuntimeSchema } from '../schemas'
+import { pidParamSchema, selectableRuntimeSchema } from '../schemas'
+import { getSelectableRuntimes } from '../utils/runtimes'
 
 export default async function (fastify: FastifyInstance) {
   const typedFastify = fastify.withTypeProvider<JsonSchemaToTsProvider>()
@@ -20,23 +21,7 @@ export default async function (fastify: FastifyInstance) {
       },
       response: { 200: { type: 'array', items: selectableRuntimeSchema } }
     }
-  }, async (request) => {
-    const runtimes = await api.getRuntimes()
-    const selectableRuntimes: SelectableRuntime[] = []
-    for (const runtime of runtimes) {
-      if (!request.query.includeAdmin && runtime.packageName === 'watt-admin') {
-        continue
-      }
-
-      let selected = true
-      if (process.env.SELECTED_RUNTIME) {
-        selected = process.env.SELECTED_RUNTIME === runtime.pid.toString()
-      }
-
-      selectableRuntimes.push({ ...runtime, packageName: runtime.packageName || '', packageVersion: runtime.packageVersion || '', url: runtime.url || '', selected })
-    }
-    return selectableRuntimes
-  })
+  }, async (request) => getSelectableRuntimes(await api.getRuntimes(), request.query.includeAdmin))
 
   typedFastify.get('/runtimes/:pid/health', {
     schema: {

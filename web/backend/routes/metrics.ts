@@ -1,15 +1,39 @@
+import { writeFile, readFile } from 'fs/promises'
 import { FastifyInstance } from 'fastify'
 import { JsonSchemaToTsProvider } from '@fastify/type-provider-json-schema-to-ts'
-import { metricResponseSchema, MetricsResponse, pidParamSchema } from '../schemas'
+import { metricResponseSchema, MetricsResponse, modeSchema, pidParamSchema } from '../schemas'
 
 export default async function (fastify: FastifyInstance) {
   const typedFastify = fastify.withTypeProvider<JsonSchemaToTsProvider>()
   const emptyMetrics: MetricsResponse = { dataCpu: [], dataLatency: [], dataMem: [], dataReq: [], dataKafka: [], dataUndici: [], dataWebsocket: [] }
 
+  typedFastify.post('/metrics/mode', {
+    schema: {
+      body: {
+        type: 'object',
+        additionalProperties: false,
+        properties: { mode: modeSchema },
+        required: ['mode']
+      }
+    }
+  }, async ({ body: { mode } }) => {
+    fastify.storageMetrics.mode = mode
+
+    if (fastify.storageMetrics.mode === 'load') {
+      clearInterval(fastify.metricsInterval)
+      const mappedMetrics = await readFile(fastify.storageMetrics.path)
+      fastify.mappedMetrics = JSON.parse(mappedMetrics.toString())
+    }
+
+    if (fastify.storageMetrics.mode === 'record') {
+      await writeFile(fastify.storageMetrics.path, JSON.stringify(fastify.mappedMetrics))
+    }
+  })
+
   typedFastify.get('/runtimes/:pid/metrics', {
     schema: { params: pidParamSchema, response: { 200: metricResponseSchema } },
   }, async ({ params: { pid } }) => {
-    return typedFastify.mappedMetrics[pid]?.aggregated || emptyMetrics
+    return fastify.mappedMetrics[pid]?.aggregated || emptyMetrics
   })
 
   typedFastify.get('/runtimes/:pid/metrics/:serviceId', {

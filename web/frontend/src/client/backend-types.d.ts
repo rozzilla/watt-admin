@@ -4,6 +4,16 @@ export interface FullResponse<T, U extends number> {
   'body': T;
 }
 
+export type PostMetricsModeRequest = {
+  body: {
+    'mode': 'live' | 'record' | 'load';
+  }
+}
+
+export type PostMetricsModeResponseOK = unknown
+export type PostMetricsModeResponses =
+  FullResponse<PostMetricsModeResponseOK, 200>
+
 export type GetRuntimesPidMetricsRequest = {
   path: {
     'pid': number;
@@ -114,6 +124,11 @@ export interface Backend {
   setBaseUrl(newUrl: string): void;
   setDefaultHeaders(headers: object): void;
   setDefaultFetchParams(fetchParams: RequestInit): void;
+  /**
+   * @param req - request parameters object
+   * @returns the API response
+   */
+  postMetricsMode(req: PostMetricsModeRequest): Promise<PostMetricsModeResponses>;
   /**
    * @param req - request parameters object
    * @returns the API response
