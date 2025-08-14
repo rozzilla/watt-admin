@@ -17,7 +17,7 @@ export default async function (fastify: FastifyInstance) {
     mode: 'live',
     runtimes: [],
     services: { entrypoint: '', production: false, services: [] },
-    path: process.env.WATT_ADMIN_RECORD_LOAD_PATH ?? join(__dirname, '..', '..', '..', 'loaded.json')
+    path: join(__dirname, '..', '..', '..', 'frontend', 'src', 'loaded.json')
   })
 
   let prevMode: Mode
@@ -36,8 +36,7 @@ export default async function (fastify: FastifyInstance) {
     if (isValidMode('record:stop')) {
       const runtimes = getSelectableRuntimes(await api.getRuntimes(), false)
       const services = await api.getRuntimeServices(getPidToLoad(runtimes))
-      console.log('getPidToLoad(fastify)', getPidToLoad(runtimes))
-      await writeFile(fastify.loaded.path, JSON.stringify({ runtimes, services, metrics: fastify.mappedMetrics }))
+      await writeFile(fastify.loaded.path, JSON.stringify({ runtimes, services, metrics: fastify.mappedMetrics[getPidToLoad(runtimes)] }))
     }
 
     if (isValidMode('load')) {
@@ -45,7 +44,7 @@ export default async function (fastify: FastifyInstance) {
         const mappedMetrics = await readFile(fastify.loaded.path)
         const data = JSON.parse(mappedMetrics.toString())
         if ('metrics' in data && 'runtimes' in data) {
-          fastify.mappedMetrics = data.metrics
+          fastify.mappedMetrics = { [getPidToLoad(fastify.loaded.runtimes)]: data.metrics }
           fastify.loaded.runtimes = data.runtimes
           fastify.loaded.services = data.services
         }
