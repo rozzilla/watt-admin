@@ -87,6 +87,7 @@ const ServicesCharts: React.FC = () => {
             <ServicesMetrics
               threadIndex={threadIndex}
               service={serviceSelected}
+              services={services}
               showAggregatedMetrics={showAggregatedMetrics}
             />
           </div>

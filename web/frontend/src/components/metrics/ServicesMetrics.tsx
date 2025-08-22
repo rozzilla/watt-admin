@@ -15,7 +15,7 @@ import colorSetKafka from './kafka.module.css'
 import colorSetUndici from './undici.module.css'
 import colorSetWs from './ws.module.css'
 import NodeJSMetric, { generateLegend } from '../application/NodeJSMetric'
-import { GetRuntimesPidMetricsResponseOK } from 'src/client/backend-types'
+import { GetRuntimesPidMetricsResponseOK, GetRuntimesPidServicesResponseOK } from 'src/client/backend-types'
 import ErrorComponent from '../errors/ErrorComponent'
 import { ServiceData } from 'src/types'
 import { getEmptyMetrics } from '../../utilities/metrics'
@@ -24,6 +24,7 @@ import { getThreadName, ThreadIndex } from '../../utilities/threads'
 
 interface ServicesMetricsProps {
   service: ServiceData;
+  services: GetRuntimesPidServicesResponseOK['services'];
   threadIndex?: ThreadIndex;
   showAggregatedMetrics: boolean;
 }
@@ -41,6 +42,7 @@ const mapColor: Record<KeyMetric, { [key: string]: string }> = {
 function ServicesMetrics ({
   threadIndex,
   service: { id: serviceId },
+  services,
   showAggregatedMetrics
 }: ServicesMetricsProps): React.ReactElement {
   const threadName = threadIndex ? getThreadName(threadIndex) : ''
@@ -49,7 +51,6 @@ function ServicesMetrics ({
   const [serviceData, setServiceData] = useState<GetRuntimesPidMetricsResponseOK>(getEmptyMetrics())
   const [allData, setAllData] = useState<GetRuntimesPidMetricsResponseOK>(getEmptyMetrics())
   const { runtimePid } = useAdminStore()
-  const [hasKafkaData, setHasKafkaData] = useState(false)
 
   const getData = async (): Promise<void> => {
     try {
@@ -59,7 +60,6 @@ function ServicesMetrics ({
         setAllData(runtimeData)
         setServiceData(serviceData)
         setError(undefined)
-        setHasKafkaData(getKafkaType(serviceData.dataKafka))
       }
     } catch (error) {
       setError(error)
@@ -78,7 +78,7 @@ function ServicesMetrics ({
   return (
     <div className={`${styles.container} ${styles.content} ${commonStyles.smallFlexBlock} ${commonStyles.fullWidth} ${styles.flexGrow}`}>
       {KEYS_METRICS.map(key => (
-        (key !== 'dataKafka' || (key === 'dataKafka' && hasKafkaData)) &&
+        (key !== 'dataKafka' || (key === 'dataKafka' && getKafkaType(services))) &&
           <div key={key} className={`${commonStyles.tinyFlexBlock} ${commonStyles.fullWidth}`}>
             <div className={`${commonStyles.smallFlexRow} ${commonStyles.fullWidth}`}>
               <BorderedBox color={TRANSPARENT} backgroundColor={RICH_BLACK} classes={styles.boxMetricContainer}>
