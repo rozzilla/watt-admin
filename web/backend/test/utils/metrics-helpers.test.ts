@@ -8,7 +8,8 @@ import {
   initServiceMetrics,
   MappedMetrics,
   isUndiciMetricName,
-  isWebsocketMetricName
+  isWebsocketMetricName,
+  isNodejsMetricName
 } from '../../utils/metrics-helpers'
 import { MemoryDataPoint } from '../../schemas'
 
@@ -42,6 +43,14 @@ test('isWebsocketMetricName returns true for valid ws metric names', () => {
 
 test('isWebsocketMetricName returns false for invalid ws metric names', () => {
   assert.strictEqual(isWebsocketMetricName('wrong_metric'), false)
+})
+
+test('isNodejsMetricName returns true for valid ws metric names', () => {
+  assert.strictEqual(isNodejsMetricName('active_resources_event_loop'), true)
+})
+
+test('isNodejsMetricName returns false for invalid ws metric names', () => {
+  assert.strictEqual(isNodejsMetricName('invalid'), false)
 })
 
 test('addMetricDataPoint adds data point to empty array', () => {

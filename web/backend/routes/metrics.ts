@@ -4,7 +4,7 @@ import { metricResponseSchema, MetricsResponse, pidParamSchema } from '../schema
 
 export default async function (fastify: FastifyInstance) {
   const typedFastify = fastify.withTypeProvider<JsonSchemaToTsProvider>()
-  const emptyMetrics: MetricsResponse = { dataCpu: [], dataLatency: [], dataMem: [], dataReq: [], dataKafka: [], dataUndici: [], dataWebsocket: [] }
+  const emptyMetrics: MetricsResponse = { dataCpu: [], dataLatency: [], dataMem: [], dataReq: [], dataKafka: [], dataUndici: [], dataWebsocket: [], dataNodejs: [] }
 
   typedFastify.get('/runtimes/:pid/metrics', {
     schema: { params: pidParamSchema, response: { 200: metricResponseSchema } },

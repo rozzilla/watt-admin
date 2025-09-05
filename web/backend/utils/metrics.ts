@@ -3,7 +3,7 @@ import { FastifyInstance } from 'fastify'
 import { requiredMetricKeys, MemoryDataPoint, CpuDataPoint } from '../schemas'
 import { bytesToMB } from './bytes'
 import { getReqRps } from './rps'
-import { addMetricDataPoint, initMetricsObject, initMetricsResponse, initServiceMetrics, isKafkaMetricName, isUndiciMetricName, isWebsocketMetricName, kafkaMetricMap, undiciMetricMap, websocketMetricMap } from './metrics-helpers'
+import { addMetricDataPoint, initMetricsObject, initMetricsResponse, initServiceMetrics, isKafkaMetricName, isNodejsMetricName, isUndiciMetricName, isWebsocketMetricName, kafkaMetricMap, nodejsMetricMap, undiciMetricMap, websocketMetricMap } from './metrics-helpers'
 
 export const getMetrics = async ({ mappedMetrics, log }: FastifyInstance): Promise<void> => {
   try {
@@ -157,6 +157,15 @@ export const getMetrics = async ({ mappedMetrics, log }: FastifyInstance): Promi
                 aggregatedMetrics.dataWebsocket[key] = value
                 if (areMultipleWorkersEnabled) {
                   workerMetrics.dataWebsocket[workerId][key] = value
+                }
+              }
+
+              if (isNodejsMetricName(metric.name)) {
+                const key = nodejsMetricMap[metric.name]
+                serviceMetrics.dataNodejs[key] = value
+                aggregatedMetrics.dataNodejs[key] = value
+                if (areMultipleWorkersEnabled) {
+                  workerMetrics.dataNodejs[workerId][key] = value
                 }
               }
 

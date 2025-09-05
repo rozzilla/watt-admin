@@ -249,6 +249,26 @@
                           "connections"
                         ]
                       }
+                    },
+                    "dataNodejs": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "additionalProperties": false,
+                        "properties": {
+                          "date": {
+                            "type": "string",
+                            "format": "date-time"
+                          },
+                          "resources": {
+                            "type": "number"
+                          }
+                        },
+                        "required": [
+                          "date",
+                          "resources"
+                        ]
+                      }
                     }
                   },
                   "required": [
@@ -258,7 +278,8 @@
                     "dataReq",
                     "dataLatency",
                     "dataUndici",
-                    "dataWebsocket"
+                    "dataWebsocket",
+                    "dataNodejs"
                   ]
                 }
               }
@@ -515,6 +536,26 @@
                           "connections"
                         ]
                       }
+                    },
+                    "dataNodejs": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "additionalProperties": false,
+                        "properties": {
+                          "date": {
+                            "type": "string",
+                            "format": "date-time"
+                          },
+                          "resources": {
+                            "type": "number"
+                          }
+                        },
+                        "required": [
+                          "date",
+                          "resources"
+                        ]
+                      }
                     }
                   },
                   "required": [
@@ -524,7 +565,8 @@
                     "dataReq",
                     "dataLatency",
                     "dataUndici",
-                    "dataWebsocket"
+                    "dataWebsocket",
+                    "dataNodejs"
                   ]
                 }
               }
@@ -789,6 +831,26 @@
                           "connections"
                         ]
                       }
+                    },
+                    "dataNodejs": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "additionalProperties": false,
+                        "properties": {
+                          "date": {
+                            "type": "string",
+                            "format": "date-time"
+                          },
+                          "resources": {
+                            "type": "number"
+                          }
+                        },
+                        "required": [
+                          "date",
+                          "resources"
+                        ]
+                      }
                     }
                   },
                   "required": [
@@ -798,7 +860,8 @@
                     "dataReq",
                     "dataLatency",
                     "dataUndici",
-                    "dataWebsocket"
+                    "dataWebsocket",
+                    "dataNodejs"
                   ]
                 }
               }

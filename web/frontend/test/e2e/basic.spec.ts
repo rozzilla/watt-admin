@@ -30,7 +30,7 @@ test.describe('Basic E2E tests', () => {
 
     const metricCharts = page.getByTestId('metric-chart')
     const chartCount = await metricCharts.count()
-    expect(chartCount).toBe(6)
+    expect(chartCount).toBe(7)
 
     // To have the tooltip, we need to hover on all of the metric charts
     for (let i = 0; i < chartCount; i++) {
@@ -59,11 +59,13 @@ test.describe('Basic E2E tests', () => {
     await page.getByText('Show Aggregated Metrics').waitFor()
     await expect(page.getByText('backend Memory')).toHaveCount(1)
     await expect(page.getByText('Entrypoint Latency')).toHaveCount(1)
+    await expect(page.getByText('Entrypoint Nodejs')).toHaveCount(1)
     await page.getByText('frontend').click()
     await expect(page.getByText('frontend CPU & ELU')).toHaveCount(1)
     await page.getByText('(Entrypoint)').click()
     await expect(page.getByText('composer Latency')).toHaveCount(1)
     await expect(page.getByText('composer Requests')).toHaveCount(1)
+    await expect(page.getByText('composer Nodejs')).toHaveCount(1)
     await expect(page.getByText('composer Undici')).toHaveCount(1)
     await expect(page.getByText('composer Websocket')).toHaveCount(1)
     await expect(page.getByText('Heap Used')).toHaveCount(1)
