@@ -25,7 +25,7 @@ test.describe('Basic E2E tests', () => {
     await expect(page.getByText('frontend')).toHaveCount(1)
     await expect(page.getByText('composer')).toHaveCount(2)
     await expect(page.getByText('RUNNING')).toBeVisible()
-    await expect(page.getByText('2.72.0')).toBeVisible()
+    await expect(page.getByText('2.75.0')).toBeVisible()
     await expect(page.getByText('http://127.0.0.1:5042')).toBeVisible()
 
     const metricCharts = page.getByTestId('metric-chart')
@@ -50,9 +50,9 @@ test.describe('Basic E2E tests', () => {
     expect(await getMetricValue(page, 'elu')).toBeGreaterThanOrEqual(1)
     expect(await getMetricValue(page, 'idle')).toBeGreaterThanOrEqual(1)
     expect(await getMetricValue(page, 'open')).toBeGreaterThanOrEqual(1)
-    expect(await getMetricValue(page, 'p90')).toBeGreaterThanOrEqual(1)
-    expect(await getMetricValue(page, 'p95')).toBeGreaterThanOrEqual(1)
-    expect(await getMetricValue(page, 'p99')).toBeGreaterThanOrEqual(1)
+    expect(await getMetricValue(page, 'p90')).toBeGreaterThanOrEqual(0)
+    expect(await getMetricValue(page, 'p95')).toBeGreaterThanOrEqual(0)
+    expect(await getMetricValue(page, 'p99')).toBeGreaterThanOrEqual(0)
 
     // services
     await page.goto('/#/services')

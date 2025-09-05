@@ -45,7 +45,8 @@ test('getMetrics handles runtime client errors gracefully', async () => {
     }
   }
 
-  const warn = mock.fn<FastifyBaseLogger['warn']>()
+  // FIXME: revert the generic definition to FastifyBaseLogger['warn'] once this is released https://github.com/pinojs/pino/pull/2273
+  const warn = mock.fn<(obj: unknown, msg: string) => void>()
   const { getMetrics: calculateErrorMetrics } = proxyquire(calcPath, {
     '@platformatic/control': {
       RuntimeApiClient: ErrorThrowingClient
@@ -56,7 +57,7 @@ test('getMetrics handles runtime client errors gracefully', async () => {
   await calculateErrorMetrics(fastify)
 
   assert.strictEqual(warn.mock.calls.length, 1)
-  assert.ok(warn.mock.calls[0].arguments[1].includes('Unable to get runtime metrics'))
+  assert.ok(warn.mock.calls[0].arguments[1]?.includes('Unable to get runtime metrics'))
 })
 
 test('getMetrics handles services with single worker correctly', async () => {
