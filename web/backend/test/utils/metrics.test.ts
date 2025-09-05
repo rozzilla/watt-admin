@@ -45,8 +45,7 @@ test('getMetrics handles runtime client errors gracefully', async () => {
     }
   }
 
-  // FIXME: revert the generic definition to FastifyBaseLogger['warn'] once this is released https://github.com/pinojs/pino/pull/2273
-  const warn = mock.fn<(obj: unknown, msg: string) => void>()
+  const warn = mock.fn<FastifyBaseLogger['warn']>()
   const { getMetrics: calculateErrorMetrics } = proxyquire(calcPath, {
     '@platformatic/control': {
       RuntimeApiClient: ErrorThrowingClient
