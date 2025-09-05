@@ -56,7 +56,7 @@ test('getMetrics handles runtime client errors gracefully', async () => {
   await calculateErrorMetrics(fastify)
 
   assert.strictEqual(warn.mock.calls.length, 1)
-  assert.ok(warn.mock.calls[0].arguments[1].includes('Unable to get runtime metrics'))
+  assert.ok(warn.mock.calls[0].arguments[1]?.includes('Unable to get runtime metrics'))
 })
 
 test('getMetrics handles services with single worker correctly', async () => {
