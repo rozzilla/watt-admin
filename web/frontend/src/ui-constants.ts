@@ -26,8 +26,9 @@ const REQ_UNIT_METRICS = '#'
 const UNDICI_UNIT_METRICS = '#'
 const WS_UNIT_METRICS = '#'
 const KAFKA_UNIT_METRICS = '#'
+const NODEJS_UNIT_METRICS = '#'
 
-export const KEYS_METRICS = ['dataMem', 'dataCpu', 'dataKafka', 'dataReq', 'dataLatency', 'dataUndici', 'dataWebsocket'] as const
+export const KEYS_METRICS = ['dataMem', 'dataCpu', 'dataKafka', 'dataReq', 'dataLatency', 'dataUndici', 'dataWebsocket', 'dataNodejs'] as const
 export type KeyMetric = typeof KEYS_METRICS[number]
 export const OPTIONS_METRICS: Record<KeyMetric, {
   type: MetricType,
@@ -143,6 +144,16 @@ export const OPTIONS_METRICS: Record<KeyMetric, {
       label: 'Connections',
       internalKey: 'connections',
       unit: WS_UNIT_METRICS
+    }]
+  },
+  dataNodejs: {
+    type: 'nodejs',
+    title: 'Nodejs',
+    unit: NODEJS_UNIT_METRICS,
+    options: [{
+      label: 'Resources',
+      internalKey: 'resources',
+      unit: NODEJS_UNIT_METRICS
     }]
   },
   dataKafka: {

@@ -13863,5 +13863,19 @@ export const metricFixtures: Metric[] = [
       }
     ],
     aggregator: 'sum'
+  },
+  {
+    help: 'Number of active resources keeping the event loop alive',
+    name: 'active_resources_event_loop',
+    type: 'gauge',
+    values: [
+      {
+        value: 5,
+        labels: {
+          serviceId: 'composer'
+        }
+      }
+    ],
+    aggregator: 'sum'
   }
 ]

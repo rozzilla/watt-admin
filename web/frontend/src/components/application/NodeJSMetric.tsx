@@ -13,7 +13,7 @@ import { getMetricColor } from '../../utilities/metrics'
 
 type DataValues = GetRuntimesPidMetricsResponseOK[keyof GetRuntimesPidMetricsResponseOK]
 
-export type MetricType = 'mem' | 'cpu' | 'latency' | 'req' | 'undici' | 'kafka' | 'ws'
+export type MetricType = 'mem' | 'cpu' | 'latency' | 'req' | 'undici' | 'kafka' | 'ws' | 'nodejs'
 
 export type MetricOption = {
   label: string;

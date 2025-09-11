@@ -12,7 +12,8 @@ describe('getEmptyMetrics', () => {
       dataReq: [],
       dataKafka: [],
       dataUndici: [],
-      dataWebsocket: []
+      dataWebsocket: [],
+      dataNodejs: []
     })
   })
 

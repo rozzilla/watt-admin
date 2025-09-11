@@ -14,6 +14,7 @@ import colorSetReq from './req.module.css'
 import colorSetKafka from './kafka.module.css'
 import colorSetUndici from './undici.module.css'
 import colorSetWs from './ws.module.css'
+import colorSetNodejs from './nodejs.module.css'
 import NodeJSMetric, { generateLegend } from '../application/NodeJSMetric'
 import { GetRuntimesPidMetricsResponseOK, GetRuntimesPidServicesResponseOK } from 'src/client/backend-types'
 import ErrorComponent from '../errors/ErrorComponent'
@@ -37,6 +38,7 @@ const mapColor: Record<KeyMetric, { [key: string]: string }> = {
   dataWebsocket: colorSetWs,
   dataUndici: colorSetUndici,
   dataLatency: colorSetLatency,
+  dataNodejs: colorSetNodejs
 }
 
 function ServicesMetrics ({

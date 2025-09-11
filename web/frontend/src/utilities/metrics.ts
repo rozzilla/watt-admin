@@ -6,9 +6,10 @@ import colorSetLatency from '../components/metrics/latency.module.css'
 import colorSetKafka from '../components/metrics/kafka.module.css'
 import colorSetWs from '../components/metrics/ws.module.css'
 import colorSetUndici from '../components/metrics/undici.module.css'
+import colorSetNodejs from '../components/metrics/nodejs.module.css'
 import { MetricType } from '../components/application/NodeJSMetric'
 
-export const getEmptyMetrics = (): GetRuntimesPidMetricsResponseOK => ({ dataMem: [], dataCpu: [], dataLatency: [], dataReq: [], dataKafka: [], dataUndici: [], dataWebsocket: [] })
+export const getEmptyMetrics = (): GetRuntimesPidMetricsResponseOK => ({ dataMem: [], dataCpu: [], dataLatency: [], dataReq: [], dataKafka: [], dataUndici: [], dataWebsocket: [], dataNodejs: [] })
 
 export const getMetricColor = (metricType: MetricType) => {
   let colorStyles: Record<string, string>
@@ -33,6 +34,9 @@ export const getMetricColor = (metricType: MetricType) => {
       break
     case 'ws':
       colorStyles = colorSetWs
+      break
+    case 'nodejs':
+      colorStyles = colorSetNodejs
       break
     default:
     {

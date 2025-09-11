@@ -58,6 +58,9 @@ test('metrics with runtime', async (t) => {
   assert.ok(metrics.dataWebsocket[0].connections >= 0)
   assert.ok(new Date(metrics.dataWebsocket[0].date) <= new Date())
 
+  assert.ok(metrics.dataNodejs[0].resources >= 0)
+  assert.ok(new Date(metrics.dataNodejs[0].date) <= new Date())
+
   assert.ok(metrics.dataUndici[0].activeRequests >= 0)
   assert.ok(metrics.dataUndici[0].idleSockets >= 0)
   assert.ok(metrics.dataUndici[0].openSockets >= 0)

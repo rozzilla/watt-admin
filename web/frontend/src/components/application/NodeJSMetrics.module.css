@@ -2,3 +2,7 @@
   @apply grid grid-cols-2 w-full gap-4;
   grid-template-columns: 1fr 1fr;
 }
+
+.metricsContainer > :last-child:nth-child(odd) {
+  grid-column: 1 / -1;
+}
