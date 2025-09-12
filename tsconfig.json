@@ -6,7 +6,8 @@
     "noEmitOnError": true,
     "incremental": true,
     "outDir": "dist",
-    "noUnusedParameters": true
+    "noUnusedParameters": true,
+    "verbatimModuleSyntax": true
   },
   "watchOptions": {
     "watchFile": "fixedPollingInterval",

@@ -1,5 +1,5 @@
 import { describe, it, expect } from 'vitest'
-import { getThreadName, hasMultipleWorkers } from '../../src/utilities/threads'
+import { getThreadName, hasMultipleWorkers } from '../../src/utilities/threads.ts'
 
 describe('getThreadName', () => {
   it('should return "All Threads" when idx is "all"', () => {

@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import styles from './AppDetails.module.css'
-import AppNameBox, { ApiApplication } from './AppNameBox'
+import AppNameBox, { type ApiApplication } from './AppNameBox'
 import ServicesBox from './ServicesBox'
 import ErrorComponent from '../errors/ErrorComponent'
 import NodeJSMetrics from './NodeJSMetrics'
@@ -27,18 +27,22 @@ const AppDetails: React.FC = () => {
 
   useEffect(() => {
     fetchData()
-  }, [])
-
-  if (error) {
-    return <ErrorComponent error={error} onClickDismiss={() => setError(undefined)} />
-  }
+  }, [mode])
 
   return (
     <div className={styles.container}>
       <div className={styles.containerElement}>
-        <AppNameBox onModeUpdated={fetchData} onErrorOccurred={setError} apiApplication={apiApplication} />
-        <ServicesBox />
-        <NodeJSMetrics />
+        {error
+          ? (
+            <ErrorComponent error={error} onClickDismiss={() => setError(undefined)} />
+            )
+          : (
+            <>
+              <AppNameBox onModeUpdated={fetchData} onErrorOccurred={setError} apiApplication={apiApplication} />
+              <ServicesBox />
+              <NodeJSMetrics />
+            </>
+            )}
       </div>
     </div>
   )

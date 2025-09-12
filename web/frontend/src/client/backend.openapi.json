@@ -1019,7 +1019,7 @@
                   "required": [
                     "entrypoint",
                     "production",
-                    "services"
+                    "applications"
                   ],
                   "properties": {
                     "entrypoint": {
@@ -1028,11 +1028,12 @@
                     "production": {
                       "type": "boolean"
                     },
-                    "services": {
+                    "applications": {
                       "type": "array",
                       "items": {
                         "anyOf": [
                           {
+                            "additionalProperties": false,
                             "type": "object",
                             "required": [
                               "id",
@@ -1071,28 +1072,13 @@
                               "dependencies": {
                                 "type": "array",
                                 "items": {
-                                  "type": "object",
-                                  "required": [
-                                    "id",
-                                    "url",
-                                    "local"
-                                  ],
-                                  "properties": {
-                                    "id": {
-                                      "type": "string"
-                                    },
-                                    "url": {
-                                      "type": "string"
-                                    },
-                                    "local": {
-                                      "type": "boolean"
-                                    }
-                                  }
+                                  "type": "string"
                                 }
                               }
                             }
                           },
                           {
+                            "additionalProperties": false,
                             "type": "object",
                             "required": [
                               "id",

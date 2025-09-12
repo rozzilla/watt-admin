@@ -34,44 +34,45 @@ function NodeJSMetrics (): React.ReactElement {
   }
 
   useInterval(() => { getData() }, REFRESH_INTERVAL_METRICS)
-  useEffect(() => { getData() }, [runtimePid])
-
-  if (error) {
-    return <ErrorComponent error={error} onClickDismiss={() => setError(undefined)} />
-  }
+  useEffect(() => { getData() }, [runtimePid, mode])
 
   return (
     <BorderedBox classes={`${styles.borderexBoxContainer}`} backgroundColor={BLACK_RUSSIAN} color={TRANSPARENT}>
-      <div className={`${commonStyles.smallFlexBlock} ${commonStyles.fullWidth}`}>
-        <div className={`${commonStyles.smallFlexRow} ${commonStyles.fullWidth} ${commonStyles.justifyBetween}`}>
-          <div className={`${commonStyles.tinyFlexRow} ${commonStyles.fullWidth} ${commonStyles.justifyBetween}`}>
-            <div className={commonStyles.tinyFlexRow}>
-              <Icons.NodeJSMetricsIcon
-                color={WHITE}
-                size={MEDIUM}
-              />
-              <div>
-                <p className={`${typographyStyles.desktopBodySemibold} ${typographyStyles.textWhite}`}>Metrics</p>
+      {error
+        ? (
+          <ErrorComponent error={error} onClickDismiss={() => setError(undefined)} />
+          )
+        : (
+          <div className={`${commonStyles.smallFlexBlock} ${commonStyles.fullWidth}`}>
+            <div className={`${commonStyles.smallFlexRow} ${commonStyles.fullWidth} ${commonStyles.justifyBetween}`}>
+              <div className={`${commonStyles.tinyFlexRow} ${commonStyles.fullWidth} ${commonStyles.justifyBetween}`}>
+                <div className={commonStyles.tinyFlexRow}>
+                  <Icons.NodeJSMetricsIcon
+                    color={WHITE}
+                    size={MEDIUM}
+                  />
+                  <div>
+                    <p className={`${typographyStyles.desktopBodySemibold} ${typographyStyles.textWhite}`}>Metrics</p>
+                  </div>
+                </div>
               </div>
             </div>
-          </div>
-        </div>
 
-        <div className={styles.metricsContainer}>
-          {KEYS_METRICS.map(key => (
-            key !== 'dataKafka' &&
-              <NodeJSMetric
-                key={key}
-                title={OPTIONS_METRICS[key].title}
-                unit={`(${OPTIONS_METRICS[key].unit})`}
-                metricURL={OPTIONS_METRICS[key].type}
-                dataValues={allData[key]}
-                initialLoading={initialLoading}
-                options={OPTIONS_METRICS[key].options}
-              />
-          ))}
-        </div>
-      </div>
+            <div className={styles.metricsContainer}>
+              {KEYS_METRICS.map(key => (
+                key !== 'dataKafka' &&
+                  <NodeJSMetric
+                    key={key}
+                    title={OPTIONS_METRICS[key].title}
+                    unit={`(${OPTIONS_METRICS[key].unit})`}
+                    metricURL={OPTIONS_METRICS[key].type}
+                    dataValues={allData[key]}
+                    initialLoading={initialLoading}
+                    options={OPTIONS_METRICS[key].options}
+                  />
+              ))}
+            </div>
+          </div>)}
     </BorderedBox>
   )
 }

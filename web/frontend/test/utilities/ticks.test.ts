@@ -1,5 +1,5 @@
 import { describe, it, expect } from 'vitest'
-import { getTicks } from '../../src/utilities/ticks'
+import { getTicks } from '../../src/utilities/ticks.ts'
 
 describe('getTicks', () => {
   it('should return an array with min value when count is 0', () => {
@@ -41,6 +41,9 @@ describe('getTicks', () => {
 
     const firstDiff = differences[0]
     differences.forEach(diff => {
+      if (!firstDiff) {
+        throw new Error('invalid first diff')
+      }
       expect(diff).toBeCloseTo(firstDiff, 10)
     })
   })
@@ -60,6 +63,6 @@ describe('getTicks', () => {
 
   it('should handle floating point precision correctly', () => {
     const result = getTicks(0, 0.3, 3, false)
-    expect(result.map(n => Number(n.toFixed(2)))).toEqual([0, 0.1, 0.2, 0.3])
+    expect(result.map((n: number) => Number(n.toFixed(2)))).toEqual([0, 0.1, 0.2, 0.3])
   })
 })

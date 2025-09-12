@@ -1,11 +1,9 @@
 'use strict'
 
-const { describe, it, beforeEach, afterEach } = require('node:test')
-const assert = require('node:assert')
-const proxyquire = require('proxyquire')
+import { describe, it, beforeEach, afterEach, mock } from 'node:test'
+import assert from 'node:assert'
 
 describe('CLI Integration', () => {
-  // Mock runtime data
   const mockRuntimes = [
     {
       packageName: 'app-1',
@@ -32,30 +30,34 @@ describe('CLI Integration', () => {
     console.log = (...args) => {
       consoleOutput.push(args.join(' '))
     }
-  })
 
-  afterEach(() => {
-    console.log = originalConsoleLog
-  })
-
-  it('should correctly select a runtime from multiple options', async () => {
-    // Mock modules for the test
-    const mockedCli = proxyquire.noCallThru().load('../cli.js', {
-      '@platformatic/control': {
+    mock.module('@platformatic/control', {
+      namedExports: {
         RuntimeApiClient: class {
-          // No constructor needed since we only have empty implementation
           async getRuntimes () { return mockRuntimes }
           async getRuntimeConfig () { return { path: '/test/config.json' } }
           async close () {}
         }
-      },
-      '@inquirer/prompts': {
-        select: async () => mockRuntimes[1] // Always select the second runtime
       }
     })
 
+    mock.module('@inquirer/prompts', {
+      namedExports: {
+        select: async () => mockRuntimes[1] // Always select the second runtime
+      }
+    })
+  })
+
+  afterEach(() => {
+    console.log = originalConsoleLog
+    mock.restoreAll()
+  })
+
+  it('should correctly select a runtime from multiple options', async () => {
+    const { default: cli } = await import('../cli.js')
+
     // Call the main function
-    const result = await mockedCli()
+    const result = await cli()
 
     // Verify result
     assert.deepStrictEqual(result, mockRuntimes[1])

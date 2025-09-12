@@ -1,108 +1,172 @@
 'use strict'
 
+import { describe, it, beforeEach, afterEach, mock } from 'node:test'
+import assert from 'node:assert'
+import { EventEmitter } from 'node:events'
+import * as util from 'util'
 import type { CloseWithGraceAsyncCallback } from 'close-with-grace'
 
-const { describe, it, beforeEach, mock } = require('node:test')
-const assert = require('node:assert')
-const proxyquire = require('proxyquire')
+interface MockServer {
+  started: boolean
+  start(): Promise<MockServer>
+  configManager: {
+    current: {
+      server: { hostname: string; port: number }
+    }
+  }
+}
+
+interface RequestOptions {
+  method?: string
+  headers?: Record<string, string>
+  body: string
+}
+
+interface RequestResponse {
+  statusCode: number
+  body: {
+    dump(): Promise<void>
+    text(): Promise<string>
+  }
+}
+
+interface ParseArgsResult {
+  values: {
+    port?: string
+    record?: boolean
+  }
+}
+
+interface ExecResult {
+  stdout: string
+  stderr: string
+}
+
+interface MockFunction<T extends (...args: any[]) => any> {
+  (...args: Parameters<T>): ReturnType<T>
+  mock: {
+    calls: Array<{ arguments: Parameters<T> }>
+  }
+}
+
+interface CloseWithGraceMockFunction extends MockFunction<(options: unknown, handler: CloseWithGraceAsyncCallback) => EventEmitter> {
+  handler?: CloseWithGraceAsyncCallback
+}
 
 describe('start', () => {
-  // Mock server object
-  const mockServer = {
+  const mockServer: MockServer = {
     started: false,
     start: async function () {
       this.started = true
       return this
-    }
-  }
-
-  // Mock modules
-  const mockBuildRuntime = async () => mockServer
-  const mockLoadConfig = async () => ({
+    },
     configManager: {
-      config: { server: {} },
-      current: { server: { hostname: 'localhost', port: 3000 } }
+      current: {
+        server: { hostname: 'localhost', port: 3000 }
+      }
     }
-  })
-  const mockReadFile = async () => JSON.stringify({ server: {} })
-
-  // Setup module with mocks
-  const mockedStart = (overrides = {}) => {
-    return proxyquire.noCallThru().load('../lib/start.js', {
-      '@platformatic/runtime': {
-        buildRuntime: mockBuildRuntime,
-        loadConfig: mockLoadConfig
-      },
-      'fs/promises': {
-        readFile: mockReadFile
-      },
-      ...overrides
-    })
   }
+
+  let requestMock: MockFunction<(url: string, options: RequestOptions) => Promise<RequestResponse>>
+  let closeWithGraceMock: CloseWithGraceMockFunction
+  let execAsyncMock: MockFunction<(command: string) => Promise<ExecResult>>
+  let createMock: MockFunction<() => Promise<MockServer>>
+  let parseArgsResult: ParseArgsResult
 
   beforeEach(() => {
-    // Reset mockServer state
     mockServer.started = false
+    delete process.env.SELECTED_RUNTIME
+    delete process.env.PORT
 
-    // Delete environment variable if it exists
-    if ('SELECTED_RUNTIME' in process.env) {
-      delete process.env.SELECTED_RUNTIME
-    }
-    mock.reset()
-  })
+    // Default parseArgs result
+    parseArgsResult = { values: {} }
 
-  it('should start the server with the selected runtime', async () => {
-    // Get mocked start module
-    const { start } = mockedStart()
-
-    // Set a test PID
-    const testPid = '12345'
-
-    // Call the start function
-    await start(testPid)
-
-    // Check if environment variable was set
-    assert.strictEqual(process.env.SELECTED_RUNTIME, testPid)
-
-    // Check if server was started
-    assert.strictEqual(mockServer.started, true)
-  })
-
-  it('should start recording and save metrics on exit', async () => {
-    const requestMock = mock.fn(async (_: unknown, options: { body: string }) => {
+    // Reset mocks
+    requestMock = mock.fn(async (_: string, options: RequestOptions): Promise<RequestResponse> => {
       const body = JSON.parse(options.body)
-      if (body.mode === 'start') {
-        return { statusCode: 200, body: { dump: async () => {} } }
-      }
-      if (body.mode === 'stop') {
-        return { statusCode: 200, body: { dump: async () => undefined } }
-      }
-      return { statusCode: 500, body: { text: async () => 'error' } }
-    })
-
-    // eslint-disable-next-line no-undef-init
-    let closeHandler: CloseWithGraceAsyncCallback | undefined = undefined
-    const closeWithGraceMock = mock.fn((_: unknown, handler: CloseWithGraceAsyncCallback) => {
-      closeHandler = handler
-    })
-    const execAsyncMock = mock.fn(async () => {})
-
-    const { start } = mockedStart({
-      undici: {
-        request: requestMock
-      },
-      'close-with-grace': closeWithGraceMock,
-      util: {
-        ...require('util'),
-        parseArgs: () => ({ values: { record: true } }),
-        promisify: (fn: () => unknown) => {
-          if (fn.name === 'exec' || fn === require('child_process').exec) {
-            return execAsyncMock
+      if (body.mode === 'start' || body.mode === 'stop') {
+        return {
+          statusCode: 200,
+          body: {
+            dump: async () => {},
+            text: async () => 'success'
           }
-          return fn
+        }
+      }
+      return {
+        statusCode: 500,
+        body: {
+          dump: async () => {},
+          text: async () => 'error'
+        }
+      }
+    }) as MockFunction<(url: string, options: RequestOptions) => Promise<RequestResponse>>
+
+    closeWithGraceMock = mock.fn((_: unknown, handler: CloseWithGraceAsyncCallback): EventEmitter => {
+      closeWithGraceMock.handler = handler
+      return new EventEmitter()
+    }) as CloseWithGraceMockFunction
+
+    execAsyncMock = mock.fn(async (_: string): Promise<ExecResult> => ({
+      stdout: '',
+      stderr: ''
+    })) as MockFunction<(command: string) => Promise<ExecResult>>
+
+    createMock = mock.fn(async (): Promise<MockServer> => mockServer) as MockFunction<() => Promise<MockServer>>
+
+    // Setup module mocks
+    mock.module('@platformatic/runtime', {
+      namedExports: {
+        create: createMock
+      }
+    })
+
+    mock.module('undici', {
+      namedExports: {
+        request: requestMock
+      }
+    })
+
+    mock.module('close-with-grace', {
+      defaultExport: closeWithGraceMock
+    })
+
+    mock.module('node:child_process', {
+      namedExports: {
+        exec: (command: string, callback: (error: null, data: ExecResult) => void) => {
+          execAsyncMock(command)
+          callback(null, { stdout: '', stderr: '' })
         }
       }
     })
+
+    mock.module('util', {
+      namedExports: {
+        ...util,
+        parseArgs: (): ParseArgsResult => parseArgsResult
+      }
+    })
+  })
+
+  afterEach(() => {
+    mock.restoreAll()
+  })
+
+  it('should start the server with the selected runtime', async () => {
+    // Set parseArgs result for this test
+    parseArgsResult = { values: {} }
+
+    const { start } = await import('../lib/start.js') as { start: (selectedRuntime: string) => Promise<void> }
+
+    const testRuntime = 'test-runtime-123'
+    await start(testRuntime)
+
+    assert.strictEqual(process.env.SELECTED_RUNTIME, testRuntime, 'SELECTED_RUNTIME should be set')
+    assert.strictEqual(mockServer.started, true, 'Server should be started')
+    assert.strictEqual(createMock.mock.calls.length, 1, 'create should be called once')
+
+    // Set parseArgs result for this test to enable recording
+    parseArgsResult = { values: { record: true } }
 
     await start('test-runtime-record')
 
@@ -117,11 +181,16 @@ describe('start', () => {
 
     // 3. Check if closeWithGrace was configured
     assert.strictEqual(closeWithGraceMock.mock.calls.length, 1, 'closeWithGrace should be called')
-    assert.ok(typeof closeHandler === 'function', 'closeWithGrace handler should be a function')
+    assert.ok(typeof closeWithGraceMock.handler === 'function', 'closeWithGrace handler should be a function')
 
     // 4. Simulate SIGINT to trigger the exit handler
-    // @ts-expect-error
-    await closeHandler({ signal: 'SIGINT' })
+    // The handler might expect a callback, so we need to handle both Promise and callback patterns
+    const handlerResult = closeWithGraceMock.handler!({ signal: 'SIGINT' })
+
+    // If the handler returns a Promise, wait for it
+    if (handlerResult && typeof handlerResult.then === 'function') {
+      await handlerResult
+    }
 
     // 5. Check if the 'stop' record request was made
     assert.strictEqual(requestMock.mock.calls.length, 2, 'Should have made a second request to stop recording')
@@ -132,7 +201,7 @@ describe('start', () => {
     // 6. Check if execAsync was called with 'open' and 'index.html'
     assert.strictEqual(execAsyncMock.mock.calls.length, 1, 'execAsync should be called once')
     const [execCommand] = execAsyncMock.mock.calls[0].arguments
-    assert.ok(execCommand.includes('open'), 'execAsync command should contain "open"')
+    assert.ok(execCommand.includes('open') || execCommand.includes('start'), 'execAsync command should contain "open" or "start"')
     assert.ok(execCommand.includes('index.html'), 'execAsync command should contain "index.html"')
   })
 })

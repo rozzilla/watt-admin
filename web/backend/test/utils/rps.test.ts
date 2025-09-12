@@ -1,7 +1,7 @@
 import test from 'node:test'
 import assert from 'node:assert'
-import { RequestDataPoint } from '../../schemas'
-import { getReqRps } from '../../utils/rps'
+import type { RequestDataPoint } from '../../schemas/index.ts'
+import { getReqRps } from '../../utils/rps.ts'
 
 test('getReqRps calculates correct RPS when count increases', () => {
   const previousRequests: RequestDataPoint[] = [{

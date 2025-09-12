@@ -1,4 +1,4 @@
-import { GetRuntimesPidMetricsResponseOK } from 'src/client/backend-types'
+import type { GetRuntimesPidMetricsResponseOK } from 'src/client/backend-types'
 import colorSetMem from '../components/metrics/memory.module.css'
 import colorSetCpu from '../components/metrics/cpu.module.css'
 import colorSetReq from '../components/metrics/req.module.css'
@@ -7,7 +7,7 @@ import colorSetKafka from '../components/metrics/kafka.module.css'
 import colorSetWs from '../components/metrics/ws.module.css'
 import colorSetUndici from '../components/metrics/undici.module.css'
 import colorSetNodejs from '../components/metrics/nodejs.module.css'
-import { MetricType } from '../components/application/NodeJSMetric'
+import type { MetricType } from '../components/application/NodeJSMetric'
 
 export const getEmptyMetrics = (): GetRuntimesPidMetricsResponseOK => ({ dataMem: [], dataCpu: [], dataLatency: [], dataReq: [], dataKafka: [], dataUndici: [], dataWebsocket: [], dataNodejs: [] })
 

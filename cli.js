@@ -2,9 +2,10 @@
 
 'use strict'
 
-const { RuntimeApiClient } = require('@platformatic/control')
-const { select } = require('@inquirer/prompts')
-const { start } = require('./lib/start')
+import { pathToFileURL } from 'url'
+import { RuntimeApiClient } from '@platformatic/control'
+import { select } from '@inquirer/prompts'
+import { start } from './lib/start.js'
 
 async function getLocationDetails (client, runtime) {
   try {
@@ -39,7 +40,7 @@ async function getLocationDetails (client, runtime) {
   }
 }
 
-async function main () {
+export default async function main () {
   try {
     // Get available runtimes
     const client = new RuntimeApiClient()
@@ -140,7 +141,7 @@ async function main () {
 }
 
 // Execute the main function if this script is run directly
-if (require.main === module) {
+if (import.meta.url === pathToFileURL(process.argv[1]).href) {
   main().then((selectedRuntime) => {
     if (!selectedRuntime) {
       return
@@ -152,7 +153,4 @@ if (require.main === module) {
     console.error('Fatal error:', error)
     process.exit(1)
   })
-} else {
-  // Export for use as a module
-  module.exports = main
 }

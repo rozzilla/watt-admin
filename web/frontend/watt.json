@@ -1,6 +1,6 @@
 {
-  "$schema": "https://schemas.platformatic.dev/@platformatic/vite/2.75.0.json",
-  "application": { "basePath": "/", "commands": { "build": "tsc --noEmit && vite build" } },
+  "$schema": "https://schemas.platformatic.dev/@platformatic/vite/3.6.0.json",
+  "application": { "basePath": "/", "commands": { "build": "vite build" } },
   "vite": {
     "ssr": false
   }

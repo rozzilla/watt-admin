@@ -6,13 +6,13 @@ import {
   initMetricsObject,
   initMetricsResponse,
   initServiceMetrics,
-  MappedMetrics,
+  type MappedMetrics,
   isUndiciMetricName,
   isWebsocketMetricName,
   isNodejsMetricName
-} from '../../utils/metrics-helpers'
-import { MemoryDataPoint } from '../../schemas'
-import { MAX_STORED_METRICS } from '../../utils/constants'
+} from '../../utils/metrics-helpers.ts'
+import { MAX_STORED_METRICS } from '../../utils/constants.ts'
+import type { MemoryDataPoint } from '../../schemas/index.ts'
 
 test('isKafkaMetricName returns true for valid kafka metric names', () => {
   assert.strictEqual(isKafkaMetricName('kafka_producers'), true)
