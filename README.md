@@ -9,10 +9,10 @@ The project includes a command-line interface tool to check available Platformat
 After installing the project dependencies, you can run the tool directly:
 
 ```bash
-./cli.ts
+./cli.js
 ```
 
-To run the CLI on a custom port, you can just pass it as an argument with `./cli.ts --port 4321`.
+To run the CLI on a custom port, you can just pass it as an argument with `./cli.js --port 4321`.
 
 The tool is also available as a binary when installed globally or linked:
 

@@ -39,7 +39,7 @@ describe('CLI', () => {
 
   // Setup mocks
   const mockedCli = () => {
-    return proxyquire.noCallThru().load('../cli.ts', {
+    return proxyquire.noCallThru().load('../cli.js', {
       '@platformatic/control': {
         RuntimeApiClient: mockRuntimeApiClient
       },
