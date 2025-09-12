@@ -25,7 +25,7 @@ import { getThreadName, ThreadIndex } from '../../utilities/threads'
 
 interface ServicesMetricsProps {
   service: ServiceData;
-  services: GetRuntimesPidServicesResponseOK['services'];
+  services: GetRuntimesPidServicesResponseOK['applications'];
   threadIndex?: ThreadIndex;
   showAggregatedMetrics: boolean;
 }

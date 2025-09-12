@@ -43,8 +43,8 @@ export const isWattpmVersionOutdated = async (mode: Mode) => {
 }
 
 export const getServices = async (pid: number, mode: Mode) => {
-  const { services } = isLoadMode(mode) ? getDataLoaded().services : (await getRuntimesPidServices({ path: { pid } })).body
-  return services
+  const { applications } = isLoadMode(mode) ? getDataLoaded().services : (await getRuntimesPidServices({ path: { pid } })).body
+  return applications
 }
 
 export const getServiceHealth = async (pid: number, mode: Mode) => {

@@ -2,9 +2,9 @@ import test, { mock } from 'node:test'
 import assert from 'node:assert'
 import proxyquire from 'proxyquire'
 import { FastifyBaseLogger, FastifyInstance } from 'fastify'
-import { metricFixtures } from '../fixtures/metrics'
-import { RuntimeServices } from '@platformatic/control'
-import { MAX_STORED_METRICS } from '../../utils/constants'
+import { MAX_STORED_METRICS } from '../../utils/constants.ts'
+import { metricFixtures } from '../fixtures/metrics.ts'
+import { RuntimeApplications } from '@platformatic/control'
 
 const calcPath = '../../utils/metrics'
 
@@ -15,10 +15,10 @@ class RuntimeApiClient {
 
   async getRuntimeServices () {
     const status = 'ok'
-    const services: RuntimeServices = {
+    const services: RuntimeApplications = {
       production: false,
       entrypoint: 'composer',
-      services: [
+      applications: [
         { id: 'composer', status, workers: 2 },
         { id: 'fastify2', status, workers: 2 },
         { id: 'fastify3', status, workers: 2 },
@@ -67,7 +67,7 @@ test('getMetrics handles services with single worker correctly', async () => {
       return {
         production: false,
         entrypoint: 'composer',
-        services: [
+        applications: [
           { id: 'singleWorker', status, workers: 1 }
         ]
       }
@@ -307,7 +307,7 @@ test('getMetrics handles empty metrics correctly', async () => {
 test('getMetrics handles missing services', async () => {
   class NoServicesMockClient extends RuntimeApiClient {
     async getRuntimeServices () {
-      return { production: false, services: [], entrypoint: '' }
+      return { production: false, applications: [], entrypoint: '' }
     }
   }
 

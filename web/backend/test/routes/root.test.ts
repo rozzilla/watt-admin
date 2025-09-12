@@ -1,8 +1,8 @@
 import test from 'node:test'
 import assert from 'node:assert'
-import { getServer, startWatt } from '../helper'
 import { readFile, writeFile } from 'node:fs/promises'
 import path from 'node:path'
+import { getServer, startWatt } from '../helper.ts'
 
 test('no runtime running', async (t) => {
   const server = await getServer(t)
@@ -68,7 +68,7 @@ test('runtime is running', async (t) => {
   })
   assert.strictEqual(serviceOpenapi.statusCode, 200, 'service OpenAPI endpoint')
   const json = serviceOpenapi.json()
-  assert.strictEqual(json.openapi, '3.0.3')
+  assert.strictEqual(json.openapi, '3.2.1')
   assert.deepEqual(json.info, {
     title: 'Platformatic',
     description: 'This is a service built on top of Platformatic',

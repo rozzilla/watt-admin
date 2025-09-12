@@ -1,9 +1,10 @@
 import type { WebSocket } from 'ws'
 import split2 from 'split2'
-import { FastifyInstance } from 'fastify'
-import { JsonSchemaToTsProvider } from '@fastify/type-provider-json-schema-to-ts'
+import type { FastifyInstance } from 'fastify'
+import type { JsonSchemaToTsProvider } from '@fastify/type-provider-json-schema-to-ts'
 import { RuntimeApiClient } from '@platformatic/control'
-import { PidParam, pidParamSchema } from '../schemas'
+import { pidParamSchema } from '../schemas/index.ts'
+import type { PidParam } from '../schemas/index.ts'
 import { pipeline } from 'node:stream/promises'
 
 export default async function (fastify: FastifyInstance) {

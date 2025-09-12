@@ -1,4 +1,4 @@
-import { Metric } from '@platformatic/control'
+import type { Metric } from '@platformatic/control'
 
 export const metricFixtures: Metric[] = [
   {
@@ -9,7 +9,7 @@ export const metricFixtures: Metric[] = [
       {
         value: 1.016634,
         labels: {
-          serviceId: 'composer'
+          applicationId: 'composer'
         }
       }
     ],
@@ -23,7 +23,7 @@ export const metricFixtures: Metric[] = [
       {
         value: 0.24545400000000003,
         labels: {
-          serviceId: 'composer'
+          applicationId: 'composer'
         }
       }
     ],
@@ -37,7 +37,7 @@ export const metricFixtures: Metric[] = [
       {
         value: 1.2620879999999999,
         labels: {
-          serviceId: 'composer'
+          applicationId: 'composer'
         }
       }
     ],
@@ -51,7 +51,7 @@ export const metricFixtures: Metric[] = [
       {
         value: 1743244689,
         labels: {
-          serviceId: 'composer'
+          applicationId: 'composer'
         }
       }
     ],
@@ -65,7 +65,7 @@ export const metricFixtures: Metric[] = [
       {
         value: 543653888,
         labels: {
-          serviceId: 'composer'
+          applicationId: 'composer'
         }
       }
     ],
@@ -79,7 +79,7 @@ export const metricFixtures: Metric[] = [
       {
         value: 0.001445417,
         labels: {
-          serviceId: 'composer'
+          applicationId: 'composer'
         }
       }
     ],
@@ -93,7 +93,7 @@ export const metricFixtures: Metric[] = [
       {
         value: 0.010248192,
         labels: {
-          serviceId: 'composer'
+          applicationId: 'composer'
         }
       }
     ],
@@ -107,7 +107,7 @@ export const metricFixtures: Metric[] = [
       {
         value: 0.013066239,
         labels: {
-          serviceId: 'composer'
+          applicationId: 'composer'
         }
       }
     ],
@@ -121,7 +121,7 @@ export const metricFixtures: Metric[] = [
       {
         value: 0.011015404307692309,
         labels: {
-          serviceId: 'composer'
+          applicationId: 'composer'
         }
       }
     ],
@@ -135,7 +135,7 @@ export const metricFixtures: Metric[] = [
       {
         value: 0.0006653726396935994,
         labels: {
-          serviceId: 'composer'
+          applicationId: 'composer'
         }
       }
     ],
@@ -149,7 +149,7 @@ export const metricFixtures: Metric[] = [
       {
         value: 0.010911743,
         labels: {
-          serviceId: 'composer'
+          applicationId: 'composer'
         }
       }
     ],
@@ -163,7 +163,7 @@ export const metricFixtures: Metric[] = [
       {
         value: 0.011427839,
         labels: {
-          serviceId: 'composer'
+          applicationId: 'composer'
         }
       }
     ],
@@ -177,7 +177,7 @@ export const metricFixtures: Metric[] = [
       {
         value: 0.013066239,
         labels: {
-          serviceId: 'composer'
+          applicationId: 'composer'
         }
       }
     ],
@@ -192,21 +192,21 @@ export const metricFixtures: Metric[] = [
         value: 11,
         labels: {
           type: 'MessagePort',
-          serviceId: 'composer'
+          applicationId: 'composer'
         }
       },
       {
         value: 1,
         labels: {
           type: 'TCPServerWrap',
-          serviceId: 'composer'
+          applicationId: 'composer'
         }
       },
       {
         value: 1,
         labels: {
           type: 'Immediate',
-          serviceId: 'composer'
+          applicationId: 'composer'
         }
       }
     ],
@@ -220,7 +220,7 @@ export const metricFixtures: Metric[] = [
       {
         value: 13,
         labels: {
-          serviceId: 'composer'
+          applicationId: 'composer'
         }
       }
     ],
@@ -235,14 +235,14 @@ export const metricFixtures: Metric[] = [
         value: 11,
         labels: {
           type: 'MessagePort',
-          serviceId: 'composer'
+          applicationId: 'composer'
         }
       },
       {
         value: 1,
         labels: {
           type: 'Server',
-          serviceId: 'composer'
+          applicationId: 'composer'
         }
       }
     ],
@@ -256,7 +256,7 @@ export const metricFixtures: Metric[] = [
       {
         value: 12,
         labels: {
-          serviceId: 'composer'
+          applicationId: 'composer'
         }
       }
     ],
@@ -277,7 +277,7 @@ export const metricFixtures: Metric[] = [
       {
         value: 0,
         labels: {
-          serviceId: 'composer'
+          applicationId: 'composer'
         }
       }
     ],
@@ -291,7 +291,7 @@ export const metricFixtures: Metric[] = [
       {
         value: 55689216,
         labels: {
-          serviceId: 'composer'
+          applicationId: 'composer'
         }
       }
     ],
@@ -305,7 +305,7 @@ export const metricFixtures: Metric[] = [
       {
         value: 48001848,
         labels: {
-          serviceId: 'composer'
+          applicationId: 'composer'
         }
       }
     ],
@@ -319,7 +319,7 @@ export const metricFixtures: Metric[] = [
       {
         value: 5092344,
         labels: {
-          serviceId: 'composer'
+          applicationId: 'composer'
         }
       }
     ],
@@ -334,77 +334,77 @@ export const metricFixtures: Metric[] = [
         value: 0,
         labels: {
           space: 'read_only',
-          serviceId: 'composer'
+          applicationId: 'composer'
         }
       },
       {
         value: 4194304,
         labels: {
           space: 'new',
-          serviceId: 'composer'
+          applicationId: 'composer'
         }
       },
       {
         value: 38240256,
         labels: {
           space: 'old',
-          serviceId: 'composer'
+          applicationId: 'composer'
         }
       },
       {
         value: 3407872,
         labels: {
           space: 'code',
-          serviceId: 'composer'
+          applicationId: 'composer'
         }
       },
       {
         value: 0,
         labels: {
           space: 'shared',
-          serviceId: 'composer'
+          applicationId: 'composer'
         }
       },
       {
         value: 5570560,
         labels: {
           space: 'trusted',
-          serviceId: 'composer'
+          applicationId: 'composer'
         }
       },
       {
         value: 0,
         labels: {
           space: 'new_large_object',
-          serviceId: 'composer'
+          applicationId: 'composer'
         }
       },
       {
         value: 3899392,
         labels: {
           space: 'large_object',
-          serviceId: 'composer'
+          applicationId: 'composer'
         }
       },
       {
         value: 212992,
         labels: {
           space: 'code_large_object',
-          serviceId: 'composer'
+          applicationId: 'composer'
         }
       },
       {
         value: 0,
         labels: {
           space: 'shared_large_object',
-          serviceId: 'composer'
+          applicationId: 'composer'
         }
       },
       {
         value: 163840,
         labels: {
           space: 'trusted_large_object',
-          serviceId: 'composer'
+          applicationId: 'composer'
         }
       }
     ],
@@ -419,77 +419,77 @@ export const metricFixtures: Metric[] = [
         value: 0,
         labels: {
           space: 'read_only',
-          serviceId: 'composer'
+          applicationId: 'composer'
         }
       },
       {
         value: 357928,
         labels: {
           space: 'new',
-          serviceId: 'composer'
+          applicationId: 'composer'
         }
       },
       {
         value: 36012104,
         labels: {
           space: 'old',
-          serviceId: 'composer'
+          applicationId: 'composer'
         }
       },
       {
         value: 2658784,
         labels: {
           space: 'code',
-          serviceId: 'composer'
+          applicationId: 'composer'
         }
       },
       {
         value: 0,
         labels: {
           space: 'shared',
-          serviceId: 'composer'
+          applicationId: 'composer'
         }
       },
       {
         value: 4997336,
         labels: {
           space: 'trusted',
-          serviceId: 'composer'
+          applicationId: 'composer'
         }
       },
       {
         value: 0,
         labels: {
           space: 'new_large_object',
-          serviceId: 'composer'
+          applicationId: 'composer'
         }
       },
       {
         value: 3678792,
         labels: {
           space: 'large_object',
-          serviceId: 'composer'
+          applicationId: 'composer'
         }
       },
       {
         value: 155328,
         labels: {
           space: 'code_large_object',
-          serviceId: 'composer'
+          applicationId: 'composer'
         }
       },
       {
         value: 0,
         labels: {
           space: 'shared_large_object',
-          serviceId: 'composer'
+          applicationId: 'composer'
         }
       },
       {
         value: 143736,
         labels: {
           space: 'trusted_large_object',
-          serviceId: 'composer'
+          applicationId: 'composer'
         }
       }
     ],
@@ -504,77 +504,77 @@ export const metricFixtures: Metric[] = [
         value: 0,
         labels: {
           space: 'read_only',
-          serviceId: 'composer'
+          applicationId: 'composer'
         }
       },
       {
         value: 1703896,
         labels: {
           space: 'new',
-          serviceId: 'composer'
+          applicationId: 'composer'
         }
       },
       {
         value: 1498472,
         labels: {
           space: 'old',
-          serviceId: 'composer'
+          applicationId: 'composer'
         }
       },
       {
         value: 110112,
         labels: {
           space: 'code',
-          serviceId: 'composer'
+          applicationId: 'composer'
         }
       },
       {
         value: 0,
         labels: {
           space: 'shared',
-          serviceId: 'composer'
+          applicationId: 'composer'
         }
       },
       {
         value: 475528,
         labels: {
           space: 'trusted',
-          serviceId: 'composer'
+          applicationId: 'composer'
         }
       },
       {
         value: 2097152,
         labels: {
           space: 'new_large_object',
-          serviceId: 'composer'
+          applicationId: 'composer'
         }
       },
       {
         value: 0,
         labels: {
           space: 'large_object',
-          serviceId: 'composer'
+          applicationId: 'composer'
         }
       },
       {
         value: 0,
         labels: {
           space: 'code_large_object',
-          serviceId: 'composer'
+          applicationId: 'composer'
         }
       },
       {
         value: 0,
         labels: {
           space: 'shared_large_object',
-          serviceId: 'composer'
+          applicationId: 'composer'
         }
       },
       {
         value: 0,
         labels: {
           space: 'trusted_large_object',
-          serviceId: 'composer'
+          applicationId: 'composer'
         }
       }
     ],
@@ -592,7 +592,7 @@ export const metricFixtures: Metric[] = [
           major: 22,
           minor: 12,
           patch: 0,
-          serviceId: 'composer'
+          applicationId: 'composer'
         }
       }
     ],
@@ -610,7 +610,7 @@ export const metricFixtures: Metric[] = [
         labels: {
           le: 0.001,
           kind: 'incremental',
-          serviceId: 'composer'
+          applicationId: 'composer'
         }
       },
       {
@@ -620,7 +620,7 @@ export const metricFixtures: Metric[] = [
         labels: {
           le: 0.01,
           kind: 'incremental',
-          serviceId: 'composer'
+          applicationId: 'composer'
         }
       },
       {
@@ -630,7 +630,7 @@ export const metricFixtures: Metric[] = [
         labels: {
           le: 0.1,
           kind: 'incremental',
-          serviceId: 'composer'
+          applicationId: 'composer'
         }
       },
       {
@@ -640,7 +640,7 @@ export const metricFixtures: Metric[] = [
         labels: {
           le: 1,
           kind: 'incremental',
-          serviceId: 'composer'
+          applicationId: 'composer'
         }
       },
       {
@@ -650,7 +650,7 @@ export const metricFixtures: Metric[] = [
         labels: {
           le: 2,
           kind: 'incremental',
-          serviceId: 'composer'
+          applicationId: 'composer'
         }
       },
       {
@@ -660,7 +660,7 @@ export const metricFixtures: Metric[] = [
         labels: {
           le: 5,
           kind: 'incremental',
-          serviceId: 'composer'
+          applicationId: 'composer'
         }
       },
       {
@@ -670,7 +670,7 @@ export const metricFixtures: Metric[] = [
         labels: {
           le: '+Inf',
           kind: 'incremental',
-          serviceId: 'composer'
+          applicationId: 'composer'
         }
       },
       {
@@ -678,7 +678,7 @@ export const metricFixtures: Metric[] = [
         metricName: 'nodejs_gc_duration_seconds_sum',
         labels: {
           kind: 'incremental',
-          serviceId: 'composer'
+          applicationId: 'composer'
         }
       },
       {
@@ -686,7 +686,7 @@ export const metricFixtures: Metric[] = [
         metricName: 'nodejs_gc_duration_seconds_count',
         labels: {
           kind: 'incremental',
-          serviceId: 'composer'
+          applicationId: 'composer'
         }
       },
       {
@@ -696,7 +696,7 @@ export const metricFixtures: Metric[] = [
         labels: {
           le: 0.001,
           kind: 'major',
-          serviceId: 'composer'
+          applicationId: 'composer'
         }
       },
       {
@@ -706,7 +706,7 @@ export const metricFixtures: Metric[] = [
         labels: {
           le: 0.01,
           kind: 'major',
-          serviceId: 'composer'
+          applicationId: 'composer'
         }
       },
       {
@@ -716,7 +716,7 @@ export const metricFixtures: Metric[] = [
         labels: {
           le: 0.1,
           kind: 'major',
-          serviceId: 'composer'
+          applicationId: 'composer'
         }
       },
       {
@@ -726,7 +726,7 @@ export const metricFixtures: Metric[] = [
         labels: {
           le: 1,
           kind: 'major',
-          serviceId: 'composer'
+          applicationId: 'composer'
         }
       },
       {
@@ -736,7 +736,7 @@ export const metricFixtures: Metric[] = [
         labels: {
           le: 2,
           kind: 'major',
-          serviceId: 'composer'
+          applicationId: 'composer'
         }
       },
       {
@@ -746,7 +746,7 @@ export const metricFixtures: Metric[] = [
         labels: {
           le: 5,
           kind: 'major',
-          serviceId: 'composer'
+          applicationId: 'composer'
         }
       },
       {
@@ -756,7 +756,7 @@ export const metricFixtures: Metric[] = [
         labels: {
           le: '+Inf',
           kind: 'major',
-          serviceId: 'composer'
+          applicationId: 'composer'
         }
       },
       {
@@ -764,7 +764,7 @@ export const metricFixtures: Metric[] = [
         metricName: 'nodejs_gc_duration_seconds_sum',
         labels: {
           kind: 'major',
-          serviceId: 'composer'
+          applicationId: 'composer'
         }
       },
       {
@@ -772,7 +772,7 @@ export const metricFixtures: Metric[] = [
         metricName: 'nodejs_gc_duration_seconds_count',
         labels: {
           kind: 'major',
-          serviceId: 'composer'
+          applicationId: 'composer'
         }
       },
       {
@@ -782,7 +782,7 @@ export const metricFixtures: Metric[] = [
         labels: {
           le: 0.001,
           kind: 'minor',
-          serviceId: 'composer'
+          applicationId: 'composer'
         }
       },
       {
@@ -792,7 +792,7 @@ export const metricFixtures: Metric[] = [
         labels: {
           le: 0.01,
           kind: 'minor',
-          serviceId: 'composer'
+          applicationId: 'composer'
         }
       },
       {
@@ -802,7 +802,7 @@ export const metricFixtures: Metric[] = [
         labels: {
           le: 0.1,
           kind: 'minor',
-          serviceId: 'composer'
+          applicationId: 'composer'
         }
       },
       {
@@ -812,7 +812,7 @@ export const metricFixtures: Metric[] = [
         labels: {
           le: 1,
           kind: 'minor',
-          serviceId: 'composer'
+          applicationId: 'composer'
         }
       },
       {
@@ -822,7 +822,7 @@ export const metricFixtures: Metric[] = [
         labels: {
           le: 2,
           kind: 'minor',
-          serviceId: 'composer'
+          applicationId: 'composer'
         }
       },
       {
@@ -832,7 +832,7 @@ export const metricFixtures: Metric[] = [
         labels: {
           le: 5,
           kind: 'minor',
-          serviceId: 'composer'
+          applicationId: 'composer'
         }
       },
       {
@@ -842,7 +842,7 @@ export const metricFixtures: Metric[] = [
         labels: {
           le: '+Inf',
           kind: 'minor',
-          serviceId: 'composer'
+          applicationId: 'composer'
         }
       },
       {
@@ -850,7 +850,7 @@ export const metricFixtures: Metric[] = [
         metricName: 'nodejs_gc_duration_seconds_sum',
         labels: {
           kind: 'minor',
-          serviceId: 'composer'
+          applicationId: 'composer'
         }
       },
       {
@@ -858,7 +858,7 @@ export const metricFixtures: Metric[] = [
         metricName: 'nodejs_gc_duration_seconds_count',
         labels: {
           kind: 'minor',
-          serviceId: 'composer'
+          applicationId: 'composer'
         }
       }
     ],
@@ -872,7 +872,7 @@ export const metricFixtures: Metric[] = [
       {
         value: 0.018317402597156054,
         labels: {
-          serviceId: 'composer'
+          applicationId: 'composer'
         }
       }
     ],
@@ -886,7 +886,7 @@ export const metricFixtures: Metric[] = [
       {
         value: 53.91,
         labels: {
-          serviceId: 'composer'
+          applicationId: 'composer'
         }
       }
     ],
@@ -900,7 +900,7 @@ export const metricFixtures: Metric[] = [
       {
         value: 0.08258100000000002,
         labels: {
-          serviceId: 'composer'
+          applicationId: 'composer'
         }
       }
     ],
@@ -914,7 +914,7 @@ export const metricFixtures: Metric[] = [
       {
         value: 0.020998000000000003,
         labels: {
-          serviceId: 'composer'
+          applicationId: 'composer'
         }
       }
     ],
@@ -928,7 +928,7 @@ export const metricFixtures: Metric[] = [
       {
         value: 1.7182668591777364,
         labels: {
-          serviceId: 'composer'
+          applicationId: 'composer'
         }
       }
     ],
@@ -942,7 +942,7 @@ export const metricFixtures: Metric[] = [
       {
         value: 0.10357899999999999,
         labels: {
-          serviceId: 'composer'
+          applicationId: 'composer'
         }
       }
     ],
@@ -956,7 +956,7 @@ export const metricFixtures: Metric[] = [
       {
         value: 0,
         labels: {
-          serviceId: 'composer'
+          applicationId: 'composer'
         }
       }
     ],
@@ -970,7 +970,7 @@ export const metricFixtures: Metric[] = [
       {
         value: 0,
         labels: {
-          serviceId: 'composer'
+          applicationId: 'composer'
         }
       }
     ],
@@ -987,7 +987,7 @@ export const metricFixtures: Metric[] = [
           method: 'GET',
           route: '/__empty_metrics',
           status_code: 404,
-          serviceId: 'composer'
+          applicationId: 'composer'
         },
         value: 0
       },
@@ -997,7 +997,7 @@ export const metricFixtures: Metric[] = [
           method: 'GET',
           route: '/__empty_metrics',
           status_code: 404,
-          serviceId: 'composer'
+          applicationId: 'composer'
         },
         value: 0
       },
@@ -1007,7 +1007,7 @@ export const metricFixtures: Metric[] = [
           method: 'GET',
           route: '/__empty_metrics',
           status_code: 404,
-          serviceId: 'composer'
+          applicationId: 'composer'
         },
         value: 0
       },
@@ -1017,7 +1017,7 @@ export const metricFixtures: Metric[] = [
           method: 'GET',
           route: '/__empty_metrics',
           status_code: 404,
-          serviceId: 'composer'
+          applicationId: 'composer'
         },
         value: 0
       },
@@ -1027,7 +1027,7 @@ export const metricFixtures: Metric[] = [
           method: 'GET',
           route: '/__empty_metrics',
           status_code: 404,
-          serviceId: 'composer'
+          applicationId: 'composer'
         },
         value: 0
       },
@@ -1037,7 +1037,7 @@ export const metricFixtures: Metric[] = [
           method: 'GET',
           route: '/__empty_metrics',
           status_code: 404,
-          serviceId: 'composer'
+          applicationId: 'composer'
         },
         value: 0
       },
@@ -1047,7 +1047,7 @@ export const metricFixtures: Metric[] = [
           method: 'GET',
           route: '/__empty_metrics',
           status_code: 404,
-          serviceId: 'composer'
+          applicationId: 'composer'
         },
         value: 0
       },
@@ -1057,7 +1057,7 @@ export const metricFixtures: Metric[] = [
           method: 'GET',
           route: '/__empty_metrics',
           status_code: 404,
-          serviceId: 'composer'
+          applicationId: 'composer'
         },
         value: 0
       },
@@ -1067,7 +1067,7 @@ export const metricFixtures: Metric[] = [
           method: 'GET',
           route: '/__empty_metrics',
           status_code: 404,
-          serviceId: 'composer'
+          applicationId: 'composer'
         },
         value: 1
       },
@@ -1078,7 +1078,7 @@ export const metricFixtures: Metric[] = [
           route: '/typescript/',
           status_code: 200,
           telemetry_id: 'unknown',
-          serviceId: 'composer'
+          applicationId: 'composer'
         },
         value: 0.010855
       },
@@ -1089,7 +1089,7 @@ export const metricFixtures: Metric[] = [
           route: '/typescript/',
           status_code: 200,
           telemetry_id: 'unknown',
-          serviceId: 'composer'
+          applicationId: 'composer'
         },
         value: 0.010855
       },
@@ -1100,7 +1100,7 @@ export const metricFixtures: Metric[] = [
           route: '/typescript/',
           status_code: 200,
           telemetry_id: 'unknown',
-          serviceId: 'composer'
+          applicationId: 'composer'
         },
         value: 0.010855
       },
@@ -1111,7 +1111,7 @@ export const metricFixtures: Metric[] = [
           route: '/typescript/',
           status_code: 200,
           telemetry_id: 'unknown',
-          serviceId: 'composer'
+          applicationId: 'composer'
         },
         value: 0.010855
       },
@@ -1122,7 +1122,7 @@ export const metricFixtures: Metric[] = [
           route: '/typescript/',
           status_code: 200,
           telemetry_id: 'unknown',
-          serviceId: 'composer'
+          applicationId: 'composer'
         },
         value: 0.010855
       },
@@ -1133,7 +1133,7 @@ export const metricFixtures: Metric[] = [
           route: '/typescript/',
           status_code: 200,
           telemetry_id: 'unknown',
-          serviceId: 'composer'
+          applicationId: 'composer'
         },
         value: 0.010855
       },
@@ -1144,7 +1144,7 @@ export const metricFixtures: Metric[] = [
           route: '/typescript/',
           status_code: 200,
           telemetry_id: 'unknown',
-          serviceId: 'composer'
+          applicationId: 'composer'
         },
         value: 0.010855
       },
@@ -1155,7 +1155,7 @@ export const metricFixtures: Metric[] = [
           route: '/typescript/',
           status_code: 200,
           telemetry_id: 'unknown',
-          serviceId: 'composer'
+          applicationId: 'composer'
         },
         value: 0.010855
       },
@@ -1166,7 +1166,7 @@ export const metricFixtures: Metric[] = [
           route: '/typescript/',
           status_code: 200,
           telemetry_id: 'unknown',
-          serviceId: 'composer'
+          applicationId: 'composer'
         },
         value: 1
       },
@@ -1177,7 +1177,7 @@ export const metricFixtures: Metric[] = [
           route: '/typescript',
           status_code: 200,
           telemetry_id: 'unknown',
-          serviceId: 'composer'
+          applicationId: 'composer'
         },
         value: 0.017176958
       },
@@ -1188,7 +1188,7 @@ export const metricFixtures: Metric[] = [
           route: '/typescript',
           status_code: 200,
           telemetry_id: 'unknown',
-          serviceId: 'composer'
+          applicationId: 'composer'
         },
         value: 0.017176958
       },
@@ -1199,7 +1199,7 @@ export const metricFixtures: Metric[] = [
           route: '/typescript',
           status_code: 200,
           telemetry_id: 'unknown',
-          serviceId: 'composer'
+          applicationId: 'composer'
         },
         value: 0.017176958
       },
@@ -1210,7 +1210,7 @@ export const metricFixtures: Metric[] = [
           route: '/typescript',
           status_code: 200,
           telemetry_id: 'unknown',
-          serviceId: 'composer'
+          applicationId: 'composer'
         },
         value: 0.017176958
       },
@@ -1221,7 +1221,7 @@ export const metricFixtures: Metric[] = [
           route: '/typescript',
           status_code: 200,
           telemetry_id: 'unknown',
-          serviceId: 'composer'
+          applicationId: 'composer'
         },
         value: 0.017176958
       },
@@ -1232,7 +1232,7 @@ export const metricFixtures: Metric[] = [
           route: '/typescript',
           status_code: 200,
           telemetry_id: 'unknown',
-          serviceId: 'composer'
+          applicationId: 'composer'
         },
         value: 0.017176958
       },
@@ -1243,7 +1243,7 @@ export const metricFixtures: Metric[] = [
           route: '/typescript',
           status_code: 200,
           telemetry_id: 'unknown',
-          serviceId: 'composer'
+          applicationId: 'composer'
         },
         value: 0.017176958
       },
@@ -1254,7 +1254,7 @@ export const metricFixtures: Metric[] = [
           route: '/typescript',
           status_code: 200,
           telemetry_id: 'unknown',
-          serviceId: 'composer'
+          applicationId: 'composer'
         },
         value: 0.017176958
       },
@@ -1265,7 +1265,7 @@ export const metricFixtures: Metric[] = [
           route: '/typescript',
           status_code: 200,
           telemetry_id: 'unknown',
-          serviceId: 'composer'
+          applicationId: 'composer'
         },
         value: 1
       },
@@ -1276,7 +1276,7 @@ export const metricFixtures: Metric[] = [
           route: '/ts2/',
           status_code: 200,
           telemetry_id: 'unknown',
-          serviceId: 'composer'
+          applicationId: 'composer'
         },
         value: 0.002305917
       },
@@ -1287,7 +1287,7 @@ export const metricFixtures: Metric[] = [
           route: '/ts2/',
           status_code: 200,
           telemetry_id: 'unknown',
-          serviceId: 'composer'
+          applicationId: 'composer'
         },
         value: 0.002305917
       },
@@ -1298,7 +1298,7 @@ export const metricFixtures: Metric[] = [
           route: '/ts2/',
           status_code: 200,
           telemetry_id: 'unknown',
-          serviceId: 'composer'
+          applicationId: 'composer'
         },
         value: 0.004781063
       },
@@ -1309,7 +1309,7 @@ export const metricFixtures: Metric[] = [
           route: '/ts2/',
           status_code: 200,
           telemetry_id: 'unknown',
-          serviceId: 'composer'
+          applicationId: 'composer'
         },
         value: 0.007337792
       },
@@ -1320,7 +1320,7 @@ export const metricFixtures: Metric[] = [
           route: '/ts2/',
           status_code: 200,
           telemetry_id: 'unknown',
-          serviceId: 'composer'
+          applicationId: 'composer'
         },
         value: 0.007337792
       },
@@ -1331,7 +1331,7 @@ export const metricFixtures: Metric[] = [
           route: '/ts2/',
           status_code: 200,
           telemetry_id: 'unknown',
-          serviceId: 'composer'
+          applicationId: 'composer'
         },
         value: 0.007337792
       },
@@ -1342,7 +1342,7 @@ export const metricFixtures: Metric[] = [
           route: '/ts2/',
           status_code: 200,
           telemetry_id: 'unknown',
-          serviceId: 'composer'
+          applicationId: 'composer'
         },
         value: 0.007337792
       },
@@ -1353,7 +1353,7 @@ export const metricFixtures: Metric[] = [
           route: '/ts2/',
           status_code: 200,
           telemetry_id: 'unknown',
-          serviceId: 'composer'
+          applicationId: 'composer'
         },
         value: 0.019205835
       },
@@ -1364,7 +1364,7 @@ export const metricFixtures: Metric[] = [
           route: '/ts2/',
           status_code: 200,
           telemetry_id: 'unknown',
-          serviceId: 'composer'
+          applicationId: 'composer'
         },
         value: 4
       },
@@ -1375,7 +1375,7 @@ export const metricFixtures: Metric[] = [
           route: '/ts2',
           status_code: 200,
           telemetry_id: 'unknown',
-          serviceId: 'composer'
+          applicationId: 'composer'
         },
         value: 0.00259225
       },
@@ -1386,7 +1386,7 @@ export const metricFixtures: Metric[] = [
           route: '/ts2',
           status_code: 200,
           telemetry_id: 'unknown',
-          serviceId: 'composer'
+          applicationId: 'composer'
         },
         value: 0.00259225
       },
@@ -1397,7 +1397,7 @@ export const metricFixtures: Metric[] = [
           route: '/ts2',
           status_code: 200,
           telemetry_id: 'unknown',
-          serviceId: 'composer'
+          applicationId: 'composer'
         },
         value: 0.0051754374999999995
       },
@@ -1408,7 +1408,7 @@ export const metricFixtures: Metric[] = [
           route: '/ts2',
           status_code: 200,
           telemetry_id: 'unknown',
-          serviceId: 'composer'
+          applicationId: 'composer'
         },
         value: 0.007755709
       },
@@ -1419,7 +1419,7 @@ export const metricFixtures: Metric[] = [
           route: '/ts2',
           status_code: 200,
           telemetry_id: 'unknown',
-          serviceId: 'composer'
+          applicationId: 'composer'
         },
         value: 0.007755709
       },
@@ -1430,7 +1430,7 @@ export const metricFixtures: Metric[] = [
           route: '/ts2',
           status_code: 200,
           telemetry_id: 'unknown',
-          serviceId: 'composer'
+          applicationId: 'composer'
         },
         value: 0.007755709
       },
@@ -1441,7 +1441,7 @@ export const metricFixtures: Metric[] = [
           route: '/ts2',
           status_code: 200,
           telemetry_id: 'unknown',
-          serviceId: 'composer'
+          applicationId: 'composer'
         },
         value: 0.007755709
       },
@@ -1452,7 +1452,7 @@ export const metricFixtures: Metric[] = [
           route: '/ts2',
           status_code: 200,
           telemetry_id: 'unknown',
-          serviceId: 'composer'
+          applicationId: 'composer'
         },
         value: 0.020698834
       },
@@ -1463,7 +1463,7 @@ export const metricFixtures: Metric[] = [
           route: '/ts2',
           status_code: 200,
           telemetry_id: 'unknown',
-          serviceId: 'composer'
+          applicationId: 'composer'
         },
         value: 4
       }
@@ -1484,7 +1484,7 @@ export const metricFixtures: Metric[] = [
           method: 'GET',
           route: '/__empty_metrics',
           status_code: 404,
-          serviceId: 'composer'
+          applicationId: 'composer'
         }
       },
       {
@@ -1496,7 +1496,7 @@ export const metricFixtures: Metric[] = [
           method: 'GET',
           route: '/__empty_metrics',
           status_code: 404,
-          serviceId: 'composer'
+          applicationId: 'composer'
         }
       },
       {
@@ -1508,7 +1508,7 @@ export const metricFixtures: Metric[] = [
           method: 'GET',
           route: '/__empty_metrics',
           status_code: 404,
-          serviceId: 'composer'
+          applicationId: 'composer'
         }
       },
       {
@@ -1520,7 +1520,7 @@ export const metricFixtures: Metric[] = [
           method: 'GET',
           route: '/__empty_metrics',
           status_code: 404,
-          serviceId: 'composer'
+          applicationId: 'composer'
         }
       },
       {
@@ -1532,7 +1532,7 @@ export const metricFixtures: Metric[] = [
           method: 'GET',
           route: '/__empty_metrics',
           status_code: 404,
-          serviceId: 'composer'
+          applicationId: 'composer'
         }
       },
       {
@@ -1544,7 +1544,7 @@ export const metricFixtures: Metric[] = [
           method: 'GET',
           route: '/__empty_metrics',
           status_code: 404,
-          serviceId: 'composer'
+          applicationId: 'composer'
         }
       },
       {
@@ -1556,7 +1556,7 @@ export const metricFixtures: Metric[] = [
           method: 'GET',
           route: '/__empty_metrics',
           status_code: 404,
-          serviceId: 'composer'
+          applicationId: 'composer'
         }
       },
       {
@@ -1568,7 +1568,7 @@ export const metricFixtures: Metric[] = [
           method: 'GET',
           route: '/__empty_metrics',
           status_code: 404,
-          serviceId: 'composer'
+          applicationId: 'composer'
         }
       },
       {
@@ -1580,7 +1580,7 @@ export const metricFixtures: Metric[] = [
           method: 'GET',
           route: '/__empty_metrics',
           status_code: 404,
-          serviceId: 'composer'
+          applicationId: 'composer'
         }
       },
       {
@@ -1592,7 +1592,7 @@ export const metricFixtures: Metric[] = [
           method: 'GET',
           route: '/__empty_metrics',
           status_code: 404,
-          serviceId: 'composer'
+          applicationId: 'composer'
         }
       },
       {
@@ -1604,7 +1604,7 @@ export const metricFixtures: Metric[] = [
           method: 'GET',
           route: '/__empty_metrics',
           status_code: 404,
-          serviceId: 'composer'
+          applicationId: 'composer'
         }
       },
       {
@@ -1616,7 +1616,7 @@ export const metricFixtures: Metric[] = [
           method: 'GET',
           route: '/__empty_metrics',
           status_code: 404,
-          serviceId: 'composer'
+          applicationId: 'composer'
         }
       },
       {
@@ -1626,7 +1626,7 @@ export const metricFixtures: Metric[] = [
           method: 'GET',
           route: '/__empty_metrics',
           status_code: 404,
-          serviceId: 'composer'
+          applicationId: 'composer'
         }
       },
       {
@@ -1636,7 +1636,7 @@ export const metricFixtures: Metric[] = [
           method: 'GET',
           route: '/__empty_metrics',
           status_code: 200,
-          serviceId: 'composer'
+          applicationId: 'composer'
         }
       },
       {
@@ -1649,7 +1649,7 @@ export const metricFixtures: Metric[] = [
           route: '/typescript/',
           status_code: 200,
           telemetry_id: 'unknown',
-          serviceId: 'composer'
+          applicationId: 'composer'
         }
       },
       {
@@ -1662,7 +1662,7 @@ export const metricFixtures: Metric[] = [
           route: '/typescript/',
           status_code: 200,
           telemetry_id: 'unknown',
-          serviceId: 'composer'
+          applicationId: 'composer'
         }
       },
       {
@@ -1675,7 +1675,7 @@ export const metricFixtures: Metric[] = [
           route: '/typescript/',
           status_code: 200,
           telemetry_id: 'unknown',
-          serviceId: 'composer'
+          applicationId: 'composer'
         }
       },
       {
@@ -1688,7 +1688,7 @@ export const metricFixtures: Metric[] = [
           route: '/typescript/',
           status_code: 200,
           telemetry_id: 'unknown',
-          serviceId: 'composer'
+          applicationId: 'composer'
         }
       },
       {
@@ -1701,7 +1701,7 @@ export const metricFixtures: Metric[] = [
           route: '/typescript/',
           status_code: 200,
           telemetry_id: 'unknown',
-          serviceId: 'composer'
+          applicationId: 'composer'
         }
       },
       {
@@ -1714,7 +1714,7 @@ export const metricFixtures: Metric[] = [
           route: '/typescript/',
           status_code: 200,
           telemetry_id: 'unknown',
-          serviceId: 'composer'
+          applicationId: 'composer'
         }
       },
       {
@@ -1727,7 +1727,7 @@ export const metricFixtures: Metric[] = [
           route: '/typescript/',
           status_code: 200,
           telemetry_id: 'unknown',
-          serviceId: 'composer'
+          applicationId: 'composer'
         }
       },
       {
@@ -1740,7 +1740,7 @@ export const metricFixtures: Metric[] = [
           route: '/typescript/',
           status_code: 200,
           telemetry_id: 'unknown',
-          serviceId: 'composer'
+          applicationId: 'composer'
         }
       },
       {
@@ -1753,7 +1753,7 @@ export const metricFixtures: Metric[] = [
           route: '/typescript/',
           status_code: 200,
           telemetry_id: 'unknown',
-          serviceId: 'composer'
+          applicationId: 'composer'
         }
       },
       {
@@ -1766,7 +1766,7 @@ export const metricFixtures: Metric[] = [
           route: '/typescript/',
           status_code: 200,
           telemetry_id: 'unknown',
-          serviceId: 'composer'
+          applicationId: 'composer'
         }
       },
       {
@@ -1779,7 +1779,7 @@ export const metricFixtures: Metric[] = [
           route: '/typescript/',
           status_code: 200,
           telemetry_id: 'unknown',
-          serviceId: 'composer'
+          applicationId: 'composer'
         }
       },
       {
@@ -1792,7 +1792,7 @@ export const metricFixtures: Metric[] = [
           route: '/typescript/',
           status_code: 200,
           telemetry_id: 'unknown',
-          serviceId: 'composer'
+          applicationId: 'composer'
         }
       },
       {
@@ -1803,7 +1803,7 @@ export const metricFixtures: Metric[] = [
           route: '/typescript/',
           status_code: 200,
           telemetry_id: 'unknown',
-          serviceId: 'composer'
+          applicationId: 'composer'
         }
       },
       {
@@ -1814,7 +1814,7 @@ export const metricFixtures: Metric[] = [
           route: '/typescript/',
           status_code: 200,
           telemetry_id: 'unknown',
-          serviceId: 'composer'
+          applicationId: 'composer'
         }
       },
       {
@@ -1827,7 +1827,7 @@ export const metricFixtures: Metric[] = [
           route: '/typescript',
           status_code: 200,
           telemetry_id: 'unknown',
-          serviceId: 'composer'
+          applicationId: 'composer'
         }
       },
       {
@@ -1840,7 +1840,7 @@ export const metricFixtures: Metric[] = [
           route: '/typescript',
           status_code: 200,
           telemetry_id: 'unknown',
-          serviceId: 'composer'
+          applicationId: 'composer'
         }
       },
       {
@@ -1853,7 +1853,7 @@ export const metricFixtures: Metric[] = [
           route: '/typescript',
           status_code: 200,
           telemetry_id: 'unknown',
-          serviceId: 'composer'
+          applicationId: 'composer'
         }
       },
       {
@@ -1866,7 +1866,7 @@ export const metricFixtures: Metric[] = [
           route: '/typescript',
           status_code: 200,
           telemetry_id: 'unknown',
-          serviceId: 'composer'
+          applicationId: 'composer'
         }
       },
       {
@@ -1879,7 +1879,7 @@ export const metricFixtures: Metric[] = [
           route: '/typescript',
           status_code: 200,
           telemetry_id: 'unknown',
-          serviceId: 'composer'
+          applicationId: 'composer'
         }
       },
       {
@@ -1892,7 +1892,7 @@ export const metricFixtures: Metric[] = [
           route: '/typescript',
           status_code: 200,
           telemetry_id: 'unknown',
-          serviceId: 'composer'
+          applicationId: 'composer'
         }
       },
       {
@@ -1905,7 +1905,7 @@ export const metricFixtures: Metric[] = [
           route: '/typescript',
           status_code: 200,
           telemetry_id: 'unknown',
-          serviceId: 'composer'
+          applicationId: 'composer'
         }
       },
       {
@@ -1918,7 +1918,7 @@ export const metricFixtures: Metric[] = [
           route: '/typescript',
           status_code: 200,
           telemetry_id: 'unknown',
-          serviceId: 'composer'
+          applicationId: 'composer'
         }
       },
       {
@@ -1931,7 +1931,7 @@ export const metricFixtures: Metric[] = [
           route: '/typescript',
           status_code: 200,
           telemetry_id: 'unknown',
-          serviceId: 'composer'
+          applicationId: 'composer'
         }
       },
       {
@@ -1944,7 +1944,7 @@ export const metricFixtures: Metric[] = [
           route: '/typescript',
           status_code: 200,
           telemetry_id: 'unknown',
-          serviceId: 'composer'
+          applicationId: 'composer'
         }
       },
       {
@@ -1957,7 +1957,7 @@ export const metricFixtures: Metric[] = [
           route: '/typescript',
           status_code: 200,
           telemetry_id: 'unknown',
-          serviceId: 'composer'
+          applicationId: 'composer'
         }
       },
       {
@@ -1970,7 +1970,7 @@ export const metricFixtures: Metric[] = [
           route: '/typescript',
           status_code: 200,
           telemetry_id: 'unknown',
-          serviceId: 'composer'
+          applicationId: 'composer'
         }
       },
       {
@@ -1981,7 +1981,7 @@ export const metricFixtures: Metric[] = [
           route: '/typescript',
           status_code: 200,
           telemetry_id: 'unknown',
-          serviceId: 'composer'
+          applicationId: 'composer'
         }
       },
       {
@@ -1992,7 +1992,7 @@ export const metricFixtures: Metric[] = [
           route: '/typescript',
           status_code: 200,
           telemetry_id: 'unknown',
-          serviceId: 'composer'
+          applicationId: 'composer'
         }
       },
       {
@@ -2005,7 +2005,7 @@ export const metricFixtures: Metric[] = [
           route: '/ts2/',
           status_code: 200,
           telemetry_id: 'unknown',
-          serviceId: 'composer'
+          applicationId: 'composer'
         }
       },
       {
@@ -2018,7 +2018,7 @@ export const metricFixtures: Metric[] = [
           route: '/ts2/',
           status_code: 200,
           telemetry_id: 'unknown',
-          serviceId: 'composer'
+          applicationId: 'composer'
         }
       },
       {
@@ -2031,7 +2031,7 @@ export const metricFixtures: Metric[] = [
           route: '/ts2/',
           status_code: 200,
           telemetry_id: 'unknown',
-          serviceId: 'composer'
+          applicationId: 'composer'
         }
       },
       {
@@ -2044,7 +2044,7 @@ export const metricFixtures: Metric[] = [
           route: '/ts2/',
           status_code: 200,
           telemetry_id: 'unknown',
-          serviceId: 'composer'
+          applicationId: 'composer'
         }
       },
       {
@@ -2057,7 +2057,7 @@ export const metricFixtures: Metric[] = [
           route: '/ts2/',
           status_code: 200,
           telemetry_id: 'unknown',
-          serviceId: 'composer'
+          applicationId: 'composer'
         }
       },
       {
@@ -2070,7 +2070,7 @@ export const metricFixtures: Metric[] = [
           route: '/ts2/',
           status_code: 200,
           telemetry_id: 'unknown',
-          serviceId: 'composer'
+          applicationId: 'composer'
         }
       },
       {
@@ -2083,7 +2083,7 @@ export const metricFixtures: Metric[] = [
           route: '/ts2/',
           status_code: 200,
           telemetry_id: 'unknown',
-          serviceId: 'composer'
+          applicationId: 'composer'
         }
       },
       {
@@ -2096,7 +2096,7 @@ export const metricFixtures: Metric[] = [
           route: '/ts2/',
           status_code: 200,
           telemetry_id: 'unknown',
-          serviceId: 'composer'
+          applicationId: 'composer'
         }
       },
       {
@@ -2109,7 +2109,7 @@ export const metricFixtures: Metric[] = [
           route: '/ts2/',
           status_code: 200,
           telemetry_id: 'unknown',
-          serviceId: 'composer'
+          applicationId: 'composer'
         }
       },
       {
@@ -2122,7 +2122,7 @@ export const metricFixtures: Metric[] = [
           route: '/ts2/',
           status_code: 200,
           telemetry_id: 'unknown',
-          serviceId: 'composer'
+          applicationId: 'composer'
         }
       },
       {
@@ -2135,7 +2135,7 @@ export const metricFixtures: Metric[] = [
           route: '/ts2/',
           status_code: 200,
           telemetry_id: 'unknown',
-          serviceId: 'composer'
+          applicationId: 'composer'
         }
       },
       {
@@ -2148,7 +2148,7 @@ export const metricFixtures: Metric[] = [
           route: '/ts2/',
           status_code: 200,
           telemetry_id: 'unknown',
-          serviceId: 'composer'
+          applicationId: 'composer'
         }
       },
       {
@@ -2159,7 +2159,7 @@ export const metricFixtures: Metric[] = [
           route: '/ts2/',
           status_code: 200,
           telemetry_id: 'unknown',
-          serviceId: 'composer'
+          applicationId: 'composer'
         }
       },
       {
@@ -2170,7 +2170,7 @@ export const metricFixtures: Metric[] = [
           route: '/ts2/',
           status_code: 200,
           telemetry_id: 'unknown',
-          serviceId: 'composer'
+          applicationId: 'composer'
         }
       },
       {
@@ -2183,7 +2183,7 @@ export const metricFixtures: Metric[] = [
           route: '/ts2',
           status_code: 200,
           telemetry_id: 'unknown',
-          serviceId: 'composer'
+          applicationId: 'composer'
         }
       },
       {
@@ -2196,7 +2196,7 @@ export const metricFixtures: Metric[] = [
           route: '/ts2',
           status_code: 200,
           telemetry_id: 'unknown',
-          serviceId: 'composer'
+          applicationId: 'composer'
         }
       },
       {
@@ -2209,7 +2209,7 @@ export const metricFixtures: Metric[] = [
           route: '/ts2',
           status_code: 200,
           telemetry_id: 'unknown',
-          serviceId: 'composer'
+          applicationId: 'composer'
         }
       },
       {
@@ -2222,7 +2222,7 @@ export const metricFixtures: Metric[] = [
           route: '/ts2',
           status_code: 200,
           telemetry_id: 'unknown',
-          serviceId: 'composer'
+          applicationId: 'composer'
         }
       },
       {
@@ -2235,7 +2235,7 @@ export const metricFixtures: Metric[] = [
           route: '/ts2',
           status_code: 200,
           telemetry_id: 'unknown',
-          serviceId: 'composer'
+          applicationId: 'composer'
         }
       },
       {
@@ -2248,7 +2248,7 @@ export const metricFixtures: Metric[] = [
           route: '/ts2',
           status_code: 200,
           telemetry_id: 'unknown',
-          serviceId: 'composer'
+          applicationId: 'composer'
         }
       },
       {
@@ -2261,7 +2261,7 @@ export const metricFixtures: Metric[] = [
           route: '/ts2',
           status_code: 200,
           telemetry_id: 'unknown',
-          serviceId: 'composer'
+          applicationId: 'composer'
         }
       },
       {
@@ -2274,7 +2274,7 @@ export const metricFixtures: Metric[] = [
           route: '/ts2',
           status_code: 200,
           telemetry_id: 'unknown',
-          serviceId: 'composer'
+          applicationId: 'composer'
         }
       },
       {
@@ -2287,7 +2287,7 @@ export const metricFixtures: Metric[] = [
           route: '/ts2',
           status_code: 200,
           telemetry_id: 'unknown',
-          serviceId: 'composer'
+          applicationId: 'composer'
         }
       },
       {
@@ -2300,7 +2300,7 @@ export const metricFixtures: Metric[] = [
           route: '/ts2',
           status_code: 200,
           telemetry_id: 'unknown',
-          serviceId: 'composer'
+          applicationId: 'composer'
         }
       },
       {
@@ -2313,7 +2313,7 @@ export const metricFixtures: Metric[] = [
           route: '/ts2',
           status_code: 200,
           telemetry_id: 'unknown',
-          serviceId: 'composer'
+          applicationId: 'composer'
         }
       },
       {
@@ -2326,7 +2326,7 @@ export const metricFixtures: Metric[] = [
           route: '/ts2',
           status_code: 200,
           telemetry_id: 'unknown',
-          serviceId: 'composer'
+          applicationId: 'composer'
         }
       },
       {
@@ -2337,7 +2337,7 @@ export const metricFixtures: Metric[] = [
           route: '/ts2',
           status_code: 200,
           telemetry_id: 'unknown',
-          serviceId: 'composer'
+          applicationId: 'composer'
         }
       },
       {
@@ -2348,7 +2348,7 @@ export const metricFixtures: Metric[] = [
           route: '/ts2',
           status_code: 200,
           telemetry_id: 'unknown',
-          serviceId: 'composer'
+          applicationId: 'composer'
         }
       }
     ],
@@ -2365,7 +2365,7 @@ export const metricFixtures: Metric[] = [
           method: 'GET',
           route: '/__empty_metrics',
           status_code: 404,
-          serviceId: 'composer'
+          applicationId: 'composer'
         },
         value: 0
       },
@@ -2375,7 +2375,7 @@ export const metricFixtures: Metric[] = [
           method: 'GET',
           route: '/__empty_metrics',
           status_code: 404,
-          serviceId: 'composer'
+          applicationId: 'composer'
         },
         value: 0
       },
@@ -2385,7 +2385,7 @@ export const metricFixtures: Metric[] = [
           method: 'GET',
           route: '/__empty_metrics',
           status_code: 404,
-          serviceId: 'composer'
+          applicationId: 'composer'
         },
         value: 0
       },
@@ -2395,7 +2395,7 @@ export const metricFixtures: Metric[] = [
           method: 'GET',
           route: '/__empty_metrics',
           status_code: 404,
-          serviceId: 'composer'
+          applicationId: 'composer'
         },
         value: 0.0032
       },
@@ -2405,7 +2405,7 @@ export const metricFixtures: Metric[] = [
           method: 'GET',
           route: '/__empty_metrics',
           status_code: 404,
-          serviceId: 'composer'
+          applicationId: 'composer'
         },
         value: 0.0045
       },
@@ -2415,7 +2415,7 @@ export const metricFixtures: Metric[] = [
           method: 'GET',
           route: '/__empty_metrics',
           status_code: 404,
-          serviceId: 'composer'
+          applicationId: 'composer'
         },
         value: 0.0056
       },
@@ -2425,7 +2425,7 @@ export const metricFixtures: Metric[] = [
           method: 'GET',
           route: '/__empty_metrics',
           status_code: 404,
-          serviceId: 'composer'
+          applicationId: 'composer'
         },
         value: 0
       },
@@ -2435,7 +2435,7 @@ export const metricFixtures: Metric[] = [
           method: 'GET',
           route: '/__empty_metrics',
           status_code: 404,
-          serviceId: 'composer'
+          applicationId: 'composer'
         },
         value: 0
       },
@@ -2445,7 +2445,7 @@ export const metricFixtures: Metric[] = [
           method: 'GET',
           route: '/__empty_metrics',
           status_code: 404,
-          serviceId: 'composer'
+          applicationId: 'composer'
         },
         value: 0
       },
@@ -2456,7 +2456,7 @@ export const metricFixtures: Metric[] = [
           route: '/typescript/',
           status_code: 200,
           telemetry_id: 'unknown',
-          serviceId: 'composer'
+          applicationId: 'composer'
         },
         value: 0
       },
@@ -2467,7 +2467,7 @@ export const metricFixtures: Metric[] = [
           route: '/typescript/',
           status_code: 200,
           telemetry_id: 'unknown',
-          serviceId: 'composer'
+          applicationId: 'composer'
         },
         value: 0
       },
@@ -2478,7 +2478,7 @@ export const metricFixtures: Metric[] = [
           route: '/typescript/',
           status_code: 200,
           telemetry_id: 'unknown',
-          serviceId: 'composer'
+          applicationId: 'composer'
         },
         value: 0
       },
@@ -2489,7 +2489,7 @@ export const metricFixtures: Metric[] = [
           route: '/typescript/',
           status_code: 200,
           telemetry_id: 'unknown',
-          serviceId: 'composer'
+          applicationId: 'composer'
         },
         value: 0
       },
@@ -2500,7 +2500,7 @@ export const metricFixtures: Metric[] = [
           route: '/typescript/',
           status_code: 200,
           telemetry_id: 'unknown',
-          serviceId: 'composer'
+          applicationId: 'composer'
         },
         value: 0
       },
@@ -2511,7 +2511,7 @@ export const metricFixtures: Metric[] = [
           route: '/typescript/',
           status_code: 200,
           telemetry_id: 'unknown',
-          serviceId: 'composer'
+          applicationId: 'composer'
         },
         value: 0
       },
@@ -2522,7 +2522,7 @@ export const metricFixtures: Metric[] = [
           route: '/typescript/',
           status_code: 200,
           telemetry_id: 'unknown',
-          serviceId: 'composer'
+          applicationId: 'composer'
         },
         value: 0
       },
@@ -2533,7 +2533,7 @@ export const metricFixtures: Metric[] = [
           route: '/typescript/',
           status_code: 200,
           telemetry_id: 'unknown',
-          serviceId: 'composer'
+          applicationId: 'composer'
         },
         value: 0
       },
@@ -2544,7 +2544,7 @@ export const metricFixtures: Metric[] = [
           route: '/typescript/',
           status_code: 200,
           telemetry_id: 'unknown',
-          serviceId: 'composer'
+          applicationId: 'composer'
         },
         value: 0
       },
@@ -2555,7 +2555,7 @@ export const metricFixtures: Metric[] = [
           route: '/typescript',
           status_code: 200,
           telemetry_id: 'unknown',
-          serviceId: 'composer'
+          applicationId: 'composer'
         },
         value: 0
       },
@@ -2566,7 +2566,7 @@ export const metricFixtures: Metric[] = [
           route: '/typescript',
           status_code: 200,
           telemetry_id: 'unknown',
-          serviceId: 'composer'
+          applicationId: 'composer'
         },
         value: 0
       },
@@ -2577,7 +2577,7 @@ export const metricFixtures: Metric[] = [
           route: '/typescript',
           status_code: 200,
           telemetry_id: 'unknown',
-          serviceId: 'composer'
+          applicationId: 'composer'
         },
         value: 0
       },
@@ -2588,7 +2588,7 @@ export const metricFixtures: Metric[] = [
           route: '/typescript',
           status_code: 200,
           telemetry_id: 'unknown',
-          serviceId: 'composer'
+          applicationId: 'composer'
         },
         value: 0
       },
@@ -2599,7 +2599,7 @@ export const metricFixtures: Metric[] = [
           route: '/typescript',
           status_code: 200,
           telemetry_id: 'unknown',
-          serviceId: 'composer'
+          applicationId: 'composer'
         },
         value: 0
       },
@@ -2610,7 +2610,7 @@ export const metricFixtures: Metric[] = [
           route: '/typescript',
           status_code: 200,
           telemetry_id: 'unknown',
-          serviceId: 'composer'
+          applicationId: 'composer'
         },
         value: 0
       },
@@ -2621,7 +2621,7 @@ export const metricFixtures: Metric[] = [
           route: '/typescript',
           status_code: 200,
           telemetry_id: 'unknown',
-          serviceId: 'composer'
+          applicationId: 'composer'
         },
         value: 0
       },
@@ -2632,7 +2632,7 @@ export const metricFixtures: Metric[] = [
           route: '/typescript',
           status_code: 200,
           telemetry_id: 'unknown',
-          serviceId: 'composer'
+          applicationId: 'composer'
         },
         value: 0
       },
@@ -2643,7 +2643,7 @@ export const metricFixtures: Metric[] = [
           route: '/typescript',
           status_code: 200,
           telemetry_id: 'unknown',
-          serviceId: 'composer'
+          applicationId: 'composer'
         },
         value: 0
       },
@@ -2654,7 +2654,7 @@ export const metricFixtures: Metric[] = [
           route: '/ts2/',
           status_code: 200,
           telemetry_id: 'unknown',
-          serviceId: 'composer'
+          applicationId: 'composer'
         },
         value: 0
       },
@@ -2665,7 +2665,7 @@ export const metricFixtures: Metric[] = [
           route: '/ts2/',
           status_code: 200,
           telemetry_id: 'unknown',
-          serviceId: 'composer'
+          applicationId: 'composer'
         },
         value: 0
       },
@@ -2676,7 +2676,7 @@ export const metricFixtures: Metric[] = [
           route: '/ts2/',
           status_code: 200,
           telemetry_id: 'unknown',
-          serviceId: 'composer'
+          applicationId: 'composer'
         },
         value: 0
       },
@@ -2687,7 +2687,7 @@ export const metricFixtures: Metric[] = [
           route: '/ts2/',
           status_code: 200,
           telemetry_id: 'unknown',
-          serviceId: 'composer'
+          applicationId: 'composer'
         },
         value: 0
       },
@@ -2698,7 +2698,7 @@ export const metricFixtures: Metric[] = [
           route: '/ts2/',
           status_code: 200,
           telemetry_id: 'unknown',
-          serviceId: 'composer'
+          applicationId: 'composer'
         },
         value: 0
       },
@@ -2709,7 +2709,7 @@ export const metricFixtures: Metric[] = [
           route: '/ts2/',
           status_code: 200,
           telemetry_id: 'unknown',
-          serviceId: 'composer'
+          applicationId: 'composer'
         },
         value: 0
       },
@@ -2720,7 +2720,7 @@ export const metricFixtures: Metric[] = [
           route: '/ts2/',
           status_code: 200,
           telemetry_id: 'unknown',
-          serviceId: 'composer'
+          applicationId: 'composer'
         },
         value: 0
       },
@@ -2731,7 +2731,7 @@ export const metricFixtures: Metric[] = [
           route: '/ts2/',
           status_code: 200,
           telemetry_id: 'unknown',
-          serviceId: 'composer'
+          applicationId: 'composer'
         },
         value: 0
       },
@@ -2742,7 +2742,7 @@ export const metricFixtures: Metric[] = [
           route: '/ts2/',
           status_code: 200,
           telemetry_id: 'unknown',
-          serviceId: 'composer'
+          applicationId: 'composer'
         },
         value: 0
       },
@@ -2753,7 +2753,7 @@ export const metricFixtures: Metric[] = [
           route: '/ts2',
           status_code: 200,
           telemetry_id: 'unknown',
-          serviceId: 'composer'
+          applicationId: 'composer'
         },
         value: 0
       },
@@ -2764,7 +2764,7 @@ export const metricFixtures: Metric[] = [
           route: '/ts2',
           status_code: 200,
           telemetry_id: 'unknown',
-          serviceId: 'composer'
+          applicationId: 'composer'
         },
         value: 0
       },
@@ -2775,7 +2775,7 @@ export const metricFixtures: Metric[] = [
           route: '/ts2',
           status_code: 200,
           telemetry_id: 'unknown',
-          serviceId: 'composer'
+          applicationId: 'composer'
         },
         value: 0
       },
@@ -2786,7 +2786,7 @@ export const metricFixtures: Metric[] = [
           route: '/ts2',
           status_code: 200,
           telemetry_id: 'unknown',
-          serviceId: 'composer'
+          applicationId: 'composer'
         },
         value: 0
       },
@@ -2797,7 +2797,7 @@ export const metricFixtures: Metric[] = [
           route: '/ts2',
           status_code: 200,
           telemetry_id: 'unknown',
-          serviceId: 'composer'
+          applicationId: 'composer'
         },
         value: 0
       },
@@ -2808,7 +2808,7 @@ export const metricFixtures: Metric[] = [
           route: '/ts2',
           status_code: 200,
           telemetry_id: 'unknown',
-          serviceId: 'composer'
+          applicationId: 'composer'
         },
         value: 0
       },
@@ -2819,7 +2819,7 @@ export const metricFixtures: Metric[] = [
           route: '/ts2',
           status_code: 200,
           telemetry_id: 'unknown',
-          serviceId: 'composer'
+          applicationId: 'composer'
         },
         value: 0
       },
@@ -2830,7 +2830,7 @@ export const metricFixtures: Metric[] = [
           route: '/ts2',
           status_code: 200,
           telemetry_id: 'unknown',
-          serviceId: 'composer'
+          applicationId: 'composer'
         },
         value: 0
       },
@@ -2841,7 +2841,7 @@ export const metricFixtures: Metric[] = [
           route: '/ts2',
           status_code: 200,
           telemetry_id: 'unknown',
-          serviceId: 'composer'
+          applicationId: 'composer'
         },
         value: 0
       }
@@ -2863,7 +2863,7 @@ export const metricFixtures: Metric[] = [
       {
         value: 0.9675760000000001,
         labels: {
-          serviceId: 'fastify2'
+          applicationId: 'fastify2'
         }
       }
     ],
@@ -2877,7 +2877,7 @@ export const metricFixtures: Metric[] = [
       {
         value: 0.232756,
         labels: {
-          serviceId: 'fastify2'
+          applicationId: 'fastify2'
         }
       }
     ],
@@ -2891,7 +2891,7 @@ export const metricFixtures: Metric[] = [
       {
         value: 1.2003320000000002,
         labels: {
-          serviceId: 'fastify2'
+          applicationId: 'fastify2'
         }
       }
     ],
@@ -2905,7 +2905,7 @@ export const metricFixtures: Metric[] = [
       {
         value: 1743244689,
         labels: {
-          serviceId: 'fastify2'
+          applicationId: 'fastify2'
         }
       }
     ],
@@ -2919,7 +2919,7 @@ export const metricFixtures: Metric[] = [
       {
         value: 543850496,
         labels: {
-          serviceId: 'fastify2'
+          applicationId: 'fastify2'
         }
       }
     ],
@@ -2933,7 +2933,7 @@ export const metricFixtures: Metric[] = [
       {
         value: 0.000665667,
         labels: {
-          serviceId: 'fastify2'
+          applicationId: 'fastify2'
         }
       }
     ],
@@ -2947,7 +2947,7 @@ export const metricFixtures: Metric[] = [
       {
         value: 0.010354688,
         labels: {
-          serviceId: 'fastify2'
+          applicationId: 'fastify2'
         }
       }
     ],
@@ -2961,7 +2961,7 @@ export const metricFixtures: Metric[] = [
       {
         value: 0.012263423,
         labels: {
-          serviceId: 'fastify2'
+          applicationId: 'fastify2'
         }
       }
     ],
@@ -2975,7 +2975,7 @@ export const metricFixtures: Metric[] = [
       {
         value: 0.010995239384615383,
         labels: {
-          serviceId: 'fastify2'
+          applicationId: 'fastify2'
         }
       }
     ],
@@ -2989,7 +2989,7 @@ export const metricFixtures: Metric[] = [
       {
         value: 0.00041283109400437856,
         labels: {
-          serviceId: 'fastify2'
+          applicationId: 'fastify2'
         }
       }
     ],
@@ -3003,7 +3003,7 @@ export const metricFixtures: Metric[] = [
       {
         value: 0.010985471,
         labels: {
-          serviceId: 'fastify2'
+          applicationId: 'fastify2'
         }
       }
     ],
@@ -3017,7 +3017,7 @@ export const metricFixtures: Metric[] = [
       {
         value: 0.011075583,
         labels: {
-          serviceId: 'fastify2'
+          applicationId: 'fastify2'
         }
       }
     ],
@@ -3031,7 +3031,7 @@ export const metricFixtures: Metric[] = [
       {
         value: 0.012263423,
         labels: {
-          serviceId: 'fastify2'
+          applicationId: 'fastify2'
         }
       }
     ],
@@ -3046,21 +3046,21 @@ export const metricFixtures: Metric[] = [
         value: 11,
         labels: {
           type: 'MessagePort',
-          serviceId: 'fastify2'
+          applicationId: 'fastify2'
         }
       },
       {
         value: 2,
         labels: {
           type: 'TCPServerWrap',
-          serviceId: 'fastify2'
+          applicationId: 'fastify2'
         }
       },
       {
         value: 1,
         labels: {
           type: 'Immediate',
-          serviceId: 'fastify2'
+          applicationId: 'fastify2'
         }
       }
     ],
@@ -3074,7 +3074,7 @@ export const metricFixtures: Metric[] = [
       {
         value: 14,
         labels: {
-          serviceId: 'fastify2'
+          applicationId: 'fastify2'
         }
       }
     ],
@@ -3089,14 +3089,14 @@ export const metricFixtures: Metric[] = [
         value: 11,
         labels: {
           type: 'MessagePort',
-          serviceId: 'fastify2'
+          applicationId: 'fastify2'
         }
       },
       {
         value: 2,
         labels: {
           type: 'Server',
-          serviceId: 'fastify2'
+          applicationId: 'fastify2'
         }
       }
     ],
@@ -3110,7 +3110,7 @@ export const metricFixtures: Metric[] = [
       {
         value: 13,
         labels: {
-          serviceId: 'fastify2'
+          applicationId: 'fastify2'
         }
       }
     ],
@@ -3131,7 +3131,7 @@ export const metricFixtures: Metric[] = [
       {
         value: 0,
         labels: {
-          serviceId: 'fastify2'
+          applicationId: 'fastify2'
         }
       }
     ],
@@ -3145,7 +3145,7 @@ export const metricFixtures: Metric[] = [
       {
         value: 46039040,
         labels: {
-          serviceId: 'fastify2'
+          applicationId: 'fastify2'
         }
       }
     ],
@@ -3159,7 +3159,7 @@ export const metricFixtures: Metric[] = [
       {
         value: 39108000,
         labels: {
-          serviceId: 'fastify2'
+          applicationId: 'fastify2'
         }
       }
     ],
@@ -3173,7 +3173,7 @@ export const metricFixtures: Metric[] = [
       {
         value: 5430633,
         labels: {
-          serviceId: 'fastify2'
+          applicationId: 'fastify2'
         }
       }
     ],
@@ -3188,77 +3188,77 @@ export const metricFixtures: Metric[] = [
         value: 0,
         labels: {
           space: 'read_only',
-          serviceId: 'fastify2'
+          applicationId: 'fastify2'
         }
       },
       {
         value: 4194304,
         labels: {
           space: 'new',
-          serviceId: 'fastify2'
+          applicationId: 'fastify2'
         }
       },
       {
         value: 31686656,
         labels: {
           space: 'old',
-          serviceId: 'fastify2'
+          applicationId: 'fastify2'
         }
       },
       {
         value: 2359296,
         labels: {
           space: 'code',
-          serviceId: 'fastify2'
+          applicationId: 'fastify2'
         }
       },
       {
         value: 0,
         labels: {
           space: 'shared',
-          serviceId: 'fastify2'
+          applicationId: 'fastify2'
         }
       },
       {
         value: 4521984,
         labels: {
           space: 'trusted',
-          serviceId: 'fastify2'
+          applicationId: 'fastify2'
         }
       },
       {
         value: 0,
         labels: {
           space: 'new_large_object',
-          serviceId: 'fastify2'
+          applicationId: 'fastify2'
         }
       },
       {
         value: 3063808,
         labels: {
           space: 'large_object',
-          serviceId: 'fastify2'
+          applicationId: 'fastify2'
         }
       },
       {
         value: 212992,
         labels: {
           space: 'code_large_object',
-          serviceId: 'fastify2'
+          applicationId: 'fastify2'
         }
       },
       {
         value: 0,
         labels: {
           space: 'shared_large_object',
-          serviceId: 'fastify2'
+          applicationId: 'fastify2'
         }
       },
       {
         value: 0,
         labels: {
           space: 'trusted_large_object',
-          serviceId: 'fastify2'
+          applicationId: 'fastify2'
         }
       }
     ],
@@ -3273,77 +3273,77 @@ export const metricFixtures: Metric[] = [
         value: 0,
         labels: {
           space: 'read_only',
-          serviceId: 'fastify2'
+          applicationId: 'fastify2'
         }
       },
       {
         value: 429064,
         labels: {
           space: 'new',
-          serviceId: 'fastify2'
+          applicationId: 'fastify2'
         }
       },
       {
         value: 29906288,
         labels: {
           space: 'old',
-          serviceId: 'fastify2'
+          applicationId: 'fastify2'
         }
       },
       {
         value: 1740128,
         labels: {
           space: 'code',
-          serviceId: 'fastify2'
+          applicationId: 'fastify2'
         }
       },
       {
         value: 0,
         labels: {
           space: 'shared',
-          serviceId: 'fastify2'
+          applicationId: 'fastify2'
         }
       },
       {
         value: 3997920,
         labels: {
           space: 'trusted',
-          serviceId: 'fastify2'
+          applicationId: 'fastify2'
         }
       },
       {
         value: 0,
         labels: {
           space: 'new_large_object',
-          serviceId: 'fastify2'
+          applicationId: 'fastify2'
         }
       },
       {
         value: 2881432,
         labels: {
           space: 'large_object',
-          serviceId: 'fastify2'
+          applicationId: 'fastify2'
         }
       },
       {
         value: 155328,
         labels: {
           space: 'code_large_object',
-          serviceId: 'fastify2'
+          applicationId: 'fastify2'
         }
       },
       {
         value: 0,
         labels: {
           space: 'shared_large_object',
-          serviceId: 'fastify2'
+          applicationId: 'fastify2'
         }
       },
       {
         value: 0,
         labels: {
           space: 'trusted_large_object',
-          serviceId: 'fastify2'
+          applicationId: 'fastify2'
         }
       }
     ],
@@ -3358,77 +3358,77 @@ export const metricFixtures: Metric[] = [
         value: 0,
         labels: {
           space: 'read_only',
-          serviceId: 'fastify2'
+          applicationId: 'fastify2'
         }
       },
       {
         value: 1632760,
         labels: {
           space: 'new',
-          serviceId: 'fastify2'
+          applicationId: 'fastify2'
         }
       },
       {
         value: 1165536,
         labels: {
           space: 'old',
-          serviceId: 'fastify2'
+          applicationId: 'fastify2'
         }
       },
       {
         value: 176800,
         labels: {
           space: 'code',
-          serviceId: 'fastify2'
+          applicationId: 'fastify2'
         }
       },
       {
         value: 0,
         labels: {
           space: 'shared',
-          serviceId: 'fastify2'
+          applicationId: 'fastify2'
         }
       },
       {
         value: 444120,
         labels: {
           space: 'trusted',
-          serviceId: 'fastify2'
+          applicationId: 'fastify2'
         }
       },
       {
         value: 2097152,
         labels: {
           space: 'new_large_object',
-          serviceId: 'fastify2'
+          applicationId: 'fastify2'
         }
       },
       {
         value: 0,
         labels: {
           space: 'large_object',
-          serviceId: 'fastify2'
+          applicationId: 'fastify2'
         }
       },
       {
         value: 0,
         labels: {
           space: 'code_large_object',
-          serviceId: 'fastify2'
+          applicationId: 'fastify2'
         }
       },
       {
         value: 0,
         labels: {
           space: 'shared_large_object',
-          serviceId: 'fastify2'
+          applicationId: 'fastify2'
         }
       },
       {
         value: 0,
         labels: {
           space: 'trusted_large_object',
-          serviceId: 'fastify2'
+          applicationId: 'fastify2'
         }
       }
     ],
@@ -3446,7 +3446,7 @@ export const metricFixtures: Metric[] = [
           major: 22,
           minor: 12,
           patch: 0,
-          serviceId: 'fastify2'
+          applicationId: 'fastify2'
         }
       }
     ],
@@ -3464,7 +3464,7 @@ export const metricFixtures: Metric[] = [
         labels: {
           le: 0.001,
           kind: 'incremental',
-          serviceId: 'fastify2'
+          applicationId: 'fastify2'
         }
       },
       {
@@ -3474,7 +3474,7 @@ export const metricFixtures: Metric[] = [
         labels: {
           le: 0.01,
           kind: 'incremental',
-          serviceId: 'fastify2'
+          applicationId: 'fastify2'
         }
       },
       {
@@ -3484,7 +3484,7 @@ export const metricFixtures: Metric[] = [
         labels: {
           le: 0.1,
           kind: 'incremental',
-          serviceId: 'fastify2'
+          applicationId: 'fastify2'
         }
       },
       {
@@ -3494,7 +3494,7 @@ export const metricFixtures: Metric[] = [
         labels: {
           le: 1,
           kind: 'incremental',
-          serviceId: 'fastify2'
+          applicationId: 'fastify2'
         }
       },
       {
@@ -3504,7 +3504,7 @@ export const metricFixtures: Metric[] = [
         labels: {
           le: 2,
           kind: 'incremental',
-          serviceId: 'fastify2'
+          applicationId: 'fastify2'
         }
       },
       {
@@ -3514,7 +3514,7 @@ export const metricFixtures: Metric[] = [
         labels: {
           le: 5,
           kind: 'incremental',
-          serviceId: 'fastify2'
+          applicationId: 'fastify2'
         }
       },
       {
@@ -3524,7 +3524,7 @@ export const metricFixtures: Metric[] = [
         labels: {
           le: '+Inf',
           kind: 'incremental',
-          serviceId: 'fastify2'
+          applicationId: 'fastify2'
         }
       },
       {
@@ -3532,7 +3532,7 @@ export const metricFixtures: Metric[] = [
         metricName: 'nodejs_gc_duration_seconds_sum',
         labels: {
           kind: 'incremental',
-          serviceId: 'fastify2'
+          applicationId: 'fastify2'
         }
       },
       {
@@ -3540,7 +3540,7 @@ export const metricFixtures: Metric[] = [
         metricName: 'nodejs_gc_duration_seconds_count',
         labels: {
           kind: 'incremental',
-          serviceId: 'fastify2'
+          applicationId: 'fastify2'
         }
       },
       {
@@ -3550,7 +3550,7 @@ export const metricFixtures: Metric[] = [
         labels: {
           le: 0.001,
           kind: 'major',
-          serviceId: 'fastify2'
+          applicationId: 'fastify2'
         }
       },
       {
@@ -3560,7 +3560,7 @@ export const metricFixtures: Metric[] = [
         labels: {
           le: 0.01,
           kind: 'major',
-          serviceId: 'fastify2'
+          applicationId: 'fastify2'
         }
       },
       {
@@ -3570,7 +3570,7 @@ export const metricFixtures: Metric[] = [
         labels: {
           le: 0.1,
           kind: 'major',
-          serviceId: 'fastify2'
+          applicationId: 'fastify2'
         }
       },
       {
@@ -3580,7 +3580,7 @@ export const metricFixtures: Metric[] = [
         labels: {
           le: 1,
           kind: 'major',
-          serviceId: 'fastify2'
+          applicationId: 'fastify2'
         }
       },
       {
@@ -3590,7 +3590,7 @@ export const metricFixtures: Metric[] = [
         labels: {
           le: 2,
           kind: 'major',
-          serviceId: 'fastify2'
+          applicationId: 'fastify2'
         }
       },
       {
@@ -3600,7 +3600,7 @@ export const metricFixtures: Metric[] = [
         labels: {
           le: 5,
           kind: 'major',
-          serviceId: 'fastify2'
+          applicationId: 'fastify2'
         }
       },
       {
@@ -3610,7 +3610,7 @@ export const metricFixtures: Metric[] = [
         labels: {
           le: '+Inf',
           kind: 'major',
-          serviceId: 'fastify2'
+          applicationId: 'fastify2'
         }
       },
       {
@@ -3618,7 +3618,7 @@ export const metricFixtures: Metric[] = [
         metricName: 'nodejs_gc_duration_seconds_sum',
         labels: {
           kind: 'major',
-          serviceId: 'fastify2'
+          applicationId: 'fastify2'
         }
       },
       {
@@ -3626,7 +3626,7 @@ export const metricFixtures: Metric[] = [
         metricName: 'nodejs_gc_duration_seconds_count',
         labels: {
           kind: 'major',
-          serviceId: 'fastify2'
+          applicationId: 'fastify2'
         }
       },
       {
@@ -3636,7 +3636,7 @@ export const metricFixtures: Metric[] = [
         labels: {
           le: 0.001,
           kind: 'minor',
-          serviceId: 'fastify2'
+          applicationId: 'fastify2'
         }
       },
       {
@@ -3646,7 +3646,7 @@ export const metricFixtures: Metric[] = [
         labels: {
           le: 0.01,
           kind: 'minor',
-          serviceId: 'fastify2'
+          applicationId: 'fastify2'
         }
       },
       {
@@ -3656,7 +3656,7 @@ export const metricFixtures: Metric[] = [
         labels: {
           le: 0.1,
           kind: 'minor',
-          serviceId: 'fastify2'
+          applicationId: 'fastify2'
         }
       },
       {
@@ -3666,7 +3666,7 @@ export const metricFixtures: Metric[] = [
         labels: {
           le: 1,
           kind: 'minor',
-          serviceId: 'fastify2'
+          applicationId: 'fastify2'
         }
       },
       {
@@ -3676,7 +3676,7 @@ export const metricFixtures: Metric[] = [
         labels: {
           le: 2,
           kind: 'minor',
-          serviceId: 'fastify2'
+          applicationId: 'fastify2'
         }
       },
       {
@@ -3686,7 +3686,7 @@ export const metricFixtures: Metric[] = [
         labels: {
           le: 5,
           kind: 'minor',
-          serviceId: 'fastify2'
+          applicationId: 'fastify2'
         }
       },
       {
@@ -3696,7 +3696,7 @@ export const metricFixtures: Metric[] = [
         labels: {
           le: '+Inf',
           kind: 'minor',
-          serviceId: 'fastify2'
+          applicationId: 'fastify2'
         }
       },
       {
@@ -3704,7 +3704,7 @@ export const metricFixtures: Metric[] = [
         metricName: 'nodejs_gc_duration_seconds_sum',
         labels: {
           kind: 'minor',
-          serviceId: 'fastify2'
+          applicationId: 'fastify2'
         }
       },
       {
@@ -3712,7 +3712,7 @@ export const metricFixtures: Metric[] = [
         metricName: 'nodejs_gc_duration_seconds_count',
         labels: {
           kind: 'minor',
-          serviceId: 'fastify2'
+          applicationId: 'fastify2'
         }
       }
     ],
@@ -3726,7 +3726,7 @@ export const metricFixtures: Metric[] = [
       {
         value: 0.01589029779397555,
         labels: {
-          serviceId: 'fastify2'
+          applicationId: 'fastify2'
         }
       }
     ],
@@ -3740,7 +3740,7 @@ export const metricFixtures: Metric[] = [
       {
         value: 53.54,
         labels: {
-          serviceId: 'fastify2'
+          applicationId: 'fastify2'
         }
       }
     ],
@@ -3754,7 +3754,7 @@ export const metricFixtures: Metric[] = [
       {
         value: 0.033231000000000004,
         labels: {
-          serviceId: 'fastify2'
+          applicationId: 'fastify2'
         }
       }
     ],
@@ -3768,7 +3768,7 @@ export const metricFixtures: Metric[] = [
       {
         value: 0.013029,
         labels: {
-          serviceId: 'fastify2'
+          applicationId: 'fastify2'
         }
       }
     ],
@@ -3782,7 +3782,7 @@ export const metricFixtures: Metric[] = [
       {
         value: 0.22112781128049053,
         labels: {
-          serviceId: 'fastify2'
+          applicationId: 'fastify2'
         }
       }
     ],
@@ -3796,7 +3796,7 @@ export const metricFixtures: Metric[] = [
       {
         value: 0.04626,
         labels: {
-          serviceId: 'fastify2'
+          applicationId: 'fastify2'
         }
       }
     ],
@@ -3838,7 +3838,7 @@ export const metricFixtures: Metric[] = [
       {
         value: 0,
         labels: {
-          serviceId: 'fastify2'
+          applicationId: 'fastify2'
         }
       }
     ],
@@ -3852,7 +3852,7 @@ export const metricFixtures: Metric[] = [
       {
         value: 0,
         labels: {
-          serviceId: 'fastify2'
+          applicationId: 'fastify2'
         }
       }
     ],
@@ -3866,7 +3866,7 @@ export const metricFixtures: Metric[] = [
       {
         value: 0.923535,
         labels: {
-          serviceId: 'fastify2',
+          applicationId: 'fastify2',
           workerId: 1
         }
       }
@@ -3881,7 +3881,7 @@ export const metricFixtures: Metric[] = [
       {
         value: 0.225285,
         labels: {
-          serviceId: 'fastify2',
+          applicationId: 'fastify2',
           workerId: 1
         }
       }
@@ -3896,7 +3896,7 @@ export const metricFixtures: Metric[] = [
       {
         value: 1.1488200000000002,
         labels: {
-          serviceId: 'fastify2',
+          applicationId: 'fastify2',
           workerId: 1
         }
       }
@@ -3911,7 +3911,7 @@ export const metricFixtures: Metric[] = [
       {
         value: 1743244689,
         labels: {
-          serviceId: 'fastify2',
+          applicationId: 'fastify2',
           workerId: 1
         }
       }
@@ -3926,7 +3926,7 @@ export const metricFixtures: Metric[] = [
       {
         value: 544079872,
         labels: {
-          serviceId: 'fastify2',
+          applicationId: 'fastify2',
           workerId: 1
         }
       }
@@ -3941,7 +3941,7 @@ export const metricFixtures: Metric[] = [
       {
         value: 0.000604167,
         labels: {
-          serviceId: 'fastify2',
+          applicationId: 'fastify2',
           workerId: 1
         }
       }
@@ -3956,7 +3956,7 @@ export const metricFixtures: Metric[] = [
       {
         value: 0.010330112,
         labels: {
-          serviceId: 'fastify2',
+          applicationId: 'fastify2',
           workerId: 1
         }
       }
@@ -3971,7 +3971,7 @@ export const metricFixtures: Metric[] = [
       {
         value: 0.012337151,
         labels: {
-          serviceId: 'fastify2',
+          applicationId: 'fastify2',
           workerId: 1
         }
       }
@@ -3986,7 +3986,7 @@ export const metricFixtures: Metric[] = [
       {
         value: 0.010960896,
         labels: {
-          serviceId: 'fastify2',
+          applicationId: 'fastify2',
           workerId: 1
         }
       }
@@ -4001,7 +4001,7 @@ export const metricFixtures: Metric[] = [
       {
         value: 0.00043276882477632985,
         labels: {
-          serviceId: 'fastify2',
+          applicationId: 'fastify2',
           workerId: 1
         }
       }
@@ -4016,7 +4016,7 @@ export const metricFixtures: Metric[] = [
       {
         value: 0.010960895,
         labels: {
-          serviceId: 'fastify2',
+          applicationId: 'fastify2',
           workerId: 1
         }
       }
@@ -4031,7 +4031,7 @@ export const metricFixtures: Metric[] = [
       {
         value: 0.011067391,
         labels: {
-          serviceId: 'fastify2',
+          applicationId: 'fastify2',
           workerId: 1
         }
       }
@@ -4046,7 +4046,7 @@ export const metricFixtures: Metric[] = [
       {
         value: 0.012337151,
         labels: {
-          serviceId: 'fastify2',
+          applicationId: 'fastify2',
           workerId: 1
         }
       }
@@ -4062,7 +4062,7 @@ export const metricFixtures: Metric[] = [
         value: 11,
         labels: {
           type: 'MessagePort',
-          serviceId: 'fastify2',
+          applicationId: 'fastify2',
           workerId: 1
         }
       },
@@ -4070,7 +4070,7 @@ export const metricFixtures: Metric[] = [
         value: 2,
         labels: {
           type: 'TCPServerWrap',
-          serviceId: 'fastify2',
+          applicationId: 'fastify2',
           workerId: 1
         }
       },
@@ -4078,7 +4078,7 @@ export const metricFixtures: Metric[] = [
         value: 1,
         labels: {
           type: 'Immediate',
-          serviceId: 'fastify2',
+          applicationId: 'fastify2',
           workerId: 1
         }
       }
@@ -4093,7 +4093,7 @@ export const metricFixtures: Metric[] = [
       {
         value: 14,
         labels: {
-          serviceId: 'fastify2',
+          applicationId: 'fastify2',
           workerId: 1
         }
       }
@@ -4109,7 +4109,7 @@ export const metricFixtures: Metric[] = [
         value: 11,
         labels: {
           type: 'MessagePort',
-          serviceId: 'fastify2',
+          applicationId: 'fastify2',
           workerId: 1
         }
       },
@@ -4117,7 +4117,7 @@ export const metricFixtures: Metric[] = [
         value: 2,
         labels: {
           type: 'Server',
-          serviceId: 'fastify2',
+          applicationId: 'fastify2',
           workerId: 1
         }
       }
@@ -4132,7 +4132,7 @@ export const metricFixtures: Metric[] = [
       {
         value: 13,
         labels: {
-          serviceId: 'fastify2',
+          applicationId: 'fastify2',
           workerId: 1
         }
       }
@@ -4154,7 +4154,7 @@ export const metricFixtures: Metric[] = [
       {
         value: 0,
         labels: {
-          serviceId: 'fastify2',
+          applicationId: 'fastify2',
           workerId: 1
         }
       }
@@ -4169,7 +4169,7 @@ export const metricFixtures: Metric[] = [
       {
         value: 79331328,
         labels: {
-          serviceId: 'fastify2',
+          applicationId: 'fastify2',
           workerId: 1
         }
       }
@@ -4184,7 +4184,7 @@ export const metricFixtures: Metric[] = [
       {
         value: 53868048,
         labels: {
-          serviceId: 'fastify2',
+          applicationId: 'fastify2',
           workerId: 1
         }
       }
@@ -4199,7 +4199,7 @@ export const metricFixtures: Metric[] = [
       {
         value: 5442277,
         labels: {
-          serviceId: 'fastify2',
+          applicationId: 'fastify2',
           workerId: 1
         }
       }
@@ -4215,7 +4215,7 @@ export const metricFixtures: Metric[] = [
         value: 0,
         labels: {
           space: 'read_only',
-          serviceId: 'fastify2',
+          applicationId: 'fastify2',
           workerId: 1
         }
       },
@@ -4223,7 +4223,7 @@ export const metricFixtures: Metric[] = [
         value: 33554432,
         labels: {
           space: 'new',
-          serviceId: 'fastify2',
+          applicationId: 'fastify2',
           workerId: 1
         }
       },
@@ -4231,7 +4231,7 @@ export const metricFixtures: Metric[] = [
         value: 35356672,
         labels: {
           space: 'old',
-          serviceId: 'fastify2',
+          applicationId: 'fastify2',
           workerId: 1
         }
       },
@@ -4239,7 +4239,7 @@ export const metricFixtures: Metric[] = [
         value: 2621440,
         labels: {
           space: 'code',
-          serviceId: 'fastify2',
+          applicationId: 'fastify2',
           workerId: 1
         }
       },
@@ -4247,7 +4247,7 @@ export const metricFixtures: Metric[] = [
         value: 0,
         labels: {
           space: 'shared',
-          serviceId: 'fastify2',
+          applicationId: 'fastify2',
           workerId: 1
         }
       },
@@ -4255,7 +4255,7 @@ export const metricFixtures: Metric[] = [
         value: 4521984,
         labels: {
           space: 'trusted',
-          serviceId: 'fastify2',
+          applicationId: 'fastify2',
           workerId: 1
         }
       },
@@ -4263,7 +4263,7 @@ export const metricFixtures: Metric[] = [
         value: 180224,
         labels: {
           space: 'new_large_object',
-          serviceId: 'fastify2',
+          applicationId: 'fastify2',
           workerId: 1
         }
       },
@@ -4271,7 +4271,7 @@ export const metricFixtures: Metric[] = [
         value: 2883584,
         labels: {
           space: 'large_object',
-          serviceId: 'fastify2',
+          applicationId: 'fastify2',
           workerId: 1
         }
       },
@@ -4279,7 +4279,7 @@ export const metricFixtures: Metric[] = [
         value: 212992,
         labels: {
           space: 'code_large_object',
-          serviceId: 'fastify2',
+          applicationId: 'fastify2',
           workerId: 1
         }
       },
@@ -4287,7 +4287,7 @@ export const metricFixtures: Metric[] = [
         value: 0,
         labels: {
           space: 'shared_large_object',
-          serviceId: 'fastify2',
+          applicationId: 'fastify2',
           workerId: 1
         }
       },
@@ -4295,7 +4295,7 @@ export const metricFixtures: Metric[] = [
         value: 0,
         labels: {
           space: 'trusted_large_object',
-          serviceId: 'fastify2',
+          applicationId: 'fastify2',
           workerId: 1
         }
       }
@@ -4311,7 +4311,7 @@ export const metricFixtures: Metric[] = [
         value: 0,
         labels: {
           space: 'read_only',
-          serviceId: 'fastify2',
+          applicationId: 'fastify2',
           workerId: 1
         }
       },
@@ -4319,7 +4319,7 @@ export const metricFixtures: Metric[] = [
         value: 10600112,
         labels: {
           space: 'new',
-          serviceId: 'fastify2',
+          applicationId: 'fastify2',
           workerId: 1
         }
       },
@@ -4327,7 +4327,7 @@ export const metricFixtures: Metric[] = [
         value: 34096944,
         labels: {
           space: 'old',
-          serviceId: 'fastify2',
+          applicationId: 'fastify2',
           workerId: 1
         }
       },
@@ -4335,7 +4335,7 @@ export const metricFixtures: Metric[] = [
         value: 1926144,
         labels: {
           space: 'code',
-          serviceId: 'fastify2',
+          applicationId: 'fastify2',
           workerId: 1
         }
       },
@@ -4343,7 +4343,7 @@ export const metricFixtures: Metric[] = [
         value: 0,
         labels: {
           space: 'shared',
-          serviceId: 'fastify2',
+          applicationId: 'fastify2',
           workerId: 1
         }
       },
@@ -4351,7 +4351,7 @@ export const metricFixtures: Metric[] = [
         value: 4210248,
         labels: {
           space: 'trusted',
-          serviceId: 'fastify2',
+          applicationId: 'fastify2',
           workerId: 1
         }
       },
@@ -4359,7 +4359,7 @@ export const metricFixtures: Metric[] = [
         value: 162584,
         labels: {
           space: 'new_large_object',
-          serviceId: 'fastify2',
+          applicationId: 'fastify2',
           workerId: 1
         }
       },
@@ -4367,7 +4367,7 @@ export const metricFixtures: Metric[] = [
         value: 2718848,
         labels: {
           space: 'large_object',
-          serviceId: 'fastify2',
+          applicationId: 'fastify2',
           workerId: 1
         }
       },
@@ -4375,7 +4375,7 @@ export const metricFixtures: Metric[] = [
         value: 155328,
         labels: {
           space: 'code_large_object',
-          serviceId: 'fastify2',
+          applicationId: 'fastify2',
           workerId: 1
         }
       },
@@ -4383,7 +4383,7 @@ export const metricFixtures: Metric[] = [
         value: 0,
         labels: {
           space: 'shared_large_object',
-          serviceId: 'fastify2',
+          applicationId: 'fastify2',
           workerId: 1
         }
       },
@@ -4391,7 +4391,7 @@ export const metricFixtures: Metric[] = [
         value: 0,
         labels: {
           space: 'trusted_large_object',
-          serviceId: 'fastify2',
+          applicationId: 'fastify2',
           workerId: 1
         }
       }
@@ -4407,7 +4407,7 @@ export const metricFixtures: Metric[] = [
         value: 0,
         labels: {
           space: 'read_only',
-          serviceId: 'fastify2',
+          applicationId: 'fastify2',
           workerId: 1
         }
       },
@@ -4415,7 +4415,7 @@ export const metricFixtures: Metric[] = [
         value: 5894480,
         labels: {
           space: 'new',
-          serviceId: 'fastify2',
+          applicationId: 'fastify2',
           workerId: 1
         }
       },
@@ -4423,7 +4423,7 @@ export const metricFixtures: Metric[] = [
         value: 621984,
         labels: {
           space: 'old',
-          serviceId: 'fastify2',
+          applicationId: 'fastify2',
           workerId: 1
         }
       },
@@ -4431,7 +4431,7 @@ export const metricFixtures: Metric[] = [
         value: 203776,
         labels: {
           space: 'code',
-          serviceId: 'fastify2',
+          applicationId: 'fastify2',
           workerId: 1
         }
       },
@@ -4439,7 +4439,7 @@ export const metricFixtures: Metric[] = [
         value: 0,
         labels: {
           space: 'shared',
-          serviceId: 'fastify2',
+          applicationId: 'fastify2',
           workerId: 1
         }
       },
@@ -4447,7 +4447,7 @@ export const metricFixtures: Metric[] = [
         value: 231984,
         labels: {
           space: 'trusted',
-          serviceId: 'fastify2',
+          applicationId: 'fastify2',
           workerId: 1
         }
       },
@@ -4455,7 +4455,7 @@ export const metricFixtures: Metric[] = [
         value: 16614632,
         labels: {
           space: 'new_large_object',
-          serviceId: 'fastify2',
+          applicationId: 'fastify2',
           workerId: 1
         }
       },
@@ -4463,7 +4463,7 @@ export const metricFixtures: Metric[] = [
         value: 0,
         labels: {
           space: 'large_object',
-          serviceId: 'fastify2',
+          applicationId: 'fastify2',
           workerId: 1
         }
       },
@@ -4471,7 +4471,7 @@ export const metricFixtures: Metric[] = [
         value: 0,
         labels: {
           space: 'code_large_object',
-          serviceId: 'fastify2',
+          applicationId: 'fastify2',
           workerId: 1
         }
       },
@@ -4479,7 +4479,7 @@ export const metricFixtures: Metric[] = [
         value: 0,
         labels: {
           space: 'shared_large_object',
-          serviceId: 'fastify2',
+          applicationId: 'fastify2',
           workerId: 1
         }
       },
@@ -4487,7 +4487,7 @@ export const metricFixtures: Metric[] = [
         value: 0,
         labels: {
           space: 'trusted_large_object',
-          serviceId: 'fastify2',
+          applicationId: 'fastify2',
           workerId: 1
         }
       }
@@ -4506,7 +4506,7 @@ export const metricFixtures: Metric[] = [
           major: 22,
           minor: 12,
           patch: 0,
-          serviceId: 'fastify2',
+          applicationId: 'fastify2',
           workerId: 1
         }
       }
@@ -4528,7 +4528,7 @@ export const metricFixtures: Metric[] = [
       {
         value: 0.010346294095894928,
         labels: {
-          serviceId: 'fastify2',
+          applicationId: 'fastify2',
           workerId: 1
         }
       }
@@ -4543,7 +4543,7 @@ export const metricFixtures: Metric[] = [
       {
         value: 53.91,
         labels: {
-          serviceId: 'fastify2',
+          applicationId: 'fastify2',
           workerId: 1
         }
       }
@@ -4558,7 +4558,7 @@ export const metricFixtures: Metric[] = [
       {
         value: 0.014038000000000002,
         labels: {
-          serviceId: 'fastify2',
+          applicationId: 'fastify2',
           workerId: 1
         }
       }
@@ -4573,7 +4573,7 @@ export const metricFixtures: Metric[] = [
       {
         value: 0.007868,
         labels: {
-          serviceId: 'fastify2',
+          applicationId: 'fastify2',
           workerId: 1
         }
       }
@@ -4588,7 +4588,7 @@ export const metricFixtures: Metric[] = [
       {
         value: 0.2670280767421637,
         labels: {
-          serviceId: 'fastify2',
+          applicationId: 'fastify2',
           workerId: 1
         }
       }
@@ -4603,7 +4603,7 @@ export const metricFixtures: Metric[] = [
       {
         value: 0.021906000000000002,
         labels: {
-          serviceId: 'fastify2',
+          applicationId: 'fastify2',
           workerId: 1
         }
       }
@@ -4646,7 +4646,7 @@ export const metricFixtures: Metric[] = [
       {
         value: 0,
         labels: {
-          serviceId: 'fastify2',
+          applicationId: 'fastify2',
           workerId: 1
         }
       }
@@ -4661,7 +4661,7 @@ export const metricFixtures: Metric[] = [
       {
         value: 0,
         labels: {
-          serviceId: 'fastify2',
+          applicationId: 'fastify2',
           workerId: 1
         }
       }
@@ -4676,7 +4676,7 @@ export const metricFixtures: Metric[] = [
       {
         value: 0.870777,
         labels: {
-          serviceId: 'fastify3',
+          applicationId: 'fastify3',
           workerId: 0
         }
       }
@@ -4691,7 +4691,7 @@ export const metricFixtures: Metric[] = [
       {
         value: 0.209774,
         labels: {
-          serviceId: 'fastify3',
+          applicationId: 'fastify3',
           workerId: 0
         }
       }
@@ -4706,7 +4706,7 @@ export const metricFixtures: Metric[] = [
       {
         value: 1.0805509999999998,
         labels: {
-          serviceId: 'fastify3',
+          applicationId: 'fastify3',
           workerId: 0
         }
       }
@@ -4721,7 +4721,7 @@ export const metricFixtures: Metric[] = [
       {
         value: 1743244689,
         labels: {
-          serviceId: 'fastify3',
+          applicationId: 'fastify3',
           workerId: 0
         }
       }
@@ -4736,7 +4736,7 @@ export const metricFixtures: Metric[] = [
       {
         value: 544178176,
         labels: {
-          serviceId: 'fastify3',
+          applicationId: 'fastify3',
           workerId: 0
         }
       }
@@ -4751,7 +4751,7 @@ export const metricFixtures: Metric[] = [
       {
         value: 0.00068525,
         labels: {
-          serviceId: 'fastify3',
+          applicationId: 'fastify3',
           workerId: 0
         }
       }
@@ -4766,7 +4766,7 @@ export const metricFixtures: Metric[] = [
       {
         value: 0.010272768,
         labels: {
-          serviceId: 'fastify3',
+          applicationId: 'fastify3',
           workerId: 0
         }
       }
@@ -4781,7 +4781,7 @@ export const metricFixtures: Metric[] = [
       {
         value: 0.011673599,
         labels: {
-          serviceId: 'fastify3',
+          applicationId: 'fastify3',
           workerId: 0
         }
       }
@@ -4796,7 +4796,7 @@ export const metricFixtures: Metric[] = [
       {
         value: 0.010939245714285714,
         labels: {
-          serviceId: 'fastify3',
+          applicationId: 'fastify3',
           workerId: 0
         }
       }
@@ -4811,7 +4811,7 @@ export const metricFixtures: Metric[] = [
       {
         value: 0.00035979387027483794,
         labels: {
-          serviceId: 'fastify3',
+          applicationId: 'fastify3',
           workerId: 0
         }
       }
@@ -4826,7 +4826,7 @@ export const metricFixtures: Metric[] = [
       {
         value: 0.010960895,
         labels: {
-          serviceId: 'fastify3',
+          applicationId: 'fastify3',
           workerId: 0
         }
       }
@@ -4841,7 +4841,7 @@ export const metricFixtures: Metric[] = [
       {
         value: 0.011591679,
         labels: {
-          serviceId: 'fastify3',
+          applicationId: 'fastify3',
           workerId: 0
         }
       }
@@ -4856,7 +4856,7 @@ export const metricFixtures: Metric[] = [
       {
         value: 0.011673599,
         labels: {
-          serviceId: 'fastify3',
+          applicationId: 'fastify3',
           workerId: 0
         }
       }
@@ -4872,7 +4872,7 @@ export const metricFixtures: Metric[] = [
         value: 11,
         labels: {
           type: 'MessagePort',
-          serviceId: 'fastify3',
+          applicationId: 'fastify3',
           workerId: 0
         }
       },
@@ -4880,7 +4880,7 @@ export const metricFixtures: Metric[] = [
         value: 1,
         labels: {
           type: 'Immediate',
-          serviceId: 'fastify3',
+          applicationId: 'fastify3',
           workerId: 0
         }
       }
@@ -4895,7 +4895,7 @@ export const metricFixtures: Metric[] = [
       {
         value: 12,
         labels: {
-          serviceId: 'fastify3',
+          applicationId: 'fastify3',
           workerId: 0
         }
       }
@@ -4911,7 +4911,7 @@ export const metricFixtures: Metric[] = [
         value: 11,
         labels: {
           type: 'MessagePort',
-          serviceId: 'fastify3',
+          applicationId: 'fastify3',
           workerId: 0
         }
       }
@@ -4926,7 +4926,7 @@ export const metricFixtures: Metric[] = [
       {
         value: 11,
         labels: {
-          serviceId: 'fastify3',
+          applicationId: 'fastify3',
           workerId: 0
         }
       }
@@ -4948,7 +4948,7 @@ export const metricFixtures: Metric[] = [
       {
         value: 0,
         labels: {
-          serviceId: 'fastify3',
+          applicationId: 'fastify3',
           workerId: 0
         }
       }
@@ -4963,7 +4963,7 @@ export const metricFixtures: Metric[] = [
       {
         value: 94470144,
         labels: {
-          serviceId: 'fastify3',
+          applicationId: 'fastify3',
           workerId: 0
         }
       }
@@ -4978,7 +4978,7 @@ export const metricFixtures: Metric[] = [
       {
         value: 44846648,
         labels: {
-          serviceId: 'fastify3',
+          applicationId: 'fastify3',
           workerId: 0
         }
       }
@@ -4993,7 +4993,7 @@ export const metricFixtures: Metric[] = [
       {
         value: 4857986,
         labels: {
-          serviceId: 'fastify3',
+          applicationId: 'fastify3',
           workerId: 0
         }
       }
@@ -5009,7 +5009,7 @@ export const metricFixtures: Metric[] = [
         value: 0,
         labels: {
           space: 'read_only',
-          serviceId: 'fastify3',
+          applicationId: 'fastify3',
           workerId: 0
         }
       },
@@ -5017,7 +5017,7 @@ export const metricFixtures: Metric[] = [
         value: 33554432,
         labels: {
           space: 'new',
-          serviceId: 'fastify3',
+          applicationId: 'fastify3',
           workerId: 0
         }
       },
@@ -5025,7 +5025,7 @@ export const metricFixtures: Metric[] = [
         value: 46104576,
         labels: {
           space: 'old',
-          serviceId: 'fastify3',
+          applicationId: 'fastify3',
           workerId: 0
         }
       },
@@ -5033,7 +5033,7 @@ export const metricFixtures: Metric[] = [
         value: 2359296,
         labels: {
           space: 'code',
-          serviceId: 'fastify3',
+          applicationId: 'fastify3',
           workerId: 0
         }
       },
@@ -5041,7 +5041,7 @@ export const metricFixtures: Metric[] = [
         value: 0,
         labels: {
           space: 'shared',
-          serviceId: 'fastify3',
+          applicationId: 'fastify3',
           workerId: 0
         }
       },
@@ -5049,7 +5049,7 @@ export const metricFixtures: Metric[] = [
         value: 4521984,
         labels: {
           space: 'trusted',
-          serviceId: 'fastify3',
+          applicationId: 'fastify3',
           workerId: 0
         }
       },
@@ -5057,7 +5057,7 @@ export const metricFixtures: Metric[] = [
         value: 0,
         labels: {
           space: 'new_large_object',
-          serviceId: 'fastify3',
+          applicationId: 'fastify3',
           workerId: 0
         }
       },
@@ -5065,7 +5065,7 @@ export const metricFixtures: Metric[] = [
         value: 7929856,
         labels: {
           space: 'large_object',
-          serviceId: 'fastify3',
+          applicationId: 'fastify3',
           workerId: 0
         }
       },
@@ -5073,7 +5073,7 @@ export const metricFixtures: Metric[] = [
         value: 0,
         labels: {
           space: 'code_large_object',
-          serviceId: 'fastify3',
+          applicationId: 'fastify3',
           workerId: 0
         }
       },
@@ -5081,7 +5081,7 @@ export const metricFixtures: Metric[] = [
         value: 0,
         labels: {
           space: 'shared_large_object',
-          serviceId: 'fastify3',
+          applicationId: 'fastify3',
           workerId: 0
         }
       },
@@ -5089,7 +5089,7 @@ export const metricFixtures: Metric[] = [
         value: 0,
         labels: {
           space: 'trusted_large_object',
-          serviceId: 'fastify3',
+          applicationId: 'fastify3',
           workerId: 0
         }
       }
@@ -5105,7 +5105,7 @@ export const metricFixtures: Metric[] = [
         value: 0,
         labels: {
           space: 'read_only',
-          serviceId: 'fastify3',
+          applicationId: 'fastify3',
           workerId: 0
         }
       },
@@ -5113,7 +5113,7 @@ export const metricFixtures: Metric[] = [
         value: 3013008,
         labels: {
           space: 'new',
-          serviceId: 'fastify3',
+          applicationId: 'fastify3',
           workerId: 0
         }
       },
@@ -5121,7 +5121,7 @@ export const metricFixtures: Metric[] = [
         value: 28250768,
         labels: {
           space: 'old',
-          serviceId: 'fastify3',
+          applicationId: 'fastify3',
           workerId: 0
         }
       },
@@ -5129,7 +5129,7 @@ export const metricFixtures: Metric[] = [
         value: 1838336,
         labels: {
           space: 'code',
-          serviceId: 'fastify3',
+          applicationId: 'fastify3',
           workerId: 0
         }
       },
@@ -5137,7 +5137,7 @@ export const metricFixtures: Metric[] = [
         value: 0,
         labels: {
           space: 'shared',
-          serviceId: 'fastify3',
+          applicationId: 'fastify3',
           workerId: 0
         }
       },
@@ -5145,7 +5145,7 @@ export const metricFixtures: Metric[] = [
         value: 3950472,
         labels: {
           space: 'trusted',
-          serviceId: 'fastify3',
+          applicationId: 'fastify3',
           workerId: 0
         }
       },
@@ -5153,7 +5153,7 @@ export const metricFixtures: Metric[] = [
         value: 0,
         labels: {
           space: 'new_large_object',
-          serviceId: 'fastify3',
+          applicationId: 'fastify3',
           workerId: 0
         }
       },
@@ -5161,7 +5161,7 @@ export const metricFixtures: Metric[] = [
         value: 7796224,
         labels: {
           space: 'large_object',
-          serviceId: 'fastify3',
+          applicationId: 'fastify3',
           workerId: 0
         }
       },
@@ -5169,7 +5169,7 @@ export const metricFixtures: Metric[] = [
         value: 0,
         labels: {
           space: 'code_large_object',
-          serviceId: 'fastify3',
+          applicationId: 'fastify3',
           workerId: 0
         }
       },
@@ -5177,7 +5177,7 @@ export const metricFixtures: Metric[] = [
         value: 0,
         labels: {
           space: 'shared_large_object',
-          serviceId: 'fastify3',
+          applicationId: 'fastify3',
           workerId: 0
         }
       },
@@ -5185,7 +5185,7 @@ export const metricFixtures: Metric[] = [
         value: 0,
         labels: {
           space: 'trusted_large_object',
-          serviceId: 'fastify3',
+          applicationId: 'fastify3',
           workerId: 0
         }
       }
@@ -5201,7 +5201,7 @@ export const metricFixtures: Metric[] = [
         value: 0,
         labels: {
           space: 'read_only',
-          serviceId: 'fastify3',
+          applicationId: 'fastify3',
           workerId: 0
         }
       },
@@ -5209,7 +5209,7 @@ export const metricFixtures: Metric[] = [
         value: 13481584,
         labels: {
           space: 'new',
-          serviceId: 'fastify3',
+          applicationId: 'fastify3',
           workerId: 0
         }
       },
@@ -5217,7 +5217,7 @@ export const metricFixtures: Metric[] = [
         value: 125352,
         labels: {
           space: 'old',
-          serviceId: 'fastify3',
+          applicationId: 'fastify3',
           workerId: 0
         }
       },
@@ -5225,7 +5225,7 @@ export const metricFixtures: Metric[] = [
         value: 78592,
         labels: {
           space: 'code',
-          serviceId: 'fastify3',
+          applicationId: 'fastify3',
           workerId: 0
         }
       },
@@ -5233,7 +5233,7 @@ export const metricFixtures: Metric[] = [
         value: 0,
         labels: {
           space: 'shared',
-          serviceId: 'fastify3',
+          applicationId: 'fastify3',
           workerId: 0
         }
       },
@@ -5241,7 +5241,7 @@ export const metricFixtures: Metric[] = [
         value: 491912,
         labels: {
           space: 'trusted',
-          serviceId: 'fastify3',
+          applicationId: 'fastify3',
           workerId: 0
         }
       },
@@ -5249,7 +5249,7 @@ export const metricFixtures: Metric[] = [
         value: 16777216,
         labels: {
           space: 'new_large_object',
-          serviceId: 'fastify3',
+          applicationId: 'fastify3',
           workerId: 0
         }
       },
@@ -5257,7 +5257,7 @@ export const metricFixtures: Metric[] = [
         value: 0,
         labels: {
           space: 'large_object',
-          serviceId: 'fastify3',
+          applicationId: 'fastify3',
           workerId: 0
         }
       },
@@ -5265,7 +5265,7 @@ export const metricFixtures: Metric[] = [
         value: 0,
         labels: {
           space: 'code_large_object',
-          serviceId: 'fastify3',
+          applicationId: 'fastify3',
           workerId: 0
         }
       },
@@ -5273,7 +5273,7 @@ export const metricFixtures: Metric[] = [
         value: 0,
         labels: {
           space: 'shared_large_object',
-          serviceId: 'fastify3',
+          applicationId: 'fastify3',
           workerId: 0
         }
       },
@@ -5281,7 +5281,7 @@ export const metricFixtures: Metric[] = [
         value: 0,
         labels: {
           space: 'trusted_large_object',
-          serviceId: 'fastify3',
+          applicationId: 'fastify3',
           workerId: 0
         }
       }
@@ -5300,7 +5300,7 @@ export const metricFixtures: Metric[] = [
           major: 22,
           minor: 12,
           patch: 0,
-          serviceId: 'fastify3',
+          applicationId: 'fastify3',
           workerId: 0
         }
       }
@@ -5319,7 +5319,7 @@ export const metricFixtures: Metric[] = [
         labels: {
           le: 0.001,
           kind: 'minor',
-          serviceId: 'fastify3',
+          applicationId: 'fastify3',
           workerId: 0
         }
       },
@@ -5330,7 +5330,7 @@ export const metricFixtures: Metric[] = [
         labels: {
           le: 0.01,
           kind: 'minor',
-          serviceId: 'fastify3',
+          applicationId: 'fastify3',
           workerId: 0
         }
       },
@@ -5341,7 +5341,7 @@ export const metricFixtures: Metric[] = [
         labels: {
           le: 0.1,
           kind: 'minor',
-          serviceId: 'fastify3',
+          applicationId: 'fastify3',
           workerId: 0
         }
       },
@@ -5352,7 +5352,7 @@ export const metricFixtures: Metric[] = [
         labels: {
           le: 1,
           kind: 'minor',
-          serviceId: 'fastify3',
+          applicationId: 'fastify3',
           workerId: 0
         }
       },
@@ -5363,7 +5363,7 @@ export const metricFixtures: Metric[] = [
         labels: {
           le: 2,
           kind: 'minor',
-          serviceId: 'fastify3',
+          applicationId: 'fastify3',
           workerId: 0
         }
       },
@@ -5374,7 +5374,7 @@ export const metricFixtures: Metric[] = [
         labels: {
           le: 5,
           kind: 'minor',
-          serviceId: 'fastify3',
+          applicationId: 'fastify3',
           workerId: 0
         }
       },
@@ -5385,7 +5385,7 @@ export const metricFixtures: Metric[] = [
         labels: {
           le: '+Inf',
           kind: 'minor',
-          serviceId: 'fastify3',
+          applicationId: 'fastify3',
           workerId: 0
         }
       },
@@ -5394,7 +5394,7 @@ export const metricFixtures: Metric[] = [
         metricName: 'nodejs_gc_duration_seconds_sum',
         labels: {
           kind: 'minor',
-          serviceId: 'fastify3',
+          applicationId: 'fastify3',
           workerId: 0
         }
       },
@@ -5403,7 +5403,7 @@ export const metricFixtures: Metric[] = [
         metricName: 'nodejs_gc_duration_seconds_count',
         labels: {
           kind: 'minor',
-          serviceId: 'fastify3',
+          applicationId: 'fastify3',
           workerId: 0
         }
       },
@@ -5414,7 +5414,7 @@ export const metricFixtures: Metric[] = [
         labels: {
           le: 0.001,
           kind: 'major',
-          serviceId: 'fastify3',
+          applicationId: 'fastify3',
           workerId: 0
         }
       },
@@ -5425,7 +5425,7 @@ export const metricFixtures: Metric[] = [
         labels: {
           le: 0.01,
           kind: 'major',
-          serviceId: 'fastify3',
+          applicationId: 'fastify3',
           workerId: 0
         }
       },
@@ -5436,7 +5436,7 @@ export const metricFixtures: Metric[] = [
         labels: {
           le: 0.1,
           kind: 'major',
-          serviceId: 'fastify3',
+          applicationId: 'fastify3',
           workerId: 0
         }
       },
@@ -5447,7 +5447,7 @@ export const metricFixtures: Metric[] = [
         labels: {
           le: 1,
           kind: 'major',
-          serviceId: 'fastify3',
+          applicationId: 'fastify3',
           workerId: 0
         }
       },
@@ -5458,7 +5458,7 @@ export const metricFixtures: Metric[] = [
         labels: {
           le: 2,
           kind: 'major',
-          serviceId: 'fastify3',
+          applicationId: 'fastify3',
           workerId: 0
         }
       },
@@ -5469,7 +5469,7 @@ export const metricFixtures: Metric[] = [
         labels: {
           le: 5,
           kind: 'major',
-          serviceId: 'fastify3',
+          applicationId: 'fastify3',
           workerId: 0
         }
       },
@@ -5480,7 +5480,7 @@ export const metricFixtures: Metric[] = [
         labels: {
           le: '+Inf',
           kind: 'major',
-          serviceId: 'fastify3',
+          applicationId: 'fastify3',
           workerId: 0
         }
       },
@@ -5489,7 +5489,7 @@ export const metricFixtures: Metric[] = [
         metricName: 'nodejs_gc_duration_seconds_sum',
         labels: {
           kind: 'major',
-          serviceId: 'fastify3',
+          applicationId: 'fastify3',
           workerId: 0
         }
       },
@@ -5498,7 +5498,7 @@ export const metricFixtures: Metric[] = [
         metricName: 'nodejs_gc_duration_seconds_count',
         labels: {
           kind: 'major',
-          serviceId: 'fastify3',
+          applicationId: 'fastify3',
           workerId: 0
         }
       }
@@ -5513,7 +5513,7 @@ export const metricFixtures: Metric[] = [
       {
         value: 0.02373277137572059,
         labels: {
-          serviceId: 'fastify3',
+          applicationId: 'fastify3',
           workerId: 0
         }
       }
@@ -5528,7 +5528,7 @@ export const metricFixtures: Metric[] = [
       {
         value: 54.62,
         labels: {
-          serviceId: 'fastify3',
+          applicationId: 'fastify3',
           workerId: 0
         }
       }
@@ -5543,7 +5543,7 @@ export const metricFixtures: Metric[] = [
       {
         value: 0.03345,
         labels: {
-          serviceId: 'fastify3',
+          applicationId: 'fastify3',
           workerId: 0
         }
       }
@@ -5558,7 +5558,7 @@ export const metricFixtures: Metric[] = [
       {
         value: 0.008731999999999998,
         labels: {
-          serviceId: 'fastify3',
+          applicationId: 'fastify3',
           workerId: 0
         }
       }
@@ -5573,7 +5573,7 @@ export const metricFixtures: Metric[] = [
       {
         value: 0.20068110236622552,
         labels: {
-          serviceId: 'fastify3',
+          applicationId: 'fastify3',
           workerId: 0
         }
       }
@@ -5588,7 +5588,7 @@ export const metricFixtures: Metric[] = [
       {
         value: 0.04218199999999999,
         labels: {
-          serviceId: 'fastify3',
+          applicationId: 'fastify3',
           workerId: 0
         }
       }
@@ -5603,7 +5603,7 @@ export const metricFixtures: Metric[] = [
       {
         value: 0,
         labels: {
-          serviceId: 'fastify3',
+          applicationId: 'fastify3',
           workerId: 0
         }
       }
@@ -5618,7 +5618,7 @@ export const metricFixtures: Metric[] = [
       {
         value: 0,
         labels: {
-          serviceId: 'fastify3',
+          applicationId: 'fastify3',
           workerId: 0
         }
       }
@@ -5636,7 +5636,7 @@ export const metricFixtures: Metric[] = [
           method: 'GET',
           route: '/__empty_metrics',
           status_code: 404,
-          serviceId: 'fastify3',
+          applicationId: 'fastify3',
           workerId: 0
         },
         value: 0
@@ -5647,7 +5647,7 @@ export const metricFixtures: Metric[] = [
           method: 'GET',
           route: '/__empty_metrics',
           status_code: 404,
-          serviceId: 'fastify3',
+          applicationId: 'fastify3',
           workerId: 0
         },
         value: 0
@@ -5658,7 +5658,7 @@ export const metricFixtures: Metric[] = [
           method: 'GET',
           route: '/__empty_metrics',
           status_code: 404,
-          serviceId: 'fastify3',
+          applicationId: 'fastify3',
           workerId: 0
         },
         value: 0
@@ -5669,7 +5669,7 @@ export const metricFixtures: Metric[] = [
           method: 'GET',
           route: '/__empty_metrics',
           status_code: 404,
-          serviceId: 'fastify3',
+          applicationId: 'fastify3',
           workerId: 0
         },
         value: 0
@@ -5680,7 +5680,7 @@ export const metricFixtures: Metric[] = [
           method: 'GET',
           route: '/__empty_metrics',
           status_code: 404,
-          serviceId: 'fastify3',
+          applicationId: 'fastify3',
           workerId: 0
         },
         value: 0
@@ -5691,7 +5691,7 @@ export const metricFixtures: Metric[] = [
           method: 'GET',
           route: '/__empty_metrics',
           status_code: 404,
-          serviceId: 'fastify3',
+          applicationId: 'fastify3',
           workerId: 0
         },
         value: 0
@@ -5702,7 +5702,7 @@ export const metricFixtures: Metric[] = [
           method: 'GET',
           route: '/__empty_metrics',
           status_code: 404,
-          serviceId: 'fastify3',
+          applicationId: 'fastify3',
           workerId: 0
         },
         value: 0
@@ -5713,7 +5713,7 @@ export const metricFixtures: Metric[] = [
           method: 'GET',
           route: '/__empty_metrics',
           status_code: 404,
-          serviceId: 'fastify3',
+          applicationId: 'fastify3',
           workerId: 0
         },
         value: 0
@@ -5724,7 +5724,7 @@ export const metricFixtures: Metric[] = [
           method: 'GET',
           route: '/__empty_metrics',
           status_code: 404,
-          serviceId: 'fastify3',
+          applicationId: 'fastify3',
           workerId: 0
         },
         value: 1
@@ -5746,7 +5746,7 @@ export const metricFixtures: Metric[] = [
           method: 'GET',
           route: '/__empty_metrics',
           status_code: 404,
-          serviceId: 'fastify3',
+          applicationId: 'fastify3',
           workerId: 0
         }
       },
@@ -5759,7 +5759,7 @@ export const metricFixtures: Metric[] = [
           method: 'GET',
           route: '/__empty_metrics',
           status_code: 404,
-          serviceId: 'fastify3',
+          applicationId: 'fastify3',
           workerId: 0
         }
       },
@@ -5772,7 +5772,7 @@ export const metricFixtures: Metric[] = [
           method: 'GET',
           route: '/__empty_metrics',
           status_code: 404,
-          serviceId: 'fastify3',
+          applicationId: 'fastify3',
           workerId: 0
         }
       },
@@ -5785,7 +5785,7 @@ export const metricFixtures: Metric[] = [
           method: 'GET',
           route: '/__empty_metrics',
           status_code: 404,
-          serviceId: 'fastify3',
+          applicationId: 'fastify3',
           workerId: 0
         }
       },
@@ -5798,7 +5798,7 @@ export const metricFixtures: Metric[] = [
           method: 'GET',
           route: '/__empty_metrics',
           status_code: 404,
-          serviceId: 'fastify3',
+          applicationId: 'fastify3',
           workerId: 0
         }
       },
@@ -5811,7 +5811,7 @@ export const metricFixtures: Metric[] = [
           method: 'GET',
           route: '/__empty_metrics',
           status_code: 404,
-          serviceId: 'fastify3',
+          applicationId: 'fastify3',
           workerId: 0
         }
       },
@@ -5824,7 +5824,7 @@ export const metricFixtures: Metric[] = [
           method: 'GET',
           route: '/__empty_metrics',
           status_code: 404,
-          serviceId: 'fastify3',
+          applicationId: 'fastify3',
           workerId: 0
         }
       },
@@ -5837,7 +5837,7 @@ export const metricFixtures: Metric[] = [
           method: 'GET',
           route: '/__empty_metrics',
           status_code: 404,
-          serviceId: 'fastify3',
+          applicationId: 'fastify3',
           workerId: 0
         }
       },
@@ -5850,7 +5850,7 @@ export const metricFixtures: Metric[] = [
           method: 'GET',
           route: '/__empty_metrics',
           status_code: 404,
-          serviceId: 'fastify3',
+          applicationId: 'fastify3',
           workerId: 0
         }
       },
@@ -5863,7 +5863,7 @@ export const metricFixtures: Metric[] = [
           method: 'GET',
           route: '/__empty_metrics',
           status_code: 404,
-          serviceId: 'fastify3',
+          applicationId: 'fastify3',
           workerId: 0
         }
       },
@@ -5876,7 +5876,7 @@ export const metricFixtures: Metric[] = [
           method: 'GET',
           route: '/__empty_metrics',
           status_code: 404,
-          serviceId: 'fastify3',
+          applicationId: 'fastify3',
           workerId: 0
         }
       },
@@ -5889,7 +5889,7 @@ export const metricFixtures: Metric[] = [
           method: 'GET',
           route: '/__empty_metrics',
           status_code: 404,
-          serviceId: 'fastify3',
+          applicationId: 'fastify3',
           workerId: 0
         }
       },
@@ -5900,7 +5900,7 @@ export const metricFixtures: Metric[] = [
           method: 'GET',
           route: '/__empty_metrics',
           status_code: 404,
-          serviceId: 'fastify3',
+          applicationId: 'fastify3',
           workerId: 0
         }
       },
@@ -5911,7 +5911,7 @@ export const metricFixtures: Metric[] = [
           method: 'GET',
           route: '/__empty_metrics',
           status_code: 404,
-          serviceId: 'fastify3',
+          applicationId: 'fastify3',
           workerId: 0
         }
       }
@@ -5929,7 +5929,7 @@ export const metricFixtures: Metric[] = [
           method: 'GET',
           route: '/__empty_metrics',
           status_code: 404,
-          serviceId: 'fastify3',
+          applicationId: 'fastify3',
           workerId: 0
         },
         value: 0
@@ -5940,7 +5940,7 @@ export const metricFixtures: Metric[] = [
           method: 'GET',
           route: '/__empty_metrics',
           status_code: 404,
-          serviceId: 'fastify3',
+          applicationId: 'fastify3',
           workerId: 0
         },
         value: 0
@@ -5951,7 +5951,7 @@ export const metricFixtures: Metric[] = [
           method: 'GET',
           route: '/__empty_metrics',
           status_code: 404,
-          serviceId: 'fastify3',
+          applicationId: 'fastify3',
           workerId: 0
         },
         value: 0
@@ -5962,7 +5962,7 @@ export const metricFixtures: Metric[] = [
           method: 'GET',
           route: '/__empty_metrics',
           status_code: 404,
-          serviceId: 'fastify3',
+          applicationId: 'fastify3',
           workerId: 0
         },
         value: 0
@@ -5973,7 +5973,7 @@ export const metricFixtures: Metric[] = [
           method: 'GET',
           route: '/__empty_metrics',
           status_code: 404,
-          serviceId: 'fastify3',
+          applicationId: 'fastify3',
           workerId: 0
         },
         value: 0
@@ -5984,7 +5984,7 @@ export const metricFixtures: Metric[] = [
           method: 'GET',
           route: '/__empty_metrics',
           status_code: 404,
-          serviceId: 'fastify3',
+          applicationId: 'fastify3',
           workerId: 0
         },
         value: 0
@@ -5995,7 +5995,7 @@ export const metricFixtures: Metric[] = [
           method: 'GET',
           route: '/__empty_metrics',
           status_code: 404,
-          serviceId: 'fastify3',
+          applicationId: 'fastify3',
           workerId: 0
         },
         value: 0
@@ -6006,7 +6006,7 @@ export const metricFixtures: Metric[] = [
           method: 'GET',
           route: '/__empty_metrics',
           status_code: 404,
-          serviceId: 'fastify3',
+          applicationId: 'fastify3',
           workerId: 0
         },
         value: 0
@@ -6017,7 +6017,7 @@ export const metricFixtures: Metric[] = [
           method: 'GET',
           route: '/__empty_metrics',
           status_code: 404,
-          serviceId: 'fastify3',
+          applicationId: 'fastify3',
           workerId: 0
         },
         value: 0
@@ -6040,7 +6040,7 @@ export const metricFixtures: Metric[] = [
       {
         value: 0.766574,
         labels: {
-          serviceId: 'fastify3',
+          applicationId: 'fastify3',
           workerId: 1
         }
       }
@@ -6055,7 +6055,7 @@ export const metricFixtures: Metric[] = [
       {
         value: 0.19189,
         labels: {
-          serviceId: 'fastify3',
+          applicationId: 'fastify3',
           workerId: 1
         }
       }
@@ -6070,7 +6070,7 @@ export const metricFixtures: Metric[] = [
       {
         value: 0.958464,
         labels: {
-          serviceId: 'fastify3',
+          applicationId: 'fastify3',
           workerId: 1
         }
       }
@@ -6085,7 +6085,7 @@ export const metricFixtures: Metric[] = [
       {
         value: 1743244689,
         labels: {
-          serviceId: 'fastify3',
+          applicationId: 'fastify3',
           workerId: 1
         }
       }
@@ -6100,7 +6100,7 @@ export const metricFixtures: Metric[] = [
       {
         value: 544374784,
         labels: {
-          serviceId: 'fastify3',
+          applicationId: 'fastify3',
           workerId: 1
         }
       }
@@ -6115,7 +6115,7 @@ export const metricFixtures: Metric[] = [
       {
         value: 0.000695459,
         labels: {
-          serviceId: 'fastify3',
+          applicationId: 'fastify3',
           workerId: 1
         }
       }
@@ -6130,7 +6130,7 @@ export const metricFixtures: Metric[] = [
       {
         value: 0.010387456,
         labels: {
-          serviceId: 'fastify3',
+          applicationId: 'fastify3',
           workerId: 1
         }
       }
@@ -6145,7 +6145,7 @@ export const metricFixtures: Metric[] = [
       {
         value: 0.011681791,
         labels: {
-          serviceId: 'fastify3',
+          applicationId: 'fastify3',
           workerId: 1
         }
       }
@@ -6160,7 +6160,7 @@ export const metricFixtures: Metric[] = [
       {
         value: 0.010960896,
         labels: {
-          serviceId: 'fastify3',
+          applicationId: 'fastify3',
           workerId: 1
         }
       }
@@ -6175,7 +6175,7 @@ export const metricFixtures: Metric[] = [
       {
         value: 0.0003398833905041131,
         labels: {
-          serviceId: 'fastify3',
+          applicationId: 'fastify3',
           workerId: 1
         }
       }
@@ -6190,7 +6190,7 @@ export const metricFixtures: Metric[] = [
       {
         value: 0.010977279,
         labels: {
-          serviceId: 'fastify3',
+          applicationId: 'fastify3',
           workerId: 1
         }
       }
@@ -6205,7 +6205,7 @@ export const metricFixtures: Metric[] = [
       {
         value: 0.011624447,
         labels: {
-          serviceId: 'fastify3',
+          applicationId: 'fastify3',
           workerId: 1
         }
       }
@@ -6220,7 +6220,7 @@ export const metricFixtures: Metric[] = [
       {
         value: 0.011681791,
         labels: {
-          serviceId: 'fastify3',
+          applicationId: 'fastify3',
           workerId: 1
         }
       }
@@ -6236,7 +6236,7 @@ export const metricFixtures: Metric[] = [
         value: 11,
         labels: {
           type: 'MessagePort',
-          serviceId: 'fastify3',
+          applicationId: 'fastify3',
           workerId: 1
         }
       },
@@ -6244,7 +6244,7 @@ export const metricFixtures: Metric[] = [
         value: 1,
         labels: {
           type: 'Immediate',
-          serviceId: 'fastify3',
+          applicationId: 'fastify3',
           workerId: 1
         }
       }
@@ -6259,7 +6259,7 @@ export const metricFixtures: Metric[] = [
       {
         value: 12,
         labels: {
-          serviceId: 'fastify3',
+          applicationId: 'fastify3',
           workerId: 1
         }
       }
@@ -6275,7 +6275,7 @@ export const metricFixtures: Metric[] = [
         value: 11,
         labels: {
           type: 'MessagePort',
-          serviceId: 'fastify3',
+          applicationId: 'fastify3',
           workerId: 1
         }
       }
@@ -6290,7 +6290,7 @@ export const metricFixtures: Metric[] = [
       {
         value: 11,
         labels: {
-          serviceId: 'fastify3',
+          applicationId: 'fastify3',
           workerId: 1
         }
       }
@@ -6312,7 +6312,7 @@ export const metricFixtures: Metric[] = [
       {
         value: 0,
         labels: {
-          serviceId: 'fastify3',
+          applicationId: 'fastify3',
           workerId: 1
         }
       }
@@ -6327,7 +6327,7 @@ export const metricFixtures: Metric[] = [
       {
         value: 96829440,
         labels: {
-          serviceId: 'fastify3',
+          applicationId: 'fastify3',
           workerId: 1
         }
       }
@@ -6342,7 +6342,7 @@ export const metricFixtures: Metric[] = [
       {
         value: 45000072,
         labels: {
-          serviceId: 'fastify3',
+          applicationId: 'fastify3',
           workerId: 1
         }
       }
@@ -6357,7 +6357,7 @@ export const metricFixtures: Metric[] = [
       {
         value: 4857986,
         labels: {
-          serviceId: 'fastify3',
+          applicationId: 'fastify3',
           workerId: 1
         }
       }
@@ -6373,7 +6373,7 @@ export const metricFixtures: Metric[] = [
         value: 0,
         labels: {
           space: 'read_only',
-          serviceId: 'fastify3',
+          applicationId: 'fastify3',
           workerId: 1
         }
       },
@@ -6381,7 +6381,7 @@ export const metricFixtures: Metric[] = [
         value: 33554432,
         labels: {
           space: 'new',
-          serviceId: 'fastify3',
+          applicationId: 'fastify3',
           workerId: 1
         }
       },
@@ -6389,7 +6389,7 @@ export const metricFixtures: Metric[] = [
         value: 48463872,
         labels: {
           space: 'old',
-          serviceId: 'fastify3',
+          applicationId: 'fastify3',
           workerId: 1
         }
       },
@@ -6397,7 +6397,7 @@ export const metricFixtures: Metric[] = [
         value: 2359296,
         labels: {
           space: 'code',
-          serviceId: 'fastify3',
+          applicationId: 'fastify3',
           workerId: 1
         }
       },
@@ -6405,7 +6405,7 @@ export const metricFixtures: Metric[] = [
         value: 0,
         labels: {
           space: 'shared',
-          serviceId: 'fastify3',
+          applicationId: 'fastify3',
           workerId: 1
         }
       },
@@ -6413,7 +6413,7 @@ export const metricFixtures: Metric[] = [
         value: 4521984,
         labels: {
           space: 'trusted',
-          serviceId: 'fastify3',
+          applicationId: 'fastify3',
           workerId: 1
         }
       },
@@ -6421,7 +6421,7 @@ export const metricFixtures: Metric[] = [
         value: 0,
         labels: {
           space: 'new_large_object',
-          serviceId: 'fastify3',
+          applicationId: 'fastify3',
           workerId: 1
         }
       },
@@ -6429,7 +6429,7 @@ export const metricFixtures: Metric[] = [
         value: 7929856,
         labels: {
           space: 'large_object',
-          serviceId: 'fastify3',
+          applicationId: 'fastify3',
           workerId: 1
         }
       },
@@ -6437,7 +6437,7 @@ export const metricFixtures: Metric[] = [
         value: 0,
         labels: {
           space: 'code_large_object',
-          serviceId: 'fastify3',
+          applicationId: 'fastify3',
           workerId: 1
         }
       },
@@ -6445,7 +6445,7 @@ export const metricFixtures: Metric[] = [
         value: 0,
         labels: {
           space: 'shared_large_object',
-          serviceId: 'fastify3',
+          applicationId: 'fastify3',
           workerId: 1
         }
       },
@@ -6453,7 +6453,7 @@ export const metricFixtures: Metric[] = [
         value: 0,
         labels: {
           space: 'trusted_large_object',
-          serviceId: 'fastify3',
+          applicationId: 'fastify3',
           workerId: 1
         }
       }
@@ -6469,7 +6469,7 @@ export const metricFixtures: Metric[] = [
         value: 0,
         labels: {
           space: 'read_only',
-          serviceId: 'fastify3',
+          applicationId: 'fastify3',
           workerId: 1
         }
       },
@@ -6477,7 +6477,7 @@ export const metricFixtures: Metric[] = [
         value: 3182072,
         labels: {
           space: 'new',
-          serviceId: 'fastify3',
+          applicationId: 'fastify3',
           workerId: 1
         }
       },
@@ -6485,7 +6485,7 @@ export const metricFixtures: Metric[] = [
         value: 28236296,
         labels: {
           space: 'old',
-          serviceId: 'fastify3',
+          applicationId: 'fastify3',
           workerId: 1
         }
       },
@@ -6493,7 +6493,7 @@ export const metricFixtures: Metric[] = [
         value: 1838368,
         labels: {
           space: 'code',
-          serviceId: 'fastify3',
+          applicationId: 'fastify3',
           workerId: 1
         }
       },
@@ -6501,7 +6501,7 @@ export const metricFixtures: Metric[] = [
         value: 0,
         labels: {
           space: 'shared',
-          serviceId: 'fastify3',
+          applicationId: 'fastify3',
           workerId: 1
         }
       },
@@ -6509,7 +6509,7 @@ export const metricFixtures: Metric[] = [
         value: 3949272,
         labels: {
           space: 'trusted',
-          serviceId: 'fastify3',
+          applicationId: 'fastify3',
           workerId: 1
         }
       },
@@ -6517,7 +6517,7 @@ export const metricFixtures: Metric[] = [
         value: 0,
         labels: {
           space: 'new_large_object',
-          serviceId: 'fastify3',
+          applicationId: 'fastify3',
           workerId: 1
         }
       },
@@ -6525,7 +6525,7 @@ export const metricFixtures: Metric[] = [
         value: 7796224,
         labels: {
           space: 'large_object',
-          serviceId: 'fastify3',
+          applicationId: 'fastify3',
           workerId: 1
         }
       },
@@ -6533,7 +6533,7 @@ export const metricFixtures: Metric[] = [
         value: 0,
         labels: {
           space: 'code_large_object',
-          serviceId: 'fastify3',
+          applicationId: 'fastify3',
           workerId: 1
         }
       },
@@ -6541,7 +6541,7 @@ export const metricFixtures: Metric[] = [
         value: 0,
         labels: {
           space: 'shared_large_object',
-          serviceId: 'fastify3',
+          applicationId: 'fastify3',
           workerId: 1
         }
       },
@@ -6549,7 +6549,7 @@ export const metricFixtures: Metric[] = [
         value: 0,
         labels: {
           space: 'trusted_large_object',
-          serviceId: 'fastify3',
+          applicationId: 'fastify3',
           workerId: 1
         }
       }
@@ -6565,7 +6565,7 @@ export const metricFixtures: Metric[] = [
         value: 0,
         labels: {
           space: 'read_only',
-          serviceId: 'fastify3',
+          applicationId: 'fastify3',
           workerId: 1
         }
       },
@@ -6573,7 +6573,7 @@ export const metricFixtures: Metric[] = [
         value: 13312520,
         labels: {
           space: 'new',
-          serviceId: 'fastify3',
+          applicationId: 'fastify3',
           workerId: 1
         }
       },
@@ -6581,7 +6581,7 @@ export const metricFixtures: Metric[] = [
         value: 404160,
         labels: {
           space: 'old',
-          serviceId: 'fastify3',
+          applicationId: 'fastify3',
           workerId: 1
         }
       },
@@ -6589,7 +6589,7 @@ export const metricFixtures: Metric[] = [
         value: 78560,
         labels: {
           space: 'code',
-          serviceId: 'fastify3',
+          applicationId: 'fastify3',
           workerId: 1
         }
       },
@@ -6597,7 +6597,7 @@ export const metricFixtures: Metric[] = [
         value: 0,
         labels: {
           space: 'shared',
-          serviceId: 'fastify3',
+          applicationId: 'fastify3',
           workerId: 1
         }
       },
@@ -6605,7 +6605,7 @@ export const metricFixtures: Metric[] = [
         value: 493040,
         labels: {
           space: 'trusted',
-          serviceId: 'fastify3',
+          applicationId: 'fastify3',
           workerId: 1
         }
       },
@@ -6613,7 +6613,7 @@ export const metricFixtures: Metric[] = [
         value: 16777216,
         labels: {
           space: 'new_large_object',
-          serviceId: 'fastify3',
+          applicationId: 'fastify3',
           workerId: 1
         }
       },
@@ -6621,7 +6621,7 @@ export const metricFixtures: Metric[] = [
         value: 0,
         labels: {
           space: 'large_object',
-          serviceId: 'fastify3',
+          applicationId: 'fastify3',
           workerId: 1
         }
       },
@@ -6629,7 +6629,7 @@ export const metricFixtures: Metric[] = [
         value: 0,
         labels: {
           space: 'code_large_object',
-          serviceId: 'fastify3',
+          applicationId: 'fastify3',
           workerId: 1
         }
       },
@@ -6637,7 +6637,7 @@ export const metricFixtures: Metric[] = [
         value: 0,
         labels: {
           space: 'shared_large_object',
-          serviceId: 'fastify3',
+          applicationId: 'fastify3',
           workerId: 1
         }
       },
@@ -6645,7 +6645,7 @@ export const metricFixtures: Metric[] = [
         value: 0,
         labels: {
           space: 'trusted_large_object',
-          serviceId: 'fastify3',
+          applicationId: 'fastify3',
           workerId: 1
         }
       }
@@ -6664,7 +6664,7 @@ export const metricFixtures: Metric[] = [
           major: 22,
           minor: 12,
           patch: 0,
-          serviceId: 'fastify3',
+          applicationId: 'fastify3',
           workerId: 1
         }
       }
@@ -6683,7 +6683,7 @@ export const metricFixtures: Metric[] = [
         labels: {
           le: 0.001,
           kind: 'minor',
-          serviceId: 'fastify3',
+          applicationId: 'fastify3',
           workerId: 1
         }
       },
@@ -6694,7 +6694,7 @@ export const metricFixtures: Metric[] = [
         labels: {
           le: 0.01,
           kind: 'minor',
-          serviceId: 'fastify3',
+          applicationId: 'fastify3',
           workerId: 1
         }
       },
@@ -6705,7 +6705,7 @@ export const metricFixtures: Metric[] = [
         labels: {
           le: 0.1,
           kind: 'minor',
-          serviceId: 'fastify3',
+          applicationId: 'fastify3',
           workerId: 1
         }
       },
@@ -6716,7 +6716,7 @@ export const metricFixtures: Metric[] = [
         labels: {
           le: 1,
           kind: 'minor',
-          serviceId: 'fastify3',
+          applicationId: 'fastify3',
           workerId: 1
         }
       },
@@ -6727,7 +6727,7 @@ export const metricFixtures: Metric[] = [
         labels: {
           le: 2,
           kind: 'minor',
-          serviceId: 'fastify3',
+          applicationId: 'fastify3',
           workerId: 1
         }
       },
@@ -6738,7 +6738,7 @@ export const metricFixtures: Metric[] = [
         labels: {
           le: 5,
           kind: 'minor',
-          serviceId: 'fastify3',
+          applicationId: 'fastify3',
           workerId: 1
         }
       },
@@ -6749,7 +6749,7 @@ export const metricFixtures: Metric[] = [
         labels: {
           le: '+Inf',
           kind: 'minor',
-          serviceId: 'fastify3',
+          applicationId: 'fastify3',
           workerId: 1
         }
       },
@@ -6758,7 +6758,7 @@ export const metricFixtures: Metric[] = [
         metricName: 'nodejs_gc_duration_seconds_sum',
         labels: {
           kind: 'minor',
-          serviceId: 'fastify3',
+          applicationId: 'fastify3',
           workerId: 1
         }
       },
@@ -6767,7 +6767,7 @@ export const metricFixtures: Metric[] = [
         metricName: 'nodejs_gc_duration_seconds_count',
         labels: {
           kind: 'minor',
-          serviceId: 'fastify3',
+          applicationId: 'fastify3',
           workerId: 1
         }
       },
@@ -6778,7 +6778,7 @@ export const metricFixtures: Metric[] = [
         labels: {
           le: 0.001,
           kind: 'incremental',
-          serviceId: 'fastify3',
+          applicationId: 'fastify3',
           workerId: 1
         }
       },
@@ -6789,7 +6789,7 @@ export const metricFixtures: Metric[] = [
         labels: {
           le: 0.01,
           kind: 'incremental',
-          serviceId: 'fastify3',
+          applicationId: 'fastify3',
           workerId: 1
         }
       },
@@ -6800,7 +6800,7 @@ export const metricFixtures: Metric[] = [
         labels: {
           le: 0.1,
           kind: 'incremental',
-          serviceId: 'fastify3',
+          applicationId: 'fastify3',
           workerId: 1
         }
       },
@@ -6811,7 +6811,7 @@ export const metricFixtures: Metric[] = [
         labels: {
           le: 1,
           kind: 'incremental',
-          serviceId: 'fastify3',
+          applicationId: 'fastify3',
           workerId: 1
         }
       },
@@ -6822,7 +6822,7 @@ export const metricFixtures: Metric[] = [
         labels: {
           le: 2,
           kind: 'incremental',
-          serviceId: 'fastify3',
+          applicationId: 'fastify3',
           workerId: 1
         }
       },
@@ -6833,7 +6833,7 @@ export const metricFixtures: Metric[] = [
         labels: {
           le: 5,
           kind: 'incremental',
-          serviceId: 'fastify3',
+          applicationId: 'fastify3',
           workerId: 1
         }
       },
@@ -6844,7 +6844,7 @@ export const metricFixtures: Metric[] = [
         labels: {
           le: '+Inf',
           kind: 'incremental',
-          serviceId: 'fastify3',
+          applicationId: 'fastify3',
           workerId: 1
         }
       },
@@ -6853,7 +6853,7 @@ export const metricFixtures: Metric[] = [
         metricName: 'nodejs_gc_duration_seconds_sum',
         labels: {
           kind: 'incremental',
-          serviceId: 'fastify3',
+          applicationId: 'fastify3',
           workerId: 1
         }
       },
@@ -6862,7 +6862,7 @@ export const metricFixtures: Metric[] = [
         metricName: 'nodejs_gc_duration_seconds_count',
         labels: {
           kind: 'incremental',
-          serviceId: 'fastify3',
+          applicationId: 'fastify3',
           workerId: 1
         }
       },
@@ -6873,7 +6873,7 @@ export const metricFixtures: Metric[] = [
         labels: {
           le: 0.001,
           kind: 'major',
-          serviceId: 'fastify3',
+          applicationId: 'fastify3',
           workerId: 1
         }
       },
@@ -6884,7 +6884,7 @@ export const metricFixtures: Metric[] = [
         labels: {
           le: 0.01,
           kind: 'major',
-          serviceId: 'fastify3',
+          applicationId: 'fastify3',
           workerId: 1
         }
       },
@@ -6895,7 +6895,7 @@ export const metricFixtures: Metric[] = [
         labels: {
           le: 0.1,
           kind: 'major',
-          serviceId: 'fastify3',
+          applicationId: 'fastify3',
           workerId: 1
         }
       },
@@ -6906,7 +6906,7 @@ export const metricFixtures: Metric[] = [
         labels: {
           le: 1,
           kind: 'major',
-          serviceId: 'fastify3',
+          applicationId: 'fastify3',
           workerId: 1
         }
       },
@@ -6917,7 +6917,7 @@ export const metricFixtures: Metric[] = [
         labels: {
           le: 2,
           kind: 'major',
-          serviceId: 'fastify3',
+          applicationId: 'fastify3',
           workerId: 1
         }
       },
@@ -6928,7 +6928,7 @@ export const metricFixtures: Metric[] = [
         labels: {
           le: 5,
           kind: 'major',
-          serviceId: 'fastify3',
+          applicationId: 'fastify3',
           workerId: 1
         }
       },
@@ -6939,7 +6939,7 @@ export const metricFixtures: Metric[] = [
         labels: {
           le: '+Inf',
           kind: 'major',
-          serviceId: 'fastify3',
+          applicationId: 'fastify3',
           workerId: 1
         }
       },
@@ -6948,7 +6948,7 @@ export const metricFixtures: Metric[] = [
         metricName: 'nodejs_gc_duration_seconds_sum',
         labels: {
           kind: 'major',
-          serviceId: 'fastify3',
+          applicationId: 'fastify3',
           workerId: 1
         }
       },
@@ -6957,7 +6957,7 @@ export const metricFixtures: Metric[] = [
         metricName: 'nodejs_gc_duration_seconds_count',
         labels: {
           kind: 'major',
-          serviceId: 'fastify3',
+          applicationId: 'fastify3',
           workerId: 1
         }
       }
@@ -6972,7 +6972,7 @@ export const metricFixtures: Metric[] = [
       {
         value: 0.022610670119415338,
         labels: {
-          serviceId: 'fastify3',
+          applicationId: 'fastify3',
           workerId: 1
         }
       }
@@ -6987,7 +6987,7 @@ export const metricFixtures: Metric[] = [
       {
         value: 55.22,
         labels: {
-          serviceId: 'fastify3',
+          applicationId: 'fastify3',
           workerId: 1
         }
       }
@@ -7002,7 +7002,7 @@ export const metricFixtures: Metric[] = [
       {
         value: 0.032486,
         labels: {
-          serviceId: 'fastify3',
+          applicationId: 'fastify3',
           workerId: 1
         }
       }
@@ -7017,7 +7017,7 @@ export const metricFixtures: Metric[] = [
       {
         value: 0.008194,
         labels: {
-          serviceId: 'fastify3',
+          applicationId: 'fastify3',
           workerId: 1
         }
       }
@@ -7032,7 +7032,7 @@ export const metricFixtures: Metric[] = [
       {
         value: 0.2414677210914478,
         labels: {
-          serviceId: 'fastify3',
+          applicationId: 'fastify3',
           workerId: 1
         }
       }
@@ -7047,7 +7047,7 @@ export const metricFixtures: Metric[] = [
       {
         value: 0.040679999999999994,
         labels: {
-          serviceId: 'fastify3',
+          applicationId: 'fastify3',
           workerId: 1
         }
       }
@@ -7062,7 +7062,7 @@ export const metricFixtures: Metric[] = [
       {
         value: 0,
         labels: {
-          serviceId: 'fastify3',
+          applicationId: 'fastify3',
           workerId: 1
         }
       }
@@ -7077,7 +7077,7 @@ export const metricFixtures: Metric[] = [
       {
         value: 0,
         labels: {
-          serviceId: 'fastify3',
+          applicationId: 'fastify3',
           workerId: 1
         }
       }
@@ -7095,7 +7095,7 @@ export const metricFixtures: Metric[] = [
           method: 'GET',
           route: '/__empty_metrics',
           status_code: 404,
-          serviceId: 'fastify3',
+          applicationId: 'fastify3',
           workerId: 1
         },
         value: 0
@@ -7106,7 +7106,7 @@ export const metricFixtures: Metric[] = [
           method: 'GET',
           route: '/__empty_metrics',
           status_code: 404,
-          serviceId: 'fastify3',
+          applicationId: 'fastify3',
           workerId: 1
         },
         value: 0
@@ -7117,7 +7117,7 @@ export const metricFixtures: Metric[] = [
           method: 'GET',
           route: '/__empty_metrics',
           status_code: 404,
-          serviceId: 'fastify3',
+          applicationId: 'fastify3',
           workerId: 1
         },
         value: 0
@@ -7128,7 +7128,7 @@ export const metricFixtures: Metric[] = [
           method: 'GET',
           route: '/__empty_metrics',
           status_code: 404,
-          serviceId: 'fastify3',
+          applicationId: 'fastify3',
           workerId: 1
         },
         value: 0
@@ -7139,7 +7139,7 @@ export const metricFixtures: Metric[] = [
           method: 'GET',
           route: '/__empty_metrics',
           status_code: 404,
-          serviceId: 'fastify3',
+          applicationId: 'fastify3',
           workerId: 1
         },
         value: 0
@@ -7150,7 +7150,7 @@ export const metricFixtures: Metric[] = [
           method: 'GET',
           route: '/__empty_metrics',
           status_code: 404,
-          serviceId: 'fastify3',
+          applicationId: 'fastify3',
           workerId: 1
         },
         value: 0
@@ -7161,7 +7161,7 @@ export const metricFixtures: Metric[] = [
           method: 'GET',
           route: '/__empty_metrics',
           status_code: 404,
-          serviceId: 'fastify3',
+          applicationId: 'fastify3',
           workerId: 1
         },
         value: 0
@@ -7172,7 +7172,7 @@ export const metricFixtures: Metric[] = [
           method: 'GET',
           route: '/__empty_metrics',
           status_code: 404,
-          serviceId: 'fastify3',
+          applicationId: 'fastify3',
           workerId: 1
         },
         value: 0
@@ -7183,7 +7183,7 @@ export const metricFixtures: Metric[] = [
           method: 'GET',
           route: '/__empty_metrics',
           status_code: 404,
-          serviceId: 'fastify3',
+          applicationId: 'fastify3',
           workerId: 1
         },
         value: 1
@@ -7205,7 +7205,7 @@ export const metricFixtures: Metric[] = [
           method: 'GET',
           route: '/__empty_metrics',
           status_code: 404,
-          serviceId: 'fastify3',
+          applicationId: 'fastify3',
           workerId: 1
         }
       },
@@ -7218,7 +7218,7 @@ export const metricFixtures: Metric[] = [
           method: 'GET',
           route: '/__empty_metrics',
           status_code: 404,
-          serviceId: 'fastify3',
+          applicationId: 'fastify3',
           workerId: 1
         }
       },
@@ -7231,7 +7231,7 @@ export const metricFixtures: Metric[] = [
           method: 'GET',
           route: '/__empty_metrics',
           status_code: 404,
-          serviceId: 'fastify3',
+          applicationId: 'fastify3',
           workerId: 1
         }
       },
@@ -7244,7 +7244,7 @@ export const metricFixtures: Metric[] = [
           method: 'GET',
           route: '/__empty_metrics',
           status_code: 404,
-          serviceId: 'fastify3',
+          applicationId: 'fastify3',
           workerId: 1
         }
       },
@@ -7257,7 +7257,7 @@ export const metricFixtures: Metric[] = [
           method: 'GET',
           route: '/__empty_metrics',
           status_code: 404,
-          serviceId: 'fastify3',
+          applicationId: 'fastify3',
           workerId: 1
         }
       },
@@ -7270,7 +7270,7 @@ export const metricFixtures: Metric[] = [
           method: 'GET',
           route: '/__empty_metrics',
           status_code: 404,
-          serviceId: 'fastify3',
+          applicationId: 'fastify3',
           workerId: 1
         }
       },
@@ -7283,7 +7283,7 @@ export const metricFixtures: Metric[] = [
           method: 'GET',
           route: '/__empty_metrics',
           status_code: 404,
-          serviceId: 'fastify3',
+          applicationId: 'fastify3',
           workerId: 1
         }
       },
@@ -7296,7 +7296,7 @@ export const metricFixtures: Metric[] = [
           method: 'GET',
           route: '/__empty_metrics',
           status_code: 404,
-          serviceId: 'fastify3',
+          applicationId: 'fastify3',
           workerId: 1
         }
       },
@@ -7309,7 +7309,7 @@ export const metricFixtures: Metric[] = [
           method: 'GET',
           route: '/__empty_metrics',
           status_code: 404,
-          serviceId: 'fastify3',
+          applicationId: 'fastify3',
           workerId: 1
         }
       },
@@ -7322,7 +7322,7 @@ export const metricFixtures: Metric[] = [
           method: 'GET',
           route: '/__empty_metrics',
           status_code: 404,
-          serviceId: 'fastify3',
+          applicationId: 'fastify3',
           workerId: 1
         }
       },
@@ -7335,7 +7335,7 @@ export const metricFixtures: Metric[] = [
           method: 'GET',
           route: '/__empty_metrics',
           status_code: 404,
-          serviceId: 'fastify3',
+          applicationId: 'fastify3',
           workerId: 1
         }
       },
@@ -7348,7 +7348,7 @@ export const metricFixtures: Metric[] = [
           method: 'GET',
           route: '/__empty_metrics',
           status_code: 404,
-          serviceId: 'fastify3',
+          applicationId: 'fastify3',
           workerId: 1
         }
       },
@@ -7359,7 +7359,7 @@ export const metricFixtures: Metric[] = [
           method: 'GET',
           route: '/__empty_metrics',
           status_code: 404,
-          serviceId: 'fastify3',
+          applicationId: 'fastify3',
           workerId: 1
         }
       },
@@ -7370,7 +7370,7 @@ export const metricFixtures: Metric[] = [
           method: 'GET',
           route: '/__empty_metrics',
           status_code: 404,
-          serviceId: 'fastify3',
+          applicationId: 'fastify3',
           workerId: 1
         }
       }
@@ -7388,7 +7388,7 @@ export const metricFixtures: Metric[] = [
           method: 'GET',
           route: '/__empty_metrics',
           status_code: 404,
-          serviceId: 'fastify3',
+          applicationId: 'fastify3',
           workerId: 1
         },
         value: 0
@@ -7399,7 +7399,7 @@ export const metricFixtures: Metric[] = [
           method: 'GET',
           route: '/__empty_metrics',
           status_code: 404,
-          serviceId: 'fastify3',
+          applicationId: 'fastify3',
           workerId: 1
         },
         value: 0
@@ -7410,7 +7410,7 @@ export const metricFixtures: Metric[] = [
           method: 'GET',
           route: '/__empty_metrics',
           status_code: 404,
-          serviceId: 'fastify3',
+          applicationId: 'fastify3',
           workerId: 1
         },
         value: 0
@@ -7421,7 +7421,7 @@ export const metricFixtures: Metric[] = [
           method: 'GET',
           route: '/__empty_metrics',
           status_code: 404,
-          serviceId: 'fastify3',
+          applicationId: 'fastify3',
           workerId: 1
         },
         value: 0
@@ -7432,7 +7432,7 @@ export const metricFixtures: Metric[] = [
           method: 'GET',
           route: '/__empty_metrics',
           status_code: 404,
-          serviceId: 'fastify3',
+          applicationId: 'fastify3',
           workerId: 1
         },
         value: 0
@@ -7443,7 +7443,7 @@ export const metricFixtures: Metric[] = [
           method: 'GET',
           route: '/__empty_metrics',
           status_code: 404,
-          serviceId: 'fastify3',
+          applicationId: 'fastify3',
           workerId: 1
         },
         value: 0
@@ -7454,7 +7454,7 @@ export const metricFixtures: Metric[] = [
           method: 'GET',
           route: '/__empty_metrics',
           status_code: 404,
-          serviceId: 'fastify3',
+          applicationId: 'fastify3',
           workerId: 1
         },
         value: 0
@@ -7465,7 +7465,7 @@ export const metricFixtures: Metric[] = [
           method: 'GET',
           route: '/__empty_metrics',
           status_code: 404,
-          serviceId: 'fastify3',
+          applicationId: 'fastify3',
           workerId: 1
         },
         value: 0
@@ -7476,7 +7476,7 @@ export const metricFixtures: Metric[] = [
           method: 'GET',
           route: '/__empty_metrics',
           status_code: 404,
-          serviceId: 'fastify3',
+          applicationId: 'fastify3',
           workerId: 1
         },
         value: 0
@@ -7499,7 +7499,7 @@ export const metricFixtures: Metric[] = [
       {
         value: 0.748953,
         labels: {
-          serviceId: 'node3'
+          applicationId: 'node3'
         }
       }
     ],
@@ -7513,7 +7513,7 @@ export const metricFixtures: Metric[] = [
       {
         value: 0.189186,
         labels: {
-          serviceId: 'node3'
+          applicationId: 'node3'
         }
       }
     ],
@@ -7527,7 +7527,7 @@ export const metricFixtures: Metric[] = [
       {
         value: 0.938139,
         labels: {
-          serviceId: 'node3'
+          applicationId: 'node3'
         }
       }
     ],
@@ -7541,7 +7541,7 @@ export const metricFixtures: Metric[] = [
       {
         value: 1743244689,
         labels: {
-          serviceId: 'node3'
+          applicationId: 'node3'
         }
       }
     ],
@@ -7555,7 +7555,7 @@ export const metricFixtures: Metric[] = [
       {
         value: 544620544,
         labels: {
-          serviceId: 'node3'
+          applicationId: 'node3'
         }
       }
     ],
@@ -7569,7 +7569,7 @@ export const metricFixtures: Metric[] = [
       {
         value: 0.000675416,
         labels: {
-          serviceId: 'node3'
+          applicationId: 'node3'
         }
       }
     ],
@@ -7583,7 +7583,7 @@ export const metricFixtures: Metric[] = [
       {
         value: 0.010354688,
         labels: {
-          serviceId: 'node3'
+          applicationId: 'node3'
         }
       }
     ],
@@ -7597,7 +7597,7 @@ export const metricFixtures: Metric[] = [
       {
         value: 0.012378111,
         labels: {
-          serviceId: 'node3'
+          applicationId: 'node3'
         }
       }
     ],
@@ -7611,7 +7611,7 @@ export const metricFixtures: Metric[] = [
       {
         value: 0.010982546285714285,
         labels: {
-          serviceId: 'node3'
+          applicationId: 'node3'
         }
       }
     ],
@@ -7625,7 +7625,7 @@ export const metricFixtures: Metric[] = [
       {
         value: 0.00043301362154942304,
         labels: {
-          serviceId: 'node3'
+          applicationId: 'node3'
         }
       }
     ],
@@ -7639,7 +7639,7 @@ export const metricFixtures: Metric[] = [
       {
         value: 0.010895359,
         labels: {
-          serviceId: 'node3'
+          applicationId: 'node3'
         }
       }
     ],
@@ -7653,7 +7653,7 @@ export const metricFixtures: Metric[] = [
       {
         value: 0.011190271,
         labels: {
-          serviceId: 'node3'
+          applicationId: 'node3'
         }
       }
     ],
@@ -7667,7 +7667,7 @@ export const metricFixtures: Metric[] = [
       {
         value: 0.012378111,
         labels: {
-          serviceId: 'node3'
+          applicationId: 'node3'
         }
       }
     ],
@@ -7682,14 +7682,14 @@ export const metricFixtures: Metric[] = [
         value: 11,
         labels: {
           type: 'MessagePort',
-          serviceId: 'node3'
+          applicationId: 'node3'
         }
       },
       {
         value: 1,
         labels: {
           type: 'Immediate',
-          serviceId: 'node3'
+          applicationId: 'node3'
         }
       }
     ],
@@ -7703,7 +7703,7 @@ export const metricFixtures: Metric[] = [
       {
         value: 12,
         labels: {
-          serviceId: 'node3'
+          applicationId: 'node3'
         }
       }
     ],
@@ -7718,7 +7718,7 @@ export const metricFixtures: Metric[] = [
         value: 11,
         labels: {
           type: 'MessagePort',
-          serviceId: 'node3'
+          applicationId: 'node3'
         }
       }
     ],
@@ -7732,7 +7732,7 @@ export const metricFixtures: Metric[] = [
       {
         value: 11,
         labels: {
-          serviceId: 'node3'
+          applicationId: 'node3'
         }
       }
     ],
@@ -7753,7 +7753,7 @@ export const metricFixtures: Metric[] = [
       {
         value: 0,
         labels: {
-          serviceId: 'node3'
+          applicationId: 'node3'
         }
       }
     ],
@@ -7767,7 +7767,7 @@ export const metricFixtures: Metric[] = [
       {
         value: 38567936,
         labels: {
-          serviceId: 'node3'
+          applicationId: 'node3'
         }
       }
     ],
@@ -7781,7 +7781,7 @@ export const metricFixtures: Metric[] = [
       {
         value: 34464152,
         labels: {
-          serviceId: 'node3'
+          applicationId: 'node3'
         }
       }
     ],
@@ -7795,7 +7795,7 @@ export const metricFixtures: Metric[] = [
       {
         value: 5232342,
         labels: {
-          serviceId: 'node3'
+          applicationId: 'node3'
         }
       }
     ],
@@ -7810,77 +7810,77 @@ export const metricFixtures: Metric[] = [
         value: 0,
         labels: {
           space: 'read_only',
-          serviceId: 'node3'
+          applicationId: 'node3'
         }
       },
       {
         value: 1048576,
         labels: {
           space: 'new',
-          serviceId: 'node3'
+          applicationId: 'node3'
         }
       },
       {
         value: 28540928,
         labels: {
           space: 'old',
-          serviceId: 'node3'
+          applicationId: 'node3'
         }
       },
       {
         value: 2097152,
         labels: {
           space: 'code',
-          serviceId: 'node3'
+          applicationId: 'node3'
         }
       },
       {
         value: 0,
         labels: {
           space: 'shared',
-          serviceId: 'node3'
+          applicationId: 'node3'
         }
       },
       {
         value: 3997696,
         labels: {
           space: 'trusted',
-          serviceId: 'node3'
+          applicationId: 'node3'
         }
       },
       {
         value: 0,
         labels: {
           space: 'new_large_object',
-          serviceId: 'node3'
+          applicationId: 'node3'
         }
       },
       {
         value: 2883584,
         labels: {
           space: 'large_object',
-          serviceId: 'node3'
+          applicationId: 'node3'
         }
       },
       {
         value: 0,
         labels: {
           space: 'code_large_object',
-          serviceId: 'node3'
+          applicationId: 'node3'
         }
       },
       {
         value: 0,
         labels: {
           space: 'shared_large_object',
-          serviceId: 'node3'
+          applicationId: 'node3'
         }
       },
       {
         value: 0,
         labels: {
           space: 'trusted_large_object',
-          serviceId: 'node3'
+          applicationId: 'node3'
         }
       }
     ],
@@ -7895,77 +7895,77 @@ export const metricFixtures: Metric[] = [
         value: 0,
         labels: {
           space: 'read_only',
-          serviceId: 'node3'
+          applicationId: 'node3'
         }
       },
       {
         value: 197584,
         labels: {
           space: 'new',
-          serviceId: 'node3'
+          applicationId: 'node3'
         }
       },
       {
         value: 26252544,
         labels: {
           space: 'old',
-          serviceId: 'node3'
+          applicationId: 'node3'
         }
       },
       {
         value: 1617280,
         labels: {
           space: 'code',
-          serviceId: 'node3'
+          applicationId: 'node3'
         }
       },
       {
         value: 0,
         labels: {
           space: 'shared',
-          serviceId: 'node3'
+          applicationId: 'node3'
         }
       },
       {
         value: 3680056,
         labels: {
           space: 'trusted',
-          serviceId: 'node3'
+          applicationId: 'node3'
         }
       },
       {
         value: 0,
         labels: {
           space: 'new_large_object',
-          serviceId: 'node3'
+          applicationId: 'node3'
         }
       },
       {
         value: 2718848,
         labels: {
           space: 'large_object',
-          serviceId: 'node3'
+          applicationId: 'node3'
         }
       },
       {
         value: 0,
         labels: {
           space: 'code_large_object',
-          serviceId: 'node3'
+          applicationId: 'node3'
         }
       },
       {
         value: 0,
         labels: {
           space: 'shared_large_object',
-          serviceId: 'node3'
+          applicationId: 'node3'
         }
       },
       {
         value: 0,
         labels: {
           space: 'trusted_large_object',
-          serviceId: 'node3'
+          applicationId: 'node3'
         }
       }
     ],
@@ -7980,77 +7980,77 @@ export const metricFixtures: Metric[] = [
         value: 0,
         labels: {
           space: 'read_only',
-          serviceId: 'node3'
+          applicationId: 'node3'
         }
       },
       {
         value: 833328,
         labels: {
           space: 'new',
-          serviceId: 'node3'
+          applicationId: 'node3'
         }
       },
       {
         value: 977216,
         labels: {
           space: 'old',
-          serviceId: 'node3'
+          applicationId: 'node3'
         }
       },
       {
         value: 69216,
         labels: {
           space: 'code',
-          serviceId: 'node3'
+          applicationId: 'node3'
         }
       },
       {
         value: 0,
         labels: {
           space: 'shared',
-          serviceId: 'node3'
+          applicationId: 'node3'
         }
       },
       {
         value: 246832,
         labels: {
           space: 'trusted',
-          serviceId: 'node3'
+          applicationId: 'node3'
         }
       },
       {
         value: 1048576,
         labels: {
           space: 'new_large_object',
-          serviceId: 'node3'
+          applicationId: 'node3'
         }
       },
       {
         value: 0,
         labels: {
           space: 'large_object',
-          serviceId: 'node3'
+          applicationId: 'node3'
         }
       },
       {
         value: 0,
         labels: {
           space: 'code_large_object',
-          serviceId: 'node3'
+          applicationId: 'node3'
         }
       },
       {
         value: 0,
         labels: {
           space: 'shared_large_object',
-          serviceId: 'node3'
+          applicationId: 'node3'
         }
       },
       {
         value: 0,
         labels: {
           space: 'trusted_large_object',
-          serviceId: 'node3'
+          applicationId: 'node3'
         }
       }
     ],
@@ -8068,7 +8068,7 @@ export const metricFixtures: Metric[] = [
           major: 22,
           minor: 12,
           patch: 0,
-          serviceId: 'node3'
+          applicationId: 'node3'
         }
       }
     ],
@@ -8086,7 +8086,7 @@ export const metricFixtures: Metric[] = [
         labels: {
           le: 0.001,
           kind: 'incremental',
-          serviceId: 'node3'
+          applicationId: 'node3'
         }
       },
       {
@@ -8096,7 +8096,7 @@ export const metricFixtures: Metric[] = [
         labels: {
           le: 0.01,
           kind: 'incremental',
-          serviceId: 'node3'
+          applicationId: 'node3'
         }
       },
       {
@@ -8106,7 +8106,7 @@ export const metricFixtures: Metric[] = [
         labels: {
           le: 0.1,
           kind: 'incremental',
-          serviceId: 'node3'
+          applicationId: 'node3'
         }
       },
       {
@@ -8116,7 +8116,7 @@ export const metricFixtures: Metric[] = [
         labels: {
           le: 1,
           kind: 'incremental',
-          serviceId: 'node3'
+          applicationId: 'node3'
         }
       },
       {
@@ -8126,7 +8126,7 @@ export const metricFixtures: Metric[] = [
         labels: {
           le: 2,
           kind: 'incremental',
-          serviceId: 'node3'
+          applicationId: 'node3'
         }
       },
       {
@@ -8136,7 +8136,7 @@ export const metricFixtures: Metric[] = [
         labels: {
           le: 5,
           kind: 'incremental',
-          serviceId: 'node3'
+          applicationId: 'node3'
         }
       },
       {
@@ -8146,7 +8146,7 @@ export const metricFixtures: Metric[] = [
         labels: {
           le: '+Inf',
           kind: 'incremental',
-          serviceId: 'node3'
+          applicationId: 'node3'
         }
       },
       {
@@ -8154,7 +8154,7 @@ export const metricFixtures: Metric[] = [
         metricName: 'nodejs_gc_duration_seconds_sum',
         labels: {
           kind: 'incremental',
-          serviceId: 'node3'
+          applicationId: 'node3'
         }
       },
       {
@@ -8162,7 +8162,7 @@ export const metricFixtures: Metric[] = [
         metricName: 'nodejs_gc_duration_seconds_count',
         labels: {
           kind: 'incremental',
-          serviceId: 'node3'
+          applicationId: 'node3'
         }
       },
       {
@@ -8172,7 +8172,7 @@ export const metricFixtures: Metric[] = [
         labels: {
           le: 0.001,
           kind: 'major',
-          serviceId: 'node3'
+          applicationId: 'node3'
         }
       },
       {
@@ -8182,7 +8182,7 @@ export const metricFixtures: Metric[] = [
         labels: {
           le: 0.01,
           kind: 'major',
-          serviceId: 'node3'
+          applicationId: 'node3'
         }
       },
       {
@@ -8192,7 +8192,7 @@ export const metricFixtures: Metric[] = [
         labels: {
           le: 0.1,
           kind: 'major',
-          serviceId: 'node3'
+          applicationId: 'node3'
         }
       },
       {
@@ -8202,7 +8202,7 @@ export const metricFixtures: Metric[] = [
         labels: {
           le: 1,
           kind: 'major',
-          serviceId: 'node3'
+          applicationId: 'node3'
         }
       },
       {
@@ -8212,7 +8212,7 @@ export const metricFixtures: Metric[] = [
         labels: {
           le: 2,
           kind: 'major',
-          serviceId: 'node3'
+          applicationId: 'node3'
         }
       },
       {
@@ -8222,7 +8222,7 @@ export const metricFixtures: Metric[] = [
         labels: {
           le: 5,
           kind: 'major',
-          serviceId: 'node3'
+          applicationId: 'node3'
         }
       },
       {
@@ -8232,7 +8232,7 @@ export const metricFixtures: Metric[] = [
         labels: {
           le: '+Inf',
           kind: 'major',
-          serviceId: 'node3'
+          applicationId: 'node3'
         }
       },
       {
@@ -8240,7 +8240,7 @@ export const metricFixtures: Metric[] = [
         metricName: 'nodejs_gc_duration_seconds_sum',
         labels: {
           kind: 'major',
-          serviceId: 'node3'
+          applicationId: 'node3'
         }
       },
       {
@@ -8248,7 +8248,7 @@ export const metricFixtures: Metric[] = [
         metricName: 'nodejs_gc_duration_seconds_count',
         labels: {
           kind: 'major',
-          serviceId: 'node3'
+          applicationId: 'node3'
         }
       }
     ],
@@ -8262,7 +8262,7 @@ export const metricFixtures: Metric[] = [
       {
         value: 0.01057749224854425,
         labels: {
-          serviceId: 'node3'
+          applicationId: 'node3'
         }
       }
     ],
@@ -8276,7 +8276,7 @@ export const metricFixtures: Metric[] = [
       {
         value: 55.22,
         labels: {
-          serviceId: 'node3'
+          applicationId: 'node3'
         }
       }
     ],
@@ -8290,7 +8290,7 @@ export const metricFixtures: Metric[] = [
       {
         value: 0.028707,
         labels: {
-          serviceId: 'node3'
+          applicationId: 'node3'
         }
       }
     ],
@@ -8304,7 +8304,7 @@ export const metricFixtures: Metric[] = [
       {
         value: 0.013470999999999999,
         labels: {
-          serviceId: 'node3'
+          applicationId: 'node3'
         }
       }
     ],
@@ -8318,7 +8318,7 @@ export const metricFixtures: Metric[] = [
       {
         value: 1.3030084551353478,
         labels: {
-          serviceId: 'node3'
+          applicationId: 'node3'
         }
       }
     ],
@@ -8332,7 +8332,7 @@ export const metricFixtures: Metric[] = [
       {
         value: 0.04217800000000001,
         labels: {
-          serviceId: 'node3'
+          applicationId: 'node3'
         }
       }
     ],
@@ -8374,7 +8374,7 @@ export const metricFixtures: Metric[] = [
       {
         value: 0,
         labels: {
-          serviceId: 'node3'
+          applicationId: 'node3'
         }
       }
     ],
@@ -8388,7 +8388,7 @@ export const metricFixtures: Metric[] = [
       {
         value: 0,
         labels: {
-          serviceId: 'node3'
+          applicationId: 'node3'
         }
       }
     ],
@@ -8402,7 +8402,7 @@ export const metricFixtures: Metric[] = [
       {
         value: 0.7223759999999999,
         labels: {
-          serviceId: 'node3',
+          applicationId: 'node3',
           workerId: 1
         }
       }
@@ -8417,7 +8417,7 @@ export const metricFixtures: Metric[] = [
       {
         value: 0.185146,
         labels: {
-          serviceId: 'node3',
+          applicationId: 'node3',
           workerId: 1
         }
       }
@@ -8432,7 +8432,7 @@ export const metricFixtures: Metric[] = [
       {
         value: 0.907522,
         labels: {
-          serviceId: 'node3',
+          applicationId: 'node3',
           workerId: 1
         }
       }
@@ -8447,7 +8447,7 @@ export const metricFixtures: Metric[] = [
       {
         value: 1743244689,
         labels: {
-          serviceId: 'node3',
+          applicationId: 'node3',
           workerId: 1
         }
       }
@@ -8462,7 +8462,7 @@ export const metricFixtures: Metric[] = [
       {
         value: 544882688,
         labels: {
-          serviceId: 'node3',
+          applicationId: 'node3',
           workerId: 1
         }
       }
@@ -8477,7 +8477,7 @@ export const metricFixtures: Metric[] = [
       {
         value: 0.000568167,
         labels: {
-          serviceId: 'node3',
+          applicationId: 'node3',
           workerId: 1
         }
       }
@@ -8492,7 +8492,7 @@ export const metricFixtures: Metric[] = [
       {
         value: 0.010067968,
         labels: {
-          serviceId: 'node3',
+          applicationId: 'node3',
           workerId: 1
         }
       }
@@ -8507,7 +8507,7 @@ export const metricFixtures: Metric[] = [
       {
         value: 0.011599871,
         labels: {
-          serviceId: 'node3',
+          applicationId: 'node3',
           workerId: 1
         }
       }
@@ -8522,7 +8522,7 @@ export const metricFixtures: Metric[] = [
       {
         value: 0.010934114461538462,
         labels: {
-          serviceId: 'node3',
+          applicationId: 'node3',
           workerId: 1
         }
       }
@@ -8537,7 +8537,7 @@ export const metricFixtures: Metric[] = [
       {
         value: 0.000370004960690366,
         labels: {
-          serviceId: 'node3',
+          applicationId: 'node3',
           workerId: 1
         }
       }
@@ -8552,7 +8552,7 @@ export const metricFixtures: Metric[] = [
       {
         value: 0.011042815,
         labels: {
-          serviceId: 'node3',
+          applicationId: 'node3',
           workerId: 1
         }
       }
@@ -8567,7 +8567,7 @@ export const metricFixtures: Metric[] = [
       {
         value: 0.011255807,
         labels: {
-          serviceId: 'node3',
+          applicationId: 'node3',
           workerId: 1
         }
       }
@@ -8582,7 +8582,7 @@ export const metricFixtures: Metric[] = [
       {
         value: 0.011599871,
         labels: {
-          serviceId: 'node3',
+          applicationId: 'node3',
           workerId: 1
         }
       }
@@ -8598,7 +8598,7 @@ export const metricFixtures: Metric[] = [
         value: 11,
         labels: {
           type: 'MessagePort',
-          serviceId: 'node3',
+          applicationId: 'node3',
           workerId: 1
         }
       },
@@ -8606,7 +8606,7 @@ export const metricFixtures: Metric[] = [
         value: 1,
         labels: {
           type: 'Immediate',
-          serviceId: 'node3',
+          applicationId: 'node3',
           workerId: 1
         }
       }
@@ -8621,7 +8621,7 @@ export const metricFixtures: Metric[] = [
       {
         value: 12,
         labels: {
-          serviceId: 'node3',
+          applicationId: 'node3',
           workerId: 1
         }
       }
@@ -8637,7 +8637,7 @@ export const metricFixtures: Metric[] = [
         value: 11,
         labels: {
           type: 'MessagePort',
-          serviceId: 'node3',
+          applicationId: 'node3',
           workerId: 1
         }
       }
@@ -8652,7 +8652,7 @@ export const metricFixtures: Metric[] = [
       {
         value: 11,
         labels: {
-          serviceId: 'node3',
+          applicationId: 'node3',
           workerId: 1
         }
       }
@@ -8674,7 +8674,7 @@ export const metricFixtures: Metric[] = [
       {
         value: 0,
         labels: {
-          serviceId: 'node3',
+          applicationId: 'node3',
           workerId: 1
         }
       }
@@ -8689,7 +8689,7 @@ export const metricFixtures: Metric[] = [
       {
         value: 77365248,
         labels: {
-          serviceId: 'node3',
+          applicationId: 'node3',
           workerId: 1
         }
       }
@@ -8704,7 +8704,7 @@ export const metricFixtures: Metric[] = [
       {
         value: 43773888,
         labels: {
-          serviceId: 'node3',
+          applicationId: 'node3',
           workerId: 1
         }
       }
@@ -8719,7 +8719,7 @@ export const metricFixtures: Metric[] = [
       {
         value: 5236992,
         labels: {
-          serviceId: 'node3',
+          applicationId: 'node3',
           workerId: 1
         }
       }
@@ -8735,7 +8735,7 @@ export const metricFixtures: Metric[] = [
         value: 0,
         labels: {
           space: 'read_only',
-          serviceId: 'node3',
+          applicationId: 'node3',
           workerId: 1
         }
       },
@@ -8743,7 +8743,7 @@ export const metricFixtures: Metric[] = [
         value: 33554432,
         labels: {
           space: 'new',
-          serviceId: 'node3',
+          applicationId: 'node3',
           workerId: 1
         }
       },
@@ -8751,7 +8751,7 @@ export const metricFixtures: Metric[] = [
         value: 34308096,
         labels: {
           space: 'old',
-          serviceId: 'node3',
+          applicationId: 'node3',
           workerId: 1
         }
       },
@@ -8759,7 +8759,7 @@ export const metricFixtures: Metric[] = [
         value: 2359296,
         labels: {
           space: 'code',
-          serviceId: 'node3',
+          applicationId: 'node3',
           workerId: 1
         }
       },
@@ -8767,7 +8767,7 @@ export const metricFixtures: Metric[] = [
         value: 0,
         labels: {
           space: 'shared',
-          serviceId: 'node3',
+          applicationId: 'node3',
           workerId: 1
         }
       },
@@ -8775,7 +8775,7 @@ export const metricFixtures: Metric[] = [
         value: 4259840,
         labels: {
           space: 'trusted',
-          serviceId: 'node3',
+          applicationId: 'node3',
           workerId: 1
         }
       },
@@ -8783,7 +8783,7 @@ export const metricFixtures: Metric[] = [
         value: 0,
         labels: {
           space: 'new_large_object',
-          serviceId: 'node3',
+          applicationId: 'node3',
           workerId: 1
         }
       },
@@ -8791,7 +8791,7 @@ export const metricFixtures: Metric[] = [
         value: 2883584,
         labels: {
           space: 'large_object',
-          serviceId: 'node3',
+          applicationId: 'node3',
           workerId: 1
         }
       },
@@ -8799,7 +8799,7 @@ export const metricFixtures: Metric[] = [
         value: 0,
         labels: {
           space: 'code_large_object',
-          serviceId: 'node3',
+          applicationId: 'node3',
           workerId: 1
         }
       },
@@ -8807,7 +8807,7 @@ export const metricFixtures: Metric[] = [
         value: 0,
         labels: {
           space: 'shared_large_object',
-          serviceId: 'node3',
+          applicationId: 'node3',
           workerId: 1
         }
       },
@@ -8815,7 +8815,7 @@ export const metricFixtures: Metric[] = [
         value: 0,
         labels: {
           space: 'trusted_large_object',
-          serviceId: 'node3',
+          applicationId: 'node3',
           workerId: 1
         }
       }
@@ -8831,7 +8831,7 @@ export const metricFixtures: Metric[] = [
         value: 0,
         labels: {
           space: 'read_only',
-          serviceId: 'node3',
+          applicationId: 'node3',
           workerId: 1
         }
       },
@@ -8839,7 +8839,7 @@ export const metricFixtures: Metric[] = [
         value: 2664424,
         labels: {
           space: 'new',
-          serviceId: 'node3',
+          applicationId: 'node3',
           workerId: 1
         }
       },
@@ -8847,7 +8847,7 @@ export const metricFixtures: Metric[] = [
         value: 32740304,
         labels: {
           space: 'old',
-          serviceId: 'node3',
+          applicationId: 'node3',
           workerId: 1
         }
       },
@@ -8855,7 +8855,7 @@ export const metricFixtures: Metric[] = [
         value: 1793664,
         labels: {
           space: 'code',
-          serviceId: 'node3',
+          applicationId: 'node3',
           workerId: 1
         }
       },
@@ -8863,7 +8863,7 @@ export const metricFixtures: Metric[] = [
         value: 0,
         labels: {
           space: 'shared',
-          serviceId: 'node3',
+          applicationId: 'node3',
           workerId: 1
         }
       },
@@ -8871,7 +8871,7 @@ export const metricFixtures: Metric[] = [
         value: 3858808,
         labels: {
           space: 'trusted',
-          serviceId: 'node3',
+          applicationId: 'node3',
           workerId: 1
         }
       },
@@ -8879,7 +8879,7 @@ export const metricFixtures: Metric[] = [
         value: 0,
         labels: {
           space: 'new_large_object',
-          serviceId: 'node3',
+          applicationId: 'node3',
           workerId: 1
         }
       },
@@ -8887,7 +8887,7 @@ export const metricFixtures: Metric[] = [
         value: 2718848,
         labels: {
           space: 'large_object',
-          serviceId: 'node3',
+          applicationId: 'node3',
           workerId: 1
         }
       },
@@ -8895,7 +8895,7 @@ export const metricFixtures: Metric[] = [
         value: 0,
         labels: {
           space: 'code_large_object',
-          serviceId: 'node3',
+          applicationId: 'node3',
           workerId: 1
         }
       },
@@ -8903,7 +8903,7 @@ export const metricFixtures: Metric[] = [
         value: 0,
         labels: {
           space: 'shared_large_object',
-          serviceId: 'node3',
+          applicationId: 'node3',
           workerId: 1
         }
       },
@@ -8911,7 +8911,7 @@ export const metricFixtures: Metric[] = [
         value: 0,
         labels: {
           space: 'trusted_large_object',
-          serviceId: 'node3',
+          applicationId: 'node3',
           workerId: 1
         }
       }
@@ -8927,7 +8927,7 @@ export const metricFixtures: Metric[] = [
         value: 0,
         labels: {
           space: 'read_only',
-          serviceId: 'node3',
+          applicationId: 'node3',
           workerId: 1
         }
       },
@@ -8935,7 +8935,7 @@ export const metricFixtures: Metric[] = [
         value: 13830168,
         labels: {
           space: 'new',
-          serviceId: 'node3',
+          applicationId: 'node3',
           workerId: 1
         }
       },
@@ -8943,7 +8943,7 @@ export const metricFixtures: Metric[] = [
         value: 941376,
         labels: {
           space: 'old',
-          serviceId: 'node3',
+          applicationId: 'node3',
           workerId: 1
         }
       },
@@ -8951,7 +8951,7 @@ export const metricFixtures: Metric[] = [
         value: 123264,
         labels: {
           space: 'code',
-          serviceId: 'node3',
+          applicationId: 'node3',
           workerId: 1
         }
       },
@@ -8959,7 +8959,7 @@ export const metricFixtures: Metric[] = [
         value: 0,
         labels: {
           space: 'shared',
-          serviceId: 'node3',
+          applicationId: 'node3',
           workerId: 1
         }
       },
@@ -8967,7 +8967,7 @@ export const metricFixtures: Metric[] = [
         value: 325680,
         labels: {
           space: 'trusted',
-          serviceId: 'node3',
+          applicationId: 'node3',
           workerId: 1
         }
       },
@@ -8975,7 +8975,7 @@ export const metricFixtures: Metric[] = [
         value: 16777216,
         labels: {
           space: 'new_large_object',
-          serviceId: 'node3',
+          applicationId: 'node3',
           workerId: 1
         }
       },
@@ -8983,7 +8983,7 @@ export const metricFixtures: Metric[] = [
         value: 0,
         labels: {
           space: 'large_object',
-          serviceId: 'node3',
+          applicationId: 'node3',
           workerId: 1
         }
       },
@@ -8991,7 +8991,7 @@ export const metricFixtures: Metric[] = [
         value: 0,
         labels: {
           space: 'code_large_object',
-          serviceId: 'node3',
+          applicationId: 'node3',
           workerId: 1
         }
       },
@@ -8999,7 +8999,7 @@ export const metricFixtures: Metric[] = [
         value: 0,
         labels: {
           space: 'shared_large_object',
-          serviceId: 'node3',
+          applicationId: 'node3',
           workerId: 1
         }
       },
@@ -9007,7 +9007,7 @@ export const metricFixtures: Metric[] = [
         value: 0,
         labels: {
           space: 'trusted_large_object',
-          serviceId: 'node3',
+          applicationId: 'node3',
           workerId: 1
         }
       }
@@ -9026,7 +9026,7 @@ export const metricFixtures: Metric[] = [
           major: 22,
           minor: 12,
           patch: 0,
-          serviceId: 'node3',
+          applicationId: 'node3',
           workerId: 1
         }
       }
@@ -9048,7 +9048,7 @@ export const metricFixtures: Metric[] = [
       {
         value: 0.014306853176291191,
         labels: {
-          serviceId: 'node3',
+          applicationId: 'node3',
           workerId: 1
         }
       }
@@ -9063,7 +9063,7 @@ export const metricFixtures: Metric[] = [
       {
         value: 55.22,
         labels: {
-          serviceId: 'node3',
+          applicationId: 'node3',
           workerId: 1
         }
       }
@@ -9078,7 +9078,7 @@ export const metricFixtures: Metric[] = [
       {
         value: 0.013733,
         labels: {
-          serviceId: 'node3',
+          applicationId: 'node3',
           workerId: 1
         }
       }
@@ -9093,7 +9093,7 @@ export const metricFixtures: Metric[] = [
       {
         value: 0.007416,
         labels: {
-          serviceId: 'node3',
+          applicationId: 'node3',
           workerId: 1
         }
       }
@@ -9108,7 +9108,7 @@ export const metricFixtures: Metric[] = [
       {
         value: 0.2041511326186852,
         labels: {
-          serviceId: 'node3',
+          applicationId: 'node3',
           workerId: 1
         }
       }
@@ -9123,7 +9123,7 @@ export const metricFixtures: Metric[] = [
       {
         value: 0.021148999999999998,
         labels: {
-          serviceId: 'node3',
+          applicationId: 'node3',
           workerId: 1
         }
       }
@@ -9166,7 +9166,7 @@ export const metricFixtures: Metric[] = [
       {
         value: 0,
         labels: {
-          serviceId: 'node3',
+          applicationId: 'node3',
           workerId: 1
         }
       }
@@ -9181,7 +9181,7 @@ export const metricFixtures: Metric[] = [
       {
         value: 0,
         labels: {
-          serviceId: 'node3',
+          applicationId: 'node3',
           workerId: 1
         }
       }
@@ -9196,7 +9196,7 @@ export const metricFixtures: Metric[] = [
       {
         value: 0.030403999999999997,
         labels: {
-          serviceId: 'type1'
+          applicationId: 'type1'
         }
       }
     ],
@@ -9210,7 +9210,7 @@ export const metricFixtures: Metric[] = [
       {
         value: 0.009579,
         labels: {
-          serviceId: 'type1'
+          applicationId: 'type1'
         }
       }
     ],
@@ -9224,7 +9224,7 @@ export const metricFixtures: Metric[] = [
       {
         value: 0.039983,
         labels: {
-          serviceId: 'type1'
+          applicationId: 'type1'
         }
       }
     ],
@@ -9238,7 +9238,7 @@ export const metricFixtures: Metric[] = [
       {
         value: 1743244694,
         labels: {
-          serviceId: 'type1'
+          applicationId: 'type1'
         }
       }
     ],
@@ -9252,7 +9252,7 @@ export const metricFixtures: Metric[] = [
       {
         value: 67649536,
         labels: {
-          serviceId: 'type1'
+          applicationId: 'type1'
         }
       }
     ],
@@ -9266,7 +9266,7 @@ export const metricFixtures: Metric[] = [
       {
         value: 0.00077725,
         labels: {
-          serviceId: 'type1'
+          applicationId: 'type1'
         }
       }
     ],
@@ -9280,7 +9280,7 @@ export const metricFixtures: Metric[] = [
       {
         value: 0.010092544,
         labels: {
-          serviceId: 'type1'
+          applicationId: 'type1'
         }
       }
     ],
@@ -9294,7 +9294,7 @@ export const metricFixtures: Metric[] = [
       {
         value: 0.011698175,
         labels: {
-          serviceId: 'type1'
+          applicationId: 'type1'
         }
       }
     ],
@@ -9308,7 +9308,7 @@ export const metricFixtures: Metric[] = [
       {
         value: 0.01095914057142857,
         labels: {
-          serviceId: 'type1'
+          applicationId: 'type1'
         }
       }
     ],
@@ -9322,7 +9322,7 @@ export const metricFixtures: Metric[] = [
       {
         value: 0.00038665680355687044,
         labels: {
-          serviceId: 'type1'
+          applicationId: 'type1'
         }
       }
     ],
@@ -9336,7 +9336,7 @@ export const metricFixtures: Metric[] = [
       {
         value: 0.011026431,
         labels: {
-          serviceId: 'type1'
+          applicationId: 'type1'
         }
       }
     ],
@@ -9350,7 +9350,7 @@ export const metricFixtures: Metric[] = [
       {
         value: 0.011362303,
         labels: {
-          serviceId: 'type1'
+          applicationId: 'type1'
         }
       }
     ],
@@ -9364,7 +9364,7 @@ export const metricFixtures: Metric[] = [
       {
         value: 0.011698175,
         labels: {
-          serviceId: 'type1'
+          applicationId: 'type1'
         }
       }
     ],
@@ -9379,21 +9379,21 @@ export const metricFixtures: Metric[] = [
         value: 2,
         labels: {
           type: 'PipeWrap',
-          serviceId: 'type1'
+          applicationId: 'type1'
         }
       },
       {
         value: 1,
         labels: {
           type: 'TCPServerWrap',
-          serviceId: 'type1'
+          applicationId: 'type1'
         }
       },
       {
         value: 1,
         labels: {
           type: 'Immediate',
-          serviceId: 'type1'
+          applicationId: 'type1'
         }
       }
     ],
@@ -9407,7 +9407,7 @@ export const metricFixtures: Metric[] = [
       {
         value: 4,
         labels: {
-          serviceId: 'type1'
+          applicationId: 'type1'
         }
       }
     ],
@@ -9422,14 +9422,14 @@ export const metricFixtures: Metric[] = [
         value: 2,
         labels: {
           type: 'Socket',
-          serviceId: 'type1'
+          applicationId: 'type1'
         }
       },
       {
         value: 1,
         labels: {
           type: 'Server',
-          serviceId: 'type1'
+          applicationId: 'type1'
         }
       }
     ],
@@ -9443,7 +9443,7 @@ export const metricFixtures: Metric[] = [
       {
         value: 3,
         labels: {
-          serviceId: 'type1'
+          applicationId: 'type1'
         }
       }
     ],
@@ -9464,7 +9464,7 @@ export const metricFixtures: Metric[] = [
       {
         value: 0,
         labels: {
-          serviceId: 'type1'
+          applicationId: 'type1'
         }
       }
     ],
@@ -9478,7 +9478,7 @@ export const metricFixtures: Metric[] = [
       {
         value: 35831808,
         labels: {
-          serviceId: 'type1'
+          applicationId: 'type1'
         }
       }
     ],
@@ -9492,7 +9492,7 @@ export const metricFixtures: Metric[] = [
       {
         value: 18841152,
         labels: {
-          serviceId: 'type1'
+          applicationId: 'type1'
         }
       }
     ],
@@ -9506,7 +9506,7 @@ export const metricFixtures: Metric[] = [
       {
         value: 4065624,
         labels: {
-          serviceId: 'type1'
+          applicationId: 'type1'
         }
       }
     ],
@@ -9521,77 +9521,77 @@ export const metricFixtures: Metric[] = [
         value: 0,
         labels: {
           space: 'read_only',
-          serviceId: 'type1'
+          applicationId: 'type1'
         }
       },
       {
         value: 16777216,
         labels: {
           space: 'new',
-          serviceId: 'type1'
+          applicationId: 'type1'
         }
       },
       {
         value: 14647296,
         labels: {
           space: 'old',
-          serviceId: 'type1'
+          applicationId: 'type1'
         }
       },
       {
         value: 1310720,
         labels: {
           space: 'code',
-          serviceId: 'type1'
+          applicationId: 'type1'
         }
       },
       {
         value: 0,
         labels: {
           space: 'shared',
-          serviceId: 'type1'
+          applicationId: 'type1'
         }
       },
       {
         value: 1900544,
         labels: {
           space: 'trusted',
-          serviceId: 'type1'
+          applicationId: 'type1'
         }
       },
       {
         value: 0,
         labels: {
           space: 'new_large_object',
-          serviceId: 'type1'
+          applicationId: 'type1'
         }
       },
       {
         value: 1196032,
         labels: {
           space: 'large_object',
-          serviceId: 'type1'
+          applicationId: 'type1'
         }
       },
       {
         value: 0,
         labels: {
           space: 'code_large_object',
-          serviceId: 'type1'
+          applicationId: 'type1'
         }
       },
       {
         value: 0,
         labels: {
           space: 'shared_large_object',
-          serviceId: 'type1'
+          applicationId: 'type1'
         }
       },
       {
         value: 0,
         labels: {
           space: 'trusted_large_object',
-          serviceId: 'type1'
+          applicationId: 'type1'
         }
       }
     ],
@@ -9606,77 +9606,77 @@ export const metricFixtures: Metric[] = [
         value: 0,
         labels: {
           space: 'read_only',
-          serviceId: 'type1'
+          applicationId: 'type1'
         }
       },
       {
         value: 3107488,
         labels: {
           space: 'new',
-          serviceId: 'type1'
+          applicationId: 'type1'
         }
       },
       {
         value: 12035272,
         labels: {
           space: 'old',
-          serviceId: 'type1'
+          applicationId: 'type1'
         }
       },
       {
         value: 867136,
         labels: {
           space: 'code',
-          serviceId: 'type1'
+          applicationId: 'type1'
         }
       },
       {
         value: 0,
         labels: {
           space: 'shared',
-          serviceId: 'type1'
+          applicationId: 'type1'
         }
       },
       {
         value: 1702664,
         labels: {
           space: 'trusted',
-          serviceId: 'type1'
+          applicationId: 'type1'
         }
       },
       {
         value: 0,
         labels: {
           space: 'new_large_object',
-          serviceId: 'type1'
+          applicationId: 'type1'
         }
       },
       {
         value: 1130752,
         labels: {
           space: 'large_object',
-          serviceId: 'type1'
+          applicationId: 'type1'
         }
       },
       {
         value: 0,
         labels: {
           space: 'code_large_object',
-          serviceId: 'type1'
+          applicationId: 'type1'
         }
       },
       {
         value: 0,
         labels: {
           space: 'shared_large_object',
-          serviceId: 'type1'
+          applicationId: 'type1'
         }
       },
       {
         value: 0,
         labels: {
           space: 'trusted_large_object',
-          serviceId: 'type1'
+          applicationId: 'type1'
         }
       }
     ],
@@ -9691,77 +9691,77 @@ export const metricFixtures: Metric[] = [
         value: 0,
         labels: {
           space: 'read_only',
-          serviceId: 'type1'
+          applicationId: 'type1'
         }
       },
       {
         value: 5139808,
         labels: {
           space: 'new',
-          serviceId: 'type1'
+          applicationId: 'type1'
         }
       },
       {
         value: 1628304,
         labels: {
           space: 'old',
-          serviceId: 'type1'
+          applicationId: 'type1'
         }
       },
       {
         value: 197824,
         labels: {
           space: 'code',
-          serviceId: 'type1'
+          applicationId: 'type1'
         }
       },
       {
         value: 0,
         labels: {
           space: 'shared',
-          serviceId: 'type1'
+          applicationId: 'type1'
         }
       },
       {
         value: 162432,
         labels: {
           space: 'trusted',
-          serviceId: 'type1'
+          applicationId: 'type1'
         }
       },
       {
         value: 8388608,
         labels: {
           space: 'new_large_object',
-          serviceId: 'type1'
+          applicationId: 'type1'
         }
       },
       {
         value: 0,
         labels: {
           space: 'large_object',
-          serviceId: 'type1'
+          applicationId: 'type1'
         }
       },
       {
         value: 0,
         labels: {
           space: 'code_large_object',
-          serviceId: 'type1'
+          applicationId: 'type1'
         }
       },
       {
         value: 0,
         labels: {
           space: 'shared_large_object',
-          serviceId: 'type1'
+          applicationId: 'type1'
         }
       },
       {
         value: 0,
         labels: {
           space: 'trusted_large_object',
-          serviceId: 'type1'
+          applicationId: 'type1'
         }
       }
     ],
@@ -9779,7 +9779,7 @@ export const metricFixtures: Metric[] = [
           major: 22,
           minor: 12,
           patch: 0,
-          serviceId: 'type1'
+          applicationId: 'type1'
         }
       }
     ],
@@ -9800,7 +9800,7 @@ export const metricFixtures: Metric[] = [
       {
         value: 0.010959286068950178,
         labels: {
-          serviceId: 'type1'
+          applicationId: 'type1'
         }
       }
     ],
@@ -9814,7 +9814,7 @@ export const metricFixtures: Metric[] = [
       {
         value: 55.64,
         labels: {
-          serviceId: 'type1'
+          applicationId: 'type1'
         }
       }
     ],
@@ -9828,7 +9828,7 @@ export const metricFixtures: Metric[] = [
       {
         value: 0.021881,
         labels: {
-          serviceId: 'type1'
+          applicationId: 'type1'
         }
       }
     ],
@@ -9842,7 +9842,7 @@ export const metricFixtures: Metric[] = [
       {
         value: 0.008741,
         labels: {
-          serviceId: 'type1'
+          applicationId: 'type1'
         }
       }
     ],
@@ -9856,7 +9856,7 @@ export const metricFixtures: Metric[] = [
       {
         value: 0.3537638524799959,
         labels: {
-          serviceId: 'type1'
+          applicationId: 'type1'
         }
       }
     ],
@@ -9870,7 +9870,7 @@ export const metricFixtures: Metric[] = [
       {
         value: 0.030622,
         labels: {
-          serviceId: 'type1'
+          applicationId: 'type1'
         }
       }
     ],
@@ -9887,7 +9887,7 @@ export const metricFixtures: Metric[] = [
           method: 'GET',
           status_code: 200,
           telemetry_id: 'unknown',
-          serviceId: 'type1'
+          applicationId: 'type1'
         },
         value: 0.00126675
       },
@@ -9897,7 +9897,7 @@ export const metricFixtures: Metric[] = [
           method: 'GET',
           status_code: 200,
           telemetry_id: 'unknown',
-          serviceId: 'type1'
+          applicationId: 'type1'
         },
         value: 0.00126675
       },
@@ -9907,7 +9907,7 @@ export const metricFixtures: Metric[] = [
           method: 'GET',
           status_code: 200,
           telemetry_id: 'unknown',
-          serviceId: 'type1'
+          applicationId: 'type1'
         },
         value: 0.00126675
       },
@@ -9917,7 +9917,7 @@ export const metricFixtures: Metric[] = [
           method: 'GET',
           status_code: 200,
           telemetry_id: 'unknown',
-          serviceId: 'type1'
+          applicationId: 'type1'
         },
         value: 0.00126675
       },
@@ -9927,7 +9927,7 @@ export const metricFixtures: Metric[] = [
           method: 'GET',
           status_code: 200,
           telemetry_id: 'unknown',
-          serviceId: 'type1'
+          applicationId: 'type1'
         },
         value: 0.00126675
       },
@@ -9937,7 +9937,7 @@ export const metricFixtures: Metric[] = [
           method: 'GET',
           status_code: 200,
           telemetry_id: 'unknown',
-          serviceId: 'type1'
+          applicationId: 'type1'
         },
         value: 0.00126675
       },
@@ -9947,7 +9947,7 @@ export const metricFixtures: Metric[] = [
           method: 'GET',
           status_code: 200,
           telemetry_id: 'unknown',
-          serviceId: 'type1'
+          applicationId: 'type1'
         },
         value: 0.00126675
       },
@@ -9957,7 +9957,7 @@ export const metricFixtures: Metric[] = [
           method: 'GET',
           status_code: 200,
           telemetry_id: 'unknown',
-          serviceId: 'type1'
+          applicationId: 'type1'
         },
         value: 0.00126675
       },
@@ -9967,7 +9967,7 @@ export const metricFixtures: Metric[] = [
           method: 'GET',
           status_code: 200,
           telemetry_id: 'unknown',
-          serviceId: 'type1'
+          applicationId: 'type1'
         },
         value: 1
       }
@@ -9988,7 +9988,7 @@ export const metricFixtures: Metric[] = [
           method: 'GET',
           status_code: 200,
           telemetry_id: 'unknown',
-          serviceId: 'type1'
+          applicationId: 'type1'
         }
       },
       {
@@ -10000,7 +10000,7 @@ export const metricFixtures: Metric[] = [
           method: 'GET',
           status_code: 200,
           telemetry_id: 'unknown',
-          serviceId: 'type1'
+          applicationId: 'type1'
         }
       },
       {
@@ -10012,7 +10012,7 @@ export const metricFixtures: Metric[] = [
           method: 'GET',
           status_code: 200,
           telemetry_id: 'unknown',
-          serviceId: 'type1'
+          applicationId: 'type1'
         }
       },
       {
@@ -10024,7 +10024,7 @@ export const metricFixtures: Metric[] = [
           method: 'GET',
           status_code: 200,
           telemetry_id: 'unknown',
-          serviceId: 'type1'
+          applicationId: 'type1'
         }
       },
       {
@@ -10036,7 +10036,7 @@ export const metricFixtures: Metric[] = [
           method: 'GET',
           status_code: 200,
           telemetry_id: 'unknown',
-          serviceId: 'type1'
+          applicationId: 'type1'
         }
       },
       {
@@ -10048,7 +10048,7 @@ export const metricFixtures: Metric[] = [
           method: 'GET',
           status_code: 200,
           telemetry_id: 'unknown',
-          serviceId: 'type1'
+          applicationId: 'type1'
         }
       },
       {
@@ -10060,7 +10060,7 @@ export const metricFixtures: Metric[] = [
           method: 'GET',
           status_code: 200,
           telemetry_id: 'unknown',
-          serviceId: 'type1'
+          applicationId: 'type1'
         }
       },
       {
@@ -10072,7 +10072,7 @@ export const metricFixtures: Metric[] = [
           method: 'GET',
           status_code: 200,
           telemetry_id: 'unknown',
-          serviceId: 'type1'
+          applicationId: 'type1'
         }
       },
       {
@@ -10084,7 +10084,7 @@ export const metricFixtures: Metric[] = [
           method: 'GET',
           status_code: 200,
           telemetry_id: 'unknown',
-          serviceId: 'type1'
+          applicationId: 'type1'
         }
       },
       {
@@ -10096,7 +10096,7 @@ export const metricFixtures: Metric[] = [
           method: 'GET',
           status_code: 200,
           telemetry_id: 'unknown',
-          serviceId: 'type1'
+          applicationId: 'type1'
         }
       },
       {
@@ -10108,7 +10108,7 @@ export const metricFixtures: Metric[] = [
           method: 'GET',
           status_code: 200,
           telemetry_id: 'unknown',
-          serviceId: 'type1'
+          applicationId: 'type1'
         }
       },
       {
@@ -10120,7 +10120,7 @@ export const metricFixtures: Metric[] = [
           method: 'GET',
           status_code: 200,
           telemetry_id: 'unknown',
-          serviceId: 'type1'
+          applicationId: 'type1'
         }
       },
       {
@@ -10130,7 +10130,7 @@ export const metricFixtures: Metric[] = [
           method: 'GET',
           status_code: 200,
           telemetry_id: 'unknown',
-          serviceId: 'type1'
+          applicationId: 'type1'
         }
       },
       {
@@ -10140,7 +10140,7 @@ export const metricFixtures: Metric[] = [
           method: 'GET',
           status_code: 200,
           telemetry_id: 'unknown',
-          serviceId: 'type1'
+          applicationId: 'type1'
         }
       }
     ],
@@ -10157,7 +10157,7 @@ export const metricFixtures: Metric[] = [
           method: 'GET',
           status_code: 200,
           telemetry_id: 'unknown',
-          serviceId: 'type1'
+          applicationId: 'type1'
         },
         value: 0
       },
@@ -10167,7 +10167,7 @@ export const metricFixtures: Metric[] = [
           method: 'GET',
           status_code: 200,
           telemetry_id: 'unknown',
-          serviceId: 'type1'
+          applicationId: 'type1'
         },
         value: 0
       },
@@ -10177,7 +10177,7 @@ export const metricFixtures: Metric[] = [
           method: 'GET',
           status_code: 200,
           telemetry_id: 'unknown',
-          serviceId: 'type1'
+          applicationId: 'type1'
         },
         value: 0
       },
@@ -10187,7 +10187,7 @@ export const metricFixtures: Metric[] = [
           method: 'GET',
           status_code: 200,
           telemetry_id: 'unknown',
-          serviceId: 'type1'
+          applicationId: 'type1'
         },
         value: 0.5433
       },
@@ -10197,7 +10197,7 @@ export const metricFixtures: Metric[] = [
           method: 'GET',
           status_code: 200,
           telemetry_id: 'unknown',
-          serviceId: 'type1'
+          applicationId: 'type1'
         },
         value: 0.8324
       },
@@ -10207,7 +10207,7 @@ export const metricFixtures: Metric[] = [
           method: 'GET',
           status_code: 200,
           telemetry_id: 'unknown',
-          serviceId: 'type1'
+          applicationId: 'type1'
         },
         value: 0.4312
       },
@@ -10217,7 +10217,7 @@ export const metricFixtures: Metric[] = [
           method: 'GET',
           status_code: 200,
           telemetry_id: 'unknown',
-          serviceId: 'type1'
+          applicationId: 'type1'
         },
         value: 0
       },
@@ -10227,7 +10227,7 @@ export const metricFixtures: Metric[] = [
           method: 'GET',
           status_code: 200,
           telemetry_id: 'unknown',
-          serviceId: 'type1'
+          applicationId: 'type1'
         },
         value: 0
       },
@@ -10237,7 +10237,7 @@ export const metricFixtures: Metric[] = [
           method: 'GET',
           status_code: 200,
           telemetry_id: 'unknown',
-          serviceId: 'type1'
+          applicationId: 'type1'
         },
         value: 0
       }
@@ -10259,7 +10259,7 @@ export const metricFixtures: Metric[] = [
       {
         value: 0,
         labels: {
-          serviceId: 'type1'
+          applicationId: 'type1'
         }
       }
     ],
@@ -10273,7 +10273,7 @@ export const metricFixtures: Metric[] = [
       {
         value: 0,
         labels: {
-          serviceId: 'type1'
+          applicationId: 'type1'
         }
       }
     ],
@@ -10287,7 +10287,7 @@ export const metricFixtures: Metric[] = [
       {
         value: 0.022261999999999997,
         labels: {
-          serviceId: 'type1',
+          applicationId: 'type1',
           workerId: 1
         }
       }
@@ -10302,7 +10302,7 @@ export const metricFixtures: Metric[] = [
       {
         value: 0.006999999999999999,
         labels: {
-          serviceId: 'type1',
+          applicationId: 'type1',
           workerId: 1
         }
       }
@@ -10317,7 +10317,7 @@ export const metricFixtures: Metric[] = [
       {
         value: 0.029261999999999993,
         labels: {
-          serviceId: 'type1',
+          applicationId: 'type1',
           workerId: 1
         }
       }
@@ -10332,7 +10332,7 @@ export const metricFixtures: Metric[] = [
       {
         value: 1743244695,
         labels: {
-          serviceId: 'type1',
+          applicationId: 'type1',
           workerId: 1
         }
       }
@@ -10347,7 +10347,7 @@ export const metricFixtures: Metric[] = [
       {
         value: 71335936,
         labels: {
-          serviceId: 'type1',
+          applicationId: 'type1',
           workerId: 1
         }
       }
@@ -10362,7 +10362,7 @@ export const metricFixtures: Metric[] = [
       {
         value: 0.0006465,
         labels: {
-          serviceId: 'type1',
+          applicationId: 'type1',
           workerId: 1
         }
       }
@@ -10377,7 +10377,7 @@ export const metricFixtures: Metric[] = [
       {
         value: 0.010092544,
         labels: {
-          serviceId: 'type1',
+          applicationId: 'type1',
           workerId: 1
         }
       }
@@ -10392,7 +10392,7 @@ export const metricFixtures: Metric[] = [
       {
         value: 0.011182079,
         labels: {
-          serviceId: 'type1',
+          applicationId: 'type1',
           workerId: 1
         }
       }
@@ -10407,7 +10407,7 @@ export const metricFixtures: Metric[] = [
       {
         value: 0.010808173714285715,
         labels: {
-          serviceId: 'type1',
+          applicationId: 'type1',
           workerId: 1
         }
       }
@@ -10422,7 +10422,7 @@ export const metricFixtures: Metric[] = [
       {
         value: 0.00036507099903354,
         labels: {
-          serviceId: 'type1',
+          applicationId: 'type1',
           workerId: 1
         }
       }
@@ -10437,7 +10437,7 @@ export const metricFixtures: Metric[] = [
       {
         value: 0.010985471,
         labels: {
-          serviceId: 'type1',
+          applicationId: 'type1',
           workerId: 1
         }
       }
@@ -10452,7 +10452,7 @@ export const metricFixtures: Metric[] = [
       {
         value: 0.011165695,
         labels: {
-          serviceId: 'type1',
+          applicationId: 'type1',
           workerId: 1
         }
       }
@@ -10467,7 +10467,7 @@ export const metricFixtures: Metric[] = [
       {
         value: 0.011182079,
         labels: {
-          serviceId: 'type1',
+          applicationId: 'type1',
           workerId: 1
         }
       }
@@ -10483,7 +10483,7 @@ export const metricFixtures: Metric[] = [
         value: 2,
         labels: {
           type: 'PipeWrap',
-          serviceId: 'type1',
+          applicationId: 'type1',
           workerId: 1
         }
       },
@@ -10491,7 +10491,7 @@ export const metricFixtures: Metric[] = [
         value: 1,
         labels: {
           type: 'TCPServerWrap',
-          serviceId: 'type1',
+          applicationId: 'type1',
           workerId: 1
         }
       },
@@ -10499,7 +10499,7 @@ export const metricFixtures: Metric[] = [
         value: 1,
         labels: {
           type: 'Immediate',
-          serviceId: 'type1',
+          applicationId: 'type1',
           workerId: 1
         }
       }
@@ -10514,7 +10514,7 @@ export const metricFixtures: Metric[] = [
       {
         value: 4,
         labels: {
-          serviceId: 'type1',
+          applicationId: 'type1',
           workerId: 1
         }
       }
@@ -10530,7 +10530,7 @@ export const metricFixtures: Metric[] = [
         value: 2,
         labels: {
           type: 'Socket',
-          serviceId: 'type1',
+          applicationId: 'type1',
           workerId: 1
         }
       },
@@ -10538,7 +10538,7 @@ export const metricFixtures: Metric[] = [
         value: 1,
         labels: {
           type: 'Server',
-          serviceId: 'type1',
+          applicationId: 'type1',
           workerId: 1
         }
       }
@@ -10553,7 +10553,7 @@ export const metricFixtures: Metric[] = [
       {
         value: 3,
         labels: {
-          serviceId: 'type1',
+          applicationId: 'type1',
           workerId: 1
         }
       }
@@ -10575,7 +10575,7 @@ export const metricFixtures: Metric[] = [
       {
         value: 0,
         labels: {
-          serviceId: 'type1',
+          applicationId: 'type1',
           workerId: 1
         }
       }
@@ -10590,7 +10590,7 @@ export const metricFixtures: Metric[] = [
       {
         value: 35569664,
         labels: {
-          serviceId: 'type1',
+          applicationId: 'type1',
           workerId: 1
         }
       }
@@ -10605,7 +10605,7 @@ export const metricFixtures: Metric[] = [
       {
         value: 18127824,
         labels: {
-          serviceId: 'type1',
+          applicationId: 'type1',
           workerId: 1
         }
       }
@@ -10620,7 +10620,7 @@ export const metricFixtures: Metric[] = [
       {
         value: 4037100,
         labels: {
-          serviceId: 'type1',
+          applicationId: 'type1',
           workerId: 1
         }
       }
@@ -10636,7 +10636,7 @@ export const metricFixtures: Metric[] = [
         value: 0,
         labels: {
           space: 'read_only',
-          serviceId: 'type1',
+          applicationId: 'type1',
           workerId: 1
         }
       },
@@ -10644,7 +10644,7 @@ export const metricFixtures: Metric[] = [
         value: 16777216,
         labels: {
           space: 'new',
-          serviceId: 'type1',
+          applicationId: 'type1',
           workerId: 1
         }
       },
@@ -10652,7 +10652,7 @@ export const metricFixtures: Metric[] = [
         value: 14647296,
         labels: {
           space: 'old',
-          serviceId: 'type1',
+          applicationId: 'type1',
           workerId: 1
         }
       },
@@ -10660,7 +10660,7 @@ export const metricFixtures: Metric[] = [
         value: 1048576,
         labels: {
           space: 'code',
-          serviceId: 'type1',
+          applicationId: 'type1',
           workerId: 1
         }
       },
@@ -10668,7 +10668,7 @@ export const metricFixtures: Metric[] = [
         value: 0,
         labels: {
           space: 'shared',
-          serviceId: 'type1',
+          applicationId: 'type1',
           workerId: 1
         }
       },
@@ -10676,7 +10676,7 @@ export const metricFixtures: Metric[] = [
         value: 1900544,
         labels: {
           space: 'trusted',
-          serviceId: 'type1',
+          applicationId: 'type1',
           workerId: 1
         }
       },
@@ -10684,7 +10684,7 @@ export const metricFixtures: Metric[] = [
         value: 0,
         labels: {
           space: 'new_large_object',
-          serviceId: 'type1',
+          applicationId: 'type1',
           workerId: 1
         }
       },
@@ -10692,7 +10692,7 @@ export const metricFixtures: Metric[] = [
         value: 1196032,
         labels: {
           space: 'large_object',
-          serviceId: 'type1',
+          applicationId: 'type1',
           workerId: 1
         }
       },
@@ -10700,7 +10700,7 @@ export const metricFixtures: Metric[] = [
         value: 0,
         labels: {
           space: 'code_large_object',
-          serviceId: 'type1',
+          applicationId: 'type1',
           workerId: 1
         }
       },
@@ -10708,7 +10708,7 @@ export const metricFixtures: Metric[] = [
         value: 0,
         labels: {
           space: 'shared_large_object',
-          serviceId: 'type1',
+          applicationId: 'type1',
           workerId: 1
         }
       },
@@ -10716,7 +10716,7 @@ export const metricFixtures: Metric[] = [
         value: 0,
         labels: {
           space: 'trusted_large_object',
-          serviceId: 'type1',
+          applicationId: 'type1',
           workerId: 1
         }
       }
@@ -10732,7 +10732,7 @@ export const metricFixtures: Metric[] = [
         value: 0,
         labels: {
           space: 'read_only',
-          serviceId: 'type1',
+          applicationId: 'type1',
           workerId: 1
         }
       },
@@ -10740,7 +10740,7 @@ export const metricFixtures: Metric[] = [
         value: 2578952,
         labels: {
           space: 'new',
-          serviceId: 'type1',
+          applicationId: 'type1',
           workerId: 1
         }
       },
@@ -10748,7 +10748,7 @@ export const metricFixtures: Metric[] = [
         value: 11935792,
         labels: {
           space: 'old',
-          serviceId: 'type1',
+          applicationId: 'type1',
           workerId: 1
         }
       },
@@ -10756,7 +10756,7 @@ export const metricFixtures: Metric[] = [
         value: 835104,
         labels: {
           space: 'code',
-          serviceId: 'type1',
+          applicationId: 'type1',
           workerId: 1
         }
       },
@@ -10764,7 +10764,7 @@ export const metricFixtures: Metric[] = [
         value: 0,
         labels: {
           space: 'shared',
-          serviceId: 'type1',
+          applicationId: 'type1',
           workerId: 1
         }
       },
@@ -10772,7 +10772,7 @@ export const metricFixtures: Metric[] = [
         value: 1649432,
         labels: {
           space: 'trusted',
-          serviceId: 'type1',
+          applicationId: 'type1',
           workerId: 1
         }
       },
@@ -10780,7 +10780,7 @@ export const metricFixtures: Metric[] = [
         value: 0,
         labels: {
           space: 'new_large_object',
-          serviceId: 'type1',
+          applicationId: 'type1',
           workerId: 1
         }
       },
@@ -10788,7 +10788,7 @@ export const metricFixtures: Metric[] = [
         value: 1130752,
         labels: {
           space: 'large_object',
-          serviceId: 'type1',
+          applicationId: 'type1',
           workerId: 1
         }
       },
@@ -10796,7 +10796,7 @@ export const metricFixtures: Metric[] = [
         value: 0,
         labels: {
           space: 'code_large_object',
-          serviceId: 'type1',
+          applicationId: 'type1',
           workerId: 1
         }
       },
@@ -10804,7 +10804,7 @@ export const metricFixtures: Metric[] = [
         value: 0,
         labels: {
           space: 'shared_large_object',
-          serviceId: 'type1',
+          applicationId: 'type1',
           workerId: 1
         }
       },
@@ -10812,7 +10812,7 @@ export const metricFixtures: Metric[] = [
         value: 0,
         labels: {
           space: 'trusted_large_object',
-          serviceId: 'type1',
+          applicationId: 'type1',
           workerId: 1
         }
       }
@@ -10828,7 +10828,7 @@ export const metricFixtures: Metric[] = [
         value: 0,
         labels: {
           space: 'read_only',
-          serviceId: 'type1',
+          applicationId: 'type1',
           workerId: 1
         }
       },
@@ -10836,7 +10836,7 @@ export const metricFixtures: Metric[] = [
         value: 5668344,
         labels: {
           space: 'new',
-          serviceId: 'type1',
+          applicationId: 'type1',
           workerId: 1
         }
       },
@@ -10844,7 +10844,7 @@ export const metricFixtures: Metric[] = [
         value: 1583704,
         labels: {
           space: 'old',
-          serviceId: 'type1',
+          applicationId: 'type1',
           workerId: 1
         }
       },
@@ -10852,7 +10852,7 @@ export const metricFixtures: Metric[] = [
         value: 16864,
         labels: {
           space: 'code',
-          serviceId: 'type1',
+          applicationId: 'type1',
           workerId: 1
         }
       },
@@ -10860,7 +10860,7 @@ export const metricFixtures: Metric[] = [
         value: 0,
         labels: {
           space: 'shared',
-          serviceId: 'type1',
+          applicationId: 'type1',
           workerId: 1
         }
       },
@@ -10868,7 +10868,7 @@ export const metricFixtures: Metric[] = [
         value: 215736,
         labels: {
           space: 'trusted',
-          serviceId: 'type1',
+          applicationId: 'type1',
           workerId: 1
         }
       },
@@ -10876,7 +10876,7 @@ export const metricFixtures: Metric[] = [
         value: 8388608,
         labels: {
           space: 'new_large_object',
-          serviceId: 'type1',
+          applicationId: 'type1',
           workerId: 1
         }
       },
@@ -10884,7 +10884,7 @@ export const metricFixtures: Metric[] = [
         value: 0,
         labels: {
           space: 'large_object',
-          serviceId: 'type1',
+          applicationId: 'type1',
           workerId: 1
         }
       },
@@ -10892,7 +10892,7 @@ export const metricFixtures: Metric[] = [
         value: 0,
         labels: {
           space: 'code_large_object',
-          serviceId: 'type1',
+          applicationId: 'type1',
           workerId: 1
         }
       },
@@ -10900,7 +10900,7 @@ export const metricFixtures: Metric[] = [
         value: 0,
         labels: {
           space: 'shared_large_object',
-          serviceId: 'type1',
+          applicationId: 'type1',
           workerId: 1
         }
       },
@@ -10908,7 +10908,7 @@ export const metricFixtures: Metric[] = [
         value: 0,
         labels: {
           space: 'trusted_large_object',
-          serviceId: 'type1',
+          applicationId: 'type1',
           workerId: 1
         }
       }
@@ -10927,7 +10927,7 @@ export const metricFixtures: Metric[] = [
           major: 22,
           minor: 12,
           patch: 0,
-          serviceId: 'type1',
+          applicationId: 'type1',
           workerId: 1
         }
       }
@@ -10949,7 +10949,7 @@ export const metricFixtures: Metric[] = [
       {
         value: 0.0091912591661838,
         labels: {
-          serviceId: 'type1',
+          applicationId: 'type1',
           workerId: 1
         }
       }
@@ -10964,7 +10964,7 @@ export const metricFixtures: Metric[] = [
       {
         value: 55.73,
         labels: {
-          serviceId: 'type1',
+          applicationId: 'type1',
           workerId: 1
         }
       }
@@ -10979,7 +10979,7 @@ export const metricFixtures: Metric[] = [
       {
         value: 0.01583,
         labels: {
-          serviceId: 'type1',
+          applicationId: 'type1',
           workerId: 1
         }
       }
@@ -10994,7 +10994,7 @@ export const metricFixtures: Metric[] = [
       {
         value: 0.006524,
         labels: {
-          serviceId: 'type1',
+          applicationId: 'type1',
           workerId: 1
         }
       }
@@ -11009,7 +11009,7 @@ export const metricFixtures: Metric[] = [
       {
         value: 0.25760680931397056,
         labels: {
-          serviceId: 'type1',
+          applicationId: 'type1',
           workerId: 1
         }
       }
@@ -11024,7 +11024,7 @@ export const metricFixtures: Metric[] = [
       {
         value: 0.022354,
         labels: {
-          serviceId: 'type1',
+          applicationId: 'type1',
           workerId: 1
         }
       }
@@ -11067,7 +11067,7 @@ export const metricFixtures: Metric[] = [
       {
         value: 0,
         labels: {
-          serviceId: 'type1',
+          applicationId: 'type1',
           workerId: 1
         }
       }
@@ -11082,7 +11082,7 @@ export const metricFixtures: Metric[] = [
       {
         value: 0,
         labels: {
-          serviceId: 'type1',
+          applicationId: 'type1',
           workerId: 1
         }
       }
@@ -11097,7 +11097,7 @@ export const metricFixtures: Metric[] = [
       {
         value: 0.6891440000000001,
         labels: {
-          serviceId: 'type4'
+          applicationId: 'type4'
         }
       }
     ],
@@ -11111,7 +11111,7 @@ export const metricFixtures: Metric[] = [
       {
         value: 0.175248,
         labels: {
-          serviceId: 'type4'
+          applicationId: 'type4'
         }
       }
     ],
@@ -11125,7 +11125,7 @@ export const metricFixtures: Metric[] = [
       {
         value: 0.864392,
         labels: {
-          serviceId: 'type4'
+          applicationId: 'type4'
         }
       }
     ],
@@ -11139,7 +11139,7 @@ export const metricFixtures: Metric[] = [
       {
         value: 1743244689,
         labels: {
-          serviceId: 'type4'
+          applicationId: 'type4'
         }
       }
     ],
@@ -11153,7 +11153,7 @@ export const metricFixtures: Metric[] = [
       {
         value: 545685504,
         labels: {
-          serviceId: 'type4'
+          applicationId: 'type4'
         }
       }
     ],
@@ -11167,7 +11167,7 @@ export const metricFixtures: Metric[] = [
       {
         value: 0.001332708,
         labels: {
-          serviceId: 'type4'
+          applicationId: 'type4'
         }
       }
     ],
@@ -11181,7 +11181,7 @@ export const metricFixtures: Metric[] = [
       {
         value: 0.009142272,
         labels: {
-          serviceId: 'type4'
+          applicationId: 'type4'
         }
       }
     ],
@@ -11195,7 +11195,7 @@ export const metricFixtures: Metric[] = [
       {
         value: 0.013148159,
         labels: {
-          serviceId: 'type4'
+          applicationId: 'type4'
         }
       }
     ],
@@ -11209,7 +11209,7 @@ export const metricFixtures: Metric[] = [
       {
         value: 0.010897115428571429,
         labels: {
-          serviceId: 'type4'
+          applicationId: 'type4'
         }
       }
     ],
@@ -11223,7 +11223,7 @@ export const metricFixtures: Metric[] = [
       {
         value: 0.0008804749392534621,
         labels: {
-          serviceId: 'type4'
+          applicationId: 'type4'
         }
       }
     ],
@@ -11237,7 +11237,7 @@ export const metricFixtures: Metric[] = [
       {
         value: 0.010838015,
         labels: {
-          serviceId: 'type4'
+          applicationId: 'type4'
         }
       }
     ],
@@ -11251,7 +11251,7 @@ export const metricFixtures: Metric[] = [
       {
         value: 0.012132351,
         labels: {
-          serviceId: 'type4'
+          applicationId: 'type4'
         }
       }
     ],
@@ -11265,7 +11265,7 @@ export const metricFixtures: Metric[] = [
       {
         value: 0.013148159,
         labels: {
-          serviceId: 'type4'
+          applicationId: 'type4'
         }
       }
     ],
@@ -11280,14 +11280,14 @@ export const metricFixtures: Metric[] = [
         value: 11,
         labels: {
           type: 'MessagePort',
-          serviceId: 'type4'
+          applicationId: 'type4'
         }
       },
       {
         value: 1,
         labels: {
           type: 'Immediate',
-          serviceId: 'type4'
+          applicationId: 'type4'
         }
       }
     ],
@@ -11301,7 +11301,7 @@ export const metricFixtures: Metric[] = [
       {
         value: 12,
         labels: {
-          serviceId: 'type4'
+          applicationId: 'type4'
         }
       }
     ],
@@ -11316,7 +11316,7 @@ export const metricFixtures: Metric[] = [
         value: 11,
         labels: {
           type: 'MessagePort',
-          serviceId: 'type4'
+          applicationId: 'type4'
         }
       }
     ],
@@ -11330,7 +11330,7 @@ export const metricFixtures: Metric[] = [
       {
         value: 11,
         labels: {
-          serviceId: 'type4'
+          applicationId: 'type4'
         }
       }
     ],
@@ -11351,7 +11351,7 @@ export const metricFixtures: Metric[] = [
       {
         value: 0,
         labels: {
-          serviceId: 'type4'
+          applicationId: 'type4'
         }
       }
     ],
@@ -11365,7 +11365,7 @@ export const metricFixtures: Metric[] = [
       {
         value: 44859392,
         labels: {
-          serviceId: 'type4'
+          applicationId: 'type4'
         }
       }
     ],
@@ -11379,7 +11379,7 @@ export const metricFixtures: Metric[] = [
       {
         value: 34881336,
         labels: {
-          serviceId: 'type4'
+          applicationId: 'type4'
         }
       }
     ],
@@ -11393,7 +11393,7 @@ export const metricFixtures: Metric[] = [
       {
         value: 5232342,
         labels: {
-          serviceId: 'type4'
+          applicationId: 'type4'
         }
       }
     ],
@@ -11408,77 +11408,77 @@ export const metricFixtures: Metric[] = [
         value: 0,
         labels: {
           space: 'read_only',
-          serviceId: 'type4'
+          applicationId: 'type4'
         }
       },
       {
         value: 1048576,
         labels: {
           space: 'new',
-          serviceId: 'type4'
+          applicationId: 'type4'
         }
       },
       {
         value: 34308096,
         labels: {
           space: 'old',
-          serviceId: 'type4'
+          applicationId: 'type4'
         }
       },
       {
         value: 2359296,
         labels: {
           space: 'code',
-          serviceId: 'type4'
+          applicationId: 'type4'
         }
       },
       {
         value: 0,
         labels: {
           space: 'shared',
-          serviceId: 'type4'
+          applicationId: 'type4'
         }
       },
       {
         value: 4259840,
         labels: {
           space: 'trusted',
-          serviceId: 'type4'
+          applicationId: 'type4'
         }
       },
       {
         value: 0,
         labels: {
           space: 'new_large_object',
-          serviceId: 'type4'
+          applicationId: 'type4'
         }
       },
       {
         value: 2883584,
         labels: {
           space: 'large_object',
-          serviceId: 'type4'
+          applicationId: 'type4'
         }
       },
       {
         value: 0,
         labels: {
           space: 'code_large_object',
-          serviceId: 'type4'
+          applicationId: 'type4'
         }
       },
       {
         value: 0,
         labels: {
           space: 'shared_large_object',
-          serviceId: 'type4'
+          applicationId: 'type4'
         }
       },
       {
         value: 0,
         labels: {
           space: 'trusted_large_object',
-          serviceId: 'type4'
+          applicationId: 'type4'
         }
       }
     ],
@@ -11493,77 +11493,77 @@ export const metricFixtures: Metric[] = [
         value: 0,
         labels: {
           space: 'read_only',
-          serviceId: 'type4'
+          applicationId: 'type4'
         }
       },
       {
         value: 138112,
         labels: {
           space: 'new',
-          serviceId: 'type4'
+          applicationId: 'type4'
         }
       },
       {
         value: 26487832,
         labels: {
           space: 'old',
-          serviceId: 'type4'
+          applicationId: 'type4'
         }
       },
       {
         value: 1744160,
         labels: {
           space: 'code',
-          serviceId: 'type4'
+          applicationId: 'type4'
         }
       },
       {
         value: 0,
         labels: {
           space: 'shared',
-          serviceId: 'type4'
+          applicationId: 'type4'
         }
       },
       {
         value: 3794576,
         labels: {
           space: 'trusted',
-          serviceId: 'type4'
+          applicationId: 'type4'
         }
       },
       {
         value: 0,
         labels: {
           space: 'new_large_object',
-          serviceId: 'type4'
+          applicationId: 'type4'
         }
       },
       {
         value: 2718848,
         labels: {
           space: 'large_object',
-          serviceId: 'type4'
+          applicationId: 'type4'
         }
       },
       {
         value: 0,
         labels: {
           space: 'code_large_object',
-          serviceId: 'type4'
+          applicationId: 'type4'
         }
       },
       {
         value: 0,
         labels: {
           space: 'shared_large_object',
-          serviceId: 'type4'
+          applicationId: 'type4'
         }
       },
       {
         value: 0,
         labels: {
           space: 'trusted_large_object',
-          serviceId: 'type4'
+          applicationId: 'type4'
         }
       }
     ],
@@ -11578,77 +11578,77 @@ export const metricFixtures: Metric[] = [
         value: 0,
         labels: {
           space: 'read_only',
-          serviceId: 'type4'
+          applicationId: 'type4'
         }
       },
       {
         value: 892800,
         labels: {
           space: 'new',
-          serviceId: 'type4'
+          applicationId: 'type4'
         }
       },
       {
         value: 979320,
         labels: {
           space: 'old',
-          serviceId: 'type4'
+          applicationId: 'type4'
         }
       },
       {
         value: 172768,
         labels: {
           space: 'code',
-          serviceId: 'type4'
+          applicationId: 'type4'
         }
       },
       {
         value: 0,
         labels: {
           space: 'shared',
-          serviceId: 'type4'
+          applicationId: 'type4'
         }
       },
       {
         value: 390056,
         labels: {
           space: 'trusted',
-          serviceId: 'type4'
+          applicationId: 'type4'
         }
       },
       {
         value: 1048576,
         labels: {
           space: 'new_large_object',
-          serviceId: 'type4'
+          applicationId: 'type4'
         }
       },
       {
         value: 0,
         labels: {
           space: 'large_object',
-          serviceId: 'type4'
+          applicationId: 'type4'
         }
       },
       {
         value: 0,
         labels: {
           space: 'code_large_object',
-          serviceId: 'type4'
+          applicationId: 'type4'
         }
       },
       {
         value: 0,
         labels: {
           space: 'shared_large_object',
-          serviceId: 'type4'
+          applicationId: 'type4'
         }
       },
       {
         value: 0,
         labels: {
           space: 'trusted_large_object',
-          serviceId: 'type4'
+          applicationId: 'type4'
         }
       }
     ],
@@ -11666,7 +11666,7 @@ export const metricFixtures: Metric[] = [
           major: 22,
           minor: 12,
           patch: 0,
-          serviceId: 'type4'
+          applicationId: 'type4'
         }
       }
     ],
@@ -11684,7 +11684,7 @@ export const metricFixtures: Metric[] = [
         labels: {
           le: 0.001,
           kind: 'incremental',
-          serviceId: 'type4'
+          applicationId: 'type4'
         }
       },
       {
@@ -11694,7 +11694,7 @@ export const metricFixtures: Metric[] = [
         labels: {
           le: 0.01,
           kind: 'incremental',
-          serviceId: 'type4'
+          applicationId: 'type4'
         }
       },
       {
@@ -11704,7 +11704,7 @@ export const metricFixtures: Metric[] = [
         labels: {
           le: 0.1,
           kind: 'incremental',
-          serviceId: 'type4'
+          applicationId: 'type4'
         }
       },
       {
@@ -11714,7 +11714,7 @@ export const metricFixtures: Metric[] = [
         labels: {
           le: 1,
           kind: 'incremental',
-          serviceId: 'type4'
+          applicationId: 'type4'
         }
       },
       {
@@ -11724,7 +11724,7 @@ export const metricFixtures: Metric[] = [
         labels: {
           le: 2,
           kind: 'incremental',
-          serviceId: 'type4'
+          applicationId: 'type4'
         }
       },
       {
@@ -11734,7 +11734,7 @@ export const metricFixtures: Metric[] = [
         labels: {
           le: 5,
           kind: 'incremental',
-          serviceId: 'type4'
+          applicationId: 'type4'
         }
       },
       {
@@ -11744,7 +11744,7 @@ export const metricFixtures: Metric[] = [
         labels: {
           le: '+Inf',
           kind: 'incremental',
-          serviceId: 'type4'
+          applicationId: 'type4'
         }
       },
       {
@@ -11752,7 +11752,7 @@ export const metricFixtures: Metric[] = [
         metricName: 'nodejs_gc_duration_seconds_sum',
         labels: {
           kind: 'incremental',
-          serviceId: 'type4'
+          applicationId: 'type4'
         }
       },
       {
@@ -11760,7 +11760,7 @@ export const metricFixtures: Metric[] = [
         metricName: 'nodejs_gc_duration_seconds_count',
         labels: {
           kind: 'incremental',
-          serviceId: 'type4'
+          applicationId: 'type4'
         }
       },
       {
@@ -11770,7 +11770,7 @@ export const metricFixtures: Metric[] = [
         labels: {
           le: 0.001,
           kind: 'major',
-          serviceId: 'type4'
+          applicationId: 'type4'
         }
       },
       {
@@ -11780,7 +11780,7 @@ export const metricFixtures: Metric[] = [
         labels: {
           le: 0.01,
           kind: 'major',
-          serviceId: 'type4'
+          applicationId: 'type4'
         }
       },
       {
@@ -11790,7 +11790,7 @@ export const metricFixtures: Metric[] = [
         labels: {
           le: 0.1,
           kind: 'major',
-          serviceId: 'type4'
+          applicationId: 'type4'
         }
       },
       {
@@ -11800,7 +11800,7 @@ export const metricFixtures: Metric[] = [
         labels: {
           le: 1,
           kind: 'major',
-          serviceId: 'type4'
+          applicationId: 'type4'
         }
       },
       {
@@ -11810,7 +11810,7 @@ export const metricFixtures: Metric[] = [
         labels: {
           le: 2,
           kind: 'major',
-          serviceId: 'type4'
+          applicationId: 'type4'
         }
       },
       {
@@ -11820,7 +11820,7 @@ export const metricFixtures: Metric[] = [
         labels: {
           le: 5,
           kind: 'major',
-          serviceId: 'type4'
+          applicationId: 'type4'
         }
       },
       {
@@ -11830,7 +11830,7 @@ export const metricFixtures: Metric[] = [
         labels: {
           le: '+Inf',
           kind: 'major',
-          serviceId: 'type4'
+          applicationId: 'type4'
         }
       },
       {
@@ -11838,7 +11838,7 @@ export const metricFixtures: Metric[] = [
         metricName: 'nodejs_gc_duration_seconds_sum',
         labels: {
           kind: 'major',
-          serviceId: 'type4'
+          applicationId: 'type4'
         }
       },
       {
@@ -11846,7 +11846,7 @@ export const metricFixtures: Metric[] = [
         metricName: 'nodejs_gc_duration_seconds_count',
         labels: {
           kind: 'major',
-          serviceId: 'type4'
+          applicationId: 'type4'
         }
       }
     ],
@@ -11860,7 +11860,7 @@ export const metricFixtures: Metric[] = [
       {
         value: 0.11558672064139244,
         labels: {
-          serviceId: 'type4'
+          applicationId: 'type4'
         }
       }
     ],
@@ -11874,7 +11874,7 @@ export const metricFixtures: Metric[] = [
       {
         value: 56.39,
         labels: {
-          serviceId: 'type4'
+          applicationId: 'type4'
         }
       }
     ],
@@ -11888,7 +11888,7 @@ export const metricFixtures: Metric[] = [
       {
         value: 0.02978,
         labels: {
-          serviceId: 'type4'
+          applicationId: 'type4'
         }
       }
     ],
@@ -11902,7 +11902,7 @@ export const metricFixtures: Metric[] = [
       {
         value: 0.013567,
         labels: {
-          serviceId: 'type4'
+          applicationId: 'type4'
         }
       }
     ],
@@ -11916,7 +11916,7 @@ export const metricFixtures: Metric[] = [
       {
         value: 1.1780956175645974,
         labels: {
-          serviceId: 'type4'
+          applicationId: 'type4'
         }
       }
     ],
@@ -11930,7 +11930,7 @@ export const metricFixtures: Metric[] = [
       {
         value: 0.043347,
         labels: {
-          serviceId: 'type4'
+          applicationId: 'type4'
         }
       }
     ],
@@ -11947,7 +11947,7 @@ export const metricFixtures: Metric[] = [
           method: 'GET',
           status_code: 200,
           telemetry_id: 'unknown',
-          serviceId: 'type4'
+          applicationId: 'type4'
         },
         value: 0.000451083
       },
@@ -11957,7 +11957,7 @@ export const metricFixtures: Metric[] = [
           method: 'GET',
           status_code: 200,
           telemetry_id: 'unknown',
-          serviceId: 'type4'
+          applicationId: 'type4'
         },
         value: 0.000451083
       },
@@ -11967,7 +11967,7 @@ export const metricFixtures: Metric[] = [
           method: 'GET',
           status_code: 200,
           telemetry_id: 'unknown',
-          serviceId: 'type4'
+          applicationId: 'type4'
         },
         value: 0.000575167
       },
@@ -11977,7 +11977,7 @@ export const metricFixtures: Metric[] = [
           method: 'GET',
           status_code: 200,
           telemetry_id: 'unknown',
-          serviceId: 'type4'
+          applicationId: 'type4'
         },
         value: 0.002818
       },
@@ -11987,7 +11987,7 @@ export const metricFixtures: Metric[] = [
           method: 'GET',
           status_code: 200,
           telemetry_id: 'unknown',
-          serviceId: 'type4'
+          applicationId: 'type4'
         },
         value: 0.002818
       },
@@ -11997,7 +11997,7 @@ export const metricFixtures: Metric[] = [
           method: 'GET',
           status_code: 200,
           telemetry_id: 'unknown',
-          serviceId: 'type4'
+          applicationId: 'type4'
         },
         value: 0.002818
       },
@@ -12007,7 +12007,7 @@ export const metricFixtures: Metric[] = [
           method: 'GET',
           status_code: 200,
           telemetry_id: 'unknown',
-          serviceId: 'type4'
+          applicationId: 'type4'
         },
         value: 0.002818
       },
@@ -12017,7 +12017,7 @@ export const metricFixtures: Metric[] = [
           method: 'GET',
           status_code: 200,
           telemetry_id: 'unknown',
-          serviceId: 'type4'
+          applicationId: 'type4'
         },
         value: 0.0038442500000000004
       },
@@ -12027,7 +12027,7 @@ export const metricFixtures: Metric[] = [
           method: 'GET',
           status_code: 200,
           telemetry_id: 'unknown',
-          serviceId: 'type4'
+          applicationId: 'type4'
         },
         value: 3
       }
@@ -12048,7 +12048,7 @@ export const metricFixtures: Metric[] = [
           method: 'GET',
           status_code: 200,
           telemetry_id: 'unknown',
-          serviceId: 'type4'
+          applicationId: 'type4'
         }
       },
       {
@@ -12060,7 +12060,7 @@ export const metricFixtures: Metric[] = [
           method: 'GET',
           status_code: 200,
           telemetry_id: 'unknown',
-          serviceId: 'type4'
+          applicationId: 'type4'
         }
       },
       {
@@ -12072,7 +12072,7 @@ export const metricFixtures: Metric[] = [
           method: 'GET',
           status_code: 200,
           telemetry_id: 'unknown',
-          serviceId: 'type4'
+          applicationId: 'type4'
         }
       },
       {
@@ -12084,7 +12084,7 @@ export const metricFixtures: Metric[] = [
           method: 'GET',
           status_code: 200,
           telemetry_id: 'unknown',
-          serviceId: 'type4'
+          applicationId: 'type4'
         }
       },
       {
@@ -12096,7 +12096,7 @@ export const metricFixtures: Metric[] = [
           method: 'GET',
           status_code: 200,
           telemetry_id: 'unknown',
-          serviceId: 'type4'
+          applicationId: 'type4'
         }
       },
       {
@@ -12108,7 +12108,7 @@ export const metricFixtures: Metric[] = [
           method: 'GET',
           status_code: 200,
           telemetry_id: 'unknown',
-          serviceId: 'type4'
+          applicationId: 'type4'
         }
       },
       {
@@ -12120,7 +12120,7 @@ export const metricFixtures: Metric[] = [
           method: 'GET',
           status_code: 200,
           telemetry_id: 'unknown',
-          serviceId: 'type4'
+          applicationId: 'type4'
         }
       },
       {
@@ -12132,7 +12132,7 @@ export const metricFixtures: Metric[] = [
           method: 'GET',
           status_code: 200,
           telemetry_id: 'unknown',
-          serviceId: 'type4'
+          applicationId: 'type4'
         }
       },
       {
@@ -12144,7 +12144,7 @@ export const metricFixtures: Metric[] = [
           method: 'GET',
           status_code: 200,
           telemetry_id: 'unknown',
-          serviceId: 'type4'
+          applicationId: 'type4'
         }
       },
       {
@@ -12156,7 +12156,7 @@ export const metricFixtures: Metric[] = [
           method: 'GET',
           status_code: 200,
           telemetry_id: 'unknown',
-          serviceId: 'type4'
+          applicationId: 'type4'
         }
       },
       {
@@ -12168,7 +12168,7 @@ export const metricFixtures: Metric[] = [
           method: 'GET',
           status_code: 200,
           telemetry_id: 'unknown',
-          serviceId: 'type4'
+          applicationId: 'type4'
         }
       },
       {
@@ -12180,7 +12180,7 @@ export const metricFixtures: Metric[] = [
           method: 'GET',
           status_code: 200,
           telemetry_id: 'unknown',
-          serviceId: 'type4'
+          applicationId: 'type4'
         }
       },
       {
@@ -12190,7 +12190,7 @@ export const metricFixtures: Metric[] = [
           method: 'GET',
           status_code: 200,
           telemetry_id: 'unknown',
-          serviceId: 'type4'
+          applicationId: 'type4'
         }
       },
       {
@@ -12200,7 +12200,7 @@ export const metricFixtures: Metric[] = [
           method: 'GET',
           status_code: 200,
           telemetry_id: 'unknown',
-          serviceId: 'type4'
+          applicationId: 'type4'
         }
       }
     ],
@@ -12217,7 +12217,7 @@ export const metricFixtures: Metric[] = [
           method: 'GET',
           status_code: 200,
           telemetry_id: 'unknown',
-          serviceId: 'type4'
+          applicationId: 'type4'
         },
         value: 0.0012345678
       },
@@ -12227,7 +12227,7 @@ export const metricFixtures: Metric[] = [
           method: 'GET',
           status_code: 200,
           telemetry_id: 'unknown',
-          serviceId: 'type4'
+          applicationId: 'type4'
         },
         value: 0.0023456789
       },
@@ -12237,7 +12237,7 @@ export const metricFixtures: Metric[] = [
           method: 'GET',
           status_code: 200,
           telemetry_id: 'unknown',
-          serviceId: 'type4'
+          applicationId: 'type4'
         },
         value: 0.00456789
       },
@@ -12247,7 +12247,7 @@ export const metricFixtures: Metric[] = [
           method: 'GET',
           status_code: 200,
           telemetry_id: 'unknown',
-          serviceId: 'type4'
+          applicationId: 'type4'
         },
         value: 0.0098765
       },
@@ -12257,7 +12257,7 @@ export const metricFixtures: Metric[] = [
           method: 'GET',
           status_code: 200,
           telemetry_id: 'unknown',
-          serviceId: 'type4'
+          applicationId: 'type4'
         },
         value: 0.00045678
       },
@@ -12267,7 +12267,7 @@ export const metricFixtures: Metric[] = [
           method: 'GET',
           status_code: 200,
           telemetry_id: 'unknown',
-          serviceId: 'type4'
+          applicationId: 'type4'
         },
         value: 0.0003216
       },
@@ -12277,7 +12277,7 @@ export const metricFixtures: Metric[] = [
           method: 'GET',
           status_code: 200,
           telemetry_id: 'unknown',
-          serviceId: 'type4'
+          applicationId: 'type4'
         },
         value: 0.0004578
       },
@@ -12287,7 +12287,7 @@ export const metricFixtures: Metric[] = [
           method: 'GET',
           status_code: 200,
           telemetry_id: 'unknown',
-          serviceId: 'type4'
+          applicationId: 'type4'
         },
         value: 0.000607875
       },
@@ -12297,7 +12297,7 @@ export const metricFixtures: Metric[] = [
           method: 'GET',
           status_code: 200,
           telemetry_id: 'unknown',
-          serviceId: 'type4'
+          applicationId: 'type4'
         },
         value: 1
       }
@@ -12318,7 +12318,7 @@ export const metricFixtures: Metric[] = [
           method: 'GET',
           status_code: 200,
           telemetry_id: 'unknown',
-          serviceId: 'type4'
+          applicationId: 'type4'
         }
       },
       {
@@ -12330,7 +12330,7 @@ export const metricFixtures: Metric[] = [
           method: 'GET',
           status_code: 200,
           telemetry_id: 'unknown',
-          serviceId: 'type4'
+          applicationId: 'type4'
         }
       },
       {
@@ -12342,7 +12342,7 @@ export const metricFixtures: Metric[] = [
           method: 'GET',
           status_code: 200,
           telemetry_id: 'unknown',
-          serviceId: 'type4'
+          applicationId: 'type4'
         }
       },
       {
@@ -12354,7 +12354,7 @@ export const metricFixtures: Metric[] = [
           method: 'GET',
           status_code: 200,
           telemetry_id: 'unknown',
-          serviceId: 'type4'
+          applicationId: 'type4'
         }
       },
       {
@@ -12366,7 +12366,7 @@ export const metricFixtures: Metric[] = [
           method: 'GET',
           status_code: 200,
           telemetry_id: 'unknown',
-          serviceId: 'type4'
+          applicationId: 'type4'
         }
       },
       {
@@ -12378,7 +12378,7 @@ export const metricFixtures: Metric[] = [
           method: 'GET',
           status_code: 200,
           telemetry_id: 'unknown',
-          serviceId: 'type4'
+          applicationId: 'type4'
         }
       },
       {
@@ -12390,7 +12390,7 @@ export const metricFixtures: Metric[] = [
           method: 'GET',
           status_code: 200,
           telemetry_id: 'unknown',
-          serviceId: 'type4'
+          applicationId: 'type4'
         }
       },
       {
@@ -12402,7 +12402,7 @@ export const metricFixtures: Metric[] = [
           method: 'GET',
           status_code: 200,
           telemetry_id: 'unknown',
-          serviceId: 'type4'
+          applicationId: 'type4'
         }
       },
       {
@@ -12414,7 +12414,7 @@ export const metricFixtures: Metric[] = [
           method: 'GET',
           status_code: 200,
           telemetry_id: 'unknown',
-          serviceId: 'type4'
+          applicationId: 'type4'
         }
       },
       {
@@ -12426,7 +12426,7 @@ export const metricFixtures: Metric[] = [
           method: 'GET',
           status_code: 200,
           telemetry_id: 'unknown',
-          serviceId: 'type4'
+          applicationId: 'type4'
         }
       },
       {
@@ -12438,7 +12438,7 @@ export const metricFixtures: Metric[] = [
           method: 'GET',
           status_code: 200,
           telemetry_id: 'unknown',
-          serviceId: 'type4'
+          applicationId: 'type4'
         }
       },
       {
@@ -12450,7 +12450,7 @@ export const metricFixtures: Metric[] = [
           method: 'GET',
           status_code: 200,
           telemetry_id: 'unknown',
-          serviceId: 'type4'
+          applicationId: 'type4'
         }
       },
       {
@@ -12460,7 +12460,7 @@ export const metricFixtures: Metric[] = [
           method: 'GET',
           status_code: 200,
           telemetry_id: 'unknown',
-          serviceId: 'type4'
+          applicationId: 'type4'
         }
       },
       {
@@ -12470,7 +12470,7 @@ export const metricFixtures: Metric[] = [
           method: 'GET',
           status_code: 200,
           telemetry_id: 'unknown',
-          serviceId: 'type4'
+          applicationId: 'type4'
         }
       }
     ],
@@ -12484,7 +12484,7 @@ export const metricFixtures: Metric[] = [
       {
         value: 0,
         labels: {
-          serviceId: 'type4'
+          applicationId: 'type4'
         }
       }
     ],
@@ -12498,7 +12498,7 @@ export const metricFixtures: Metric[] = [
       {
         value: 0,
         labels: {
-          serviceId: 'type4'
+          applicationId: 'type4'
         }
       }
     ],
@@ -12512,7 +12512,7 @@ export const metricFixtures: Metric[] = [
       {
         value: 0.6866869999999999,
         labels: {
-          serviceId: 'type4',
+          applicationId: 'type4',
           workerId: 1
         }
       }
@@ -12527,7 +12527,7 @@ export const metricFixtures: Metric[] = [
       {
         value: 0.174117,
         labels: {
-          serviceId: 'type4',
+          applicationId: 'type4',
           workerId: 1
         }
       }
@@ -12542,7 +12542,7 @@ export const metricFixtures: Metric[] = [
       {
         value: 0.860804,
         labels: {
-          serviceId: 'type4',
+          applicationId: 'type4',
           workerId: 1
         }
       }
@@ -12557,7 +12557,7 @@ export const metricFixtures: Metric[] = [
       {
         value: 1743244689,
         labels: {
-          serviceId: 'type4',
+          applicationId: 'type4',
           workerId: 1
         }
       }
@@ -12572,7 +12572,7 @@ export const metricFixtures: Metric[] = [
       {
         value: 545947648,
         labels: {
-          serviceId: 'type4',
+          applicationId: 'type4',
           workerId: 1
         }
       }
@@ -12587,7 +12587,7 @@ export const metricFixtures: Metric[] = [
       {
         value: 0.00133125,
         labels: {
-          serviceId: 'type4',
+          applicationId: 'type4',
           workerId: 1
         }
       }
@@ -12602,7 +12602,7 @@ export const metricFixtures: Metric[] = [
       {
         value: 0.010092544,
         labels: {
-          serviceId: 'type4',
+          applicationId: 'type4',
           workerId: 1
         }
       }
@@ -12617,7 +12617,7 @@ export const metricFixtures: Metric[] = [
       {
         value: 0.011739135,
         labels: {
-          serviceId: 'type4',
+          applicationId: 'type4',
           workerId: 1
         }
       }
@@ -12632,7 +12632,7 @@ export const metricFixtures: Metric[] = [
       {
         value: 0.011012973714285714,
         labels: {
-          serviceId: 'type4',
+          applicationId: 'type4',
           workerId: 1
         }
       }
@@ -12647,7 +12647,7 @@ export const metricFixtures: Metric[] = [
       {
         value: 0.00039107509699205724,
         labels: {
-          serviceId: 'type4',
+          applicationId: 'type4',
           workerId: 1
         }
       }
@@ -12662,7 +12662,7 @@ export const metricFixtures: Metric[] = [
       {
         value: 0.011026431,
         labels: {
-          serviceId: 'type4',
+          applicationId: 'type4',
           workerId: 1
         }
       }
@@ -12677,7 +12677,7 @@ export const metricFixtures: Metric[] = [
       {
         value: 0.011542527,
         labels: {
-          serviceId: 'type4',
+          applicationId: 'type4',
           workerId: 1
         }
       }
@@ -12692,7 +12692,7 @@ export const metricFixtures: Metric[] = [
       {
         value: 0.011739135,
         labels: {
-          serviceId: 'type4',
+          applicationId: 'type4',
           workerId: 1
         }
       }
@@ -12708,7 +12708,7 @@ export const metricFixtures: Metric[] = [
         value: 11,
         labels: {
           type: 'MessagePort',
-          serviceId: 'type4',
+          applicationId: 'type4',
           workerId: 1
         }
       },
@@ -12716,7 +12716,7 @@ export const metricFixtures: Metric[] = [
         value: 1,
         labels: {
           type: 'Immediate',
-          serviceId: 'type4',
+          applicationId: 'type4',
           workerId: 1
         }
       }
@@ -12731,7 +12731,7 @@ export const metricFixtures: Metric[] = [
       {
         value: 12,
         labels: {
-          serviceId: 'type4',
+          applicationId: 'type4',
           workerId: 1
         }
       }
@@ -12747,7 +12747,7 @@ export const metricFixtures: Metric[] = [
         value: 11,
         labels: {
           type: 'MessagePort',
-          serviceId: 'type4',
+          applicationId: 'type4',
           workerId: 1
         }
       }
@@ -12762,7 +12762,7 @@ export const metricFixtures: Metric[] = [
       {
         value: 11,
         labels: {
-          serviceId: 'type4',
+          applicationId: 'type4',
           workerId: 1
         }
       }
@@ -12784,7 +12784,7 @@ export const metricFixtures: Metric[] = [
       {
         value: 0,
         labels: {
-          serviceId: 'type4',
+          applicationId: 'type4',
           workerId: 1
         }
       }
@@ -12799,7 +12799,7 @@ export const metricFixtures: Metric[] = [
       {
         value: 77365248,
         labels: {
-          serviceId: 'type4',
+          applicationId: 'type4',
           workerId: 1
         }
       }
@@ -12814,7 +12814,7 @@ export const metricFixtures: Metric[] = [
       {
         value: 44498312,
         labels: {
-          serviceId: 'type4',
+          applicationId: 'type4',
           workerId: 1
         }
       }
@@ -12829,7 +12829,7 @@ export const metricFixtures: Metric[] = [
       {
         value: 5239356,
         labels: {
-          serviceId: 'type4',
+          applicationId: 'type4',
           workerId: 1
         }
       }
@@ -12845,7 +12845,7 @@ export const metricFixtures: Metric[] = [
         value: 0,
         labels: {
           space: 'read_only',
-          serviceId: 'type4',
+          applicationId: 'type4',
           workerId: 1
         }
       },
@@ -12853,7 +12853,7 @@ export const metricFixtures: Metric[] = [
         value: 33554432,
         labels: {
           space: 'new',
-          serviceId: 'type4',
+          applicationId: 'type4',
           workerId: 1
         }
       },
@@ -12861,7 +12861,7 @@ export const metricFixtures: Metric[] = [
         value: 34308096,
         labels: {
           space: 'old',
-          serviceId: 'type4',
+          applicationId: 'type4',
           workerId: 1
         }
       },
@@ -12869,7 +12869,7 @@ export const metricFixtures: Metric[] = [
         value: 2359296,
         labels: {
           space: 'code',
-          serviceId: 'type4',
+          applicationId: 'type4',
           workerId: 1
         }
       },
@@ -12877,7 +12877,7 @@ export const metricFixtures: Metric[] = [
         value: 0,
         labels: {
           space: 'shared',
-          serviceId: 'type4',
+          applicationId: 'type4',
           workerId: 1
         }
       },
@@ -12885,7 +12885,7 @@ export const metricFixtures: Metric[] = [
         value: 4259840,
         labels: {
           space: 'trusted',
-          serviceId: 'type4',
+          applicationId: 'type4',
           workerId: 1
         }
       },
@@ -12893,7 +12893,7 @@ export const metricFixtures: Metric[] = [
         value: 0,
         labels: {
           space: 'new_large_object',
-          serviceId: 'type4',
+          applicationId: 'type4',
           workerId: 1
         }
       },
@@ -12901,7 +12901,7 @@ export const metricFixtures: Metric[] = [
         value: 2883584,
         labels: {
           space: 'large_object',
-          serviceId: 'type4',
+          applicationId: 'type4',
           workerId: 1
         }
       },
@@ -12909,7 +12909,7 @@ export const metricFixtures: Metric[] = [
         value: 0,
         labels: {
           space: 'code_large_object',
-          serviceId: 'type4',
+          applicationId: 'type4',
           workerId: 1
         }
       },
@@ -12917,7 +12917,7 @@ export const metricFixtures: Metric[] = [
         value: 0,
         labels: {
           space: 'shared_large_object',
-          serviceId: 'type4',
+          applicationId: 'type4',
           workerId: 1
         }
       },
@@ -12925,7 +12925,7 @@ export const metricFixtures: Metric[] = [
         value: 0,
         labels: {
           space: 'trusted_large_object',
-          serviceId: 'type4',
+          applicationId: 'type4',
           workerId: 1
         }
       }
@@ -12941,7 +12941,7 @@ export const metricFixtures: Metric[] = [
         value: 0,
         labels: {
           space: 'read_only',
-          serviceId: 'type4',
+          applicationId: 'type4',
           workerId: 1
         }
       },
@@ -12949,7 +12949,7 @@ export const metricFixtures: Metric[] = [
         value: 2959256,
         labels: {
           space: 'new',
-          serviceId: 'type4',
+          applicationId: 'type4',
           workerId: 1
         }
       },
@@ -12957,7 +12957,7 @@ export const metricFixtures: Metric[] = [
         value: 32976744,
         labels: {
           space: 'old',
-          serviceId: 'type4',
+          applicationId: 'type4',
           workerId: 1
         }
       },
@@ -12965,7 +12965,7 @@ export const metricFixtures: Metric[] = [
         value: 1873600,
         labels: {
           space: 'code',
-          serviceId: 'type4',
+          applicationId: 'type4',
           workerId: 1
         }
       },
@@ -12973,7 +12973,7 @@ export const metricFixtures: Metric[] = [
         value: 0,
         labels: {
           space: 'shared',
-          serviceId: 'type4',
+          applicationId: 'type4',
           workerId: 1
         }
       },
@@ -12981,7 +12981,7 @@ export const metricFixtures: Metric[] = [
         value: 3972024,
         labels: {
           space: 'trusted',
-          serviceId: 'type4',
+          applicationId: 'type4',
           workerId: 1
         }
       },
@@ -12989,7 +12989,7 @@ export const metricFixtures: Metric[] = [
         value: 0,
         labels: {
           space: 'new_large_object',
-          serviceId: 'type4',
+          applicationId: 'type4',
           workerId: 1
         }
       },
@@ -12997,7 +12997,7 @@ export const metricFixtures: Metric[] = [
         value: 2718848,
         labels: {
           space: 'large_object',
-          serviceId: 'type4',
+          applicationId: 'type4',
           workerId: 1
         }
       },
@@ -13005,7 +13005,7 @@ export const metricFixtures: Metric[] = [
         value: 0,
         labels: {
           space: 'code_large_object',
-          serviceId: 'type4',
+          applicationId: 'type4',
           workerId: 1
         }
       },
@@ -13013,7 +13013,7 @@ export const metricFixtures: Metric[] = [
         value: 0,
         labels: {
           space: 'shared_large_object',
-          serviceId: 'type4',
+          applicationId: 'type4',
           workerId: 1
         }
       },
@@ -13021,7 +13021,7 @@ export const metricFixtures: Metric[] = [
         value: 0,
         labels: {
           space: 'trusted_large_object',
-          serviceId: 'type4',
+          applicationId: 'type4',
           workerId: 1
         }
       }
@@ -13037,7 +13037,7 @@ export const metricFixtures: Metric[] = [
         value: 0,
         labels: {
           space: 'read_only',
-          serviceId: 'type4',
+          applicationId: 'type4',
           workerId: 1
         }
       },
@@ -13045,7 +13045,7 @@ export const metricFixtures: Metric[] = [
         value: 13535336,
         labels: {
           space: 'new',
-          serviceId: 'type4',
+          applicationId: 'type4',
           workerId: 1
         }
       },
@@ -13053,7 +13053,7 @@ export const metricFixtures: Metric[] = [
         value: 713320,
         labels: {
           space: 'old',
-          serviceId: 'type4',
+          applicationId: 'type4',
           workerId: 1
         }
       },
@@ -13061,7 +13061,7 @@ export const metricFixtures: Metric[] = [
         value: 43328,
         labels: {
           space: 'code',
-          serviceId: 'type4',
+          applicationId: 'type4',
           workerId: 1
         }
       },
@@ -13069,7 +13069,7 @@ export const metricFixtures: Metric[] = [
         value: 0,
         labels: {
           space: 'shared',
-          serviceId: 'type4',
+          applicationId: 'type4',
           workerId: 1
         }
       },
@@ -13077,7 +13077,7 @@ export const metricFixtures: Metric[] = [
         value: 212448,
         labels: {
           space: 'trusted',
-          serviceId: 'type4',
+          applicationId: 'type4',
           workerId: 1
         }
       },
@@ -13085,7 +13085,7 @@ export const metricFixtures: Metric[] = [
         value: 16777216,
         labels: {
           space: 'new_large_object',
-          serviceId: 'type4',
+          applicationId: 'type4',
           workerId: 1
         }
       },
@@ -13093,7 +13093,7 @@ export const metricFixtures: Metric[] = [
         value: 0,
         labels: {
           space: 'large_object',
-          serviceId: 'type4',
+          applicationId: 'type4',
           workerId: 1
         }
       },
@@ -13101,7 +13101,7 @@ export const metricFixtures: Metric[] = [
         value: 0,
         labels: {
           space: 'code_large_object',
-          serviceId: 'type4',
+          applicationId: 'type4',
           workerId: 1
         }
       },
@@ -13109,7 +13109,7 @@ export const metricFixtures: Metric[] = [
         value: 0,
         labels: {
           space: 'shared_large_object',
-          serviceId: 'type4',
+          applicationId: 'type4',
           workerId: 1
         }
       },
@@ -13117,7 +13117,7 @@ export const metricFixtures: Metric[] = [
         value: 0,
         labels: {
           space: 'trusted_large_object',
-          serviceId: 'type4',
+          applicationId: 'type4',
           workerId: 1
         }
       }
@@ -13136,7 +13136,7 @@ export const metricFixtures: Metric[] = [
           major: 22,
           minor: 12,
           patch: 0,
-          serviceId: 'type4',
+          applicationId: 'type4',
           workerId: 1
         }
       }
@@ -13158,7 +13158,7 @@ export const metricFixtures: Metric[] = [
       {
         value: 0.019634691729692292,
         labels: {
-          serviceId: 'type4',
+          applicationId: 'type4',
           workerId: 1
         }
       }
@@ -13173,7 +13173,7 @@ export const metricFixtures: Metric[] = [
       {
         value: 57.66,
         labels: {
-          serviceId: 'type4',
+          applicationId: 'type4',
           workerId: 1
         }
       }
@@ -13188,7 +13188,7 @@ export const metricFixtures: Metric[] = [
       {
         value: 0.019477,
         labels: {
-          serviceId: 'type4',
+          applicationId: 'type4',
           workerId: 1
         }
       }
@@ -13203,7 +13203,7 @@ export const metricFixtures: Metric[] = [
       {
         value: 0.008555,
         labels: {
-          serviceId: 'type4',
+          applicationId: 'type4',
           workerId: 1
         }
       }
@@ -13218,7 +13218,7 @@ export const metricFixtures: Metric[] = [
       {
         value: 1.1238290702286227,
         labels: {
-          serviceId: 'type4',
+          applicationId: 'type4',
           workerId: 1
         }
       }
@@ -13233,7 +13233,7 @@ export const metricFixtures: Metric[] = [
       {
         value: 0.028032,
         labels: {
-          serviceId: 'type4',
+          applicationId: 'type4',
           workerId: 1
         }
       }
@@ -13251,7 +13251,7 @@ export const metricFixtures: Metric[] = [
           method: 'GET',
           status_code: 200,
           telemetry_id: 'unknown',
-          serviceId: 'type4',
+          applicationId: 'type4',
           workerId: 1
         },
         value: 0.000471792
@@ -13262,7 +13262,7 @@ export const metricFixtures: Metric[] = [
           method: 'GET',
           status_code: 200,
           telemetry_id: 'unknown',
-          serviceId: 'type4',
+          applicationId: 'type4',
           workerId: 1
         },
         value: 0.000471792
@@ -13273,7 +13273,7 @@ export const metricFixtures: Metric[] = [
           method: 'GET',
           status_code: 200,
           telemetry_id: 'unknown',
-          serviceId: 'type4',
+          applicationId: 'type4',
           workerId: 1
         },
         value: 0.001589521
@@ -13284,7 +13284,7 @@ export const metricFixtures: Metric[] = [
           method: 'GET',
           status_code: 200,
           telemetry_id: 'unknown',
-          serviceId: 'type4',
+          applicationId: 'type4',
           workerId: 1
         },
         value: 0.00270725
@@ -13295,7 +13295,7 @@ export const metricFixtures: Metric[] = [
           method: 'GET',
           status_code: 200,
           telemetry_id: 'unknown',
-          serviceId: 'type4',
+          applicationId: 'type4',
           workerId: 1
         },
         value: 0.00270725
@@ -13306,7 +13306,7 @@ export const metricFixtures: Metric[] = [
           method: 'GET',
           status_code: 200,
           telemetry_id: 'unknown',
-          serviceId: 'type4',
+          applicationId: 'type4',
           workerId: 1
         },
         value: 0.00270725
@@ -13317,7 +13317,7 @@ export const metricFixtures: Metric[] = [
           method: 'GET',
           status_code: 200,
           telemetry_id: 'unknown',
-          serviceId: 'type4',
+          applicationId: 'type4',
           workerId: 1
         },
         value: 0.00270725
@@ -13328,7 +13328,7 @@ export const metricFixtures: Metric[] = [
           method: 'GET',
           status_code: 200,
           telemetry_id: 'unknown',
-          serviceId: 'type4',
+          applicationId: 'type4',
           workerId: 1
         },
         value: 0.003179042
@@ -13339,7 +13339,7 @@ export const metricFixtures: Metric[] = [
           method: 'GET',
           status_code: 200,
           telemetry_id: 'unknown',
-          serviceId: 'type4',
+          applicationId: 'type4',
           workerId: 1
         },
         value: 2
@@ -13361,7 +13361,7 @@ export const metricFixtures: Metric[] = [
           method: 'GET',
           status_code: 200,
           telemetry_id: 'unknown',
-          serviceId: 'type4',
+          applicationId: 'type4',
           workerId: 1
         }
       },
@@ -13374,7 +13374,7 @@ export const metricFixtures: Metric[] = [
           method: 'GET',
           status_code: 200,
           telemetry_id: 'unknown',
-          serviceId: 'type4',
+          applicationId: 'type4',
           workerId: 1
         }
       },
@@ -13387,7 +13387,7 @@ export const metricFixtures: Metric[] = [
           method: 'GET',
           status_code: 200,
           telemetry_id: 'unknown',
-          serviceId: 'type4',
+          applicationId: 'type4',
           workerId: 1
         }
       },
@@ -13400,7 +13400,7 @@ export const metricFixtures: Metric[] = [
           method: 'GET',
           status_code: 200,
           telemetry_id: 'unknown',
-          serviceId: 'type4',
+          applicationId: 'type4',
           workerId: 1
         }
       },
@@ -13413,7 +13413,7 @@ export const metricFixtures: Metric[] = [
           method: 'GET',
           status_code: 200,
           telemetry_id: 'unknown',
-          serviceId: 'type4',
+          applicationId: 'type4',
           workerId: 1
         }
       },
@@ -13426,7 +13426,7 @@ export const metricFixtures: Metric[] = [
           method: 'GET',
           status_code: 200,
           telemetry_id: 'unknown',
-          serviceId: 'type4',
+          applicationId: 'type4',
           workerId: 1
         }
       },
@@ -13439,7 +13439,7 @@ export const metricFixtures: Metric[] = [
           method: 'GET',
           status_code: 200,
           telemetry_id: 'unknown',
-          serviceId: 'type4',
+          applicationId: 'type4',
           workerId: 1
         }
       },
@@ -13452,7 +13452,7 @@ export const metricFixtures: Metric[] = [
           method: 'GET',
           status_code: 200,
           telemetry_id: 'unknown',
-          serviceId: 'type4',
+          applicationId: 'type4',
           workerId: 1
         }
       },
@@ -13465,7 +13465,7 @@ export const metricFixtures: Metric[] = [
           method: 'GET',
           status_code: 200,
           telemetry_id: 'unknown',
-          serviceId: 'type4',
+          applicationId: 'type4',
           workerId: 1
         }
       },
@@ -13478,7 +13478,7 @@ export const metricFixtures: Metric[] = [
           method: 'GET',
           status_code: 200,
           telemetry_id: 'unknown',
-          serviceId: 'type4',
+          applicationId: 'type4',
           workerId: 1
         }
       },
@@ -13491,7 +13491,7 @@ export const metricFixtures: Metric[] = [
           method: 'GET',
           status_code: 200,
           telemetry_id: 'unknown',
-          serviceId: 'type4',
+          applicationId: 'type4',
           workerId: 1
         }
       },
@@ -13504,7 +13504,7 @@ export const metricFixtures: Metric[] = [
           method: 'GET',
           status_code: 200,
           telemetry_id: 'unknown',
-          serviceId: 'type4',
+          applicationId: 'type4',
           workerId: 1
         }
       },
@@ -13515,7 +13515,7 @@ export const metricFixtures: Metric[] = [
           method: 'GET',
           status_code: 200,
           telemetry_id: 'unknown',
-          serviceId: 'type4',
+          applicationId: 'type4',
           workerId: 1
         }
       },
@@ -13526,7 +13526,7 @@ export const metricFixtures: Metric[] = [
           method: 'GET',
           status_code: 200,
           telemetry_id: 'unknown',
-          serviceId: 'type4',
+          applicationId: 'type4',
           workerId: 1
         }
       }
@@ -13544,7 +13544,7 @@ export const metricFixtures: Metric[] = [
           method: 'GET',
           status_code: 200,
           telemetry_id: 'unknown',
-          serviceId: 'type4',
+          applicationId: 'type4',
           workerId: 1
         },
         value: 0
@@ -13555,7 +13555,7 @@ export const metricFixtures: Metric[] = [
           method: 'GET',
           status_code: 200,
           telemetry_id: 'unknown',
-          serviceId: 'type4',
+          applicationId: 'type4',
           workerId: 1
         },
         value: 0
@@ -13566,7 +13566,7 @@ export const metricFixtures: Metric[] = [
           method: 'GET',
           status_code: 200,
           telemetry_id: 'unknown',
-          serviceId: 'type4',
+          applicationId: 'type4',
           workerId: 1
         },
         value: 0
@@ -13577,7 +13577,7 @@ export const metricFixtures: Metric[] = [
           method: 'GET',
           status_code: 200,
           telemetry_id: 'unknown',
-          serviceId: 'type4',
+          applicationId: 'type4',
           workerId: 1
         },
         value: 0.00012345
@@ -13588,7 +13588,7 @@ export const metricFixtures: Metric[] = [
           method: 'GET',
           status_code: 200,
           telemetry_id: 'unknown',
-          serviceId: 'type4',
+          applicationId: 'type4',
           workerId: 1
         },
         value: 0.00034511
@@ -13599,7 +13599,7 @@ export const metricFixtures: Metric[] = [
           method: 'GET',
           status_code: 200,
           telemetry_id: 'unknown',
-          serviceId: 'type4',
+          applicationId: 'type4',
           workerId: 1
         },
         value: 0.00045321
@@ -13610,7 +13610,7 @@ export const metricFixtures: Metric[] = [
           method: 'GET',
           status_code: 200,
           telemetry_id: 'unknown',
-          serviceId: 'type4',
+          applicationId: 'type4',
           workerId: 1
         },
         value: 0
@@ -13621,7 +13621,7 @@ export const metricFixtures: Metric[] = [
           method: 'GET',
           status_code: 200,
           telemetry_id: 'unknown',
-          serviceId: 'type4',
+          applicationId: 'type4',
           workerId: 1
         },
         value: 0
@@ -13632,7 +13632,7 @@ export const metricFixtures: Metric[] = [
           method: 'GET',
           status_code: 200,
           telemetry_id: 'unknown',
-          serviceId: 'type4',
+          applicationId: 'type4',
           workerId: 1
         },
         value: 0
@@ -13655,7 +13655,7 @@ export const metricFixtures: Metric[] = [
       {
         value: 0,
         labels: {
-          serviceId: 'type4',
+          applicationId: 'type4',
           workerId: 1
         }
       }
@@ -13670,7 +13670,7 @@ export const metricFixtures: Metric[] = [
       {
         value: 0,
         labels: {
-          serviceId: 'type4',
+          applicationId: 'type4',
           workerId: 1
         }
       }
@@ -13684,7 +13684,7 @@ export const metricFixtures: Metric[] = [
       {
         value: 2,
         labels: {
-          serviceId: 'kafka',
+          applicationId: 'kafka',
           workerId: 1
         }
       }
@@ -13699,7 +13699,7 @@ export const metricFixtures: Metric[] = [
       {
         value: 0,
         labels: {
-          serviceId: 'kafka',
+          applicationId: 'kafka',
           workerId: 1
         }
       }
@@ -13712,7 +13712,7 @@ export const metricFixtures: Metric[] = [
     type: 'gauge',
     values: [{
       value: 1,
-      labels: { serviceId: 'kafka', workerId: 1 }
+      labels: { applicationId: 'kafka', workerId: 1 }
     }
     ],
     aggregator: 'sum'
@@ -13721,7 +13721,7 @@ export const metricFixtures: Metric[] = [
     help: 'Number of active Kafka consumers streams',
     name: 'kafka_consumers_streams',
     type: 'gauge',
-    values: [{ value: 1, labels: { serviceId: 'kafka', workerId: 1 } }],
+    values: [{ value: 1, labels: { applicationId: 'kafka', workerId: 1 } }],
     aggregator: 'sum'
   },
   {
@@ -13732,7 +13732,7 @@ export const metricFixtures: Metric[] = [
       {
         value: 1,
         labels: {
-          serviceId: 'kafka',
+          applicationId: 'kafka',
           workerId: 1
         }
       }
@@ -13743,7 +13743,7 @@ export const metricFixtures: Metric[] = [
     help: 'Number of consumed Kafka messages',
     name: 'kafka_consumed_messages',
     type: 'counter',
-    values: [{ value: 0, labels: { serviceId: 'kafka', workerId: 1 } }],
+    values: [{ value: 0, labels: { applicationId: 'kafka', workerId: 1 } }],
     aggregator: 'sum'
   },
   {
@@ -13775,7 +13775,7 @@ export const metricFixtures: Metric[] = [
       {
         value: 1,
         labels: {
-          serviceId: 'composer'
+          applicationId: 'composer'
         }
       }
     ],
@@ -13789,7 +13789,7 @@ export const metricFixtures: Metric[] = [
       {
         value: 1,
         labels: {
-          serviceId: 'composer'
+          applicationId: 'composer'
         }
       }
     ],
@@ -13803,7 +13803,7 @@ export const metricFixtures: Metric[] = [
       {
         value: 2,
         labels: {
-          serviceId: 'composer'
+          applicationId: 'composer'
         }
       }
     ],
@@ -13817,7 +13817,7 @@ export const metricFixtures: Metric[] = [
       {
         value: 3,
         labels: {
-          serviceId: 'composer'
+          applicationId: 'composer'
         }
       }
     ],
@@ -13831,7 +13831,7 @@ export const metricFixtures: Metric[] = [
       {
         value: 4,
         labels: {
-          serviceId: 'composer'
+          applicationId: 'composer'
         }
       }
     ],
@@ -13845,7 +13845,7 @@ export const metricFixtures: Metric[] = [
       {
         value: 9,
         labels: {
-          serviceId: 'composer'
+          applicationId: 'composer'
         }
       }],
     aggregator: 'sum'
@@ -13858,7 +13858,7 @@ export const metricFixtures: Metric[] = [
       {
         value: 2,
         labels: {
-          serviceId: 'composer'
+          applicationId: 'composer'
         }
       }
     ],
@@ -13872,7 +13872,7 @@ export const metricFixtures: Metric[] = [
       {
         value: 5,
         labels: {
-          serviceId: 'composer'
+          applicationId: 'composer'
         }
       }
     ],

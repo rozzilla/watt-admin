@@ -1,6 +1,6 @@
-import { JsonSchemaToTsProvider } from '@fastify/type-provider-json-schema-to-ts'
+import type { JsonSchemaToTsProvider } from '@fastify/type-provider-json-schema-to-ts'
 import { RuntimeApiClient } from '@platformatic/control'
-import { FastifyInstance } from 'fastify'
+import type { FastifyInstance } from 'fastify'
 
 export default async function (fastify: FastifyInstance) {
   const typedFastify = fastify.withTypeProvider<JsonSchemaToTsProvider>()
@@ -27,7 +27,7 @@ export default async function (fastify: FastifyInstance) {
       headers: request.headers,
       query: request.query,
       body: request.body
-    }
+    } as Parameters<typeof api.injectRuntime>[2]
 
     fastify.log.info({ pid, serviceId, injectParams }, 'runtime request proxy')
 

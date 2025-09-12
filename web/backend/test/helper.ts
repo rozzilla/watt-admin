@@ -1,10 +1,10 @@
 import { join } from 'node:path'
 import { readFile } from 'node:fs/promises'
-import { buildServer } from '@platformatic/service'
+import { create } from '@platformatic/service'
 import { test } from 'node:test'
 import { spawn } from 'node:child_process'
-import { FastifyInstance } from 'fastify'
-import { MS_WAITING } from '../utils/constants'
+import { MS_WAITING } from '../utils/constants.ts'
+import type { FastifyInstance } from 'fastify'
 
 type testfn = Parameters<typeof test>[0]
 type TestContext = Parameters<Exclude<testfn, undefined>>[0]
@@ -45,8 +45,10 @@ export async function getServer (t: TestContext) {
   config.watch = false
 
   // Add your config customizations here
-  const server = await buildServer(config)
-  t.after(() => server.close())
+  const server = await create(config) as unknown as FastifyInstance // FIXME: the new type returned from `create` is wrong, and it should be updated directly on the original platformatic module
+  t.after(async () => {
+    await server.close()
+  })
 
   return server
 }

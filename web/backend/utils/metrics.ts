@@ -1,9 +1,10 @@
 import { RuntimeApiClient } from '@platformatic/control'
-import { FastifyInstance } from 'fastify'
-import { requiredMetricKeys, MemoryDataPoint, CpuDataPoint } from '../schemas'
-import { bytesToMB } from './bytes'
-import { getReqRps } from './rps'
-import { addMetricDataPoint, initMetricsObject, initMetricsResponse, initServiceMetrics, isKafkaMetricName, isNodejsMetricName, isUndiciMetricName, isWebsocketMetricName, kafkaMetricMap, nodejsMetricMap, undiciMetricMap, websocketMetricMap } from './metrics-helpers'
+import type { FastifyInstance } from 'fastify'
+import { requiredMetricKeys } from '../schemas/index.ts'
+import type { MemoryDataPoint, CpuDataPoint } from '../schemas/index.ts'
+import { bytesToMB } from './bytes.ts'
+import { getReqRps } from './rps.ts'
+import { addMetricDataPoint, initMetricsObject, initMetricsResponse, initServiceMetrics, isKafkaMetricName, isNodejsMetricName, isUndiciMetricName, isWebsocketMetricName, kafkaMetricMap, nodejsMetricMap, undiciMetricMap, websocketMetricMap } from './metrics-helpers.ts'
 
 export const getMetrics = async ({ loaded: { metrics }, log }: FastifyInstance): Promise<void> => {
   try {
@@ -19,8 +20,8 @@ export const getMetrics = async ({ loaded: { metrics }, log }: FastifyInstance):
         metrics[pid] = { services: {}, aggregated: initMetricsResponse() }
       }
 
-      const { services, entrypoint } = await api.getRuntimeServices(pid)
-      for (const service of services) {
+      const { applications, entrypoint } = await api.getRuntimeApplications(pid)
+      for (const service of applications) {
         const { id: serviceId } = service
         const workers = 'workers' in service && service?.workers ? service.workers : 1
         const areMultipleWorkersEnabled = workers > 1
@@ -48,7 +49,7 @@ export const getMetrics = async ({ loaded: { metrics }, log }: FastifyInstance):
               }
             }
 
-            if (serviceId === labels.serviceId) {
+            if (serviceId === labels.applicationId) {
               if (metric.name === 'nodejs_heap_size_total_bytes') {
                 incDataMetric({ key: 'dataMem', workerId, data: bytesToMB(value), prop: 'totalHeap' })
               }

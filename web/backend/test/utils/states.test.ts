@@ -1,6 +1,6 @@
 import test from 'node:test'
 import assert from 'node:assert'
-import { checkRecordState } from '../../utils/states'
+import { checkRecordState } from '../../utils/states.ts'
 
 test('checkRecordState returns true for undefined to start transition', () => {
   const result = checkRecordState({ from: undefined, to: 'start' })

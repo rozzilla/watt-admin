@@ -1,6 +1,6 @@
 import test from 'node:test'
 import assert from 'node:assert'
-import { getServer, startWatt } from '../helper'
+import { getServer, startWatt } from '../helper.ts'
 
 test('proxy', async (t) => {
   await startWatt(t)
@@ -31,7 +31,7 @@ test('proxy', async (t) => {
 
   const composer = await server.inject({ url: `/proxy/${runtimePid}/services/composer/api/documentation/json` })
   assert.strictEqual(composer.statusCode, 200)
-  assert.strictEqual(composer.json().openapi, '3.0.3')
+  assert.strictEqual(composer.json().openapi, '3.2.1')
 
   const jsonPost = await server.inject({
     url: `/proxy/${runtimePid}/services/backend/runtimes/0/restart`,

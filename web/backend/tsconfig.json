@@ -3,6 +3,8 @@
   "compilerOptions": {
     "sourceMap": true,
     "pretty": true,
+    "noEmit": true,
+    "allowImportingTsExtensions": true,
     "noEmitOnError": true,
     "incremental": true,
     "outDir": "dist",

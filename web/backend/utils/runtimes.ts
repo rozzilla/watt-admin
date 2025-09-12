@@ -1,5 +1,5 @@
 import type { Runtime } from '@platformatic/control'
-import type { SelectableRuntime } from '../schemas'
+import type { SelectableRuntime } from '../schemas/index.ts'
 
 export const getSelectableRuntimes = (runtimes: Runtime[], includeAdmin: boolean): SelectableRuntime[] => {
   const selectableRuntimes: SelectableRuntime[] = []

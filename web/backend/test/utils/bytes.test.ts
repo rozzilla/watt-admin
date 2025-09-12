@@ -1,6 +1,6 @@
 import test from 'node:test'
 import assert from 'node:assert'
-import { bytesToMB } from '../../utils/bytes'
+import { bytesToMB } from '../../utils/bytes.ts'
 
 test('bytesToMB converts 1048576 bytes to 1.00MB', () => {
   const result = bytesToMB(1048576)
