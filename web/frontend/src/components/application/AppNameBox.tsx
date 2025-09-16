@@ -33,12 +33,11 @@ function AppNameBox ({
   const { mode, setMode, record, setRecord } = useAdminStore()
   const [appStatus, setAppStatus] = useState(STATUS_STOPPED)
   const [changingRestartStatus, setChangingRestartStatus] = useState(false)
-  const [outdatedVersion, setOutdatedVersion] = useState(false)
+  const [latestVersion, setLatestVersion] = useState('')
 
   const fetchData = async (): Promise<void> => {
     try {
-      const outdated = await isWattpmVersionOutdated(mode, apiApplication?.pltVersion)
-      setOutdatedVersion(outdated)
+      setLatestVersion(await isWattpmVersionOutdated(mode))
     } catch (e) {
       onErrorOccurred(e)
     }
@@ -65,6 +64,7 @@ function AppNameBox ({
   }
 
   if (!apiApplication) return null
+  const outdatedVersion = latestVersion !== apiApplication?.pltVersion
 
   return (
     <BorderedBox classes={`${styles.borderexBoxContainer}`} backgroundColor={BLACK_RUSSIAN} color={TRANSPARENT}>
@@ -150,11 +150,11 @@ function AppNameBox ({
           <div className={styles.rowContainer}>
             <div className={`${commonStyles.smallFlexResponsiveRow}`}>
               {!apiApplication.pltVersion
-                ? (<span className={`${typographyStyles.desktopBodySmall} ${typographyStyles.textWhite} ${typographyStyles.opacity70}`}>Current Runtime Version: -</span>)
+                ? (<span className={`${typographyStyles.desktopBodySmall} ${typographyStyles.textWhite} ${typographyStyles.opacity70}`}>Current Watt Version: -</span>)
                 : (
                   <>
                     <div className={`${commonStyles.tinyFlexRow} ${commonStyles.itemsCenter}`}>
-                      <span className={`${typographyStyles.desktopBodySmall} ${typographyStyles.textWhite} ${typographyStyles.opacity70}`}>Current Runtime Version: </span>
+                      <span className={`${typographyStyles.desktopBodySmall} ${typographyStyles.textWhite} ${typographyStyles.opacity70}`}>Current Watt Version: </span>
                       {apiApplication.pltVersion
                         ? (
                           <>
@@ -162,7 +162,7 @@ function AppNameBox ({
                             {outdatedVersion && (
                               <Tooltip
                                 tooltipClassName={tooltipStyles.tooltipDarkStyle}
-                                content={(<span>There is a new Platformatic/Watt version.</span>)}
+                                content={(<span>New Watt version available: <span className={`${typographyStyles.semibold}`}>{latestVersion}</span>.</span>)}
                                 offset={24}
                                 immediateActive={false}
                               >
