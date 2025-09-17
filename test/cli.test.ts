@@ -46,7 +46,7 @@ describe('CLI', () => {
       '@inquirer/prompts': {
         select: mockSelect
       },
-      './lib/start.ts': {
+      './lib/start.js': {
         start: async (pid: Runtime['pid']) => {
           return { pid, started: true }
         }

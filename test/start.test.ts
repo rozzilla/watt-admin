@@ -28,7 +28,7 @@ describe('start', () => {
 
   // Setup module with mocks
   const mockedStart = (overrides = {}) => {
-    return proxyquire.noCallThru().load('../lib/start.ts', {
+    return proxyquire.noCallThru().load('../lib/start.js', {
       '@platformatic/runtime': {
         buildRuntime: mockBuildRuntime,
         loadConfig: mockLoadConfig

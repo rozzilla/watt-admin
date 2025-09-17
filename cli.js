@@ -4,7 +4,7 @@
 
 const { RuntimeApiClient } = require('@platformatic/control')
 const { select } = require('@inquirer/prompts')
-const { start } = require('./lib/start.ts')
+const { start } = require('./lib/start')
 
 async function getLocationDetails (client, runtime) {
   try {
