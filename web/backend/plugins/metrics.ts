@@ -1,10 +1,11 @@
 import { FastifyInstance } from 'fastify'
 import { getMetrics } from '../utils/metrics'
+import { MS_WAITING } from '../utils/constants'
 
 export default async function (fastify: FastifyInstance) {
-  fastify.decorate('mappedMetrics', {})
+  fastify.decorate('loaded', { metrics: {} })
 
-  fastify.decorate('metricsInterval', setInterval(() => getMetrics(fastify), 1000))
+  fastify.decorate('metricsInterval', setInterval(() => getMetrics(fastify), MS_WAITING))
 
   fastify.addHook('onClose', async () => {
     // If the following log is not called, please run the project directly through the `wattpm` binary (ref. https://github.com/platformatic/platformatic/issues/3751)

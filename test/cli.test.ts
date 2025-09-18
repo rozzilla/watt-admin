@@ -1,18 +1,20 @@
 'use strict'
 
+import type { Runtime } from '@platformatic/control'
+
 const { describe, it, beforeEach, afterEach } = require('node:test')
 const assert = require('node:assert')
 const proxyquire = require('proxyquire')
 
 describe('CLI', () => {
   // Mock console.log to capture output
-  let consoleOutput = []
+  let consoleOutput: string[] = []
   const originalConsoleLog = console.log
 
   // Mock data
-  let mockRuntimes = []
+  let mockRuntimes: Runtime[] = []
   let mockConfig = {}
-  let mockSelectedRuntime = null
+  let mockSelectedRuntime: Runtime | null = null
 
   // Mock modules
   const mockRuntimeApiClient = class MockRuntimeApiClient {
@@ -21,7 +23,7 @@ describe('CLI', () => {
       return mockRuntimes
     }
 
-    async getRuntimeConfig (pid) {
+    async getRuntimeConfig () {
       if (mockConfig instanceof Error) {
         throw mockConfig
       }
@@ -31,7 +33,7 @@ describe('CLI', () => {
     async close () {}
   }
 
-  const mockSelect = async ({ choices }) => {
+  const mockSelect = async ({ choices }: { choices: [{ value: Runtime }] }) => {
     return mockSelectedRuntime || choices[0].value
   }
 
@@ -44,8 +46,8 @@ describe('CLI', () => {
       '@inquirer/prompts': {
         select: mockSelect
       },
-      './lib/start': {
-        start: async (pid) => {
+      './lib/start.js': {
+        start: async (pid: Runtime['pid']) => {
           return { pid, started: true }
         }
       }
@@ -90,7 +92,7 @@ describe('CLI', () => {
       cwd: '/test/app',
       startTime: new Date().getTime(),
       argv: ['node', 'server.js']
-    }
+    } as unknown as Runtime
 
     // Set up mock data
     mockRuntimes = [singleRuntime]
@@ -122,7 +124,7 @@ describe('CLI', () => {
         startTime: new Date().getTime(),
         argv: ['node', 'server2.js']
       }
-    ]
+    ] as unknown as Runtime[]
 
     // Set up mock data
     mockRuntimes = multipleRuntimes
@@ -145,7 +147,7 @@ describe('CLI', () => {
       pid: 9999,
       cwd: '/test/error-app',
       startTime: new Date().getTime()
-    }
+    } as unknown as Runtime
 
     // Set up mock data
     mockRuntimes = [mockRuntime]

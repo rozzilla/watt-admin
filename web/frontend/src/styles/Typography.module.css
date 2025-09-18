@@ -43,6 +43,9 @@
 .desktopBodySemibold {
   @apply font-inter font-medium text-[1rem] leading-[1.5rem];
 }
+.semibold {
+  @apply font-medium;
+}
 .desktopOtherCliTerminalSmall {
   @apply font-normal text-[0.75rem] leading-[1.125rem] lg:text-[0.875rem] lg:leading-[1.313rem];
   font-family: 'Roboto_Mono';

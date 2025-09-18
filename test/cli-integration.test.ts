@@ -24,7 +24,7 @@ describe('CLI Integration', () => {
   ]
 
   // Setup for test
-  let consoleOutput = []
+  let consoleOutput: string[] = []
   const originalConsoleLog = console.log
 
   beforeEach(() => {

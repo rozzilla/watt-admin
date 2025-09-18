@@ -78,7 +78,7 @@ async function main () {
         // Multiple runtimes, prompt user to select one
 
         // Prepare the runtime choices with async map
-        const choicesPromises = runtimes.map(async runtime => {
+        const choicesPromises = runtimes.map(async (runtime) => {
           // Create a concise description that helps identify this runtime
           const description = []
 

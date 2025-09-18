@@ -1,7 +1,11 @@
 import { FastifyInstance } from 'fastify'
 import { JsonSchemaToTsProvider } from '@fastify/type-provider-json-schema-to-ts'
 import { RuntimeApiClient } from '@platformatic/control'
-import { pidParamSchema, SelectableRuntime, selectableRuntimeSchema } from '../schemas'
+import { modeSchema, pidParamSchema, selectableRuntimeSchema } from '../schemas'
+import { getPidToLoad, getSelectableRuntimes } from '../utils/runtimes'
+import { writeFile, readFile } from 'fs/promises'
+import { checkRecordState } from '../utils/states'
+import { join } from 'path'
 
 export default async function (fastify: FastifyInstance) {
   const typedFastify = fastify.withTypeProvider<JsonSchemaToTsProvider>()
@@ -20,23 +24,7 @@ export default async function (fastify: FastifyInstance) {
       },
       response: { 200: { type: 'array', items: selectableRuntimeSchema } }
     }
-  }, async (request) => {
-    const runtimes = await api.getRuntimes()
-    const selectableRuntimes: SelectableRuntime[] = []
-    for (const runtime of runtimes) {
-      if (!request.query.includeAdmin && runtime.packageName === 'watt-admin') {
-        continue
-      }
-
-      let selected = true
-      if (process.env.SELECTED_RUNTIME) {
-        selected = process.env.SELECTED_RUNTIME === runtime.pid.toString()
-      }
-
-      selectableRuntimes.push({ ...runtime, packageName: runtime.packageName || '', packageVersion: runtime.packageVersion || '', url: runtime.url || '', selected })
-    }
-    return selectableRuntimes
-  })
+  }, async (request) => getSelectableRuntimes(await api.getRuntimes(), request.query.includeAdmin))
 
   typedFastify.get('/runtimes/:pid/health', {
     schema: {
@@ -57,14 +45,14 @@ export default async function (fastify: FastifyInstance) {
       }
     }
   }, async ({ params: { pid } }) => {
+    const ok = { status: 'OK' as const }
+    const ko = { status: 'KO' as const }
+
     try {
       const result = await api.getMatchingRuntime({ pid: pid.toString() })
-      if (result.pid === pid) {
-        return { status: 'OK' as const }
-      }
-      return { status: 'KO' as const }
+      return (result.pid === pid) ? ok : ko
     } catch {
-      return { status: 'KO' as const }
+      return ko
     }
   })
 
@@ -154,9 +142,7 @@ export default async function (fastify: FastifyInstance) {
         }
       }
     }
-  }, async (request) => {
-    return api.getRuntimeServices(request.params.pid)
-  })
+  }, async (request) => api.getRuntimeServices(request.params.pid))
 
   typedFastify.get('/runtimes/:pid/openapi/:serviceId', {
     schema: {
@@ -173,6 +159,41 @@ export default async function (fastify: FastifyInstance) {
       await api.restartRuntime(request.params.pid)
     } catch (err) {
       fastify.log.warn({ err }, 'Issue restarting the runtime')
+    }
+  })
+
+  typedFastify.post('/record', {
+    schema: {
+      body: {
+        type: 'object',
+        additionalProperties: false,
+        properties: { mode: modeSchema },
+        required: ['mode']
+      }
+    }
+  }, async ({ body: { mode } }) => {
+    const from = fastify.loaded.mode
+    const to = mode
+    if (!checkRecordState({ from, to })) {
+      return fastify.log.error({ from, to }, 'Invalid record state machine transition')
+    }
+
+    fastify.loaded.mode = mode
+    if (mode === 'start') {
+      fastify.loaded.metrics = {}
+    }
+
+    if (mode === 'stop') {
+      const runtimes = getSelectableRuntimes(await api.getRuntimes(), false)
+      const services = await api.getRuntimeServices(getPidToLoad(runtimes))
+      const loadedJson = JSON.stringify({ runtimes, services, metrics: fastify.loaded.metrics[getPidToLoad(runtimes)] })
+      const scriptToAppend = `  <script>window.LOADED_JSON=${loadedJson}</script>\n</body>`
+
+      const sourcePath = join(__dirname, '..', '..', '..', 'frontend', 'index.html')
+      await writeFile(sourcePath, (await readFile(sourcePath, 'utf8')).replace('</body>', scriptToAppend), 'utf8')
+
+      const bundlePath = join(__dirname, '..', '..', '..', 'frontend', 'dist', 'index.html')
+      await writeFile(bundlePath, (await readFile(bundlePath, 'utf8')).replace('</body>', scriptToAppend), 'utf8')
     }
   })
 }

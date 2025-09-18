@@ -1,6 +1,8 @@
 import test from 'node:test'
 import assert from 'node:assert'
 import { getServer, startWatt } from '../helper'
+import { readFile, writeFile } from 'node:fs/promises'
+import path from 'node:path'
 
 test('no runtime running', async (t) => {
   const server = await getServer(t)
@@ -24,6 +26,16 @@ test('no runtime running', async (t) => {
 })
 
 test('runtime is running', async (t) => {
+  const metricsPath = path.join(__dirname, '..', '..', '..', '..', 'frontend', 'index.html')
+  let metricsData: Buffer<ArrayBufferLike>
+
+  t.before(async () => {
+    metricsData = await readFile(metricsPath)
+  })
+  t.after(async () => {
+    await writeFile(metricsPath, metricsData)
+  })
+
   await startWatt(t)
   const server = await getServer(t)
   const res = await server.inject({
@@ -80,6 +92,18 @@ test('runtime is running', async (t) => {
   })
   assert.strictEqual(serviceInvalidOpenapi.statusCode, 500, 'service OpenAPI endpoint')
   assert.strictEqual(typeof serviceInvalidOpenapi.json().code, 'string')
+
+  assert.strictEqual(server.loaded.mode, undefined, 'empty mode')
+  const recordEmpty = await server.inject({ url: '/record', method: 'POST', body: { mode: '' } })
+  assert.strictEqual(recordEmpty.statusCode, 400)
+
+  const recordStart = await server.inject({ url: '/record', method: 'POST', body: { mode: 'start' } })
+  assert.strictEqual(server.loaded.mode, 'start', 'start mode')
+  assert.strictEqual(recordStart.statusCode, 200)
+
+  const recordStop = await server.inject({ url: '/record', method: 'POST', body: { mode: 'stop' } })
+  assert.strictEqual(server.loaded.mode, 'stop', 'stop mode')
+  assert.strictEqual(recordStop.statusCode, 200)
 
   const restart = await server.inject({
     method: 'POST',

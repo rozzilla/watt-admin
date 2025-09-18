@@ -7,7 +7,9 @@ import tooltipStyles from '../../styles/TooltipStyles.module.css'
 import { Icons, BorderedBox, Button, PlatformaticIcon, Tooltip } from '@platformatic/ui-components'
 import { STATUS_STOPPED, STATUS_RUNNING } from '../../ui-constants'
 import ApplicationStatusPills from '../ui/ApplicationStatusPills'
-import { restartApiApplication, isWattpmVersionOutdated } from '../../api'
+import { restartApiApplication, isWattpmVersionOutdated, updateMode } from '../../api'
+import useAdminStore from '../../useAdminStore'
+import { getOfflineMode } from '../../utilities/getters'
 
 export interface ApiApplication {
   id: number;
@@ -18,30 +20,32 @@ export interface ApiApplication {
 }
 
 interface AppNameBoxProps {
-  onErrorOccurred?: (error: unknown) => void;
+  onErrorOccurred: (error: unknown) => void;
+  onModeUpdated: () => void;
   apiApplication?: ApiApplication;
 }
 
 function AppNameBox ({
-  onErrorOccurred = () => {},
+  onErrorOccurred,
+  onModeUpdated,
   apiApplication
 }: AppNameBoxProps): React.ReactElement | null {
+  const { mode, setMode, record, setRecord } = useAdminStore()
   const [appStatus, setAppStatus] = useState(STATUS_STOPPED)
   const [changingRestartStatus, setChangingRestartStatus] = useState(false)
-  const [outdatedVersion, setOutdatedVersion] = useState(false)
+  const [latestVersion, setLatestVersion] = useState('')
+
+  const fetchData = async (): Promise<void> => {
+    try {
+      setLatestVersion(await isWattpmVersionOutdated(mode))
+    } catch (e) {
+      onErrorOccurred(e)
+    }
+  }
 
   useEffect(() => {
-    const fetchData = async (): Promise<void> => {
-      try {
-        const outdated = await isWattpmVersionOutdated(apiApplication?.pltVersion)
-        setOutdatedVersion(outdated)
-      } catch (e) {
-        onErrorOccurred(e)
-      }
-    }
-
     if (apiApplication?.id) {
-      setAppStatus(STATUS_RUNNING)
+      setAppStatus(getOfflineMode() ? STATUS_STOPPED : STATUS_RUNNING)
       fetchData()
     }
   }, [apiApplication?.id])
@@ -60,6 +64,7 @@ function AppNameBox ({
   }
 
   if (!apiApplication) return null
+  const outdatedVersion = latestVersion !== apiApplication?.pltVersion
 
   return (
     <BorderedBox classes={`${styles.borderexBoxContainer}`} backgroundColor={BLACK_RUSSIAN} color={TRANSPARENT}>
@@ -104,17 +109,52 @@ function AppNameBox ({
                   disabled={appStatus === STATUS_STOPPED}
                 />
                 )}
+
+            {!getOfflineMode() &&
+              <><Button
+                type='button'
+                label={`Record ${record}`}
+                onClick={async () => {
+                  await updateMode(record)
+                  await fetchData()
+                  setRecord(record === 'start' ? 'stop' : 'start')
+                  onModeUpdated()
+                  if (record === 'stop') {
+                    window.location.reload()
+                  }
+                }}
+                color={WHITE}
+                backgroundColor={TRANSPARENT}
+                paddingClass={commonStyles.smallButtonPadding}
+                platformaticIcon={{ iconName: record === 'start' ? 'DownloadIcon' : 'StopIcon', color: WHITE }}
+                textClass={typographyStyles.desktopButtonSmall}
+                internalOverHandling
+                />
+                <Button
+                  type='button'
+                  label={mode === 'load' ? 'Live' : 'Load'}
+                  onClick={() => {
+                    setMode(mode === 'load' ? 'live' : 'load')
+                    onModeUpdated()
+                  }}
+                  color={WHITE}
+                  backgroundColor={TRANSPARENT}
+                  paddingClass={commonStyles.smallButtonPadding}
+                  platformaticIcon={{ iconName: mode === 'load' ? 'UploadFileIcon' : 'LiveIcon', color: WHITE }}
+                  textClass={typographyStyles.desktopButtonSmall}
+                />
+              </>}
           </div>
         </div>
         <div className={`${commonStyles.tinyFlexBlock} ${commonStyles.fullWidth} ${styles.appInnerBox}`}>
           <div className={styles.rowContainer}>
             <div className={`${commonStyles.smallFlexResponsiveRow}`}>
               {!apiApplication.pltVersion
-                ? (<span className={`${typographyStyles.desktopBodySmall} ${typographyStyles.textWhite} ${typographyStyles.opacity70}`}>Current Runtime Version: -</span>)
+                ? (<span className={`${typographyStyles.desktopBodySmall} ${typographyStyles.textWhite} ${typographyStyles.opacity70}`}>Current Watt Version: -</span>)
                 : (
                   <>
                     <div className={`${commonStyles.tinyFlexRow} ${commonStyles.itemsCenter}`}>
-                      <span className={`${typographyStyles.desktopBodySmall} ${typographyStyles.textWhite} ${typographyStyles.opacity70}`}>Current Runtime Version: </span>
+                      <span className={`${typographyStyles.desktopBodySmall} ${typographyStyles.textWhite} ${typographyStyles.opacity70}`}>Current Watt Version: </span>
                       {apiApplication.pltVersion
                         ? (
                           <>
@@ -122,7 +162,7 @@ function AppNameBox ({
                             {outdatedVersion && (
                               <Tooltip
                                 tooltipClassName={tooltipStyles.tooltipDarkStyle}
-                                content={(<span>There is a new Platformatic/Watt version.</span>)}
+                                content={(<span>New Watt version available: <span className={`${typographyStyles.semibold}`}>{latestVersion}</span>.</span>)}
                                 offset={24}
                                 immediateActive={false}
                               >
