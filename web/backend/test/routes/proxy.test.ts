@@ -31,7 +31,7 @@ test('proxy', async (t) => {
 
   const composer = await server.inject({ url: `/proxy/${runtimePid}/services/composer/api/documentation/json` })
   assert.strictEqual(composer.statusCode, 200)
-  assert.strictEqual(composer.json().openapi, '3.2.1')
+  assert.strictEqual(composer.json().openapi, '3.3.0')
 
   const jsonPost = await server.inject({
     url: `/proxy/${runtimePid}/services/backend/runtimes/0/restart`,

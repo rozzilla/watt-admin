@@ -42,7 +42,7 @@ test.describe('Basic E2E tests', () => {
     await expect(page.getByText('frontend')).toHaveCount(1)
     await expect(page.getByText('composer')).toHaveCount(2)
     await expect(page.getByText('RUNNING')).toBeVisible()
-    await expect(page.getByText('3.2.1')).toBeVisible()
+    await expect(page.getByText('3.3.0')).toBeVisible()
     await expect(page.getByText('http://127.0.0.1:5042')).toBeVisible()
 
     const metricCharts = page.getByTestId('metric-chart')

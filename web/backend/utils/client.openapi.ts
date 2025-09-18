@@ -8,7 +8,7 @@ const __dirname = import.meta.dirname
 async function clientOpenapi () {
   const basePath = resolve(__dirname, join('..', 'platformatic.json'))
   const server = (await create(basePath, {
-    $schema: 'https://schemas.platformatic.dev/@platformatic/service/3.2.1.json',
+    $schema: 'https://schemas.platformatic.dev/@platformatic/service/3.3.0.json',
     service: { openapi: true },
     watch: false,
     plugins: {

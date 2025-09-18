@@ -68,7 +68,7 @@ test('runtime is running', async (t) => {
   })
   assert.strictEqual(serviceOpenapi.statusCode, 200, 'service OpenAPI endpoint')
   const json = serviceOpenapi.json()
-  assert.strictEqual(json.openapi, '3.2.1')
+  assert.strictEqual(json.openapi, '3.3.0')
   assert.deepEqual(json.info, {
     title: 'Platformatic',
     description: 'This is a service built on top of Platformatic',
