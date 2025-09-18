@@ -2,6 +2,8 @@ import path from 'path'
 import fs from 'fs/promises'
 import { test, expect, Page } from '@playwright/test'
 
+const __dirname = import.meta.dirname
+
 const sendScalarReq = async (page: Page) => await page.locator('button.scalar-button').filter({ hasText: 'send' }).click()
 
 const closeScalarModal = async (page: Page) => {
@@ -40,7 +42,8 @@ test.describe('Basic E2E tests', () => {
     await expect(page.getByText('Services (3)')).toBeVisible()
     await expect(page.getByText('backend')).toHaveCount(1)
     await expect(page.getByText('frontend')).toHaveCount(1)
-    await expect(page.getByText('composer')).toHaveCount(2)
+    await expect(page.getByText('composer')).toHaveCount(1)
+    await expect(page.getByText('gateway')).toHaveCount(1)
     await expect(page.getByText('RUNNING')).toBeVisible()
     await expect(page.getByText('3.3.0')).toBeVisible()
     await expect(page.getByText('http://127.0.0.1:5042')).toBeVisible()
