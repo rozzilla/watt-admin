@@ -1,8 +1,10 @@
 import test from 'node:test'
 import assert from 'node:assert'
-import { getServer, startWatt } from '../helper'
 import { readFile, writeFile } from 'node:fs/promises'
 import path from 'node:path'
+import { getServer, startWatt } from '../helper.ts'
+
+const __dirname = import.meta.dirname
 
 test('no runtime running', async (t) => {
   const server = await getServer(t)
@@ -26,7 +28,7 @@ test('no runtime running', async (t) => {
 })
 
 test('runtime is running', async (t) => {
-  const metricsPath = path.join(__dirname, '..', '..', '..', '..', 'frontend', 'index.html')
+  const metricsPath = path.join(__dirname, '..', '..', '..', 'frontend', 'index.html')
   let metricsData: Buffer<ArrayBufferLike>
 
   t.before(async () => {
@@ -60,8 +62,8 @@ test('runtime is running', async (t) => {
   const servicesJson = services.json()
   assert.strictEqual(servicesJson.production, true)
   assert.strictEqual(servicesJson.entrypoint, 'composer')
-  assert.strictEqual(typeof servicesJson.services[0].localUrl, 'string')
-  assert.strictEqual(typeof servicesJson.services[0].entrypoint, 'boolean')
+  assert.strictEqual(typeof servicesJson.applications[0].localUrl, 'string')
+  assert.strictEqual(typeof servicesJson.applications[0].entrypoint, 'boolean')
 
   const serviceOpenapi = await server.inject({
     url: `/runtimes/${runtimePid}/openapi/backend`

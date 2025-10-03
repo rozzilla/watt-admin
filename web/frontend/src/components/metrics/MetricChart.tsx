@@ -8,7 +8,7 @@ import { xMargin, yMargin } from './chart_constants'
 import { getTicks } from '../../utilities/ticks'
 import { POSITION_ABSOLUTE, POSITION_FIXED } from '../../ui-constants'
 import { findY } from './chart_utils'
-import { MetricType } from '../application/NodeJSMetric'
+import { type MetricType } from '../application/NodeJSMetric'
 import { getMetricColor } from '../../utilities/metrics'
 
 type Point = Date | number[] | number

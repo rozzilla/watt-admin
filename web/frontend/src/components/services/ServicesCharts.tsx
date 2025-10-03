@@ -9,10 +9,10 @@ import { BorderedBox, Icons } from '@platformatic/ui-components'
 import ServicesMetrics from '../../components/metrics/ServicesMetrics'
 import { POD_SERVICES_PATH } from '../../ui-constants'
 import { getServices } from '../../api'
-import { ServiceData } from 'src/types'
+import type { ServiceData } from 'src/types'
 import ErrorComponent from '../errors/ErrorComponent'
 import { getServiceWorkers } from '../../utilities/getters'
-import { hasMultipleWorkers, ThreadIndex } from '../../utilities/threads'
+import { hasMultipleWorkers, type ThreadIndex } from '../../utilities/threads'
 
 const ServicesCharts: React.FC = () => {
   const { setCurrentPage, runtimePid, mode } = useAdminStore()
@@ -40,7 +40,7 @@ const ServicesCharts: React.FC = () => {
       }
     }
     fetchData()
-  }, [runtimePid])
+  }, [runtimePid, mode])
 
   if (error) {
     return <ErrorComponent error={error} onClickDismiss={() => setError(undefined)} />

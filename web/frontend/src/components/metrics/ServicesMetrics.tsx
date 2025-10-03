@@ -6,7 +6,7 @@ import { BorderedBox } from '@platformatic/ui-components'
 import { getApiMetricsPodService, getApiMetricsPod, getApiMetricsPodWorker } from '../../api'
 import { useInterval } from '../../hooks/useInterval'
 import useAdminStore from '../../useAdminStore'
-import { REFRESH_INTERVAL_METRICS, POSITION_FIXED, OPTIONS_METRICS, KEYS_METRICS, KeyMetric } from '../../ui-constants'
+import { REFRESH_INTERVAL_METRICS, POSITION_FIXED, OPTIONS_METRICS, KEYS_METRICS, type KeyMetric } from '../../ui-constants'
 import colorSetMem from './memory.module.css'
 import colorSetCpu from './cpu.module.css'
 import colorSetLatency from './latency.module.css'
@@ -16,16 +16,16 @@ import colorSetUndici from './undici.module.css'
 import colorSetWs from './ws.module.css'
 import colorSetNodejs from './nodejs.module.css'
 import NodeJSMetric, { generateLegend } from '../application/NodeJSMetric'
-import { GetRuntimesPidMetricsResponseOK, GetRuntimesPidServicesResponseOK } from 'src/client/backend-types'
+import type { GetRuntimesPidMetricsResponseOK, GetRuntimesPidServicesResponseOK } from 'src/client/backend-types'
 import ErrorComponent from '../errors/ErrorComponent'
-import { ServiceData } from 'src/types'
+import type { ServiceData } from 'src/types'
 import { getEmptyMetrics } from '../../utilities/metrics'
 import { getKafkaType, getOptionMetricsLabel } from '../../utilities/getters'
-import { getThreadName, ThreadIndex } from '../../utilities/threads'
+import { getThreadName, type ThreadIndex } from '../../utilities/threads'
 
 interface ServicesMetricsProps {
   service: ServiceData;
-  services: GetRuntimesPidServicesResponseOK['services'];
+  services: GetRuntimesPidServicesResponseOK['applications'];
   threadIndex?: ThreadIndex;
   showAggregatedMetrics: boolean;
 }
@@ -71,7 +71,7 @@ function ServicesMetrics ({
   }
 
   useInterval(() => { getData() }, REFRESH_INTERVAL_METRICS)
-  useEffect(() => { getData() }, [serviceId, showAggregatedMetrics, threadIndex])
+  useEffect(() => { getData() }, [serviceId, showAggregatedMetrics, threadIndex, mode])
 
   if (error) {
     return <ErrorComponent error={error} onClickDismiss={() => setError(undefined)} />

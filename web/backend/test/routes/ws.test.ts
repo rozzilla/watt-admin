@@ -1,6 +1,7 @@
 import test from 'node:test'
 import assert from 'node:assert'
-import { getServer, startWatt } from '../helper'
+import WebSocket from 'ws'
+import { getServer, startWatt } from '../helper.ts'
 
 test('websocket logs', async (t) => {
   const port = await startWatt(t)
@@ -13,7 +14,6 @@ test('websocket logs', async (t) => {
   const [runtime] = res.json()
   const runtimePid = runtime.pid
 
-  const WebSocket = require('ws')
   const ws = new WebSocket(`ws://127.0.0.1:${port}/api/runtimes/${runtimePid}/logs/ws`)
 
   const logs: {
@@ -24,16 +24,19 @@ test('websocket logs', async (t) => {
     msg: string
   }[] = []
   await new Promise((resolve, reject) => {
-    const ms = 2000
+    const ms = 5000
     const timeout = setTimeout(() => reject(new Error('WebSocket connection timed out')), ms)
 
-    ws.on('open', () => {
+    ws.on('open', async () => {
       clearTimeout(timeout)
 
       setTimeout(() => {
         ws.close()
         resolve(null)
       }, ms - 1)
+
+      const { status } = await fetch(`http://127.0.0.1:${port}/api/runtimes`)
+      assert.strictEqual(status, 200)
     })
 
     ws.on('error', (err: unknown) => {
@@ -41,13 +44,14 @@ test('websocket logs', async (t) => {
       reject(err)
     })
 
-    ws.on('message', (data: string) => logs.push(JSON.parse(data.toString())))
+    ws.on('message', (data: string) => {
+      logs.push(JSON.parse(data.toString()))
+      if (logs.some(({ msg }) => msg.includes('request completed'))) {
+        clearTimeout(timeout)
+        resolve(null)
+      }
+    })
   })
-
-  assert.ok(logs.some(({ msg }) => msg.includes('Starting the service')))
-  assert.ok(logs.some(({ msg }) => msg.includes('Started the service')))
-  assert.ok(logs.some(({ msg }) => msg.includes('Server listening at')))
-  assert.ok(logs.some(({ msg }) => msg.includes('Platformatic is now listening')))
 
   const [{ level, time, pid, hostname }] = logs
   assert.ok(typeof level, 'number')

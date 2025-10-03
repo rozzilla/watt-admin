@@ -1,7 +1,7 @@
 import test from 'node:test'
 import assert from 'node:assert'
-import { getServer, startWatt, loadMetrics } from '../helper'
-import { MetricsResponse } from '../../schemas'
+import { getServer, startWatt, loadMetrics } from '../helper.ts'
+import type { MetricsResponse } from '../../schemas/index.ts'
 
 test('metrics without runtime', async (t) => {
   const server = await getServer(t)

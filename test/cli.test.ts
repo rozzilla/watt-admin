@@ -1,10 +1,8 @@
 'use strict'
 
 import type { Runtime } from '@platformatic/control'
-
-const { describe, it, beforeEach, afterEach } = require('node:test')
-const assert = require('node:assert')
-const proxyquire = require('proxyquire')
+import { describe, it, beforeEach, afterEach, mock } from 'node:test'
+import assert from 'node:assert'
 
 describe('CLI', () => {
   // Mock console.log to capture output
@@ -37,23 +35,6 @@ describe('CLI', () => {
     return mockSelectedRuntime || choices[0].value
   }
 
-  // Setup mocks
-  const mockedCli = () => {
-    return proxyquire.noCallThru().load('../cli.js', {
-      '@platformatic/control': {
-        RuntimeApiClient: mockRuntimeApiClient
-      },
-      '@inquirer/prompts': {
-        select: mockSelect
-      },
-      './lib/start.js': {
-        start: async (pid: Runtime['pid']) => {
-          return { pid, started: true }
-        }
-      }
-    })
-  }
-
   beforeEach(() => {
     // Setup console capture
     consoleOutput = []
@@ -65,20 +46,43 @@ describe('CLI', () => {
     mockRuntimes = []
     mockConfig = {}
     mockSelectedRuntime = null
+
+    // Setup module mocks
+    mock.module('@platformatic/control', {
+      namedExports: {
+        RuntimeApiClient: mockRuntimeApiClient
+      }
+    })
+
+    mock.module('@inquirer/prompts', {
+      namedExports: {
+        select: mockSelect
+      }
+    })
+
+    mock.module('../lib/start.js', {
+      namedExports: {
+        start: async (pid: Runtime['pid']) => {
+          return { pid, started: true }
+        }
+      }
+    })
   })
 
   afterEach(() => {
     // Restore console.log
     console.log = originalConsoleLog
+
+    // Clean up all mocks
+    mock.restoreAll()
   })
 
   it('should handle no available runtimes', async () => {
     // Set up empty runtimes
     mockRuntimes = []
 
-    // Get mocked CLI module
-    const main = mockedCli()
-    const result = await main()
+    const { default: cli } = await import('../cli.js')
+    const result = await cli()
 
     assert.strictEqual(result, null)
     assert.ok(consoleOutput.some(output => output.includes('No runtimes available')))
@@ -98,9 +102,8 @@ describe('CLI', () => {
     mockRuntimes = [singleRuntime]
     mockConfig = { path: '/test/app/config.json' }
 
-    // Get mocked CLI module
-    const main = mockedCli()
-    const result = await main()
+    const { default: cli } = await import('../cli.js')
+    const result = await cli()
 
     assert.deepStrictEqual(result, singleRuntime)
     assert.ok(consoleOutput.some(output => output.includes('test-app')))
@@ -131,9 +134,8 @@ describe('CLI', () => {
     mockConfig = { path: '/test/app/config.json' }
     mockSelectedRuntime = multipleRuntimes[1]  // Select the second runtime
 
-    // Get mocked CLI module
-    const main = mockedCli()
-    const result = await main()
+    const { default: cli } = await import('../cli.js')
+    const result = await cli()
 
     assert.deepStrictEqual(result, multipleRuntimes[1])
     assert.ok(consoleOutput.some(output => output.includes('app-2')))
@@ -153,9 +155,8 @@ describe('CLI', () => {
     mockRuntimes = [mockRuntime]
     mockConfig = new Error('Config not available')
 
-    // Get mocked CLI module
-    const main = mockedCli()
-    const result = await main()
+    const { default: cli } = await import('../cli.js')
+    const result = await cli()
 
     assert.deepStrictEqual(result, mockRuntime)
     assert.ok(consoleOutput.some(output => output.includes('error-app')))

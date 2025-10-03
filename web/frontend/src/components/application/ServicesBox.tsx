@@ -7,7 +7,7 @@ import commonStyles from '../../styles/CommonStyles.module.css'
 import { BorderedBox, Icons } from '@platformatic/ui-components'
 import useAdminStore from '../../useAdminStore'
 import { getOpenApi, getServices } from '../../api'
-import { ServiceData } from 'src/types'
+import type { ServiceData } from '../../types'
 import ErrorComponent from '../errors/ErrorComponent'
 import { HOME_PATH } from '../../ui-constants'
 import { useNavigate } from 'react-router-dom'
@@ -128,11 +128,7 @@ function ServicesBox (): React.ReactElement {
       }
     }
     fetchData()
-  }, [runtimePid])
-
-  if (error) {
-    return <ErrorComponent error={error} onClickDismiss={() => setError(undefined)} />
-  }
+  }, [runtimePid, mode])
 
   useEffect(() => {
     const fetchData = async (): Promise<void> => {
@@ -152,40 +148,45 @@ function ServicesBox (): React.ReactElement {
 
   return (
     <>
-      <BorderedBox classes={`${styles.borderexBoxContainer}`} backgroundColor={BLACK_RUSSIAN} color={TRANSPARENT}>
-        <div className={`${commonStyles.smallFlexBlock} ${commonStyles.fullWidth}`}>
-          <div className={`${commonStyles.smallFlexRow} ${commonStyles.fullWidth} ${commonStyles.justifyBetween}`}>
-            <div className={`${commonStyles.tinyFlexRow} ${commonStyles.fullWidth}`}>
-              <Icons.ServiceIcon
-                color={WHITE}
-                size={MEDIUM}
-              />
-              <div className={styles.applicationName}>
-                <span className={`${typographyStyles.desktopBodySemibold} ${typographyStyles.textWhite} ${typographyStyles.ellipsis}`}>Services</span> <span className={`${typographyStyles.desktopBodySmall} ${typographyStyles.textWhite} ${typographyStyles.opacity70}`}>({services.length})</span>
+      {error
+        ? <ErrorComponent error={error} onClickDismiss={() => setError(undefined)} />
+        : (
+          <>
+            <BorderedBox classes={`${styles.borderexBoxContainer}`} backgroundColor={BLACK_RUSSIAN} color={TRANSPARENT}>
+              <div className={`${commonStyles.smallFlexBlock} ${commonStyles.fullWidth}`}>
+                <div className={`${commonStyles.smallFlexRow} ${commonStyles.fullWidth} ${commonStyles.justifyBetween}`}>
+                  <div className={`${commonStyles.tinyFlexRow} ${commonStyles.fullWidth}`}>
+                    <Icons.ServiceIcon
+                      color={WHITE}
+                      size={MEDIUM}
+                    />
+                    <div className={styles.applicationName}>
+                      <span className={`${typographyStyles.desktopBodySemibold} ${typographyStyles.textWhite} ${typographyStyles.ellipsis}`}>Services</span> <span className={`${typographyStyles.desktopBodySmall} ${typographyStyles.textWhite} ${typographyStyles.opacity70}`}>({services.length})</span>
+                    </div>
+                  </div>
+                </div>
+                <div className={`${commonStyles.tinyFlexRow} ${commonStyles.fullWidth} ${styles.flexWrap}`}>
+                  {services.map((service) => (
+                    <Service
+                      key={service.id}
+                      service={service}
+                      onServiceClick={() => setSelectedService(service.id)}
+                    />
+                  ))}
+                </div>
               </div>
-            </div>
-          </div>
-          <div className={`${commonStyles.tinyFlexRow} ${commonStyles.fullWidth} ${styles.flexWrap}`}>
-            {services.map((service) => (
-              <Service
-                key={service.id}
-                service={service}
-                onServiceClick={() => setSelectedService(service.id)}
-              />
-            ))}
-          </div>
-        </div>
-      </BorderedBox>
+            </BorderedBox>
 
-      {selectedService && runtimePid && (
-        <>
-          <div
-            className={styles.overlay}
-            onClick={handleClosePanel}
-          />
-          <ServiceDetailPanel service={selectedService} pid={runtimePid} openapi={openapi} onClose={handleClosePanel} />
-        </>
-      )}
+            {selectedService && runtimePid && (
+              <>
+                <div
+                  className={styles.overlay}
+                  onClick={handleClosePanel}
+                />
+                <ServiceDetailPanel service={selectedService} pid={runtimePid} openapi={openapi} onClose={handleClosePanel} />
+              </>
+            )}
+          </>)}
     </>
   )
 }

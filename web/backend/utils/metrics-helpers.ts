@@ -1,5 +1,5 @@
-import { CpuDataPoint, KafkaDataPoint, LatencyDataPoint, MemoryDataPoint, MetricsResponse, NodejsDataPoint, RequestDataPoint, SingleMetricResponse, UndiciDataPoint, WebsocketDataPoint } from '../schemas'
-import { MAX_STORED_METRICS } from './constants'
+import type { CpuDataPoint, KafkaDataPoint, LatencyDataPoint, MemoryDataPoint, MetricsResponse, NodejsDataPoint, RequestDataPoint, SingleMetricResponse, UndiciDataPoint, WebsocketDataPoint } from '../schemas/index.ts'
+import { MAX_STORED_METRICS } from './constants.ts'
 
 export type MappedMetrics = Record<number, {
   aggregated: MetricsResponse,

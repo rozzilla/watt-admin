@@ -1,6 +1,6 @@
-import { FastifyInstance } from 'fastify'
-import { getMetrics } from '../utils/metrics'
-import { MS_WAITING } from '../utils/constants'
+import type { FastifyInstance } from 'fastify'
+import { getMetrics } from '../utils/metrics.ts'
+import { MS_WAITING } from '../utils/constants.ts'
 
 export default async function (fastify: FastifyInstance) {
   fastify.decorate('loaded', { metrics: {} })

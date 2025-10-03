@@ -1,6 +1,6 @@
 import test from 'node:test'
 import assert from 'node:assert'
-import { getServer, startWatt } from '../helper'
+import { getServer, startWatt } from '../helper.ts'
 
 test('proxy', async (t) => {
   await startWatt(t)

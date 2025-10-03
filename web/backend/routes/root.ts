@@ -1,11 +1,13 @@
-import { FastifyInstance } from 'fastify'
-import { JsonSchemaToTsProvider } from '@fastify/type-provider-json-schema-to-ts'
+import type { FastifyInstance } from 'fastify'
+import type { JsonSchemaToTsProvider } from '@fastify/type-provider-json-schema-to-ts'
 import { RuntimeApiClient } from '@platformatic/control'
-import { modeSchema, pidParamSchema, selectableRuntimeSchema } from '../schemas'
-import { getPidToLoad, getSelectableRuntimes } from '../utils/runtimes'
+import { getPidToLoad, getSelectableRuntimes } from '../utils/runtimes.ts'
 import { writeFile, readFile } from 'fs/promises'
-import { checkRecordState } from '../utils/states'
+import { checkRecordState } from '../utils/states.ts'
 import { join } from 'path'
+import { pidParamSchema, selectableRuntimeSchema, modeSchema } from '../schemas/index.ts'
+
+const __dirname = import.meta.dirname
 
 export default async function (fastify: FastifyInstance) {
   const typedFastify = fastify.withTypeProvider<JsonSchemaToTsProvider>()
@@ -63,7 +65,7 @@ export default async function (fastify: FastifyInstance) {
         200: {
           type: 'object',
           additionalProperties: false,
-          required: ['entrypoint', 'production', 'services'],
+          required: ['entrypoint', 'production', 'applications'],
           properties: {
             entrypoint: {
               type: 'string'
@@ -71,11 +73,12 @@ export default async function (fastify: FastifyInstance) {
             production: {
               type: 'boolean'
             },
-            services: {
+            applications: {
               type: 'array',
               items: {
                 anyOf: [
                   {
+                    additionalProperties: false,
                     type: 'object',
                     required: ['id', 'type', 'status', 'version', 'localUrl', 'entrypoint', 'dependencies'],
                     properties: {
@@ -105,25 +108,12 @@ export default async function (fastify: FastifyInstance) {
                       },
                       dependencies: {
                         type: 'array',
-                        items: {
-                          type: 'object',
-                          required: ['id', 'url', 'local'],
-                          properties: {
-                            id: {
-                              type: 'string'
-                            },
-                            url: {
-                              type: 'string'
-                            },
-                            local: {
-                              type: 'boolean'
-                            }
-                          }
-                        }
+                        items: { type: 'string' }
                       }
                     }
                   },
                   {
+                    additionalProperties: false,
                     type: 'object',
                     required: ['id', 'status'],
                     properties: {
@@ -142,15 +132,13 @@ export default async function (fastify: FastifyInstance) {
         }
       }
     }
-  }, async (request) => api.getRuntimeServices(request.params.pid))
+  }, async (request) => api.getRuntimeApplications(request.params.pid))
 
   typedFastify.get('/runtimes/:pid/openapi/:serviceId', {
     schema: {
       params: { type: 'object', properties: { pid: { type: 'number' }, serviceId: { type: 'string' } }, required: ['pid', 'serviceId'] }
     }
-  }, async ({ params: { pid, serviceId } }) => {
-    return api.getRuntimeOpenapi(pid, serviceId)
-  })
+  }, async ({ params: { pid, serviceId } }) => api.getRuntimeOpenapi(pid, serviceId))
 
   typedFastify.post('/runtimes/:pid/restart', {
     schema: { params: pidParamSchema, body: { type: 'object' } }
@@ -184,16 +172,20 @@ export default async function (fastify: FastifyInstance) {
     }
 
     if (mode === 'stop') {
-      const runtimes = getSelectableRuntimes(await api.getRuntimes(), false)
-      const services = await api.getRuntimeServices(getPidToLoad(runtimes))
-      const loadedJson = JSON.stringify({ runtimes, services, metrics: fastify.loaded.metrics[getPidToLoad(runtimes)] })
-      const scriptToAppend = `  <script>window.LOADED_JSON=${loadedJson}</script>\n</body>`
+      try {
+        const runtimes = getSelectableRuntimes(await api.getRuntimes(), false)
+        const services = await api.getRuntimeApplications(getPidToLoad(runtimes))
+        const loadedJson = JSON.stringify({ runtimes, services, metrics: fastify.loaded.metrics[getPidToLoad(runtimes)] })
+        const scriptToAppend = `  <script>window.LOADED_JSON=${loadedJson}</script>\n</body>`
 
-      const sourcePath = join(__dirname, '..', '..', '..', 'frontend', 'index.html')
-      await writeFile(sourcePath, (await readFile(sourcePath, 'utf8')).replace('</body>', scriptToAppend), 'utf8')
+        const sourcePath = join(__dirname, '..', '..', 'frontend', 'index.html')
+        await writeFile(sourcePath, (await readFile(sourcePath, 'utf8')).replace('</body>', scriptToAppend), 'utf8')
 
-      const bundlePath = join(__dirname, '..', '..', '..', 'frontend', 'dist', 'index.html')
-      await writeFile(bundlePath, (await readFile(bundlePath, 'utf8')).replace('</body>', scriptToAppend), 'utf8')
+        const bundlePath = join(__dirname, '..', '..', 'frontend', 'dist', 'index.html')
+        await writeFile(bundlePath, (await readFile(bundlePath, 'utf8')).replace('</body>', scriptToAppend), 'utf8')
+      } catch (err) {
+        fastify.log.error({ err }, 'Unable to save the loaded JSON')
+      }
     }
   })
 }

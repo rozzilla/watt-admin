@@ -1,26 +1,29 @@
 import fs from 'fs/promises'
-import { buildServer } from '@platformatic/service'
+import { create } from '@platformatic/service'
+import { join, resolve } from 'node:path'
+import type { FastifyInstance } from 'fastify'
+
+const __dirname = import.meta.dirname
 
 async function clientOpenapi () {
-  const server = await buildServer({
-    $schema: 'https://schemas.platformatic.dev/@platformatic/service/2.75.0.json',
-    service: {
-      openapi: true
-    },
+  const basePath = resolve(__dirname, join('..', 'platformatic.json'))
+  const server = (await create(basePath, {
+    service: { openapi: true },
     watch: false,
     plugins: {
       paths: [
         {
-          path: './plugins',
+          path: resolve(__dirname, join('..', 'plugins')),
           encapsulate: false
         },
-        './routes'
-      ],
-      typescript: true
+        resolve(__dirname, join('..', 'routes'))
+      ]
     }
-  })
-  await server.ready()
-  await fs.writeFile('openapi.json', JSON.stringify(server.swagger(), null, 2))
+  })) as unknown as FastifyInstance & { start: () => unknown; url: string } // FIXME: the new type returned from `create` is wrong, and it should be updated directly on the original platformatic module
+
+  await server.start()
+  const response = await fetch(`${server.url}/documentation/json`)
+  await fs.writeFile('openapi.json', await response.text())
   await server.close()
 }
 

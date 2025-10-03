@@ -9,7 +9,7 @@ import ServicesSelectorForDetailLog from './ServicesSelectorForDetailLog'
 import { BorderedBox, Icons } from '@platformatic/ui-components'
 import { POD_LOGS_PATH } from '../../ui-constants'
 import { getServices } from '../../api'
-import { ServiceData } from 'src/types'
+import type { ServiceData } from 'src/types'
 import ErrorComponent from '../errors/ErrorComponent'
 import { getServiceSelected } from '../../utilities/getters'
 
@@ -41,7 +41,7 @@ const ServicesLogs: React.FC = () => {
       }
     }
     fetchData()
-  }, [runtimePid])
+  }, [runtimePid, mode])
 
   function handleChangeService (serviceUpdated: ServiceData): void {
     const newServices = services.map(service => {

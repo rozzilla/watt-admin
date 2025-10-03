@@ -1,8 +1,8 @@
 import test from 'node:test'
 import assert from 'node:assert'
-import { getPidToLoad, getSelectableRuntimes } from '../../utils/runtimes'
-import { Runtime } from '@platformatic/control'
-import { SelectableRuntime } from '../../schemas'
+import { getPidToLoad, getSelectableRuntimes } from '../../utils/runtimes.ts'
+import type { Runtime } from '@platformatic/control'
+import type { SelectableRuntime } from '../../schemas/index.ts'
 
 const mockRuntimes: Runtime[] = [
   {

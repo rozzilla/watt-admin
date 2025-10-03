@@ -1,3 +1,3 @@
-import { GetRuntimesPidServicesResponseOK } from './client/backend-types'
+import type { GetRuntimesPidServicesResponseOK } from './client/backend-types'
 
-export type ServiceData = GetRuntimesPidServicesResponseOK['services'][number] & { selected?: boolean }
+export type ServiceData = NonNullable<GetRuntimesPidServicesResponseOK['applications']>[number] & { selected?: boolean }
