@@ -13,7 +13,7 @@ const mockRuntimes: Runtime[] = [
   } as Runtime,
   {
     pid: 5678,
-    packageName: 'watt-admin',
+    packageName: '@platformatic/watt-admin',
     packageVersion: '2.0.0',
     url: 'http://localhost:3001'
   } as Runtime

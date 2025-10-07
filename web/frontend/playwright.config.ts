@@ -21,7 +21,7 @@ export default defineConfig({
     timeout,
     stdout: 'pipe',
     stderr: 'pipe',
-    env: { PORT }
+    env: { PORT, INCLUDE_ADMIN: '1' }
   },
   timeout
 })
