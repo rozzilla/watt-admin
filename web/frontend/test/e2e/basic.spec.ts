@@ -1,6 +1,6 @@
 import path from 'path'
 import fs from 'fs/promises'
-import { test, expect, Page } from '@playwright/test'
+import { test, expect, type Page } from '@playwright/test'
 
 const __dirname = import.meta.dirname
 
@@ -45,7 +45,7 @@ test.describe('Basic E2E tests', () => {
     await expect(page.getByText('composer')).toHaveCount(1)
     await expect(page.getByText('gateway')).toHaveCount(1)
     await expect(page.getByText('RUNNING')).toBeVisible()
-    await expect(page.getByText('3.6.0')).toBeVisible()
+    await expect(page.getByText('3.8.0')).toBeVisible()
     await expect(page.getByText('http://127.0.0.1:5042')).toBeVisible()
 
     const metricCharts = page.getByTestId('metric-chart')

@@ -4,8 +4,7 @@ import type { SelectableRuntime } from '../schemas/index.ts'
 export const getSelectableRuntimes = (runtimes: Runtime[], includeAdmin: boolean): SelectableRuntime[] => {
   const selectableRuntimes: SelectableRuntime[] = []
   for (const runtime of runtimes) {
-    // FIXME: this needs to be updated to `@platformatic/watt-admin`, but it'll take some changes since tests now relies on this check not being executed
-    if (!includeAdmin && runtime.packageName === 'watt-admin') {
+    if (!includeAdmin && runtime.packageName === '@platformatic/watt-admin' && !process.env.INCLUDE_ADMIN) {
       continue
     }
 
