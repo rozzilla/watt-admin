@@ -1,5 +1,5 @@
 import { join, resolve } from 'node:path'
-import { create, type ServiceCapability } from '@platformatic/service'
+import { create } from '@platformatic/service'
 import { test } from 'node:test'
 import { spawn } from 'node:child_process'
 import { MS_WAITING } from '../utils/constants.ts'
@@ -54,8 +54,8 @@ export async function getServer (t: TestContext) {
         }
       ]
     }
-  }) as unknown as ServiceCapability & FastifyInstance & { start: () => unknown } // FIXME: the new type returned from `create` is wrong, and it should be updated directly on the original platformatic module
-  await server.start()
+  })
+  await server.start({})
   t.after(async () => {
     await server.close()
   })
