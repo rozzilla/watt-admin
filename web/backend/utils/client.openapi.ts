@@ -21,8 +21,8 @@ async function clientOpenapi () {
   })
 
   await server.start({})
-  const response = await fetch(`${server.url}/documentation/json`)
-  await fs.writeFile('openapi.json', await response.text())
+  const { body } = await server.getApplication().inject('/documentation/json')
+  await fs.writeFile('openapi.json', body)
   await server.close()
 }
 
