@@ -1,5 +1,3 @@
-'use strict'
-
 import { describe, it, beforeEach, afterEach, mock } from 'node:test'
 import assert from 'node:assert'
 import { EventEmitter } from 'node:events'
@@ -8,12 +6,7 @@ import type { CloseWithGraceAsyncCallback } from 'close-with-grace'
 
 interface MockServer {
   started: boolean
-  start(): Promise<MockServer>
-  configManager: {
-    current: {
-      server: { hostname: string; port: number }
-    }
-  }
+  start(): Promise<string>
 }
 
 interface RequestOptions {
@@ -58,12 +51,7 @@ describe('start', () => {
     started: false,
     start: async function () {
       this.started = true
-      return this
-    },
-    configManager: {
-      current: {
-        server: { hostname: 'localhost', port: 3000 }
-      }
+      return 'http://localhost:3000'
     }
   }
 
