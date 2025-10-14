@@ -1159,7 +1159,7 @@
         }
       }
     },
-    "/record": {
+    "/record/{pid}": {
       "post": {
         "requestBody": {
           "content": {
@@ -1174,16 +1174,34 @@
                       "start",
                       "stop"
                     ]
+                  },
+                  "profile": {
+                    "type": "string",
+                    "enum": [
+                      "cpu",
+                      "heap"
+                    ]
                   }
                 },
                 "required": [
-                  "mode"
+                  "mode",
+                  "profile"
                 ]
               }
             }
           },
           "required": true
         },
+        "parameters": [
+          {
+            "schema": {
+              "type": "number"
+            },
+            "in": "path",
+            "name": "pid",
+            "required": true
+          }
+        ],
         "responses": {
           "200": {
             "description": "Default Response"

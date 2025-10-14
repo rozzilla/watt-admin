@@ -96,14 +96,14 @@ test('runtime is running', async (t) => {
   assert.strictEqual(typeof serviceInvalidOpenapi.json().code, 'string')
 
   assert.strictEqual(server.loaded.mode, undefined, 'empty mode')
-  const recordEmpty = await server.inject({ url: '/record', method: 'POST', body: { mode: '' } })
+  const recordEmpty = await server.inject({ url: `/record/${runtimePid}`, method: 'POST', body: { mode: '', profile: '' } })
   assert.strictEqual(recordEmpty.statusCode, 400)
 
-  const recordStart = await server.inject({ url: '/record', method: 'POST', body: { mode: 'start' } })
+  const recordStart = await server.inject({ url: `/record/${runtimePid}`, method: 'POST', body: { mode: 'start', profile: 'cpu' } })
   assert.strictEqual(server.loaded.mode, 'start', 'start mode')
   assert.strictEqual(recordStart.statusCode, 200)
 
-  const recordStop = await server.inject({ url: '/record', method: 'POST', body: { mode: 'stop' } })
+  const recordStop = await server.inject({ url: `/record/${runtimePid}`, method: 'POST', body: { mode: 'stop', profile: 'cpu' } })
   assert.strictEqual(server.loaded.mode, 'stop', 'stop mode')
   assert.strictEqual(recordStop.statusCode, 200)
 

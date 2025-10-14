@@ -108,15 +108,19 @@ export type PostRuntimesPidRestartResponseOK = unknown
 export type PostRuntimesPidRestartResponses =
   FullResponse<PostRuntimesPidRestartResponseOK, 200>
 
-export type PostRecordRequest = {
+export type PostRecordPidRequest = {
+  path: {
+    'pid': number;
+  }
   body: {
     'mode': 'start' | 'stop';
+    'profile': 'cpu' | 'heap';
   }
 }
 
-export type PostRecordResponseOK = unknown
-export type PostRecordResponses =
-  FullResponse<PostRecordResponseOK, 200>
+export type PostRecordPidResponseOK = unknown
+export type PostRecordPidResponses =
+  FullResponse<PostRecordPidResponseOK, 200>
 
 
 
@@ -168,7 +172,7 @@ export interface Backend {
    * @param req - request parameters object
    * @returns the API response
    */
-  postRecord(req: PostRecordRequest): Promise<PostRecordResponses>;
+  postRecordPid(req: PostRecordPidRequest): Promise<PostRecordPidResponses>;
 }
 type PlatformaticFrontendClient = Omit<Backend, 'setBaseUrl'>
 type BuildOptions = {

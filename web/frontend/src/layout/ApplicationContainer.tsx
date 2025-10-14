@@ -1,14 +1,16 @@
-import React, { type ReactNode, useEffect } from 'react'
+import React, { type ReactNode, useEffect, useState } from 'react'
 import {
   HOME_PATH,
   POD_SERVICES_PATH,
-  POD_LOGS_PATH
+  POD_LOGS_PATH,
+  POD_FLAMEGRAPH_PATH
 } from '../ui-constants'
 import styles from './HomeContainer.module.css'
 import SideBar from '../components/ui/SideBar'
 import useAdminStore from '../useAdminStore'
 import { useNavigate } from 'react-router-dom'
 import { getOfflineMode } from '../utilities/getters'
+import { getResource } from '../api'
 
 interface ApplicationContainerProps {
   children?: ReactNode;
@@ -22,9 +24,23 @@ function ApplicationContainer ({ children }: ApplicationContainerProps): React.R
     setCurrentPage
   } = globalState
   const navigate = useNavigate()
+  const [hasNoProfile, setHasNoProfile] = useState<boolean>()
 
   useEffect(() => {
     handleNavigation('Overview', HOME_PATH)
+  }, [])
+
+  useEffect(() => {
+    const fetchData = async (): Promise<void> => {
+      let error
+      try {
+        await getResource()
+      } catch (err) {
+        error = err
+      }
+      setHasNoProfile(error !== undefined)
+    }
+    fetchData()
   }, [])
 
   function handleNavigation (label: string, page: string): void {
@@ -42,6 +58,12 @@ function ApplicationContainer ({ children }: ApplicationContainerProps): React.R
           label: 'Overview',
           iconName: 'AppDetailsIcon',
           onClick: () => handleNavigation('Overview', HOME_PATH)
+        }, {
+          name: POD_FLAMEGRAPH_PATH,
+          label: 'Flamegraph',
+          iconName: 'MetricsIcon',
+          onClick: () => handleNavigation('Flamegraph', POD_FLAMEGRAPH_PATH),
+          disabled: hasNoProfile && !getOfflineMode()
         }, {
           name: POD_SERVICES_PATH,
           label: 'Metrics',

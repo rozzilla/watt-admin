@@ -30,7 +30,7 @@ function AppNameBox ({
   onModeUpdated,
   apiApplication
 }: AppNameBoxProps): React.ReactElement | null {
-  const { mode, setMode, record, setRecord } = useAdminStore()
+  const { mode, setMode, record, setRecord, runtimePid } = useAdminStore()
   const [appStatus, setAppStatus] = useState(STATUS_STOPPED)
   const [changingRestartStatus, setChangingRestartStatus] = useState(false)
   const [latestVersion, setLatestVersion] = useState('')
@@ -63,7 +63,7 @@ function AppNameBox ({
     }
   }
 
-  if (!apiApplication) return null
+  if (!apiApplication || !runtimePid) return null
   const outdatedVersion = latestVersion !== apiApplication?.pltVersion
 
   return (
@@ -115,7 +115,7 @@ function AppNameBox ({
                 type='button'
                 label={`Record ${record}`}
                 onClick={async () => {
-                  await updateMode(record)
+                  await updateMode(runtimePid, record)
                   await fetchData()
                   setRecord(record === 'start' ? 'stop' : 'start')
                   onModeUpdated()
