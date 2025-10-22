@@ -1,6 +1,7 @@
 import type { MetricOption, MetricType } from './components/application/NodeJSMetric'
 
 export const HOME_PATH = '/'
+export const POD_FLAMEGRAPH_PATH = '/flamegraph'
 export const POD_SERVICES_PATH = '/services'
 export const POD_LOGS_PATH = '/logs'
 

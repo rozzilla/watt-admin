@@ -14,6 +14,8 @@ After installing the project dependencies, you can run the tool directly:
 
 To run the CLI on a custom port, you can just pass it as an argument with `./cli.js --port 4321`.
 
+To record a flamegraph session, and choose to profile either the `cpu` or the `heap`, you can run the CLI with `./cli.js --record --flamegraph heap`. Once you will stop the process, an HTML one-file bundle will be auto-generated, and you will be able to navigate (even offline) the `watt-admin` app, looking at the flamegraph and at the metrics stored for the whole time you have run the CLI.
+
 The tool is also available as a binary when installed globally or linked:
 
 ```bash

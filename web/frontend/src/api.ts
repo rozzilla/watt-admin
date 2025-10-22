@@ -1,20 +1,27 @@
-import { getRuntimes, getRuntimesPidHealth, getRuntimesPidMetrics, getRuntimesPidMetricsServiceId, getRuntimesPidMetricsServiceIdWorkerId, getRuntimesPidServices, getRuntimesPidOpenapiServiceId, postRuntimesPidRestart, setBaseUrl, postRecord } from './client/backend.mts'
+import { getRuntimes, getRuntimesPidHealth, getRuntimesPidMetrics, getRuntimesPidMetricsServiceId, getRuntimesPidMetricsServiceIdWorkerId, getRuntimesPidServices, getRuntimesPidOpenapiServiceId, postRuntimesPidRestart, setBaseUrl, postRecordPid } from './client/backend.mts'
 import { subtractSecondsFromDate } from './utilities/dates'
 import type { Mode } from './useAdminStore'
-import type { GetRuntimesPidMetricsResponseOK, GetRuntimesPidServicesResponseOK, GetRuntimesResponseOK, PostRecordRequest } from './client/backend-types'
+import type { GetRuntimesPidMetricsResponseOK, GetRuntimesPidServicesResponseOK, GetRuntimesResponseOK, PostRecordPidRequest } from './client/backend-types'
 import { getOfflineMode } from './utilities/getters'
+// FIXME: the `react-pprof` should export the real Profile class, not only the type definition of it (import the class directly from `react-pprof` once this will be fixed)
+import { Profile } from 'pprof-format'
+import { fetchProfile } from 'react-pprof'
 
 setBaseUrl('/api')
 
 const isLoadMode = (mode: Mode): boolean => mode === 'load' || getOfflineMode()
 
-type LoadedJson = { runtimes: GetRuntimesResponseOK, services: GetRuntimesPidServicesResponseOK, metrics: { aggregated: GetRuntimesPidMetricsResponseOK, services: Record<string, Record<'all' | number, GetRuntimesPidMetricsResponseOK>> } }
+type LoadedJson = { profile: Record<string, number>, runtimes: GetRuntimesResponseOK, services: GetRuntimesPidServicesResponseOK, metrics: { aggregated: GetRuntimesPidMetricsResponseOK, services: Record<string, Record<'all' | number, GetRuntimesPidMetricsResponseOK>> } }
 
 const getDataLoaded = () => {
   if (!('LOADED_JSON' in window)) {
     throw new Error(`No JSON data loaded in ${JSON.stringify(window)}`)
   }
   return (window as Window & typeof globalThis & { LOADED_JSON: LoadedJson }).LOADED_JSON
+}
+
+export const getResource = async () => {
+  return getOfflineMode() ? Profile.decode(new Uint8Array(Object.values(getDataLoaded().profile))) : await fetchProfile('profile.pb')
 }
 
 export const getApiApplication = async (mode: Mode) => {
@@ -82,5 +89,5 @@ export const restartApiApplication = async (pid: number) => {
   return { result }
 }
 
-export type RecordMode = PostRecordRequest['body']['mode']
-export const updateMode = async (mode: RecordMode) => postRecord({ body: { mode } })
+export type RecordMode = PostRecordPidRequest['body']['mode']
+export const updateMode = async (pid: number, mode: RecordMode) => postRecordPid({ path: { pid }, body: { mode, profile: 'cpu' } })

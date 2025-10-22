@@ -11,7 +11,9 @@ const __dirname = import.meta.dirname
 
 export default async function (fastify: FastifyInstance) {
   const typedFastify = fastify.withTypeProvider<JsonSchemaToTsProvider>()
-  const api = new RuntimeApiClient()
+
+  // FIXME: types have not been properly implemented in `@platformatic/control` and they should be updated as form the cast in the following line
+  const api = new RuntimeApiClient() as RuntimeApiClient & { startApplicationProfiling: (...args: unknown[]) => Promise<unknown>, stopApplicationProfiling: (...args: unknown[]) => Promise<string> }
 
   typedFastify.get('/runtimes', {
     schema: {
@@ -150,24 +152,29 @@ export default async function (fastify: FastifyInstance) {
     }
   })
 
-  typedFastify.post('/record', {
+  typedFastify.post('/record/:pid', {
     schema: {
+      params: pidParamSchema,
       body: {
         type: 'object',
         additionalProperties: false,
-        properties: { mode: modeSchema },
-        required: ['mode']
+        properties: { mode: modeSchema, profile: { type: 'string', enum: ['cpu', 'heap'] } },
+        required: ['mode', 'profile']
       }
     }
-  }, async ({ body: { mode } }) => {
+  }, async ({ body: { mode, profile: type }, params: { pid } }) => {
     const from = fastify.loaded.mode
     const to = mode
     if (!checkRecordState({ from, to })) {
       return fastify.log.error({ from, to }, 'Invalid record state machine transition')
     }
 
+    const { applications } = await api.getRuntimeApplications(pid)
+    const application = applications.find((application) => 'entrypoint' in application && application.entrypoint === true)
+
     fastify.loaded.mode = mode
     if (mode === 'start') {
+      await api.startApplicationProfiling(pid, application?.id, { type })
       fastify.loaded.metrics = {}
     }
 
@@ -175,7 +182,11 @@ export default async function (fastify: FastifyInstance) {
       try {
         const runtimes = getSelectableRuntimes(await api.getRuntimes(), false)
         const services = await api.getRuntimeApplications(getPidToLoad(runtimes))
-        const loadedJson = JSON.stringify({ runtimes, services, metrics: fastify.loaded.metrics[getPidToLoad(runtimes)] })
+        const profileData = Buffer.from(await api.stopApplicationProfiling(pid, application?.id, { type }))
+        await writeFile(join(__dirname, '..', '..', 'frontend', 'public', 'profile.pb'), profileData)
+
+        const loadedJson = JSON.stringify({ runtimes, services, metrics: fastify.loaded.metrics[getPidToLoad(runtimes)], profile: new Uint8Array(profileData) })
+
         const scriptToAppend = `  <script>window.LOADED_JSON=${loadedJson}</script>\n</body>`
 
         const sourcePath = join(__dirname, '..', '..', 'frontend', 'index.html')

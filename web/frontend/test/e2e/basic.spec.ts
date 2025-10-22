@@ -29,6 +29,7 @@ test.describe('Basic E2E tests', () => {
   })
   test.afterAll(async () => {
     await fs.writeFile(metricsPath, metricsData)
+    await fs.unlink(path.join(__dirname, '..', '..', 'public', 'profile.pb'))
   })
   test('should load the main functionalities', async ({ page }) => {
     await page.goto('/')
@@ -45,7 +46,7 @@ test.describe('Basic E2E tests', () => {
     await expect(page.getByText('composer')).toHaveCount(1)
     await expect(page.getByText('gateway')).toHaveCount(1)
     await expect(page.getByText('RUNNING')).toBeVisible()
-    await expect(page.getByText('3.9.0')).toBeVisible()
+    await expect(page.getByText('3.11.0')).toBeVisible()
     await expect(page.getByText('http://127.0.0.1:5042')).toBeVisible()
 
     const metricCharts = page.getByTestId('metric-chart')
@@ -73,6 +74,7 @@ test.describe('Basic E2E tests', () => {
     expect(await getMetricValue(page, 'p90')).toBeGreaterThanOrEqual(0)
     expect(await getMetricValue(page, 'p95')).toBeGreaterThanOrEqual(0)
     expect(await getMetricValue(page, 'p99')).toBeGreaterThanOrEqual(0)
+    expect(page.locator('button[title="Flamegraph"]')).toBeDisabled()
 
     await page.getByText('Record start').click()
     expect(await getMetricValue(page, 'rss')).toBeGreaterThanOrEqual(0)
@@ -83,7 +85,7 @@ test.describe('Basic E2E tests', () => {
     expect(await getMetricValue(page, 'elu')).toBeGreaterThanOrEqual(0)
     expect(await getMetricValue(page, 'idle')).toBeGreaterThanOrEqual(0)
     expect(await getMetricValue(page, 'open')).toBeGreaterThanOrEqual(0)
-    await page.getByText('Record stop').click()
+    await page.getByText('Record stop').click({ timeout: 1000 })
 
     await page.waitForLoadState('load') // reload
     await expect(page.getByText('Record start')).toBeVisible()
@@ -93,6 +95,11 @@ test.describe('Basic E2E tests', () => {
     await expect(page.getByText('Live')).toBeVisible()
     await page.getByText('Live').click()
     expect(await getMetricValue(page, 'rss')).toBeGreaterThanOrEqual(0)
+
+    await page.locator('button[title="Flamegraph"]').click()
+    await expect(page.getByText('Flamegraph')).toBeVisible()
+    await expect(page.getByText('frames')).toBeVisible()
+    await page.goto('/#/')
 
     // services
     await page.goto('/#/services')

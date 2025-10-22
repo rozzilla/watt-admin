@@ -283,7 +283,7 @@ const _postRuntimesPidRestart = async (url: string, request: Types.PostRuntimesP
 export const postRuntimesPidRestart: Backend['postRuntimesPidRestart'] = async (request: Types.PostRuntimesPidRestartRequest): Promise<Types.PostRuntimesPidRestartResponses> => {
   return await _postRuntimesPidRestart(baseUrl, request)
 }
-const _postRecord = async (url: string, request: Types.PostRecordRequest): Promise<Types.PostRecordResponses> => {
+const _postRecordPid = async (url: string, request: Types.PostRecordPidRequest): Promise<Types.PostRecordPidResponses> => {
   const body = 'body' in request ? (request.body) : undefined
   const isFormData = body instanceof FormData
   const headers: HeadersInit = {
@@ -291,7 +291,7 @@ const _postRecord = async (url: string, request: Types.PostRecordRequest): Promi
     ...(isFormData || body === undefined) ? {} : defaultJsonType
   }
 
-  const response = await fetch(`${url}/record`, {
+  const response = await fetch(`${url}/record/${request.path['pid']}`, {
     method: 'POST',
     body: isFormData ? body : JSON.stringify(body),
     headers,
@@ -314,8 +314,8 @@ const _postRecord = async (url: string, request: Types.PostRecordRequest): Promi
   }
 }
 
-export const postRecord: Backend['postRecord'] = async (request: Types.PostRecordRequest): Promise<Types.PostRecordResponses> => {
-  return await _postRecord(baseUrl, request)
+export const postRecordPid: Backend['postRecordPid'] = async (request: Types.PostRecordPidRequest): Promise<Types.PostRecordPidResponses> => {
+  return await _postRecordPid(baseUrl, request)
 }
 type BuildOptions = {
   headers?: object
@@ -334,6 +334,6 @@ export default function build (url: string, options?: BuildOptions) {
     getRuntimesPidServices: _getRuntimesPidServices.bind(url, ...arguments),
     getRuntimesPidOpenapiServiceId: _getRuntimesPidOpenapiServiceId.bind(url, ...arguments),
     postRuntimesPidRestart: _postRuntimesPidRestart.bind(url, ...arguments),
-    postRecord: _postRecord.bind(url, ...arguments)
+    postRecordPid: _postRecordPid.bind(url, ...arguments)
   }
 }

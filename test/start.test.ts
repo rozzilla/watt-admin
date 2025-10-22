@@ -1,5 +1,4 @@
-'use strict'
-
+import { RuntimeApiClient } from '@platformatic/control'
 import { describe, it, beforeEach, afterEach, mock } from 'node:test'
 import assert from 'node:assert'
 import { EventEmitter } from 'node:events'
@@ -8,12 +7,7 @@ import type { CloseWithGraceAsyncCallback } from 'close-with-grace'
 
 interface MockServer {
   started: boolean
-  start(): Promise<MockServer>
-  configManager: {
-    current: {
-      server: { hostname: string; port: number }
-    }
-  }
+  start(): Promise<string>
 }
 
 interface RequestOptions {
@@ -58,12 +52,7 @@ describe('start', () => {
     started: false,
     start: async function () {
       this.started = true
-      return this
-    },
-    configManager: {
-      current: {
-        server: { hostname: 'localhost', port: 3000 }
-      }
+      return 'http://localhost:3000'
     }
   }
 
@@ -100,19 +89,19 @@ describe('start', () => {
           text: async () => 'error'
         }
       }
-    }) as MockFunction<(url: string, options: RequestOptions) => Promise<RequestResponse>>
+    })
 
     closeWithGraceMock = mock.fn((_: unknown, handler: CloseWithGraceAsyncCallback): EventEmitter => {
       closeWithGraceMock.handler = handler
       return new EventEmitter()
-    }) as CloseWithGraceMockFunction
+    })
 
     execAsyncMock = mock.fn(async (_: string): Promise<ExecResult> => ({
       stdout: '',
       stderr: ''
-    })) as MockFunction<(command: string) => Promise<ExecResult>>
+    }))
 
-    createMock = mock.fn(async (): Promise<MockServer> => mockServer) as MockFunction<() => Promise<MockServer>>
+    createMock = mock.fn(async (): Promise<MockServer> => mockServer)
 
     // Setup module mocks
     mock.module('@platformatic/runtime', {
@@ -156,10 +145,11 @@ describe('start', () => {
     // Set parseArgs result for this test
     parseArgsResult = { values: {} }
 
-    const { start } = await import('../lib/start.js') as { start: (selectedRuntime: string) => Promise<void> }
+    const { start } = await import('../lib/start.js')
 
+    const client = new RuntimeApiClient()
     const testRuntime = 'test-runtime-123'
-    await start(testRuntime)
+    await start(client, testRuntime)
 
     assert.strictEqual(process.env.SELECTED_RUNTIME, testRuntime, 'SELECTED_RUNTIME should be set')
     assert.strictEqual(mockServer.started, true, 'Server should be started')
@@ -168,7 +158,8 @@ describe('start', () => {
     // Set parseArgs result for this test to enable recording
     parseArgsResult = { values: { record: true } }
 
-    await start('test-runtime-record')
+    const pid = 'test-runtime-record'
+    await start(client, pid)
 
     // 1. Check if the server was started
     assert.strictEqual(mockServer.started, true, 'Server should be started')
@@ -176,8 +167,8 @@ describe('start', () => {
     // 2. Check if the 'start' record request was made
     assert.strictEqual(requestMock.mock.calls.length, 1, 'Should have made one request to start recording')
     const [startUrl, startOptions] = requestMock.mock.calls[0].arguments
-    assert.strictEqual(startUrl, 'http://localhost:3000/api/record')
-    assert.deepStrictEqual(JSON.parse(startOptions.body), { mode: 'start' })
+    assert.strictEqual(startUrl, `http://localhost:3000/api/record/${pid}`)
+    assert.deepStrictEqual(JSON.parse(startOptions.body), { mode: 'start', profile: 'cpu' })
 
     // 3. Check if closeWithGrace was configured
     assert.strictEqual(closeWithGraceMock.mock.calls.length, 1, 'closeWithGrace should be called')
@@ -195,8 +186,8 @@ describe('start', () => {
     // 5. Check if the 'stop' record request was made
     assert.strictEqual(requestMock.mock.calls.length, 2, 'Should have made a second request to stop recording')
     const [stopUrl, stopOptions] = requestMock.mock.calls[1].arguments
-    assert.strictEqual(stopUrl, 'http://localhost:3000/api/record')
-    assert.deepStrictEqual(JSON.parse(stopOptions.body), { mode: 'stop' })
+    assert.strictEqual(stopUrl, `http://localhost:3000/api/record/${pid}`)
+    assert.deepStrictEqual(JSON.parse(stopOptions.body), { mode: 'stop', profile: 'cpu' })
 
     // 6. Check if execAsync was called with 'open' and 'index.html'
     assert.strictEqual(execAsyncMock.mock.calls.length, 1, 'execAsync should be called once')
