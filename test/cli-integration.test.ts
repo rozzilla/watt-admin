@@ -1,4 +1,4 @@
-import { describe, it, beforeEach, afterEach, mock } from 'node:test'
+import { describe, it, before, after, mock } from 'node:test'
 import assert from 'node:assert'
 
 describe('CLI Integration', () => {
@@ -23,7 +23,7 @@ describe('CLI Integration', () => {
   let consoleOutput: string[] = []
   const originalConsoleLog = console.log
 
-  beforeEach(() => {
+  before(() => {
     consoleOutput = []
     console.log = (...args) => {
       consoleOutput.push(args.join(' '))
@@ -46,7 +46,7 @@ describe('CLI Integration', () => {
     })
   })
 
-  afterEach(() => {
+  after(() => {
     console.log = originalConsoleLog
     mock.restoreAll()
   })

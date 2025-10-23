@@ -1,10 +1,6 @@
 import test from 'node:test'
 import assert from 'node:assert'
-import { readFile, writeFile } from 'node:fs/promises'
-import path from 'node:path'
 import { getServer, startWatt } from '../helper.ts'
-
-const __dirname = import.meta.dirname
 
 test('no runtime running', async (t) => {
   const server = await getServer(t)
@@ -28,16 +24,6 @@ test('no runtime running', async (t) => {
 })
 
 test('runtime is running', async (t) => {
-  const metricsPath = path.join(__dirname, '..', '..', '..', 'frontend', 'index.html')
-  let metricsData: Buffer<ArrayBufferLike>
-
-  t.before(async () => {
-    metricsData = await readFile(metricsPath)
-  })
-  t.after(async () => {
-    await writeFile(metricsPath, metricsData)
-  })
-
   await startWatt(t)
   const server = await getServer(t)
   const res = await server.inject({

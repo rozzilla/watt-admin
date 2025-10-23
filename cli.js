@@ -2,7 +2,7 @@
 
 'use strict'
 
-import { pathToFileURL } from 'url'
+import esmain from 'es-main'
 import { RuntimeApiClient } from '@platformatic/control'
 import { select } from '@inquirer/prompts'
 import { start } from './lib/start.js'
@@ -137,7 +137,7 @@ export default async function main () {
 }
 
 // Execute the main function if this script is run directly
-if (import.meta.url === pathToFileURL(process.argv[1]).href) {
+if (esmain(import.meta)) {
   main().then((selectedRuntime) => {
     if (!selectedRuntime) {
       return

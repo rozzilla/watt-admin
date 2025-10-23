@@ -1,3 +1,4 @@
+import styles from './ServicesFlamegraph.module.css'
 import React, { useEffect, useState } from 'react'
 import { FullFlameGraph, type Profile } from 'react-pprof'
 import useAdminStore from '../../useAdminStore'
@@ -21,12 +22,14 @@ const ServicesFlamegraph: React.FC = () => {
 
   return (
     profile &&
-      <FullFlameGraph
-        profile={profile}
-        showHottestFrames
-        showControls
-        showStackDetails
-      />
+      <div className={styles.fullFlamegraph}>
+        <FullFlameGraph
+          profile={profile}
+          showHottestFrames
+          showControls
+          showStackDetails
+        />
+      </div>
   )
 }
 

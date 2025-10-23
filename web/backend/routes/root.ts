@@ -183,15 +183,11 @@ export default async function (fastify: FastifyInstance) {
         const runtimes = getSelectableRuntimes(await api.getRuntimes(), false)
         const services = await api.getRuntimeApplications(getPidToLoad(runtimes))
         const profileData = Buffer.from(await api.stopApplicationProfiling(pid, application?.id, { type }))
-        await writeFile(join(__dirname, '..', '..', 'frontend', 'public', 'profile.pb'), profileData)
+        await writeFile(join(__dirname, '..', '..', 'frontend', 'dist', 'profile.pb'), profileData)
 
         const loadedJson = JSON.stringify({ runtimes, services, metrics: fastify.loaded.metrics[getPidToLoad(runtimes)], profile: new Uint8Array(profileData) })
 
         const scriptToAppend = `  <script>window.LOADED_JSON=${loadedJson}</script>\n</body>`
-
-        const sourcePath = join(__dirname, '..', '..', 'frontend', 'index.html')
-        await writeFile(sourcePath, (await readFile(sourcePath, 'utf8')).replace('</body>', scriptToAppend), 'utf8')
-
         const bundlePath = join(__dirname, '..', '..', 'frontend', 'dist', 'index.html')
         await writeFile(bundlePath, (await readFile(bundlePath, 'utf8')).replace('</body>', scriptToAppend), 'utf8')
       } catch (err) {
