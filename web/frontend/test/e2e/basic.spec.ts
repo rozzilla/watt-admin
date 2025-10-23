@@ -1,3 +1,4 @@
+import { glob } from 'glob'
 import path from 'path'
 import fs from 'fs/promises'
 import { test, expect, type Page } from '@playwright/test'
@@ -29,9 +30,7 @@ test.describe('Basic E2E tests', () => {
   })
   test.afterAll(async () => {
     await fs.writeFile(metricsPath, metricsData)
-    await fs.unlink(path.join(__dirname, '..', '..', 'dist', 'profile-backend.pb'))
-    await fs.unlink(path.join(__dirname, '..', '..', 'dist', 'profile-composer.pb'))
-    await fs.unlink(path.join(__dirname, '..', '..', 'dist', 'profile-frontend.pb'))
+    await Promise.all((await glob(path.join(__dirname, '..', '..', 'dist', 'profile-*.pb'))).map(file => fs.unlink(file)))
   })
   test('should load the main functionalities', async ({ page }) => {
     await page.goto('/')
