@@ -170,11 +170,11 @@ export default async function (fastify: FastifyInstance) {
     }
 
     const { applications } = await api.getRuntimeApplications(pid)
-    const application = applications.find((application) => 'entrypoint' in application && application.entrypoint === true)
-
     fastify.loaded.mode = mode
     if (mode === 'start') {
-      await api.startApplicationProfiling(pid, application?.id, { type })
+      for (const { id } of applications) {
+        await api.startApplicationProfiling(pid, id, { type })
+      }
       fastify.loaded.metrics = {}
     }
 
@@ -182,10 +182,15 @@ export default async function (fastify: FastifyInstance) {
       try {
         const runtimes = getSelectableRuntimes(await api.getRuntimes(), false)
         const services = await api.getRuntimeApplications(getPidToLoad(runtimes))
-        const profileData = Buffer.from(await api.stopApplicationProfiling(pid, application?.id, { type }))
-        await writeFile(join(__dirname, '..', '..', 'frontend', 'dist', 'profile.pb'), profileData)
 
-        const loadedJson = JSON.stringify({ runtimes, services, metrics: fastify.loaded.metrics[getPidToLoad(runtimes)], profile: new Uint8Array(profileData) })
+        const profile: Record<string, Uint8Array> = {}
+        for (const { id } of applications) {
+          const profileData = Buffer.from(await api.stopApplicationProfiling(pid, id, { type }))
+          await writeFile(join(__dirname, '..', '..', 'frontend', 'dist', `profile-${id}.pb`), profileData)
+          profile[id] = new Uint8Array(profileData)
+        }
+
+        const loadedJson = JSON.stringify({ runtimes, services, metrics: fastify.loaded.metrics[getPidToLoad(runtimes)], profile })
 
         const scriptToAppend = `  <script>window.LOADED_JSON=${loadedJson}</script>\n</body>`
         const bundlePath = join(__dirname, '..', '..', 'frontend', 'dist', 'index.html')

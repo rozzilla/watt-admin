@@ -78,9 +78,10 @@ interface ServicesSelectorForChartsProps {
   services: ServiceData[];
   showAggregatedMetrics?: boolean;
   handleClickService: (service: ServiceData) => void;
-  handleClickThread: (threadIndex: ThreadIndex) => void;
-  handleChangeShowAggregateMetrics: () => void;
+  handleClickThread?: (threadIndex: ThreadIndex) => void;
+  handleChangeShowAggregateMetrics?: () => void;
   serviceSelected: ServiceData;
+  displayAggregatedMetrics?: boolean;
 }
 
 function ServicesSelectorForCharts ({
@@ -89,23 +90,24 @@ function ServicesSelectorForCharts ({
   handleClickThread,
   showAggregatedMetrics = true,
   handleChangeShowAggregateMetrics,
-  serviceSelected
+  serviceSelected,
+  displayAggregatedMetrics = true
 }: ServicesSelectorForChartsProps): React.ReactElement {
   const [selectedThread, setSelectedThread] = useState<ThreadIndex>('all')
 
   const handleThreadSelection = (threadIndex: ThreadIndex) => {
     setSelectedThread(threadIndex)
-    handleClickThread(threadIndex)
+    handleClickThread && handleClickThread(threadIndex)
   }
 
   return (
     <div className={`${commonStyles.smallFlexBlock} ${commonStyles.fullWidth} ${styles.servicesContainer}`}>
-      {services.length > 1 &&
+      {services.length > 1 && displayAggregatedMetrics &&
         <Forms.ToggleSwitch
           label='Show Aggregated Metrics'
           labelClassName={`${typographyStyles.desktopBodySmall} ${typographyStyles.textWhite}`}
           name='showAggregatedMetrics'
-          onChange={() => handleChangeShowAggregateMetrics()}
+          onChange={() => handleChangeShowAggregateMetrics && handleChangeShowAggregateMetrics()}
           checked={showAggregatedMetrics}
           size={SMALL}
         />}
