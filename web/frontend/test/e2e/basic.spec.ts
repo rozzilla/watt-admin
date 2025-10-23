@@ -29,7 +29,9 @@ test.describe('Basic E2E tests', () => {
   })
   test.afterAll(async () => {
     await fs.writeFile(metricsPath, metricsData)
-    await fs.unlink(path.join(__dirname, '..', '..', 'dist', 'profile.pb'))
+    await fs.unlink(path.join(__dirname, '..', '..', 'dist', 'profile-backend.pb'))
+    await fs.unlink(path.join(__dirname, '..', '..', 'dist', 'profile-composer.pb'))
+    await fs.unlink(path.join(__dirname, '..', '..', 'dist', 'profile-frontend.pb'))
   })
   test('should load the main functionalities', async ({ page }) => {
     await page.goto('/')
@@ -74,7 +76,6 @@ test.describe('Basic E2E tests', () => {
     expect(await getMetricValue(page, 'p90')).toBeGreaterThanOrEqual(0)
     expect(await getMetricValue(page, 'p95')).toBeGreaterThanOrEqual(0)
     expect(await getMetricValue(page, 'p99')).toBeGreaterThanOrEqual(0)
-    expect(page.locator('button[title="Flamegraph"]')).toBeDisabled()
 
     await page.getByText('Record start').click()
     expect(await getMetricValue(page, 'rss')).toBeGreaterThanOrEqual(0)
@@ -97,6 +98,9 @@ test.describe('Basic E2E tests', () => {
     expect(await getMetricValue(page, 'rss')).toBeGreaterThanOrEqual(0)
 
     await page.locator('button[title="Flamegraph"]').click()
+    await page.getByText('frontend').click()
+    await page.getByText('backend').click()
+    await page.getByText('composer').click()
     await expect(page.getByText('Flamegraph')).toBeVisible()
     await expect(page.getByText('frames')).toBeVisible()
     await page.goto('/#/')
