@@ -21,7 +21,7 @@ const getMetricValue = async (page: Page, key: string): Promise<number> => {
 }
 
 test.describe('Basic E2E tests', () => {
-  const metricsPath = path.join(__dirname, '..', '..', 'index.html')
+  const metricsPath = path.join(__dirname, '..', '..', 'dist', 'index.html')
   let metricsData: Buffer<ArrayBufferLike>
 
   test.beforeAll(async () => {
@@ -29,7 +29,7 @@ test.describe('Basic E2E tests', () => {
   })
   test.afterAll(async () => {
     await fs.writeFile(metricsPath, metricsData)
-    await fs.unlink(path.join(__dirname, '..', '..', 'public', 'profile.pb'))
+    await fs.unlink(path.join(__dirname, '..', '..', 'dist', 'profile.pb'))
   })
   test('should load the main functionalities', async ({ page }) => {
     await page.goto('/')

@@ -16,7 +16,7 @@ export default defineConfig({
     },
   ],
   webServer: {
-    command: 'cd ../.. && npm run dev',
+    command: 'cd ../.. && npm run clean && npm run build && npm run start',
     url: baseURL,
     timeout,
     stdout: 'pipe',

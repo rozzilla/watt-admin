@@ -1,4 +1,4 @@
-import { describe, it, beforeEach, afterEach, mock } from 'node:test'
+import { describe, it, before, after, mock } from 'node:test'
 import assert from 'node:assert'
 
 describe('CLI Integration', () => {
@@ -22,8 +22,10 @@ describe('CLI Integration', () => {
   // Setup for test
   let consoleOutput: string[] = []
   const originalConsoleLog = console.log
+  const originalDisableMainCliAutorun = process.env.DISABLE_MAIN_CLI_AUTORUN
 
-  beforeEach(() => {
+  before(() => {
+    process.env.DISABLE_MAIN_CLI_AUTORUN = '1'
     consoleOutput = []
     console.log = (...args) => {
       consoleOutput.push(args.join(' '))
@@ -46,9 +48,10 @@ describe('CLI Integration', () => {
     })
   })
 
-  afterEach(() => {
+  after(() => {
     console.log = originalConsoleLog
     mock.restoreAll()
+    process.env.DISABLE_MAIN_CLI_AUTORUN = originalDisableMainCliAutorun
   })
 
   it('should correctly select a runtime from multiple options', async () => {

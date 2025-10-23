@@ -2,7 +2,6 @@
 
 'use strict'
 
-import { pathToFileURL } from 'url'
 import { RuntimeApiClient } from '@platformatic/control'
 import { select } from '@inquirer/prompts'
 import { start } from './lib/start.js'
@@ -137,7 +136,7 @@ export default async function main () {
 }
 
 // Execute the main function if this script is run directly
-if (import.meta.url === pathToFileURL(process.argv[1]).href) {
+if (!process.env.DISABLE_MAIN_CLI_AUTORUN) {
   main().then((selectedRuntime) => {
     if (!selectedRuntime) {
       return
