@@ -2,6 +2,7 @@
 
 'use strict'
 
+import esmain from 'es-main'
 import { RuntimeApiClient } from '@platformatic/control'
 import { select } from '@inquirer/prompts'
 import { start } from './lib/start.js'
@@ -136,7 +137,7 @@ export default async function main () {
 }
 
 // Execute the main function if this script is run directly
-if (!process.env.DISABLE_MAIN_CLI_AUTORUN) {
+if (esmain(import.meta)) {
   main().then((selectedRuntime) => {
     if (!selectedRuntime) {
       return

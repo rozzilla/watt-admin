@@ -22,10 +22,8 @@ describe('CLI Integration', () => {
   // Setup for test
   let consoleOutput: string[] = []
   const originalConsoleLog = console.log
-  const originalDisableMainCliAutorun = process.env.DISABLE_MAIN_CLI_AUTORUN
 
   before(() => {
-    process.env.DISABLE_MAIN_CLI_AUTORUN = '1'
     consoleOutput = []
     console.log = (...args) => {
       consoleOutput.push(args.join(' '))
@@ -51,7 +49,6 @@ describe('CLI Integration', () => {
   after(() => {
     console.log = originalConsoleLog
     mock.restoreAll()
-    process.env.DISABLE_MAIN_CLI_AUTORUN = originalDisableMainCliAutorun
   })
 
   it('should correctly select a runtime from multiple options', async () => {
