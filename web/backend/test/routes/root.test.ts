@@ -86,12 +86,19 @@ test('runtime is running', async (t) => {
   assert.strictEqual(recordEmpty.statusCode, 400)
 
   const recordStart = await server.inject({ url: `/record/${runtimePid}`, method: 'POST', body: { mode: 'start', profile: 'cpu' } })
+  assert.strictEqual(server.loaded.type, 'cpu', 'cpu mode')
   assert.strictEqual(server.loaded.mode, 'start', 'start mode')
   assert.strictEqual(recordStart.statusCode, 200)
 
   const recordStop = await server.inject({ url: `/record/${runtimePid}`, method: 'POST', body: { mode: 'stop', profile: 'cpu' } })
+  assert.strictEqual(server.loaded.type, 'cpu', 'cpu mode')
   assert.strictEqual(server.loaded.mode, 'stop', 'stop mode')
   assert.strictEqual(recordStop.statusCode, 200)
+
+  await server.inject({ url: `/record/${runtimePid}`, method: 'POST', body: { mode: 'start', profile: 'heap' } })
+  assert.strictEqual(server.loaded.type, 'heap', 'heap mode')
+  await server.inject({ url: `/record/${runtimePid}`, method: 'POST', body: { mode: 'stop', profile: 'heap' } })
+  assert.strictEqual(server.loaded.type, 'heap', 'heap mode')
 
   const restart = await server.inject({
     method: 'POST',
