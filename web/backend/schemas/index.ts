@@ -161,6 +161,9 @@ export type SingleMetricResponse = {
 export const pidParamSchema = { type: 'object', additionalProperties: false, properties: { pid: { type: 'number' } }, required: ['pid'] } as const
 export type PidParam = FromSchema<typeof pidParamSchema>
 
+export const profileSchema = { type: 'string', enum: ['cpu', 'heap'] } as const
+export type Profile = FromSchema<typeof profileSchema>
+
 export const selectableRuntimeSchema = {
   type: 'object',
   additionalProperties: false,

@@ -5,7 +5,7 @@ import { getPidToLoad, getSelectableRuntimes } from '../utils/runtimes.ts'
 import { writeFile, readFile } from 'fs/promises'
 import { checkRecordState } from '../utils/states.ts'
 import { join } from 'path'
-import { pidParamSchema, selectableRuntimeSchema, modeSchema } from '../schemas/index.ts'
+import { pidParamSchema, selectableRuntimeSchema, modeSchema, profileSchema } from '../schemas/index.ts'
 
 const __dirname = import.meta.dirname
 
@@ -158,7 +158,7 @@ export default async function (fastify: FastifyInstance) {
       body: {
         type: 'object',
         additionalProperties: false,
-        properties: { mode: modeSchema, profile: { type: 'string', enum: ['cpu', 'heap'] } },
+        properties: { mode: modeSchema, profile: profileSchema },
         required: ['mode', 'profile']
       }
     }
@@ -175,6 +175,7 @@ export default async function (fastify: FastifyInstance) {
       for (const { id } of applications) {
         await api.startApplicationProfiling(pid, id, { type })
       }
+      fastify.loaded.type = type
       fastify.loaded.metrics = {}
     }
 
@@ -186,11 +187,11 @@ export default async function (fastify: FastifyInstance) {
         const profile: Record<string, Uint8Array> = {}
         for (const { id } of applications) {
           const profileData = Buffer.from(await api.stopApplicationProfiling(pid, id, { type }))
-          await writeFile(join(__dirname, '..', '..', 'frontend', 'dist', `profile-${id}.pb`), profileData)
+          await writeFile(join(__dirname, '..', '..', 'frontend', 'dist', `${fastify.loaded.type}-profile-${id}.pb`), profileData)
           profile[id] = new Uint8Array(profileData)
         }
 
-        const loadedJson = JSON.stringify({ runtimes, services, metrics: fastify.loaded.metrics[getPidToLoad(runtimes)], profile })
+        const loadedJson = JSON.stringify({ runtimes, services, metrics: fastify.loaded.metrics[getPidToLoad(runtimes)], profile, type })
 
         const scriptToAppend = `  <script>window.LOADED_JSON=${loadedJson}</script>\n</body>`
         const bundlePath = join(__dirname, '..', '..', 'frontend', 'dist', 'index.html')
