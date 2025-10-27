@@ -11,7 +11,9 @@ setBaseUrl('/api')
 
 const isLoadMode = (mode: Mode): boolean => mode === 'load' || getOfflineMode()
 
-type LoadedJson = { profile: Record<string, Record<string, number>>, runtimes: GetRuntimesResponseOK, services: GetRuntimesPidServicesResponseOK, metrics: { aggregated: GetRuntimesPidMetricsResponseOK, services: Record<string, Record<'all' | number, GetRuntimesPidMetricsResponseOK>> } }
+export type Type = PostRecordPidRequest['body']['profile']
+
+type LoadedJson = { type: Type, profile: Record<string, Record<string, number>>, runtimes: GetRuntimesResponseOK, services: GetRuntimesPidServicesResponseOK, metrics: { aggregated: GetRuntimesPidMetricsResponseOK, services: Record<string, Record<'all' | number, GetRuntimesPidMetricsResponseOK>> } }
 
 const getDataLoaded = () => {
   if (!('LOADED_JSON' in window)) {
@@ -20,8 +22,10 @@ const getDataLoaded = () => {
   return (window as Window & typeof globalThis & { LOADED_JSON: LoadedJson }).LOADED_JSON
 }
 
+export const getType = () => getDataLoaded().type
+
 export const getResource = async (id: string) => {
-  return getOfflineMode() ? Profile.decode(new Uint8Array(Object.values(getDataLoaded().profile[id]))) : await fetchProfile(`profile-${id}.pb`)
+  return getOfflineMode() ? Profile.decode(new Uint8Array(Object.values(getDataLoaded().profile[id]))) : await fetchProfile(`${getType()}-profile-${id}.pb`)
 }
 
 export const getApiApplication = async (mode: Mode) => {

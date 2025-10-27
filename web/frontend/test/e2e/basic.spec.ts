@@ -30,7 +30,7 @@ test.describe('Basic E2E tests', () => {
   })
   test.afterAll(async () => {
     await fs.writeFile(metricsPath, metricsData)
-    await Promise.all((await glob(path.join(__dirname, '..', '..', 'dist', 'profile-*.pb'))).map(file => fs.unlink(file)))
+    await Promise.all((await glob(path.join(__dirname, '..', '..', 'dist', '*-profile-*.pb'))).map(file => fs.unlink(file)))
   })
   test('should load the main functionalities', async ({ page }) => {
     await page.goto('/')
